@@ -156,7 +156,7 @@ exports.run = async (client, message, args) => {
         `You have been muted in **${message.guild.name}** for \`${reason}\``
       )
       .setColor("RED");
-  } catch (e) {
+  } catch (err) {
     message.channel.send(
       `I was unable to DM this user. The infraction has been logged.`
     );
