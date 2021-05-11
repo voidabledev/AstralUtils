@@ -1,0 +1,31 @@
+{
+  "name": "galactical",
+  "version": "1.2.0",
+  "description": "The discord bot for Galactic Advertising",
+  "main": "index.js",
+  "scripts": {
+    "test": "nodemon index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/username/repo.git"
+  },
+  "keywords": [
+    "Discord"
+  ],
+  "author": "none of your concern",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/username/repo/issues"
+  },
+  "homepage": "https://github.com/username/repo#readme",
+  "dependencies": {
+    "discord.js": "^12.5.3",
+    "dotenv": "^8.2.0",
+    "enmap": "^5.8.4",
+    "fs": "^0.0.1-security",
+    "mongoose": "^5.12.3",
+    "ms": "^2.1.2",
+    "nodemon": "^2.0.7"
+  }
+}

@@ -1,0 +1,55 @@
+{
+  "settings": [
+    {
+      "triggers": ["staff app", "application", "apply"],
+      "actions": [
+        {
+          "name": "embed",
+          "args": [
+            "Staff Applications",
+            "We always announce opening staff apps in <#831996511872483338>.",
+            "bruh",
+            "RANDOM"
+          ],
+          "blacklist": {
+            "roles": [],
+            "channels": [],
+            "categories": [],
+            "permissions": [],
+            "users": []
+          },
+          "whitelist": {
+            "roles": [],
+            "channels": [],
+            "categories": [],
+            "permissions": [],
+            "users": []
+          }
+        }
+      ]
+    }
+  ],
+  "template": {
+    "trigger": [""],
+    "actions": [
+      {
+        "name": "",
+        "args": [],
+        "blacklist": {
+          "roles": [],
+          "channels": [],
+          "categories": [],
+          "permissions": [],
+          "users": []
+        },
+        "whitelist": {
+          "roles": [],
+          "channels": [],
+          "categories": [],
+          "permissions": [],
+          "users": []
+        }
+      }
+    ]
+  }
+}

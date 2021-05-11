@@ -1,0 +1,2 @@
+Commands in this folder will not be loaded into the bot. 
+Commands that can break the bot can be put here to be reworked later.
