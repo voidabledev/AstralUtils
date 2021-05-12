@@ -71,7 +71,7 @@ exports.run = async (client, message, args) => {
     reason,
     caseID: 0,
     timestamp: new Date().getTime(),
-    _type: "ban",
+    _type: "Banned a member",
   };
   ml(userId, guildId, modlog, client);
   if (time > 0) {

@@ -62,7 +62,7 @@ exports.run = async (client, message, args) => {
     reason,
     caseID: 0,
     timestamp: new Date().getTime(),
-    _type: "unban",
+    _type: "Unbanned a member",
   };
   ml(userId, guildId, modlog, client);
 };

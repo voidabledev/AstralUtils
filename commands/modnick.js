@@ -41,10 +41,9 @@ exports.run = async (client, message, args) => {
   const guildId = message.guild.id;
   let modlog = {
     author: message.author,
-    reason: `\`No reason provided\``,
     caseID: 0,
     timestamp: new Date().getTime(),
-    _type: "modnick",
+    _type: "Nick Moderation",
   };
   ml(userId, guildId, modlog, client);
 };

@@ -38,7 +38,7 @@ exports.run = async (client, message, args) => {
     );
   return message.channel.send(
     em(
-      `Information on case #${found.caseID}`,
+      `Information on Case #${found.caseID}`,
       `**User:** <@${foundLog.userId}>\n**Moderator:** ${
         found.author
       }\n **Date:** ${new Date(

@@ -36,9 +36,13 @@ exports.run = async (client, message, args) => {
     );
   args.shift();
   const reason = args.join(" ");
-  const reportChannel = await client.channels.fetch("828630997347729458");
+  const reportChannel = await client.channels.fetch("841807446498738177");
   message.channel.send(
-    em(`Success!`, `Your report was sent to management.`, `report go brrrrr`)
+    em(
+      `Success!`,
+      `Your report was sent to the staff team.`,
+      `report go brrrrr`
+    )
   );
   return reportChannel.send(
     em(

@@ -9,8 +9,8 @@ exports.run = async (client, message, args) => {
   if (isNaN(amount) || amount < 0)
     return message.channel.send(
       em(
-        `Failure!`,
-        `I need a time interval to set the slowmode to.`,
+        `Success!`,
+        `I need an amount to set the slowmode to.`,
         `duh`,
         `#7a1b07`
       )
