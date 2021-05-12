@@ -43,7 +43,7 @@ exports.run = async (client, message, args) => {
     reason,
     caseID: 0,
     timestamp: new Date().getTime(),
-    _type: "warning",
+    _type: "Warned a member",
   };
 
   if (target.id === client.user.id) {

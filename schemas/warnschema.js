@@ -13,6 +13,10 @@ const warnSchema = mongoose.Schema({
     type: [Object],
     required: true,
   },
+  warnID: {
+    type: String,
+    required: true,
+  },
 });
 
 module.exports = mongoose.model("warnings", warnSchema);

@@ -53,7 +53,7 @@ exports.help = {
   name: "modlogs",
   description: "Lists all existing modlogs for a member.",
   enabled: true,
-  aliases: [],
+  aliases: ["mls"],
   usage: "[user mention or id]",
   category: "Moderation",
 };

@@ -1,0 +1,87 @@
+const Discord = require("discord.js");
+const { MessageEmbed } = require("discord.js");
+const mongo = require("../mongo");
+const warnSchema = require("../schemas/warnschema");
+
+exports.run = async (client, message, args) => {
+  const em = client.em;
+  const yessir = client.yessir;
+  const punishid = args[0];
+  const ml = client.setModLog;
+  const reason = args.join(" ");
+
+  if (!punishid) {
+    message.channel
+      .send(em(`Failure!`, `Please give a valid warning ID!`))
+      .then((m) => {
+        m.delete({ timeout: 10000 });
+        message.delete({ timeout: 10000 });
+      });
+  }
+
+  const guildId = message.guild.id;
+
+  let modlog = {
+    author: message.author.id,
+    reason,
+    caseID: 0,
+    timestamp: new Date().getTime(),
+    _type: "Removed a warn",
+  };
+
+  await mongo().then(async (mongoose) => {
+    try {
+      const p = await warnSchema.findOneAndDelete({
+        guildId,
+        warnings: {
+          $contains: {
+            warnID: punishid,
+          },
+        },
+      });
+      p.validate(function (err) {
+        if (err) console.log(err);
+        else console.log("Deleted warning");
+      });
+      message.channel.send(
+        em(
+          `Success!`,
+          `Deleted the warning ID \`${punishid}\`.`,
+          `yay`,
+          `GREEN`
+        )
+      );
+    } finally {
+      mongoose.connection.close();
+    }
+  });
+  ml(userId, guildId, modlog, client);
+};
+exports.help = {
+  name: "rmwarn",
+  description: "Removes a warn from the user.",
+  enabled: false,
+  aliases: ["rmpunish"],
+  usage: "[warn id]",
+  category: "Moderation",
+  hidden: true,
+};
+
+exports.data = {
+  userPermissions: ["MANAGE_MESSAGES"],
+  userMode: 1, // set this to a number to determined how many of the above permissions the user needs to have.
+  botPermissions: [], // if no permissions are required, leave the array empty and set the Mode to 0
+  botMode: 1, // same as above. Set it to 0 to require all perms to be fulfilled.
+  minArgs: 0,
+  maxArgs: null,
+  noDel: true, // change this to true if the command belongs to the "Moderation" category
+}; // and you don't want to og message to be deleted.
+
+exports.errors = {
+  // edit this only if you want a custom message for this specific command.
+  userPerms: null, // Else, it will default to an embed.
+  botPerms: null,
+  wrongUsage: null,
+  disabled: null,
+  other: null,
+};
