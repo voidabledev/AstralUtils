@@ -39,7 +39,7 @@ exports.run = async (client, message, args) => {
   };
 
   let modlog = {
-    author: message.author.tag,
+    author: message.author.id,
     reason,
     caseID: 0,
     timestamp: new Date().getTime(),

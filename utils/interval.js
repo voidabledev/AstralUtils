@@ -4,6 +4,7 @@ module.exports = (client) => {
     const punishSchema = require("../schemas/punishschema");
     const muteSchema = require("../schemas/muteschema");
     const intervalSchema = require("../schemas/intervalschema");
+    const warnSchema = require("../schemas/warnschema");
     await mongo().then(async (mongoose) => {
       try {
         await punishSchema.find({}, async (err, entries) => {
@@ -35,7 +36,7 @@ module.exports = (client) => {
               return;
             }
             if (new Date().getTime() - entry.executed > entry.interval) {
-              const guild = client.guilds.cache.get("824342628648484967");
+              const guild = client.guilds.cache.get("831995980097388604");
               const channel = guild.channels.cache.get(entry.channelId);
               channel.send(entry.message);
               await intervalSchema.findOneAndUpdate(
@@ -48,6 +49,23 @@ module.exports = (client) => {
                 }
               );
             }
+          });
+        });
+        await warnSchema.find({}, async (err, users) => {
+          if (err) throw err;
+          users.forEach(async (user) => {
+            await user.warnings.forEach(async (warn) => {
+              if (
+                new Date().getTime() - warn.timestamp >
+                1000 * 60 * 60 * 24 * 30
+              ) {
+                await warnSchema.findOneAndUpdate(user, {
+                  $pull: {
+                    warnings: warn,
+                  },
+                });
+              }
+            });
           });
         });
       } finally {

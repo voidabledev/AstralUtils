@@ -37,7 +37,7 @@ exports.run = async (client, message, args) => {
       em(
         `Success!`,
         `Command \`${newCommand.help.name}\` has successfully been reloaded!`,
-        `less restarting, isn't that nice?`
+        `please restart me more, step dev`
       )
     );
   } catch (e) {

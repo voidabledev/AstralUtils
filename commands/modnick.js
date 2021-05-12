@@ -40,7 +40,7 @@ exports.run = async (client, message, args) => {
   const userId = target.id;
   const guildId = message.guild.id;
   let modlog = {
-    author: message.author,
+    author: message.author.id,
     caseID: 0,
     timestamp: new Date().getTime(),
     _type: "Nick Moderation",

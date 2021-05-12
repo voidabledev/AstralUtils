@@ -58,7 +58,7 @@ exports.run = async (client, message, args) => {
   if (!args[1]) reason = "`No reason provided`";
   else reason = `\`${args.slice(1).join(" ")}\``;
   let modlog = {
-    author: message.author.tag,
+    author: message.author.id,
     reason,
     caseID: 0,
     timestamp: new Date().getTime(),

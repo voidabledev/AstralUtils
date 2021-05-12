@@ -5,9 +5,16 @@ exports.run = async (client, message, args) => {
   const em = client.em;
   const yessir = client.yessir;
   const strikeId = client.makeID(32, 8);
-
-  let target =
-    message.mentions.users.first() || (await client.users.fetch(args[0]));
+  let target;
+  try {
+    target =
+      message.mentions.users.first() || (await client.users.fetch(args[0]));
+  } catch (e) {
+    return message.channel.send(
+      `Failure!`,
+      `You have to specify someone to strike!`
+    );
+  }
   if (!target)
     return message.channel.send(
       em(`Failure!`, `You have to specify someone to strike!`)

@@ -4,6 +4,7 @@ const { MessageEmbed } = require("discord.js");
 exports.run = async (client, message, args) => {
   const em = client.em;
   const yessir = client.yessir;
+  const ml = client.setModlog;
   const target =
     message.mentions.members.first() ||
     (await message.guild.members.fetch(args[0]));
@@ -24,6 +25,15 @@ exports.run = async (client, message, args) => {
       `<a:yes:836302807485251674> Set ${target}'s nickname to ${nick}`
     )
   );
+  const userId = target.id;
+  const guildId = message.guild.id;
+  let modlog = {
+    author: message.author.id,
+    caseID: 0,
+    timestamp: new Date().getTime(),
+    _type: "Nickname changed",
+  };
+  ml(userId, guildId, modlog, client);
 };
 
 exports.help = {
