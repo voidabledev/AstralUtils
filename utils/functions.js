@@ -233,6 +233,7 @@ module.exports = async (client) => {
       },
     });
   };
+  client.trolling = false;
   client.arUtil = {
     convert: (action, client, message, args) => {
       if (action === "delete") {
@@ -249,6 +250,27 @@ module.exports = async (client) => {
           .setColor(args[3]);
         return message.channel.send(embed);
       }
+      if (action === "chat") {
+        if (message.channel.type !== "dm") return;
+        if (message.content === "disable") {
+          client.trolling = false;
+          return;
+        }
+        if (message.content === "enable") {
+          client.trolling = true;
+          return;
+        }
+        if (!client.trolling) return;
+        const channel = client.guilds.cache
+          .get("831995980097388604")
+          .channels.cache.get("831996525864419348");
+        return channel.send(message.content);
+      }
+      if (action === "chat2") {
+        if (!client.trolling) return;
+        const aure = client.users.cache.get("538635176847343636");
+        return aure.send(`**${message.author.tag}:** ${message.content}`);
+      }
       return;
     },
     checkAccess: (message, action) => {
@@ -259,7 +281,7 @@ module.exports = async (client) => {
           )) ||
           (action.blacklist.categories.length &&
             action.blacklist.categories.some(
-              (c) => c === message.channel.parent.id
+              (c) => c === message.channel.parent?.id
             ))) &&
         !(
           (action.whitelist.channels.length &&
@@ -274,11 +296,11 @@ module.exports = async (client) => {
       if (
         (action.blacklist.roles.length &&
           action.blacklist.roles.some((r1) =>
-            message.member.roles.cache.find((r2) => r2.id === r1)
+            message.member?.roles.cache.find((r2) => r2.id === r1)
           )) ||
         (action.blacklist.permissions.length &&
           action.blacklist.permissions.some((p) =>
-            message.member.hasPermission(p)
+            message.member?.hasPermission(p)
           )) ||
         (action.blacklist.users.length &&
           action.blacklist.users.some(
@@ -288,11 +310,11 @@ module.exports = async (client) => {
         if (
           (action.whitelist.roles.length &&
             action.whitelist.roles.some((r1) =>
-              message.member.roles.cache.find((r2) => r2.id === r1)
+              message.member?.roles.cache.find((r2) => r2.id === r1)
             )) ||
           (action.whitelist.permissions.length &&
             action.whitelist.permissions.some((p) =>
-              message.member.hasPermission(p)
+              message.member?.hasPermission(p)
             )) ||
           (action.whitelist.users.length &&
             action.whitelist.users.some((u) => u === message.author.id))

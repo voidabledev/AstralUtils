@@ -30,7 +30,7 @@ fs.readdir("./commands/", (err, files) => {
 require("./utils/functions.js")(client);
 
 client.config = config;
-if (client.dev) client.config.prefix = client.config.devPrefix;
+if (process.argv[2] === "dev") client.config.prefix = client.config.devPrefix;
 require("./utils/interval.js")(client);
 
-client.login(client.dev ? process.env.DEV : process.env.TOKEN);
+client.login(process.env.TOKEN);

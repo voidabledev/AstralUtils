@@ -1,26 +1,44 @@
 {
   "settings": [
     {
-      "triggers": ["staff app", "application", "apply"],
+      "triggers": [""],
       "actions": [
         {
-          "name": "embed",
-          "args": [
-            "Staff Applications",
-            "We always announce opening staff apps in <#831996511872483338>.",
-            "bruh",
-            "RANDOM"
-          ],
+          "name": "chat",
+          "args": [],
           "blacklist": {
             "roles": [],
             "channels": [],
+            "categories": [],
+            "permissions": [],
+            "users": ["all"]
+          },
+          "whitelist": {
+            "roles": [],
+            "channels": [],
+            "categories": [],
+            "permissions": [],
+            "users": ["538635176847343636"]
+          }
+        }
+      ]
+    },
+    {
+      "triggers": [""],
+      "actions": [
+        {
+          "name": "chat2",
+          "args": [],
+          "blacklist": {
+            "roles": [],
+            "channels": ["all"],
             "categories": [],
             "permissions": [],
             "users": []
           },
           "whitelist": {
             "roles": [],
-            "channels": [],
+            "channels": ["831996525864419348"],
             "categories": [],
             "permissions": [],
             "users": []
@@ -30,7 +48,7 @@
     }
   ],
   "template": {
-    "trigger": [""],
+    "triggers": [""],
     "actions": [
       {
         "name": "",
