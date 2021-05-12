@@ -29,6 +29,15 @@ exports.run = async (client, message, args) => {
         guildId,
         userId,
       });
+      if (!results || !results.modlogs.length)
+        return message.channel.send(
+          em(
+            `Modlogs for ${target.tag}`,
+            `No modlogs found for this user.`,
+            `User ID: ${target.id}`,
+            `#ff0000`
+          )
+        );
       let embed = em(
         `Modlogs for ${target.tag}`,
         null,

@@ -71,7 +71,13 @@ exports.run = async (client, message, args) => {
       `You have been warned in **${message.guild.name}** for \`${reason}\``
     )
     .setColor("RED");
-  await target.send(embed);
+  try {
+    await target.send(embed);
+  } catch (err) {
+    message.channel.send(
+      `I was unable to notify the user. Warning has been logged.`
+    );
+  }
 
   await mongo().then(async (mongoose) => {
     let overlap;

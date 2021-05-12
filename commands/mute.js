@@ -156,12 +156,13 @@ exports.run = async (client, message, args) => {
         `You have been muted in **${message.guild.name}** for \`${reason}\``
       )
       .setColor("RED");
+    await member.user.send(embed);
   } catch (err) {
     message.channel.send(
       `I was unable to DM this user. The infraction has been logged.`
     );
   }
-  member.user.send(embed);
+
   const userId = member.id;
   const guildId = message.guild.id;
   let modlog = {

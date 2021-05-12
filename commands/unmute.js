@@ -83,7 +83,13 @@ exports.run = async (client, message, args) => {
       `You have been unmuted in **${message.guild.name}** for \`${reason}\``
     )
     .setColor("RED");
-  await target.send(embed);
+  try {
+    await member.user.send(embed);
+  } catch {
+    message.channel.send(
+      `I was unable to notify this user. The action has been logged.`
+    );
+  }
 };
 
 exports.help = {
