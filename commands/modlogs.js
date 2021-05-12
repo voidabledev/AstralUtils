@@ -7,8 +7,7 @@ exports.run = async (client, message, args) => {
   const em = client.em;
   const yessir = client.yessir;
 
-  const target =
-    message.mentions.users.first() || (await client.users.fetch(args[0]));
+  const target = message.mentions.users.first();
   const makeID = client.makeID;
 
   if (!target)
