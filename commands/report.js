@@ -6,7 +6,7 @@ exports.run = async (client, message, args) => {
   const yessir = client.yessir;
 
   let target = message.mentions.users.first();
-  if (!target) target = await message.guild.members.get(args[0]);
+  if (!target) target = await message.guild.members.fetch(args[0]);
   if (!target)
     return message.channel.send(
       em(

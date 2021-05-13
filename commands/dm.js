@@ -4,7 +4,7 @@ const { MessageEmbed } = require("discord.js");
 exports.run = async (client, message, args) => {
   const em = client.em;
   const yessir = client.yessir;
-  const u = message.mentions.users.first() || client.users.cache.get(args[0]);
+  const u = message.mentions.users.first() || client.users.cache.fetch(args[0]);
 
   const msg = args.splice(1).join(" ");
 

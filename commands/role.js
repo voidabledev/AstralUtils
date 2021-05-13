@@ -6,7 +6,7 @@ exports.run = async (client, message, args) => {
   const yessir = client.yessir;
 
   const targetUser =
-    message.mentions.users.first() || (await client.users.get(args[0]));
+    message.mentions.users.first() || (await client.users.fetch(args[0]));
   if (!targetUser) {
     return message.channel.send(
       em(
