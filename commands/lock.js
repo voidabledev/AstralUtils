@@ -4,6 +4,7 @@ const { MessageEmbed } = require("discord.js");
 exports.run = async (client, message, args) => {
   const em = client.em;
   const yessir = client.yessir;
+  const ml = client.setModLog;
 
   const channelID = args.shift();
   const reason = args.join(" ");
@@ -11,6 +12,15 @@ exports.run = async (client, message, args) => {
     message.mentions.channels.first() ||
     message.guild.channels.cache.get(channelID);
   if (channelID === "here") channel = message.channel;
+
+  let modlog = {
+    author: message.author.id,
+    reason,
+    caseID: 0,
+    timestamp: new Date().getTime(),
+    _type: "Locked a channel",
+  };
+
   if (!channel)
     return message.channel.send(
       em(
@@ -43,7 +53,7 @@ exports.run = async (client, message, args) => {
         `#00ff66`
       )
     );
-  return channel.send(
+  channel.send(
     em(
       `Lockdown`,
       `This channel has been locked down for:\n${reason}`,
@@ -51,6 +61,7 @@ exports.run = async (client, message, args) => {
       `#00ff66`
     )
   );
+  ml(userId, guildId, modlog, client);
 };
 exports.help = {
   name: "lock",

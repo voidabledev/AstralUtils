@@ -42,6 +42,7 @@ exports.run = async (client, message, args) => {
   let modlog = {
     author: message.author.id,
     caseID: 0,
+    reason: "Unpigable nickname",
     timestamp: new Date().getTime(),
     _type: "Nick Moderation",
   };
@@ -52,7 +53,7 @@ exports.help = {
   name: "modnick",
   description: "Moderates a user's nickname.",
   enabled: true,
-  aliases: ["mod"],
+  aliases: ["mod", "mnick"],
   usage: "[mention or id]",
   category: "Moderation",
 };
