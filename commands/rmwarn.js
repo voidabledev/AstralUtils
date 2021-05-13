@@ -6,49 +6,46 @@ const warnSchema = require("../schemas/warnschema");
 exports.run = async (client, message, args) => {
   const em = client.em;
   const yessir = client.yessir;
-  const punishid = args[0];
-  const ml = client.setModLog;
+  const punishid = args.shift();
+  const ml = client.setModlog;
   const reason = args.join(" ");
 
   if (!punishid) {
-    message.channel
-      .send(em(`Failure!`, `Please give a valid warning ID!`))
-      .then((m) => {
-        m.delete({ timeout: 10000 });
-        message.delete({ timeout: 10000 });
-      });
+    const m = await message.channel.send(
+      em(`Failure!`, `Please give a valid warning ID!`)
+    );
+    m.delete({ timeout: 10000 });
+    message.delete({ timeout: 10000 });
   }
 
   const guildId = message.guild.id;
   let userId;
-
-  let modlog = {
-    author: message.author.id,
-    reason,
-    caseID: 0,
-    timestamp: new Date().getTime(),
-    _type: "Removed a warn",
-  };
   let success;
   await mongo().then(async (mongoose) => {
     try {
       await warnSchema.find({ guildId }, async (err, entries) => {
         if (err) throw err;
-      });
-      outer: for (let entry of entries) {
-        for (let warn of entry.warnings) {
-          if (warn.warnID === punishid) {
-            warnSchema.findOneAndUpdate(entry, {
-              $pull: {
-                warnings: warn,
-              },
-            });
-            success = true;
-            userId = entry.userId;
-            break outer;
+        outer: for (let entry of entries) {
+          for (let warn of entry.warnings) {
+            if (warn.warnID === punishid) {
+              await warnSchema.findOneAndUpdate(
+                {
+                  userId: entry.userId,
+                  guildId: message.guild.id,
+                },
+                {
+                  $pull: {
+                    warnings: warn,
+                  },
+                }
+              );
+              success = true;
+              userId = entry.userId;
+              break outer;
+            }
           }
         }
-      }
+      });
     } finally {
       mongoose.connection.close();
     }
@@ -57,6 +54,13 @@ exports.run = async (client, message, args) => {
     message.channel.send(
       em(`Success!`, `Deleted the warning ID \`${punishid}\`.`, `yay`, `GREEN`)
     );
+    let modlog = {
+      author: message.author.id,
+      reason,
+      caseID: 0,
+      timestamp: new Date().getTime(),
+      _type: "Removed a warning",
+    };
     ml(userId, guildId, modlog, client);
   } else {
     return message.channel.send(
@@ -70,11 +74,10 @@ exports.run = async (client, message, args) => {
 exports.help = {
   name: "rmwarn",
   description: "Removes a warn from the user.",
-  enabled: false,
+  enabled: true,
   aliases: ["rmpunish"],
-  usage: "[warn id]",
+  usage: "[warn id] [reason]",
   category: "Moderation",
-  hidden: true,
 };
 
 exports.data = {

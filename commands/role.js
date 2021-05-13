@@ -4,6 +4,7 @@ const { MessageEmbed } = require("discord.js");
 exports.run = async (client, message, args) => {
   const em = client.em;
   const yessir = client.yessir;
+  const ml = client.setModlog;
 
   const targetUser =
     message.mentions.users.first() || (await client.users.fetch(args[0]));
@@ -23,14 +24,29 @@ exports.run = async (client, message, args) => {
   const roleName = args.join(" ");
   const { guild } = message;
   let role =
-    guild.roles.cache.find((role) => role.name.toLowerCase() === roleName) ||
-    guild.roles.cache.get(roleName);
+    guild.roles.cache.find(
+      (role) =>
+        role.name.toLowerCase() === roleName.toLowerCase() ||
+        (role.name.startsWith("• ") && role.name.slice(2) === roleName)
+    ) || guild.roles.cache.get(roleName);
   if (!role) {
     return message.channel.send(
       em(`Failure!`, `There is no role with that name.`, `duh`, `RED`)
     );
   }
-
+  if (role.position >= message.member.roles.highest.position)
+    return message.channel.send(
+      em(
+        `Failure!`,
+        `You can't give out roles higher than or equal to your highest rank!`,
+        `duh`,
+        `RED`
+      )
+    );
+  if (role.position >= message.guild.me.roles.highest.position)
+    return message.channel.send(
+      em(`Failure!`, `I can't manage this role!`, `eh`, `RED`)
+    );
   const member = guild.members.cache.get(targetUser.id);
   if (["+", "add", "give"].includes(mode)) {
     if (member.roles.cache.get(role.id))
@@ -43,6 +59,14 @@ exports.run = async (client, message, args) => {
         )
       );
     member.roles.add(role);
+    let modlog = {
+      author: message.author.id,
+      reason: "No reason provided.",
+      caseID: 0,
+      timestamp: new Date().getTime(),
+      _type: "Added a role",
+    };
+    await ml(targetUser.id, message.guild.id, modlog, client);
     return message.channel.send(
       em(`Success!`, `${member} now has the ${role.name} role`, `yay`, `GREEN`)
     );
@@ -58,6 +82,14 @@ exports.run = async (client, message, args) => {
         )
       );
     member.roles.remove(role);
+    let modlog = {
+      author: message.author.id,
+      reason: "`No reason provided.`",
+      caseID: 0,
+      timestamp: new Date().getTime(),
+      _type: "Removed a role",
+    };
+    ml(targetUser.id, message.guild.id, modlog, client);
     return message.channel.send(
       em(
         `Success!`,
@@ -90,16 +122,16 @@ exports.help = {
   description: "Adds/Removes a role to a user",
   enabled: true,
   aliases: [],
-  usage: "[user mention or id] [add/rem] [role mention or id]",
-  category: "Moderation",
+  usage: "[user mention or id] [add/rm] [role name or id]", // yes start the dev bot
+  category: "Moderation", // done
 };
 
 exports.data = {
-  userPermissions: ["MANAGE_ROLES"],
+  userPermissions: ["MANAGE_ROLES", "ADMINISTRATOR"],
   userMode: 1, // set this to a number to determined how many of the above permissions the user needs to have.
-  botPermissions: [], // if no permissions are required, leave the array empty and set the Mode to 0
+  botPermissions: ["MANAGE_ROLES", "ADMINISTRATOR"], // if no permissions are required, leave the array empty and set the Mode to 0
   botMode: 1, // same as above. Set it to 0 to require all perms to be fulfilled.
-  minArgs: 0,
+  minArgs: 3,
   maxArgs: null,
   noDel: false, // change this to true if the command belongs to the "Moderation" category
 }; // and you don't want to og message to be deleted.

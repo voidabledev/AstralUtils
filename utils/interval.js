@@ -59,11 +59,17 @@ module.exports = (client) => {
                 new Date().getTime() - warn.timestamp >
                 1000 * 60 * 60 * 24 * 30
               ) {
-                await warnSchema.findOneAndUpdate(user, {
-                  $pull: {
-                    warnings: warn,
+                await warnSchema.findOneAndUpdate(
+                  {
+                    userId: user.userId,
+                    guildId: user.guildId,
                   },
-                });
+                  {
+                    $pull: {
+                      warnings: warn,
+                    },
+                  }
+                );
               }
             });
           });

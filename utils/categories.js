@@ -1,4 +1,4 @@
-exports.valid = ["Moderation", "Information", "Development", "Misc"];
+exports.valid = ["Moderation", "Information", "Misc"];
 
 exports.validate = (command, valid) => {
   if (command.help.hidden) return ""; // i'm changing the modlogs, also can you implement modlogs on >nick?

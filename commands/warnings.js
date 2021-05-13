@@ -42,7 +42,7 @@ exports.run = async (client, message, args) => {
           )
         );
       let embed = em(
-        `Previous warnings for ${target.tag}`,
+        `Previous warnings for ${target.username}`,
         null,
         `User ID: ${target.id}`,
         `#ff0000`
@@ -50,7 +50,7 @@ exports.run = async (client, message, args) => {
 
       for (const warning of results.warnings) {
         const { author, timestamp, reason, warnID } = warning;
-        const authorTag = await client.users.fetch(author).tag;
+        const authorTag = client.users.cache.get(author).username;
         embed.addField(
           `By ${authorTag} on ${new Date(timestamp).toLocaleDateString()}`,
           `**Reason:** ${reason}\n**Warning ID:** \`${warnID}\`\n\n`
