@@ -4,6 +4,7 @@ const { MessageEmbed } = require("discord.js");
 exports.run = async (client, message, args) => {
   const em = client.em;
   const yessir = client.yessir;
+  const ml = client.setModLog;
 
   const amount = parseInt(args[0], 10);
   if (isNaN(amount))
@@ -31,6 +32,14 @@ exports.run = async (client, message, args) => {
         }, 2000);
       });
   });
+  let modlog = {
+    author: message.author.id,
+    reason: "Too much messages",
+    caseID: 0,
+    timestamp: new Date().getTime(),
+    _type: "Purged messages",
+  };
+  ml(userId, guildId, modlog, client);
   return;
 };
 exports.help = {

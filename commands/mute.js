@@ -10,7 +10,7 @@ exports.run = async (client, message, args) => {
   const author = message.author;
   const member =
     message.mentions.members.first() ||
-    (await message.guild.members.fetch(args[0]));
+    (await message.guild.members.get(args[0]));
   const role = message.guild.roles.cache.find(
     (r) => r.name.toLowerCase() === "muted"
   );

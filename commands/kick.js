@@ -9,7 +9,7 @@ exports.run = async (client, message, args) => {
   const { member, mentions } = message;
 
   let target = mentions.users.first();
-  if (!target) target = await message.guild.members.fetch(args[0]);
+  if (!target) target = await message.guild.members.get(args[0]);
   if (target) {
     const targetMember = await message.guild.members.fetch(target.id);
     if (!targetMember.manageable || targetMember.id === message.author.id)

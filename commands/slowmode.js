@@ -4,10 +4,11 @@ const { MessageEmbed } = require("discord.js");
 exports.run = async (client, message, args) => {
   const em = client.em;
   const yessir = client.yessir;
+  const ml = client.setModLog;
 
   const amount = parseInt(args[0]);
   if (isNaN(amount) || amount < 0)
-    return message.channel.send(
+    message.channel.send(
       em(
         `Success!`,
         `I need an amount to set the slowmode to.`,
@@ -15,8 +16,15 @@ exports.run = async (client, message, args) => {
         `#7a1b07`
       )
     );
+  let modlog = {
+    author: message.author.id,
+    reason: "Slowmode",
+    caseID: 0,
+    timestamp: new Date().getTime(),
+    _type: "Changed slowmode in a channel",
+  };
   message.channel.setRateLimitPerUser(amount);
-  return message.channel.send(
+  message.channel.send(
     em(
       `Success!`,
       `I've set the slowmode to ${amount} seconds.`,
@@ -24,6 +32,7 @@ exports.run = async (client, message, args) => {
       `#00ff66`
     )
   );
+  ml(userId, guildId, modlog, client);
 };
 exports.help = {
   name: "slowmode",

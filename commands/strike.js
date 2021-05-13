@@ -8,7 +8,7 @@ exports.run = async (client, message, args) => {
   let target;
   try {
     target =
-      message.mentions.users.first() || (await client.users.fetch(args[0]));
+      message.mentions.users.first() || (await client.users.get(args[0]));
   } catch (e) {
     return message.channel.send(
       `Failure!`,

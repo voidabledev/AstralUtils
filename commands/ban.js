@@ -9,7 +9,7 @@ exports.run = async (client, message, args) => {
   const { member, mentions } = message;
 
   let target = mentions.users.first();
-  if (!target) target = await client.users.fetch(args[0]);
+  if (!target) target = await client.users.get(args[0]);
   let time = client.millis(args[1]);
   if (time > 0) args.shift();
   let reason = "";

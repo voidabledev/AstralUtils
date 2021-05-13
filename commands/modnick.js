@@ -42,7 +42,7 @@ exports.run = async (client, message, args) => {
   let modlog = {
     author: message.author.id,
     caseID: 0,
-    reason: "Unpigable nickname",
+    reason: "Unpingable nickname",
     timestamp: new Date().getTime(),
     _type: "Nick Moderation",
   };

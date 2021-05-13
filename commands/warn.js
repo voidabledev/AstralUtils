@@ -10,7 +10,7 @@ exports.run = async (client, message, args) => {
   const ml = client.setModlog;
   let target = message.mentions.users.first();
   if (!target) {
-    const targetMember = await message.guild.members.fetch(args[0]);
+    const targetMember = await message.guild.members.get(args[0]);
     target = targetMember.user;
   }
   if (!target) {

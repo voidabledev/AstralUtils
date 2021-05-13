@@ -7,7 +7,7 @@ exports.run = async (client, message, args) => {
   const ml = client.setModlog;
   const target =
     message.mentions.members.first() ||
-    (await message.guild.members.fetch(args[0]));
+    (await message.guild.members.get(args[0]));
   let nick = "";
   let id = target.id;
   if (id === message.author.id)
