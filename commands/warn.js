@@ -8,7 +8,8 @@ exports.run = async (client, message, args) => {
   const yessir = client.yessir;
   const makeID = client.makeID;
   const ml = client.setModlog;
-  let target = message.mentions.users.first() || client.users.cache.get(args[0])
+  let target =
+    message.mentions.users.first() || client.users.cache.get(args[0]);
   const targetMember = await message.guild.members.cache.get(args[0]);
   if (!target) {
     return message.channel.send(
@@ -40,7 +41,7 @@ exports.run = async (client, message, args) => {
     reason,
     caseID: 0,
     timestamp: new Date().getTime(),
-    _type: "Warned a member",
+    _type: "Warn",
   };
 
   if (target.id === client.user.id) {
@@ -65,7 +66,7 @@ exports.run = async (client, message, args) => {
   }
   const embed = new MessageEmbed()
     .setDescription(
-      `You have been warned in **${message.guild.name}** for \`${reason}\``
+      `You have been warned in **${message.guild.name}** for \`${reason}\` with ID \`${warnID}\``
     )
     .setColor("RED");
   try {
@@ -95,7 +96,7 @@ exports.run = async (client, message, args) => {
           message.channel.send(
             em(
               `Success!`,
-              `Warned **${target.tag}** with ID \`${warnID}\``,
+              `Warned **${target}** with ID \`${warnID}\``,
               `the user is a dum dum`,
               `#00ff66`
             )

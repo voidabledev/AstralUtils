@@ -46,7 +46,7 @@ exports.run = async (client, message, args) => {
     reason,
     caseID: 0,
     timestamp: new Date().getTime(),
-    _type: "kick",
+    _type: "Kick",
   };
   ml(userId, guildId, modlog, client);
 };

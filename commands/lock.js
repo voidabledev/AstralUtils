@@ -18,7 +18,7 @@ exports.run = async (client, message, args) => {
     reason,
     caseID: 0,
     timestamp: new Date().getTime(),
-    _type: "Locked a channel",
+    _type: "Lock",
   };
 
   if (!channel)

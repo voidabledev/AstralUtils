@@ -16,7 +16,7 @@ exports.run = async (client, message, args) => {
     reason: "`No reason provided`",
     caseID: 0,
     timestamp: new Date().getTime(),
-    _type: "Unlocked a channel",
+    _type: "Unlock",
   };
 
   if (!channel)

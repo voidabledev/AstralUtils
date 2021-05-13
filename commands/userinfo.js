@@ -4,53 +4,47 @@ const { MessageEmbed } = require("discord.js");
 exports.run = async (client, message, args) => {
   const em = client.em;
   const yessir = client.yessir;
-  const ml = client.setModlog;
-  const target =
+
+  const guild = message.guild;
+  const usr = message.mentions.users.first() || message.author;
+
+  const member =
     message.mentions.members.first() ||
     (await message.guild.members.fetch(args[0]));
-  let nick = "";
-  let id = target.id;
-  if (id === message.author.id)
-    return message.channel.send(
-      em(`Failure!`, `You can't edit your nickname, dummy!`)
-    );
-  if (!target.manageable)
-    return message.channel.send(
-      em(`Failure!`, `I can't edit that user's nickname.`)
-    );
-  target.setNickname(nick);
-  message.channel.send(
-    em(
-      `Success!`,
-      `<a:yes:836302807485251674> Set ${target}'s nickname to ${nick}`
+
+  const user = member.user;
+
+  const embed = new Discord.MessageEmbed()
+    .setAuthor(`${usr.tag}`, `${usr.displayAvatarURL({ dynamic: true })}`)
+    .setThumbnail(`${usr.displayAvatarURL({ dynamic: true })}`)
+    .setDescription(`${usr}'s Information`)
+    .addField(`**ID:**`, `${usr.id}`)
+    .addField(
+      `**Nickname:**`,
+      `${member.nickname || `**Cannot Find A Nickname For This User**`}`
     )
-  );
-  const userId = target.id;
-  const guildId = message.guild.id;
-  let modlog = {
-    author: message.author.id,
-    caseID: 0,
-    timestamp: new Date().getTime(),
-    _type: "Changed Nickname",
-  };
-  ml(userId, guildId, modlog, client);
+    .addField(`**Joined Server:**`, `${member.joinedAt}`)
+    .addField(`**Joined Discord:**`, `${usr.createdAt}`)
+    .addField(`**Status:**`, `${user.presence.status}`)
+    .setColor("RANDOM");
+  message.channel.send(embed);
 };
 
 exports.help = {
-  name: "nick",
-  description: "Changes the nickname of a user.",
+  name: "userinfo",
+  description: "Displays information about a user",
   enabled: true,
-  aliases: ["n"],
-  usage: "[user] [nickname]",
-  category: "Moderation",
+  aliases: ["ui"],
+  usage: "[user]",
+  category: "Misc",
 };
 
 exports.data = {
-  userPermissions: ["MANAGE_NICKNAMES"],
+  userPermissions: [],
   userMode: 1, // set this to a number to determined how many of the above permissions the user needs to have.
   botPermissions: [], // if no permissions are required, leave the array empty and set the Mode to 0
   botMode: 1, // same as above. Set it to 0 to require all perms to be fulfilled.
-  minArgs: 2,
+  minArgs: 1,
   maxArgs: null,
   noDel: false, // change this to true if the command belongs to the "Moderation" category
 }; // and you don't want to og message to be deleted.

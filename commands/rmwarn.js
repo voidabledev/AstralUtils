@@ -51,7 +51,7 @@ exports.run = async (client, message, args) => {
                 reason,
                 caseID: 0,
                 timestamp: new Date().getTime(),
-                _type: "Removed a warning",
+                _type: "Removed Warning",
               };
               ml(entry.userId, guildId, modlog, client);
               success = true;

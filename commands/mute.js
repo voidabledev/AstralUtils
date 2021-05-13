@@ -170,7 +170,7 @@ exports.run = async (client, message, args) => {
     reason,
     caseID: 0,
     timestamp: new Date().getTime(),
-    _type: "Muted a member",
+    _type: "Mute",
   };
   ml(userId, guildId, modlog, client);
   if (time > 0) {
@@ -196,7 +196,7 @@ exports.help = {
   description: "Mutes a member.",
   enabled: true,
   aliases: ["m"],
-  usage: "[member] [reason]",
+  usage: "[member] [time] [reason]",
   category: "Moderation",
 };
 

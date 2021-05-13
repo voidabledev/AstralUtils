@@ -58,7 +58,7 @@ exports.run = async (client, message, args) => {
     reason,
     caseID: 0,
     timestamp: new Date().getTime(),
-    _type: "Unmuted a member",
+    _type: "Unmute",
   };
   ml(userId, guildId, modlog, client);
   const mongo = require("../mongo");

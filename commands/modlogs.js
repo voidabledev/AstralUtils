@@ -7,7 +7,9 @@ exports.run = async (client, message, args) => {
   const em = client.em;
   const yessir = client.yessir;
 
-  const target = message.mentions.users.first();
+  const target =
+    message.mentions.members.first() ||
+    (await message.guild.members.fetch(args[0]));
   const makeID = client.makeID;
 
   if (!target)
@@ -32,7 +34,7 @@ exports.run = async (client, message, args) => {
       if (!results || !results.modlogs.length)
         return message.channel.send(
           em(
-            `Modlogs for ${target.tag}`,
+            `Modlogs for ${target.id}`,
             `No modlogs found for this user.`,
             `User ID: ${target.id}`,
             `#ff0000`
@@ -68,7 +70,7 @@ exports.help = {
 };
 
 exports.data = {
-  userPermissions: ["MANAGE_ROLES", "ADMINISTRATOR"],
+  userPermissions: ["MANAGE_MESSAGES", "ADMINISTRATOR"],
   userMode: 1, // set this to a number to determined how many of the above permissions the user needs to have.
   botPermissions: [], // if no permissions are required, leave the array empty and set the Mode to 0
   botMode: 1, // same as above. Set it to 0 to require all perms to be fulfilled.

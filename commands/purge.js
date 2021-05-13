@@ -37,7 +37,7 @@ exports.run = async (client, message, args) => {
     reason: "Too much messages",
     caseID: 0,
     timestamp: new Date().getTime(),
-    _type: "Purged messages",
+    _type: "Purge",
   };
   ml(userId, guildId, modlog, client);
   return;

@@ -64,7 +64,7 @@ exports.run = async (client, message, args) => {
       reason: "No reason provided.",
       caseID: 0,
       timestamp: new Date().getTime(),
-      _type: "Added a role",
+      _type: "Add Role",
     };
     await ml(targetUser.id, message.guild.id, modlog, client);
     return message.channel.send(
@@ -87,7 +87,7 @@ exports.run = async (client, message, args) => {
       reason: "`No reason provided.`",
       caseID: 0,
       timestamp: new Date().getTime(),
-      _type: "Removed a role",
+      _type: "Removed Role",
     };
     ml(targetUser.id, message.guild.id, modlog, client);
     return message.channel.send(

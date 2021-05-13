@@ -8,8 +8,8 @@ exports.run = async (client, message, args) => {
 
   const { member, mentions } = message;
 
-  let target = mentions.users.first();
-  if (!target) target = await client.users.get(args[0]);
+  let target = message.mentions.users.first();
+  if (!target) target = await client.users.fetch(args[0]);
   let time = client.millis(args[1]);
   if (time > 0) args.shift();
   let reason = "";
@@ -71,7 +71,7 @@ exports.run = async (client, message, args) => {
     reason,
     caseID: 0,
     timestamp: new Date().getTime(),
-    _type: "Banned a member",
+    _type: "Ban",
   };
   ml(userId, guildId, modlog, client);
   if (time > 0) {
