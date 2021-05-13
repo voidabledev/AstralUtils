@@ -28,7 +28,7 @@ exports.run = async (client, message, args) => {
 
   const guildId = message.guild.id;
   const userId = target.id;
-  const reason = args.join(" ");
+  const reason = args.length ? args.join(" ") : "`No reason specified`";
   let warnID = makeID(36, 8);
 
   let warning = {
@@ -80,44 +80,47 @@ exports.run = async (client, message, args) => {
   }
 
   await mongo().then(async (mongoose) => {
-    await warnSchema.find({ guildId }, (err, entries) => {
-      if (err) throw err;
-      retry: while (true) {
-        for (let entry of entries) {
-          if (entry.warnings.some((w) => w.warnID === warnID)) {
-            warnID = makeID(36, 8);
-            continue retry;
-          }
-        }
-        break;
-      }
-    });
-    message.channel.send(
-      em(
-        `Success!`,
-        `Warned **${target.tag}** with ID \`${warnID}\``,
-        `the user is a dum dum`,
-        `#00ff66`
-      )
-    );
-    warning.warnID = warnID;
     try {
-      await warnSchema.findOneAndUpdate(
-        {
-          guildId,
-          userId,
-        },
-        {
-          guildId,
-          userId,
-          $push: {
-            warnings: warning,
-          },
-        },
-        {
-          upsert: true,
-        }
-      );
+      await warnSchema
+        .find({ guildId }, (err, entries) => {
+          if (err) throw err;
+          retry: while (true) {
+            for (let entry of entries) {
+              if (entry.warnings.some((w) => w.warnID === warnID)) {
+                warnID = makeID(36, 8);
+                continue retry;
+              }
+            }
+            break;
+          }
+        })
+        .then(async () => {
+          message.channel.send(
+            em(
+              `Success!`,
+              `Warned **${target.tag}** with ID \`${warnID}\``,
+              `the user is a dum dum`,
+              `#00ff66`
+            )
+          );
+          warning.warnID = warnID;
+          await warnSchema.findOneAndUpdate(
+            {
+              guildId,
+              userId,
+            },
+            {
+              guildId,
+              userId,
+              $push: {
+                warnings: warning,
+              },
+            },
+            {
+              upsert: true,
+            }
+          );
+        });
     } finally {
       mongoose.connection.close();
     }

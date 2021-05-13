@@ -19,8 +19,7 @@ exports.run = async (client, message, args) => {
   }
 
   const guildId = message.guild.id;
-  let userId;
-  let success;
+  let success = false;
   await mongo().then(async (mongoose) => {
     try {
       await warnSchema.find({ guildId }, async (err, entries) => {
@@ -39,37 +38,41 @@ exports.run = async (client, message, args) => {
                   },
                 }
               );
+              message.channel.send(
+                em(
+                  `Success!`,
+                  `Deleted the warning ID \`${punishid}\`.`,
+                  `yay`,
+                  `GREEN`
+                )
+              );
+              let modlog = {
+                author: message.author.id,
+                reason,
+                caseID: 0,
+                timestamp: new Date().getTime(),
+                _type: "Removed a warning",
+              };
+              ml(entry.userId, guildId, modlog, client);
               success = true;
-              userId = entry.userId;
               break outer;
             }
           }
         }
+        if (!success)
+          return message.channel.send(
+            em(
+              `Failure!`,
+              `I couldn't find a warning with this ID.`,
+              `duh`,
+              `RED`
+            )
+          );
       });
     } finally {
       mongoose.connection.close();
     }
   });
-  if (success) {
-    message.channel.send(
-      em(`Success!`, `Deleted the warning ID \`${punishid}\`.`, `yay`, `GREEN`)
-    );
-    let modlog = {
-      author: message.author.id,
-      reason,
-      caseID: 0,
-      timestamp: new Date().getTime(),
-      _type: "Removed a warning",
-    };
-    ml(userId, guildId, modlog, client);
-  } else {
-    return message.channel.send(
-      `Failure!`,
-      `I couldn't find a warning with this ID.`,
-      `duh`,
-      `RED`
-    );
-  }
 };
 exports.help = {
   name: "rmwarn",
