@@ -1,13 +1,14 @@
 const Discord = require("discord.js");
 const { MessageEmbed } = require("discord.js");
 
-(exports.run = async (client, message, args) => {
+exports.run = async (client, message, args) => {
   const em = client.em;
   const yessir = client.yessir;
 
-  const targetUser = message.mentions.users.first();
+  const targetUser =
+    message.mentions.users.first() || (await client.users.fetch(args[0]));
   if (!targetUser) {
-    message.channel.send(
+    return message.channel.send(
       em(
         `Failure!`,
         `Please specify who to give the role to.`,
@@ -25,10 +26,9 @@ const { MessageEmbed } = require("discord.js");
     guild.roles.cache.find((role) => role.name.toLowerCase() === roleName) ||
     guild.roles.cache.get(roleName);
   if (!role) {
-    message.channel.send(
+    return message.channel.send(
       em(`Failure!`, `There is no role with that name.`, `duh`, `RED`)
     );
-    return;
   }
 
   const member = guild.members.cache.get(targetUser.id);
@@ -84,15 +84,15 @@ const { MessageEmbed } = require("discord.js");
       `RED`
     )
   );
-}),
-  (exports.help = {
-    name: "role",
-    description: "Adds/Removes a role to a user",
-    enabled: true,
-    aliases: [],
-    usage: "[user mention or id] [add/rem] [role mention or id]",
-    category: "Moderation",
-  });
+};
+exports.help = {
+  name: "role",
+  description: "Adds/Removes a role to a user",
+  enabled: true,
+  aliases: [],
+  usage: "[user mention or id] [add/rem] [role mention or id]",
+  category: "Moderation",
+};
 
 exports.data = {
   userPermissions: ["MANAGE_ROLES"],

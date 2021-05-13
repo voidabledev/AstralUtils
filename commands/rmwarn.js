@@ -20,6 +20,7 @@ exports.run = async (client, message, args) => {
   }
 
   const guildId = message.guild.id;
+  let userId;
 
   let modlog = {
     author: message.author.id,
@@ -28,34 +29,43 @@ exports.run = async (client, message, args) => {
     timestamp: new Date().getTime(),
     _type: "Removed a warn",
   };
-
+  let success;
   await mongo().then(async (mongoose) => {
     try {
-      const p = await warnSchema.findOneAndDelete({
-        guildId,
-        warnings: {
-          $contains: {
-            warnID: punishid,
-          },
-        },
+      await warnSchema.find({ guildId }, async (err, entries) => {
+        if (err) throw err;
       });
-      p.validate(function (err) {
-        if (err) console.log(err);
-        else console.log("Deleted warning");
-      });
-      message.channel.send(
-        em(
-          `Success!`,
-          `Deleted the warning ID \`${punishid}\`.`,
-          `yay`,
-          `GREEN`
-        )
-      );
+      outer: for (let entry of entries) {
+        for (let warn of entry.warnings) {
+          if (warn.warnID === punishid) {
+            warnSchema.findOneAndUpdate(entry, {
+              $pull: {
+                warnings: warn,
+              },
+            });
+            success = true;
+            userId = entry.userId;
+            break outer;
+          }
+        }
+      }
     } finally {
       mongoose.connection.close();
     }
   });
-  ml(userId, guildId, modlog, client);
+  if (success) {
+    message.channel.send(
+      em(`Success!`, `Deleted the warning ID \`${punishid}\`.`, `yay`, `GREEN`)
+    );
+    ml(userId, guildId, modlog, client);
+  } else {
+    return message.channel.send(
+      `Failure!`,
+      `I couldn't find a warning with this ID.`,
+      `duh`,
+      `RED`
+    );
+  }
 };
 exports.help = {
   name: "rmwarn",

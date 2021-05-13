@@ -32,6 +32,15 @@ exports.run = async (client, message, args) => {
         guildId,
         userId,
       });
+      if (!results)
+        return message.channel.send(
+          em(
+            `Previous warnings for ${target.tag}`,
+            `This user has no active warnings`,
+            `User ID: ${target.id}`,
+            `GREEN`
+          )
+        );
       let embed = em(
         `Previous warnings for ${target.tag}`,
         null,
@@ -41,8 +50,9 @@ exports.run = async (client, message, args) => {
 
       for (const warning of results.warnings) {
         const { author, timestamp, reason, warnID } = warning;
+        const authorTag = await client.users.fetch(author).tag;
         embed.addField(
-          `By ${author} on ${new Date(timestamp).toLocaleDateString()}`,
+          `By ${authorTag} on ${new Date(timestamp).toLocaleDateString()}`,
           `**Reason:** ${reason}\n**Warning ID:** \`${warnID}\`\n\n`
         );
       }

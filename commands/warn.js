@@ -32,7 +32,7 @@ exports.run = async (client, message, args) => {
   let warnID = makeID(36, 8);
 
   let warning = {
-    author: message.member.user.tag,
+    author: message.author.id,
     timestamp: new Date().getTime(),
     reason,
     warnID,
@@ -80,13 +80,18 @@ exports.run = async (client, message, args) => {
   }
 
   await mongo().then(async (mongoose) => {
-    let overlap;
-    do {
-      overlap = await warnSchema.findOne({
-        warnings: { warnID },
-      });
-      if (overlap) warnID = makeID(36, 8);
-    } while (overlap);
+    await warnSchema.find({ guildId }, (err, entries) => {
+      if (err) throw err;
+      retry: while (true) {
+        for (let entry of entries) {
+          if (entry.warnings.some((w) => w.warnID === warnID)) {
+            warnID = makeID(36, 8);
+            continue retry;
+          }
+        }
+        break;
+      }
+    });
     message.channel.send(
       em(
         `Success!`,
