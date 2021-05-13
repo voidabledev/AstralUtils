@@ -24,10 +24,7 @@ exports.run = async (client, message, args) => {
     return message.channel.send(
       em(`Failure!`, `I can't edit that user's nickname!`, `lmao`, `#7a1b07`)
     );
-  let id = Math.floor(Math.random() * 0x1000000).toString(16);
-  while (id.length < 6) {
-    id = "0" + id;
-  }
+  const id = client.makeID(36, 8);
   target.setNickname(`Moderated Nickname ${id}`);
   message.channel.send(
     em(
