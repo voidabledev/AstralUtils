@@ -13,15 +13,27 @@ exports.run = async (client, message, args) => {
   args.map((value, index) => {
     if (index !== 0) nick += value + " ";
   });
+  if (message.member.roles.highest.position <= target.roles.highest.position)
+    message.channel.send(
+      em(`Failure`, `You can't edit a user's nick higher than you!`, `bruh`)
+    );
+  if (!target.manageable)
+    message.channel.send(
+      em(`Failure!`, `I can't edit that user's nickname!`, `lol`, `RED`)
+    );
+  if (target.id === message.author.id)
+    message.channel.send(
+      em(
+        `Failure`,
+        `There's other ways to edit your nickname you know?`,
+        `xD`,
+        `RED`
+      )
+    );
   target.setNickname(nick);
-  const success = new MessageEmbed()
-    .setTitle("Sucess!")
-    .setColor("GREEN")
-    .setDescription(`Succesfully changed ${target}'s username to ${nick}!`)
-    .setFooter(`yay`);
-  message.channel.send(success).catch((err) => {
-    if (err) message.channel.send("**Something went wrong**");
-  });
+  message.channel.send(
+    em(`Success!`, `I've set ${target}'s nickname to ${nick}`, `yay`, `GREEN`)
+  );
 
   const userId = target.id;
   const guildId = message.guild.id;
