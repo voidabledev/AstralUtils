@@ -2,15 +2,15 @@ const Discord = require("discord.js");
 const ms = require("ms");
 
 module.exports.run = async (client, message, args) => {
-  var timeNow = Date.now();
-  var m = await message.channel.send("Pinging...");
-  var messageLat = Date.now() - timeNow;
-  var ping = ms(client.uptime);
+  const timeNow = Date.now();
+  const m = await message.channel.send("Pinging...");
+  const messageLat = Date.now() - timeNow;
+  const ping = ms(client.uptime);
 
   let e = new Discord.MessageEmbed()
     .addField("Client Ping", `${Math.round(client.ws.ping)}ms`, true)
     .addField("Message Latency", `${messageLat}ms`, true)
-    .addField("Uptime:", ping)
+    .addField("Uptime", ping)
     .setColor("RANDOM");
   m.edit(e);
 };

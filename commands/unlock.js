@@ -4,11 +4,21 @@ const { MessageEmbed } = require("discord.js");
 exports.run = async (client, message, args) => {
   const em = client.em;
   const yessir = client.yessir;
+  const ml = client.setModLog;
 
   let channel =
     message.mentions.channels.first() ||
     message.guild.channels.cache.get(args[0]);
   if (args[0] === "here") channel = message.channel;
+
+  let modlog = {
+    author: message.author.id,
+    reason,
+    caseID: 0,
+    timestamp: new Date().getTime(),
+    _type: "Unlocked a channel",
+  };
+
   if (!channel)
     return message.channel.send(
       em(
@@ -34,7 +44,7 @@ exports.run = async (client, message, args) => {
     message.channel.send(
       em(`Success!`, `Unlocked ${channel}`, `spam go brrrrrr`, `#00ff66`)
     );
-  return channel.send(
+  channel.send(
     em(
       `Lockdown`,
       `This channel has been unlocked.`,
@@ -42,6 +52,7 @@ exports.run = async (client, message, args) => {
       `#00ff66`
     )
   );
+  ml(userId, guildId, modlog, client);
 };
 exports.help = {
   name: "unlock",
@@ -57,7 +68,7 @@ exports.data = {
   userMode: 1, // set this to a number to determined how many of the above permissions the user needs to have.
   botPermissions: ["MANAGE_CHANNELS", "ADMINISTRATOR"], // if no permissions are required, leave the array empty and set the Mode to 0
   botMode: 1, // same as above. Set it to 0 to require all perms to be fulfilled.
-  minArgs: 1,
+  minArgs: 2,
   maxArgs: null,
 };
 
