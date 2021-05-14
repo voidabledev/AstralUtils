@@ -1,10 +1,13 @@
-exports.valid = ["Moderation", "Information", "Misc"];
-
+exports.valid = [
+  "Moderation",
+  "Information",
+  "Giveaways",
+  "Administration",
+  "Misc",
+];
 exports.validate = (command, valid) => {
-  if (command.help.hidden) return ""; // i'm changing the modlogs, also can you implement modlogs on >nick?
+  if (command.help.hidden) return "";
   if (!command.help.category || !valid.includes(command.help.category))
-    //
-    // check discord pls
     return "Misc";
   return command.help.category;
 };

@@ -39,6 +39,7 @@ exports.run = async (client, message, args) => {
   const guildId = message.guild.id;
   let modlog = {
     author: message.author.id,
+    reason: "`No reason provided`",
     caseID: 0,
     timestamp: new Date().getTime(),
     _type: "Changed Nickname",

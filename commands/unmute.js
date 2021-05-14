@@ -8,48 +8,23 @@ exports.run = async (client, message, args) => {
   const em = client.em;
   const yessir = client.yessir;
   const ml = client.setModlog;
-  await message.guild.roles.fetch();
   const member =
     message.mentions.members.first() ||
-    message.guild.members.cache.find(args[0]);
+    (await message.guild.members.fetch(args[0]));
   const role = message.guild.roles.cache.find(
     (r) => r.name.toLowerCase() === "muted"
   );
   let reason = "";
-
-  if (!role)
-    return message.channel.send(
-      em(
-        `Failure!`,
-        `There is no \`Muted\` role. Please run \`${prefix}mute\` to generate one!`,
-        `bruh`,
-        `#7a1b07`
-      )
-    );
-  if (!member)
-    return message.channel.send(
-      em(
-        `Failure!`,
-        `You didn't provide a user. Please mention one or enter a valid user ID.`,
-        `don't message devs kthx`,
-        `#7a1b07`
-      )
-    );
   if (!args[1]) reason = "`No reason provided`";
   else reason = `\`${args.slice(1).join(" ")}\``;
   if (!member.roles.cache.find((r) => r.name.toLowerCase() === "muted"))
-    return message.channel.send(
-      em(
-        `Failure!`,
-        `User is not muted!`,
-        `doesn't know how to use mod cmds...`,
-        `#7a1b07`
-      )
-    );
+    message.channel.send(em(`Failure!`, `The user is not muted.`));
 
   member.roles.remove(role);
   message.channel.send(
-    em(`Success!`, `${member} has now been unmuted for ${reason}!`, `lol`)
+    em(`Failure!`, `${user} has been unmuted for ${reason}`),
+    `yay`,
+    `GREEN`
   );
   const userId = member.id;
   const guildId = message.guild.id;
@@ -106,7 +81,7 @@ exports.data = {
   userMode: 1, // set this to a number to determined how many of the above permissions the user needs to have.
   botPermissions: ["MANAGE_ROLES"], // if no permissions are required, leave the array empty and set the Mode to 0
   botMode: 1, // same as above. Set it to 0 to require all perms to be fulfilled.
-  minArgs: 1,
+  minArgs: 2,
   maxArgs: null,
 };
 

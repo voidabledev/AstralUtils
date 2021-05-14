@@ -49,10 +49,10 @@ exports.run = async (client, message, args) => {
       );
 
       for (const warning of results.warnings) {
-        const { author, timestamp, reason, warnID } = warning;
-        const authorTag = client.users.cache.get(author).username;
+        const { timestamp, reason, warnID } = warning;
+        const author = client.users.cache.get(message.author).username;
         embed.addField(
-          `By ${authorTag} on ${new Date(timestamp).toLocaleDateString()}`,
+          `By ${author.id} on ${new Date(timestamp).toLocaleDateString()}`,
           `**Reason:** ${reason}\n**Warning ID:** \`${warnID}\`\n\n`
         );
       }

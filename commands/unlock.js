@@ -9,18 +9,12 @@ exports.run = async (client, message, args) => {
   let channel =
     message.mentions.channels.first() ||
     message.guild.channels.cache.get(args[0]);
+  const reason = args.join(" ");
   if (args[0] === "here") channel = message.channel;
 
-  let modlog = {
-    author: message.author.id,
-    reason: "`No reason provided`",
-    caseID: 0,
-    timestamp: new Date().getTime(),
-    _type: "Unlock",
-  };
-
+  if (!reason) reason = "`No reason provided`";
   if (!channel)
-    return message.channel.send(
+    message.channel.send(
       em(
         `Failure!`,
         `You didn't provide a valid channel!`,
@@ -29,7 +23,7 @@ exports.run = async (client, message, args) => {
       )
     );
   if (channel.permissionsFor(message.guild.roles.everyone).has("SEND_MESSAGES"))
-    return message.channel.send(
+    message.channel.send(
       em(
         `Failure!`,
         `That channel isn't locked.`,
@@ -47,19 +41,29 @@ exports.run = async (client, message, args) => {
   channel.send(
     em(
       `Lockdown`,
-      `This channel has been unlocked.`,
+      `This channel has been unlocked for:\n${reason}`,
       `spam go brrrrrr`,
       `#00ff66`
     )
   );
-  ml(userId, guildId, modlog, client);
+
+  let modlog = {
+    author: message.author.id,
+    reason,
+    channel,
+    caseID: 0,
+    timestamp: new Date().getTime(),
+    _type: "Unlock",
+  };
+
+  ml(channel, modlog, client);
 };
 exports.help = {
   name: "unlock",
   description: "unlocks a previously locked channel.",
   enabled: true,
-  aliases: [],
-  usage: "[channel]",
+  aliases: ["unl"],
+  usage: "[channel] [reason]",
   category: "Moderation",
 };
 

@@ -20,6 +20,7 @@
   },
   "homepage": "https://github.com/diego201grgtg/galaxyutils#readme",
   "dependencies": {
+    "discord-giveaways": "^4.5.1",
     "discord.js": "^12.5.3",
     "dotenv": "^8.2.0",
     "enmap": "^5.8.4",

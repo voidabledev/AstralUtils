@@ -16,6 +16,7 @@ exports.run = async (client, message, args) => {
   let modlog = {
     author: message.author.id,
     reason,
+    channel,
     caseID: 0,
     timestamp: new Date().getTime(),
     _type: "Lock",
@@ -61,13 +62,13 @@ exports.run = async (client, message, args) => {
       `#00ff66`
     )
   );
-  ml(userId, guildId, modlog, client);
+  ml(channelID, modlog, client);
 };
 exports.help = {
   name: "lock",
   description: "Locks a channel.",
   enabled: true,
-  aliases: [],
+  aliases: ["l"],
   usage: "[channel] [reason]",
   category: "Moderation",
 };

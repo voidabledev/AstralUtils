@@ -21,7 +21,7 @@ exports.run = async (client, message, args) => {
       em(
         `Failure!`,
         `You can't report me!`,
-        `Trying to report a bug? Use the bugreport command!`,
+        `Trying to report a bug? DM a developer!`,
         `#7a1b07`
       )
     );
@@ -36,15 +36,15 @@ exports.run = async (client, message, args) => {
     );
   args.shift();
   const reason = args.join(" ");
-  const reportChannel = await client.channels.fetch("841807446498738177");
+  const staffManager = await client.users.fetch("691635044388700250");
   message.channel.send(
     em(
       `Success!`,
-      `Your report was sent to the staff team.`,
+      `Your report was sent to the staff manager.`,
       `report go brrrrr`
     )
   );
-  return reportChannel.send(
+  return staffManager.send(
     em(
       `${message.author.tag} reported ${target.tag}`,
       `**Reason:**\n${reason}`,
@@ -53,10 +53,10 @@ exports.run = async (client, message, args) => {
   );
 };
 exports.help = {
-  name: "report",
+  name: "reportstaff",
   description: "Report a user.",
   enabled: true,
-  aliases: ["r"],
+  aliases: ["rs"],
   usage: "[mention or id] [reason]",
   category: "Moderation",
 };
@@ -68,6 +68,7 @@ exports.data = {
   botMode: 0, // same as above. Set it to 0 to require all perms to be fulfilled.
   minArgs: 2,
   maxArgs: null,
+  noDel: false,
 };
 
 exports.errors = {
