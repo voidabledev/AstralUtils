@@ -163,7 +163,7 @@ exports.run = async (client, message, args) => {
     );
   }
 
-  const userId = member.id;
+  const userId = member.user.id;
   const guildId = message.guild.id;
   let modlog = {
     author: message.author.id,
@@ -175,7 +175,7 @@ exports.run = async (client, message, args) => {
   ml(userId, guildId, modlog, client);
   if (time > 0) {
     let timestamp = new Date().setTime(new Date().getTime() + time);
-    client.addTimer("mute", userId, guildId, timestamp);
+    await client.addTimer("mute", userId, guildId, timestamp);
   }
   const mongo = require("../mongo");
   const muteschema = require("../schemas/muteschema");
