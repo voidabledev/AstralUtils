@@ -4,7 +4,7 @@ const { MessageEmbed } = require("discord.js");
 exports.run = async (client, message, args) => {
   const em = client.em;
   const yessir = client.yessir;
-  const u = message.mentions.users.first() || client.users.cache.fetch(args[0]);
+  const u = message.mentions.users.first() || client.users.cache.get(args[0]);
 
   const msg = args.splice(1).join(" ");
 
@@ -65,7 +65,7 @@ exports.data = {
   userMode: 1, // set this to a number to determined how many of the above permissions the user needs to have.
   botPermissions: [], // if no permissions are required, leave the array empty and set the Mode to 0
   botMode: 1, // same as above. Set it to 0 to require all perms to be fulfilled.
-  minArgs: 0,
+  minArgs: 2,
   maxArgs: null,
   noDel: false, // change this to true if the command belongs to the "Moderation" category
 }; // and you don't want to og message to be deleted.
