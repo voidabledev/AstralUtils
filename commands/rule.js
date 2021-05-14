@@ -140,7 +140,7 @@ exports.data = {
   userMode: 1, // set this to a number to determined how many of the above permissions the user needs to have.
   botPermissions: [], // if no permissions are required, leave the array empty and set the Mode to 0
   botMode: 1, // same as above. Set it to 0 to require all perms to be fulfilled.
-  minArgs: 0,
+  minArgs: 1,
   maxArgs: null,
   noDel: true, // change this to true if the command belongs to the "Moderation" category
 }; // and you don't want to og message to be deleted.
