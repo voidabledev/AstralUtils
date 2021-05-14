@@ -5,10 +5,7 @@ exports.run = async (client, message, args) => {
   const em = client.em;
   const yessir = client.yessir;
 
-  const args = message.content
-    .slice(settings.prefix.length)
-    .trim()
-    .split(/ +/g);
+  args = message.content.slice(settings.prefix.length).trim().split(/ +/g);
   const command = args.shift().toLowerCase();
 
   if (command === "edit") {

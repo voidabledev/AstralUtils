@@ -47,7 +47,7 @@ exports.help = {
   enabled: true,
   aliases: ["unblock", "unbl"],
   usage: "[User mention or ID] [reason]",
-  category: "Moderation",
+  category: "Administration",
 };
 
 exports.data = {

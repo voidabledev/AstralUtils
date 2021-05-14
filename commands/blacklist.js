@@ -46,7 +46,7 @@ exports.run = async (client, message, args) => {
     reason,
     caseID: 0,
     timestamp: new Date().getTime(),
-    _type: "Unblacklisted a member",
+    _type: "Blacklisted a member",
   };
   ml(id, message.guild.id, modlog, client);
 };
@@ -56,7 +56,7 @@ exports.help = {
   enabled: true,
   aliases: ["block", "bl"],
   usage: "[User mention or ID] [reason]",
-  category: "Moderation",
+  category: "Administration",
 };
 
 exports.data = {

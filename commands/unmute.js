@@ -1,6 +1,5 @@
 const Discord = require("discord.js");
 const { MessageEmbed } = require("discord.js");
-const { prefix } = require("../config.json");
 
 exports.run = async (client, message, args) => {
   const em = client.em;

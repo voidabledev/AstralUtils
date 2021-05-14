@@ -4,42 +4,33 @@ const { MessageEmbed } = require("discord.js");
 exports.run = async (client, message, args) => {
   const em = client.em;
   const yessir = client.yessir;
+  let number = args.shift(" ");
 
-  args = message.content.slice(settings.prefix.length).trim().split(/ +/g);
-  const command = args.shift().toLowerCase();
-
-  if (command === "delete") {
-    const messageID = args[0];
-    client.giveawaysManager
-      .delete(messageID)
-      .then(() => {
-        message.channel.send("Success! Giveaway deleted!");
-      })
-      .catch((err) => {
-        message.channel.send(
-          "No giveaway found for " + messageID + ", please check and try again."
-        );
-        console.log(err);
-      });
-  }
+  if (number === "1")
+    message.channel.send(
+      em(
+        `Respect`,
+        `Treat everyone in the server with respect, both the staff and the members.\nTreat everybody how you would want to be treated.`
+      )
+    );
 };
 exports.help = {
-  name: "gdelete",
-  description: "Deletes a giveaway",
-  enabled: true,
-  aliases: ["gdel"],
-  usage: "[message id]",
-  category: "Giveaways",
+  name: "rule",
+  description: "Displays a rule",
+  enabled: false,
+  aliases: [],
+  usage: "[number]",
+  category: "Moderation",
 };
 
 exports.data = {
-  userPermissions: [],
+  userPermissions: ["MANAGE_MESSAGES"],
   userMode: 1, // set this to a number to determined how many of the above permissions the user needs to have.
   botPermissions: [], // if no permissions are required, leave the array empty and set the Mode to 0
   botMode: 1, // same as above. Set it to 0 to require all perms to be fulfilled.
   minArgs: 0,
   maxArgs: null,
-  noDel: false, // change this to true if the command belongs to the "Moderation" category
+  noDel: true, // change this to true if the command belongs to the "Moderation" category
 }; // and you don't want to og message to be deleted.
 
 exports.errors = {
