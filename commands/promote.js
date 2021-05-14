@@ -27,7 +27,7 @@ exports.run = async (client, message, args) => {
   const getPos = (id) => {
     return message.guild.roles.cache.get(id).position;
   };
-  if (message.member.roles.highest.position > getPos(staffRoles[5]))
+  if (member.roles.highest.position > getPos(staffRoles[5]))
     return message.channel.send(
       em(
         `Failure!`,
@@ -45,7 +45,7 @@ exports.run = async (client, message, args) => {
     staffRoles.forEach((pos, index, sr) => {
       // else we loop over the staff roles and check which is their highest role
       if (pos === member.roles.highest.id)
-        newRole = message.guild.roles.cache.get(sr[index + 1]); // the one over that one is now our role that we want
+        newRole = message.guild.roles.cache.get(staffRoles[index + 1]); // the one over that one is now our role that we want
     }); // now we know what role to promote to
   }
   let additionalRoles = [];
@@ -62,12 +62,13 @@ exports.run = async (client, message, args) => {
     )
   );
   message.channel
-    .awaitMessages((m) => m.author.id === target.id, {
+    .awaitMessages((m) => m.author.id === message.author.id, {
       max: 1,
       time: 60000,
       errors: ["time"],
     })
-    .then((m) => {
+    .then((mc) => {
+      const m = mc.first();
       if (m.content.toLowerCase() !== "yes") throw "no promotion";
       member.roles.add(newRole);
       if (additionalRoles.length)
@@ -82,9 +83,8 @@ exports.run = async (client, message, args) => {
       );
     })
     .catch((e) => {
-      if (e === "no promotion") message.channel.send(`Promotion cancelled.`);
-      else
-        message.channel.send(`You didn't answer in time, promotion cancelled.`);
+      message.channel.send(`Promotion cancelled!`);
+      console.error(e);
     });
 };
 exports.help = {

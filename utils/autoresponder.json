@@ -1,44 +1,22 @@
 {
   "settings": [
     {
-      "triggers": [""],
+      "triggers": ["bruh"],
       "actions": [
         {
-          "name": "chat",
-          "args": [],
+          "name": "message",
+          "args": ["moment"],
           "blacklist": {
             "roles": [],
             "channels": [],
             "categories": [],
             "permissions": [],
-            "users": ["all"]
+            "users": [],
+            "full": true
           },
           "whitelist": {
             "roles": [],
             "channels": [],
-            "categories": [],
-            "permissions": [],
-            "users": ["538635176847343636"]
-          }
-        }
-      ]
-    },
-    {
-      "triggers": [""],
-      "actions": [
-        {
-          "name": "chat2",
-          "args": [],
-          "blacklist": {
-            "roles": [],
-            "channels": ["all"],
-            "categories": [],
-            "permissions": [],
-            "users": []
-          },
-          "whitelist": {
-            "roles": [],
-            "channels": ["831996525864419348"],
             "categories": [],
             "permissions": [],
             "users": []
@@ -58,7 +36,8 @@
           "channels": [],
           "categories": [],
           "permissions": [],
-          "users": []
+          "users": [],
+          "full": true
         },
         "whitelist": {
           "roles": [],

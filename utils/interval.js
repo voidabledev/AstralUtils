@@ -3,13 +3,12 @@ module.exports = (client) => {
     const mongo = require("../mongo");
     const punishSchema = require("../schemas/punishschema");
     const muteSchema = require("../schemas/muteschema");
-    const intervalSchema = require("../schemas/intervalschema");
     const warnSchema = require("../schemas/warnschema");
     await mongo().then(async (mongoose) => {
       try {
         await punishSchema.find({}, async (err, entries) => {
           if (err) throw err;
-          entries.map(async (entry) => {
+          await entries.forEach(async (entry) => {
             if (entry.expires.getTime() < new Date().getTime()) {
               await client.expire[entry._type](
                 entry.userId,
@@ -28,32 +27,9 @@ module.exports = (client) => {
             }
           });
         });
-        await intervalSchema.find({}, async (err, entries) => {
+        /*await warnSchema.find({}, async (err, users) => {
           if (err) throw err;
-          entries.map(async (entry) => {
-            if (entry.expires < new Date().getTime()) {
-              await intervalSchema.deleteOne(entry);
-              return;
-            }
-            if (new Date().getTime() - entry.executed > entry.interval) {
-              const guild = client.guilds.cache.get("831995980097388604");
-              const channel = guild.channels.cache.get(entry.channelId);
-              channel.send(entry.message);
-              await intervalSchema.findOneAndUpdate(
-                {
-                  interval: entry.interval,
-                  expires: entry.expires,
-                },
-                {
-                  executed: new Date().getTime(),
-                }
-              );
-            }
-          });
-        });
-        await warnSchema.find({}, async (err, users) => {
-          if (err) throw err;
-          users.forEach(async (user) => {
+          await users.forEach(async (user) => {
             await user.warnings.forEach(async (warn) => {
               if (
                 new Date().getTime() - warn.timestamp >
@@ -73,7 +49,7 @@ module.exports = (client) => {
               }
             });
           });
-        });
+        });*/
       } finally {
         mongoose.connection.close();
       }

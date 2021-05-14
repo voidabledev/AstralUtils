@@ -76,7 +76,7 @@ exports.run = async (client, message, args) => {
   ml(userId, guildId, modlog, client);
   if (time > 0) {
     let timestamp = new Date().setTime(new Date().getTime() + time);
-    client.addTimer("ban", userId, guildId, timestamp);
+    client.addTimer("Ban", userId, guildId, timestamp);
   }
 };
 exports.help = {

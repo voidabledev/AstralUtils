@@ -1,11 +1,13 @@
 const Discord = require("discord.js");
 const config = require("../config.json");
 const categ = require("../utils/categories");
-module.exports = (client, message) => {
+module.exports = async (client, message) => {
   const em = client.em;
   if (message.author.bot) return;
 
   client.autoresponder(client, message);
+  const bl = await client.blacklisted(message.author.id);
+  if (bl) return;
   let prefix = client.config.prefix;
   if (!message.content.startsWith(prefix)) return;
   const args = message.content.slice(prefix.length).trim().split(/ +/g);

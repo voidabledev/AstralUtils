@@ -146,7 +146,7 @@ module.exports = async (client) => {
     return -1;
   };
   client.expire = {
-    mute: async (uid, gid, client) => {
+    Mute: async (uid, gid, client) => {
       const guild = client.guilds.cache.get(gid);
       if (!guild) return;
       const member = await guild.members.fetch(uid);
@@ -158,7 +158,7 @@ module.exports = async (client) => {
       if (!member.roles.cache.get(role.id)) return;
       member.roles.remove(role);
     },
-    ban: async (uid, gid, client) => {
+    Ban: async (uid, gid, client) => {
       const guild = client.guilds.cache.get(gid);
       if (!guild) return;
       const bans = await guild.fetchBans();
@@ -305,7 +305,8 @@ module.exports = async (client) => {
         (action.blacklist.users.length &&
           action.blacklist.users.some(
             (u) => u === message.author.id || u === "all"
-          ))
+          )) ||
+        (action.blacklist.full && client.blacklisted(message.author.id))
       ) {
         if (
           (action.whitelist.roles.length &&
@@ -334,6 +335,24 @@ module.exports = async (client) => {
             client.arUtil.convert(action.name, client, message, action.args);
         });
       }
+    });
+  };
+  client.blacklisted = async (userId) => {
+    const mongo = require("../mongo");
+    const blSchema = require("../schemas/blacklistschema");
+    return new Promise(async (resolve, reject) => {
+      await mongo().then(async (mongoose) => {
+        let bl;
+        try {
+          bl = await blSchema.findOne({
+            userId,
+          });
+        } finally {
+          mongoose.connection.close();
+          if (bl) resolve(true);
+          resolve(false);
+        }
+      });
     });
   };
 };

@@ -27,7 +27,7 @@ exports.run = async (client, message, args) => {
   const getPos = (id) => {
     return message.guild.roles.cache.get(id).position;
   };
-  if (message.member.roles.highest.position > getPos(staffRoles[5]))
+  if (member.roles.highest.position > getPos(staffRoles[5]))
     return message.channel.send(
       em(
         `Failure!`,
@@ -52,30 +52,34 @@ exports.run = async (client, message, args) => {
     // else we loop over the staff roles and check which is their highest role
     if (pos === member.roles.highest.id) {
       rmRole = message.guild.roles.cache.get(pos); // we remove this role
-      if (index !== 1) newRole = message.guild.roles.cache.get(sr[index - 1]);
+      if (index !== 1)
+        newRole = message.guild.roles.cache.get(staffRoles[index - 1]);
       else newRole = null; // and we add the previous one, or none if they are tmod
     }
   });
   let additionalRoles = [];
-  if (newRole === null) additionalRoles.push(staffRoles[0]);
-  if (newRole.id === staffRoles[4]) additionalRoles.push("831996399209414697");
+  if (newRole === null) {
+    additionalRoles.push(staffRoles[0]);
+  }
+  if (newRole?.id === staffRoles[4]) additionalRoles.push("831996399209414697");
+  let posName;
+  if (newRole === null) posName = "Member";
+  else posName = newRole?.name?.replace("Perms", "");
   await message.channel.send(
     em(
       `Attention!`,
-      `Are you sure you want to demote <@${
-        member.id
-      }> to ${newRole.name.replace("Perms", "")}?`,
+      `Are you sure you want to demote <@${member.id}> to ${posName}?`,
       `Say yes or no`
     )
   );
   message.channel
-    .awaitMessages((m) => m.author.id === target.id, {
+    .awaitMessages((m) => m.author.id === message.author.id, {
       max: 1,
       time: 60000,
       errors: ["time"],
     })
-    .then((m) => {
-      if (m.content.toLowerCase() !== "yes") throw "no demotion";
+    .then((mc) => {
+      if (mc.first().content.toLowerCase() !== "yes") throw "no demotion";
       member.roles.remove(rmRole);
       if (!message.member.roles.cache.get(newRole.id))
         member.roles.add(newRole);
@@ -93,16 +97,15 @@ exports.run = async (client, message, args) => {
       );
     })
     .catch((e) => {
-      if (e === "no demotion") message.channel.send(`Demotion cancelled.`);
-      else
-        message.channel.send(`You didn't answer in time, demotion cancelled.`);
+      message.channel.send(`Demotion cancelled.`);
+      console.error(e);
     });
 };
 exports.help = {
-  name: "promote",
-  description: "Promotes a staff member",
+  name: "demote",
+  description: "Demotes a staff member",
   enabled: false,
-  aliases: ["p"],
+  aliases: ["d"],
   usage: "[user]",
   category: "Administration",
 };

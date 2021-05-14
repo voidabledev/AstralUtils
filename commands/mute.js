@@ -175,7 +175,7 @@ exports.run = async (client, message, args) => {
   ml(userId, guildId, modlog, client);
   if (time > 0) {
     let timestamp = new Date().setTime(new Date().getTime() + time);
-    await client.addTimer("mute", userId, guildId, timestamp);
+    await client.addTimer("Mute", userId, guildId, timestamp);
   }
   const mongo = require("../mongo");
   const muteschema = require("../schemas/muteschema");
