@@ -54,10 +54,10 @@ exports.run = async (client, message, args) => {
     hostedBy: client.config.hostedBy ? message.author : null,
     messages: {
       giveaway:
-        (client.config.everyoneMention ? "<@& 831996472458477588>\n" : "") +
+        (client.config.everyoneMention ? "<@&831996472458477588>\n" : "") +
         "🎉 **GIVEAWAY** 🎉",
       giveawayEnded:
-        (client.config.everyoneMention ? "<@& 831996472458477588>\n" : "") +
+        (client.config.everyoneMention ? "<@&831996472458477588>\n" : "") +
         "🎉 **GIVEAWAY ENDED** 🎉",
       timeRemaining: "Time remaining: **{duration}**!",
       inviteToParticipate: "React with 🎉 to participate!",

@@ -5,7 +5,7 @@ exports.run = async (client, message, args) => {
   const em = client.em;
   const yessir = client.yessir;
   const ml = client.setModlog;
-  const ms = client.millis;
+  const ms = require("ms");
   await message.guild.roles.fetch();
   const author = message.author;
   const member =
