@@ -104,7 +104,7 @@ exports.run = async (client, message, args) => {
 exports.help = {
   name: "demote",
   description: "Demotes a staff member",
-  enabled: false,
+  enabled: true,
   aliases: ["d"],
   usage: "[user]",
   category: "Administration",

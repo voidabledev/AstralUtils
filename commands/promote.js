@@ -90,7 +90,7 @@ exports.run = async (client, message, args) => {
 exports.help = {
   name: "promote",
   description: "Promotes a staff member",
-  enabled: false,
+  enabled: true,
   aliases: ["p"],
   usage: "[user]",
   category: "Administration",
