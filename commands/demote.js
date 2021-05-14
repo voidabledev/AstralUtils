@@ -78,7 +78,6 @@ exports.run = async (client, message, args) => {
       if (m.content.toLowerCase() !== "yes") throw "no demotion";
       member.roles.remove(rmRole);
       if (!message.member.roles.cache.get(newRole.id))
-        // pushing
         member.roles.add(newRole);
       if (additionalRoles.length)
         additionalRoles.forEach((r) => {
