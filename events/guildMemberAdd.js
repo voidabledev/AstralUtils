@@ -1,7 +1,7 @@
 const mongo = require("../mongo");
 const punishSchema = require("../schemas/punishschema");
 const muteSchema = require("../schemas/muteschema");
-module.exports = async (client, member) => {
+module.exports = async (member) => {
   await mongo().then(async (mongoose) => {
     try {
       const found = await muteSchema.findOne({

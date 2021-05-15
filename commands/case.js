@@ -14,8 +14,8 @@ exports.run = async (client, message, args) => {
     try {
       await modSchema.find({}, (err, logs) => {
         if (err) throw err;
-        logs.map((log) => {
-          log.modlogs.forEach((l) => {
+        logs.map(async (log) => {
+          await log.modlogs.forEach((l) => {
             if (l.caseID === toCheck) {
               found = l;
               foundLog = log;

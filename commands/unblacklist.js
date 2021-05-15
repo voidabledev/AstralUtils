@@ -16,7 +16,7 @@ exports.run = async (client, message, args) => {
   args.shift();
   const reason = args.join(" ") || "`No reason provided`";
   const { id } = target;
-  if (!client.blacklisted(id))
+  if (!(await client.blacklisted(id)))
     return message.channel.send(
       em(`Failure!`, `This user isn't blacklisted!`, `bruh`, `RED`)
     );
@@ -30,6 +30,18 @@ exports.run = async (client, message, args) => {
       message.channel.send(
         em(`Success!`, `<@${id}> is no longer blacklisted!`, `yay`, `GREEN`)
       );
+      target
+        .send(
+          em(
+            `Unblacklist`,
+            `Your blacklist from ${client.user.username} has been revoked. You can now use commands and take part in giveaways again.`,
+            `yay`,
+            `GREEN`
+          )
+        )
+        .catch((e) =>
+          message.channel.send(`I was unable to notify this user.`)
+        );
     }
   });
   let modlog = {
@@ -37,7 +49,7 @@ exports.run = async (client, message, args) => {
     reason,
     caseID: 0,
     timestamp: new Date().getTime(),
-    _type: "Unblacklisted a member",
+    _type: "Unblacklist",
   };
   ml(id, message.guild.id, modlog, client);
 };

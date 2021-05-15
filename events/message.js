@@ -6,8 +6,7 @@ module.exports = async (client, message) => {
   if (message.author.bot) return;
 
   client.autoresponder(client, message);
-  const bl = await client.blacklisted(message.author.id);
-  if (bl) return;
+  if (await client.blacklisted(message.author.id)) return;
   let prefix = client.config.prefix;
   if (!message.content.startsWith(prefix)) return;
   const args = message.content.slice(prefix.length).trim().split(/ +/g);

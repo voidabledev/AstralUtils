@@ -34,6 +34,7 @@ exports.run = async (client, message, args) => {
     timestamp: new Date().getTime(),
     reason,
     warnID,
+    caseID: 0,
   };
 
   let modlog = {
@@ -76,54 +77,56 @@ exports.run = async (client, message, args) => {
       `I was unable to notify the user. Warning has been logged.`
     );
   }
-
-  await mongo().then(async (mongoose) => {
-    try {
-      await warnSchema
-        .find({ guildId }, (err, entries) => {
-          if (err) throw err;
-          retry: while (true) {
-            for (let entry of entries) {
-              if (entry.warnings.some((w) => w.warnID === warnID)) {
-                warnID = makeID(36, 8);
-                continue retry;
+  await ml(userId, guildId, modlog, client).then(async (resolved) => {
+    console.log(resolved);
+    warning.caseID = resolved.caseID;
+    await mongo().then(async (mongoose) => {
+      try {
+        await warnSchema
+          .find({ guildId }, (err, entries) => {
+            if (err) throw err;
+            retry: while (true) {
+              for (let entry of entries) {
+                if (entry.warnings.some((w) => w.warnID === warnID)) {
+                  warnID = makeID(36, 8);
+                  continue retry;
+                }
               }
+              break;
             }
-            break;
-          }
-        })
-        .then(async () => {
-          message.channel.send(
-            em(
-              `Success!`,
-              `Warned **${target}** with ID \`${warnID}\``,
-              `the user is a dum dum`,
-              `#00ff66`
-            )
-          );
-          warning.warnID = warnID;
-          await warnSchema.findOneAndUpdate(
-            {
-              guildId,
-              userId,
-            },
-            {
-              guildId,
-              userId,
-              $push: {
-                warnings: warning,
+          })
+          .then(async () => {
+            message.channel.send(
+              em(
+                `Success!`,
+                `Warned **${target}** with ID \`${warnID}\``,
+                `the user is a dum dum`,
+                `#00ff66`
+              )
+            );
+            warning.warnID = warnID;
+            await warnSchema.findOneAndUpdate(
+              {
+                guildId,
+                userId,
               },
-            },
-            {
-              upsert: true,
-            }
-          );
-        });
-    } finally {
-      mongoose.connection.close();
-    }
+              {
+                guildId,
+                userId,
+                $push: {
+                  warnings: warning,
+                },
+              },
+              {
+                upsert: true,
+              }
+            );
+          });
+      } finally {
+        mongoose.connection.close();
+      }
+    });
   });
-  ml(userId, guildId, modlog, client);
 };
 exports.help = {
   name: "warn",

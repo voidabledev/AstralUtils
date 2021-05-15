@@ -41,15 +41,16 @@ exports.run = async (client, message, args) => {
           )
         );
       let embed = em(
-        `Modlogs for ${target.tag}`,
+        `Modlogs for ${target.user.tag}`,
         null,
         `User ID: ${target.id}`,
         `#ff0000`
       );
       for (const log of results.modlogs) {
         const { author, timestamp, reason, caseID, _type } = log;
+        let a = await client.users.fetch(author);
         embed.addField(
-          `By ${author} on ${new Date(timestamp).toLocaleDateString()}`,
+          `By ${a.tag} on ${new Date(timestamp).toLocaleDateString()}`,
           `**Type:** ${_type}\n**Reason:** ${reason}\n**Case:** ${caseID}\n\n`
         );
       }

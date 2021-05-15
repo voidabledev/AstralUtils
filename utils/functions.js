@@ -89,50 +89,53 @@ module.exports = async (client) => {
     const mongo = require("../mongo");
     const modSchema = require("../schemas/modschema");
     const logSchema = require("../schemas/logschema");
-    await mongo().then(async (mongoose) => {
-      let cid = 1;
-      try {
-        await modSchema.find({ guildId }, (err, logs) => {
-          if (err) throw err;
-          logs.map((log) => {
-            cid += log.modlogs.length;
+    return new Promise(async (resolve, reject) => {
+      await mongo().then(async (mongoose) => {
+        let cid = 1;
+        try {
+          await modSchema.find({ guildId }, (err, logs) => {
+            if (err) throw err;
+            logs.map((log) => {
+              cid += log.modlogs.length;
+            });
           });
-        });
-        modlog.caseID = cid;
-        await modSchema.findOneAndUpdate(
-          {
-            guildId,
-            userId,
-          },
-          {
-            guildId,
-            userId,
-            $push: {
-              modlogs: modlog,
+          modlog.caseID = cid;
+          await modSchema.findOneAndUpdate(
+            {
+              guildId,
+              userId,
             },
-          },
-          {
-            upsert: true,
+            {
+              guildId,
+              userId,
+              $push: {
+                modlogs: modlog,
+              },
+            },
+            {
+              upsert: true,
+            }
+          );
+          const log = await logSchema.findOne({
+            guildId,
+          });
+          if (log.channelId) {
+            const guild = client.guilds.cache.get(guildId);
+            const channel = guild.channels.cache.get(log.channelId);
+            let embed = new Discord.MessageEmbed()
+              .setTitle(`Case #${modlog.caseID}`)
+              .setDescription(
+                `**User: **<@${userId}>\n**Moderator:** ${modlog.author}\n**Type:** ${modlog._type}\n**Reason:** ${modlog.reason}`
+              )
+              .setFooter(`User ID: ${userId}`)
+              .setColor("RANDOM");
+            channel.send(embed);
           }
-        );
-        const log = await logSchema.findOne({
-          guildId,
-        });
-        if (log.channelId) {
-          const guild = client.guilds.cache.get(guildId);
-          const channel = guild.channels.cache.get(log.channelId);
-          let embed = new Discord.MessageEmbed()
-            .setTitle(`Case #${modlog.caseID}`)
-            .setDescription(
-              `**User: **<@${userId}>\n**Moderator:** ${modlog.author}\n**Type:** ${modlog._type}\n**Reason:** ${modlog.reason}`
-            )
-            .setFooter(`User ID: ${userId}`)
-            .setColor("RANDOM");
-          channel.send(embed);
+        } finally {
+          mongoose.connection.close();
+          resolve(modlog);
         }
-      } finally {
-        mongoose.connection.close();
-      }
+      });
     });
   };
   client.millis = (input) => {
@@ -181,23 +184,6 @@ module.exports = async (client) => {
         });
       } finally {
         mongoose.connection.close();
-      }
-    });
-  };
-  client.intervalMessage = async (channelId, message, interval, expires) => {
-    const mongo = require("../mongo");
-    const intervalSchema = require("../schemas/intervalschema");
-    await mongo().then(async (mongoose) => {
-      try {
-        await intervalSchema.create({
-          channelId,
-          message,
-          interval,
-          expires,
-          executed: 0,
-        });
-      } finally {
-        await mongoose.connection.close();
       }
     });
   };

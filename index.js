@@ -14,6 +14,7 @@ fs.readdir("./events/", (err, files) => {
   });
 });
 client.config = config;
+require("./utils/functions.js")(client);
 
 const { GiveawaysManager } = require("discord-giveaways");
 client.giveawaysManager = new GiveawaysManager(client, {
@@ -25,10 +26,15 @@ client.giveawaysManager = new GiveawaysManager(client, {
     reaction: "🎉",
   },
 });
-
 client.giveawaysManager.on(
   "giveawayReactionAdded",
-  (giveaway, member, reaction) => {
+  async (giveaway, member, reaction) => {
+    if (await client.blacklisted(member.id)) {
+      reaction.message.reactions.resolve(reaction).users.remove(member.id);
+      return console.log(
+        `${member.user.tag} tried to enter giveaway #${giveaway.messageID}, but has been blacklisted.`
+      );
+    }
     console.log(
       `${member.user.tag} entered giveaway #${giveaway.messageID} (${reaction.emoji.name})`
     );
@@ -64,8 +70,6 @@ fs.readdir("./commands/", (err, files) => {
     client.commands.set(commandName, props);
   });
 });
-
-require("./utils/functions.js")(client);
 
 client.config = config;
 if (process.argv[2] === "dev") client.config.prefix = client.config.devPrefix;

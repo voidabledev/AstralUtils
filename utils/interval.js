@@ -27,7 +27,7 @@ module.exports = (client) => {
             }
           });
         });
-        /*await warnSchema.find({}, async (err, users) => {
+        await warnSchema.find({}, async (err, users) => {
           if (err) throw err;
           await users.forEach(async (user) => {
             await user.warnings.forEach(async (warn) => {
@@ -49,7 +49,7 @@ module.exports = (client) => {
               }
             });
           });
-        });*/
+        });
       } finally {
         mongoose.connection.close();
       }
