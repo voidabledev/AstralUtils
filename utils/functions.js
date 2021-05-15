@@ -322,7 +322,11 @@ module.exports = async (client) => {
   client.autoresponder = (client, message) => {
     const data = require("./autoresponder.json");
     data.settings.forEach(async (entry) => {
-      if (entry.triggers.some((v) => arUtil.checkExecute(v, message, client))) {
+      if (
+        entry.triggers.some((v) =>
+          client.arUtil.checkExecute(v, message, client)
+        )
+      ) {
         entry.actions.forEach(async (action) => {
           if (client.arUtil.checkAccess(message, action))
             client.arUtil.convert(action.name, client, message, action.args);
