@@ -11,6 +11,7 @@ exports.run = async (client, message, args) => {
     message.mentions.members.first() ||
     (await message.guild.members.fetch(args[0]));
   const makeID = client.makeID;
+  const page = parseInt(args[1]) || 1;
 
   if (!target)
     return message.channel.send(
@@ -25,41 +26,40 @@ exports.run = async (client, message, args) => {
   const guildId = message.guild.id;
   const userId = target.id;
 
-  await mongo().then(async (mongoose) => {
-    try {
-      const results = await modSchema.findOne({
-        guildId,
-        userId,
-      });
-      if (!results || !results.modlogs.length)
-        return message.channel.send(
-          em(
-            `Modlogs for ${target.id}`,
-            `No modlogs found for this user.`,
-            `User ID: ${target.id}`,
-            `#ff0000`
-          )
-        );
-      let embed = em(
-        `Modlogs for ${target.user.tag}`,
-        null,
+  const results = await modSchema.findOne({
+    guildId,
+    userId,
+  });
+  if (!results || !results.modlogs.length)
+    return message.channel.send(
+      em(
+        `Modlogs for ${target.id}`,
+        `No modlogs found for this user.`,
         `User ID: ${target.id}`,
         `#ff0000`
-      );
-      for (const log of results.modlogs) {
-        const { author, timestamp, reason, caseID, _type } = log;
-        let a = await client.users.fetch(author);
-        embed.addField(
-          `By ${a.tag} on ${new Date(timestamp).toLocaleDateString()}`,
-          `**Type:** ${_type}\n**Reason:** ${reason}\n**Case:** ${caseID}\n\n`
-        );
-      }
-
-      message.channel.send(embed);
-    } finally {
-      mongoose.connection.close();
-    }
+      )
+    );
+  const pageNum = Math.ceil(results.modlogs.length / 25);
+  if (page > pageNum || page < 1)
+    return message.channel.send(
+      em(`Failure!`, `This page does not exist!`, `bruh`, `RED`)
+    );
+  let embed = new MessageEmbed()
+    .setTitle(`Modlogs for ${target.user.tag}`)
+    .setFooter(`User ID: ${target.id} | Page ${page}/${pageNum}`)
+    .setColor("BLUE");
+  const system = (input) => (input === "System" ? "System" : `<@${input}>`);
+  await results.modlogs.forEach(async (log, index) => {
+    if (index < (page - 1) * 25 || index > page * 25 - 1) return;
+    const { author, timestamp, reason, caseID, _type } = log;
+    embed.addField(
+      `${_type} on ${new Date(timestamp).toLocaleDateString()}`,
+      `**Moderator:** ${system(
+        author
+      )}\n**Reason:** ${reason}\n**Case:** ${caseID}\n\n`
+    );
   });
+  message.channel.send(embed);
 };
 exports.help = {
   name: "modlogs",

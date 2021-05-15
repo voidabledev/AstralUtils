@@ -26,42 +26,36 @@ exports.run = async (client, message, args) => {
   const guildId = message.guild.id;
   const userId = target.id;
 
-  await mongo().then(async (mongoose) => {
-    try {
-      const results = await warnSchema.findOne({
-        guildId,
-        userId,
-      });
-      if (!results)
-        return message.channel.send(
-          em(
-            `Previous warnings for ${target.tag}`,
-            `This user has no active warnings`,
-            `User ID: ${target.id}`,
-            `GREEN`
-          )
-        );
-      let embed = em(
-        `Previous warnings for ${target.tag}`,
-        null,
-        `User ID: ${target.id}`,
-        `#ff0000`
-      );
-
-      await results.warnings.forEach(async (warning) => {
-        const { timestamp, reason, warnID, caseID, author } = warning;
-        const a = client.users.cache.get(author).tag;
-        embed.addField(
-          `By ${a} on ${new Date(timestamp).toLocaleDateString()}`,
-          `**Reason:** ${reason}\n**Warning ID:** \`${warnID}\`\n**Case:** ${caseID}\n\n`
-        );
-      });
-
-      message.channel.send(embed);
-    } finally {
-      mongoose.connection.close();
-    }
+  const results = await warnSchema.findOne({
+    guildId,
+    userId,
   });
+  if (!results)
+    return message.channel.send(
+      em(
+        `Previous warnings for ${target.tag}`,
+        `This user has no active warnings`,
+        `User ID: ${target.id}`,
+        `GREEN`
+      )
+    );
+  let embed = em(
+    `Previous warnings for ${target.tag}`,
+    null,
+    `User ID: ${target.id}`,
+    `#ff0000`
+  );
+
+  await results.warnings.forEach(async (warning) => {
+    const { timestamp, reason, warnID, caseID, author } = warning;
+    const a = client.users.cache.get(author).tag;
+    embed.addField(
+      `By ${a} on ${new Date(timestamp).toLocaleDateString()}`,
+      `**Reason:** ${reason}\n**Warning ID:** \`${warnID}\`\n**Case:** ${caseID}\n\n`
+    );
+  });
+
+  message.channel.send(embed);
 };
 
 exports.help = {

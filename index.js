@@ -14,6 +14,7 @@ fs.readdir("./events/", (err, files) => {
   });
 });
 client.config = config;
+require("./mongo")().then(() => console.log("Connected to mongoose"));
 require("./utils/functions.js")(client);
 
 const { GiveawaysManager } = require("discord-giveaways");
@@ -30,10 +31,9 @@ client.giveawaysManager.on(
   "giveawayReactionAdded",
   async (giveaway, member, reaction) => {
     if (await client.blacklisted(member.id)) {
-      reaction.message.reactions.resolve(reaction).users.remove(member.id);
-      return console.log(
-        `${member.user.tag} tried to enter giveaway #${giveaway.messageID}, but has been blacklisted.`
-      );
+      return reaction.message.reactions
+        .resolve(reaction)
+        .users.remove(member.id);
     }
     console.log(
       `${member.user.tag} entered giveaway #${giveaway.messageID} (${reaction.emoji.name})`

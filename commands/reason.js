@@ -19,108 +19,94 @@ exports.run = async (client, message, args) => {
         `RED`
       )
     );
-  await mongo().then(async (mongoose) => {
-    try {
-      let userId;
-      await modSchema.find(
-        { guildId: message.guild.id },
-        async (err, entries) => {
-          if (err) throw err;
-          await entries.forEach(async (entry) => {
-            await entry.modlogs.forEach(async (log) => {
-              if (log.caseID === caseID) {
-                console.log(log);
-                modlog = log;
-                userId = entry.userId;
-                modlog.reason = reason;
-                await modSchema.updateOne(
-                  {
-                    guildId: message.guild.id,
-                    userId,
-                  },
-                  {
-                    $push: {
-                      modlogs: modlog,
-                    },
-                  }
-                );
-              }
-              await modSchema.updateOne(
-                {
-                  guildId: message.guild.id,
-                  userId,
-                },
-                {
-                  $pull: {
-                    modlogs: log,
-                  },
-                }
-              );
-            });
-          });
-        }
-      );
-      if (modlog?._type === "Warn") {
-        await warnSchema.find(
-          { guildId: message.guild.id, userId },
-          async (err, entries) => {
-            if (err) console.error(err);
-            if (!entries.length) return;
-            const { warnings } = entries[0];
-            for (let warn of warnings) {
-              if (warn.caseID === modlog.caseID) {
-                let newWarn = warn;
-                newWarn.reason = await reason;
-                await warnSchema.updateOne(
-                  {
-                    guildId: message.guild.id,
-                    userId,
-                  },
-                  {
-                    $push: {
-                      warnings: newWarn,
-                    },
-                  }
-                );
-                await warnSchema.updateOne(
-                  {
-                    guildId: message.guild.id,
-                    userId,
-                  },
-                  {
-                    $pull: {
-                      warnings: warn,
-                    },
-                  }
-                );
-              }
+  let userId;
+  await modSchema.find({ guildId: message.guild.id }, async (err, entries) => {
+    if (err) throw err;
+    entries.forEach(async (entry) => {
+      await entry.modlogs.forEach(async (log) => {
+        if (log.caseID === caseID) {
+          console.log(log);
+          modlog = log;
+          userId = entry.userId;
+          modlog.reason = reason;
+          await modSchema.updateOne(
+            {
+              guildId: message.guild.id,
+              userId,
+            },
+            {
+              $push: {
+                modlogs: modlog,
+              },
             }
+          );
+        }
+        await modSchema.updateOne(
+          {
+            guildId: message.guild.id,
+            userId,
+          },
+          {
+            $pull: {
+              modlogs: log,
+            },
           }
         );
-      }
-    } finally {
-      if (modlog) {
-        await message.channel.send(
-          em(
-            `Success!`,
-            `The reason of case ${modlog.caseID} has been updated to ${modlog.reason}!`,
-            `yay`,
-            `GREEN`
-          )
-        );
-        console.log(modlog);
-      } else
-        await message.channel.send(
-          em(
-            `Failure!`,
-            `I couldn't find this case!`,
-            `it does not exist`,
-            `RED`
-          )
-        );
-      mongoose.connection.close();
-    }
+      });
+    });
   });
+  if (modlog?._type === "Warn") {
+    await warnSchema.find(
+      { guildId: message.guild.id, userId },
+      async (err, entries) => {
+        if (err) console.error(err);
+        if (!entries.length) return;
+        const { warnings } = entries[0];
+        for (let warn of warnings) {
+          if (warn.caseID === modlog.caseID) {
+            let newWarn = warn;
+            newWarn.reason = await reason;
+            await warnSchema.updateOne(
+              {
+                guildId: message.guild.id,
+                userId,
+              },
+              {
+                $push: {
+                  warnings: newWarn,
+                },
+              }
+            );
+            await warnSchema.updateOne(
+              {
+                guildId: message.guild.id,
+                userId,
+              },
+              {
+                $pull: {
+                  warnings: warn,
+                },
+              }
+            );
+          }
+        }
+      }
+    );
+  }
+  if (modlog) {
+    await message.channel.send(
+      em(
+        `Success!`,
+        `The reason of case ${modlog.caseID} has been updated to ${modlog.reason}!`,
+        `yay`,
+        `GREEN`
+      )
+    );
+    console.log(modlog);
+  } else
+    await message.channel.send(
+      em(`Failure!`, `I couldn't find this case!`, `it does not exist`, `RED`)
+    );
 };
 exports.help = {
   name: "reason",

@@ -40,7 +40,7 @@ exports.run = async (client, message, args) => {
 exports.help = {
   name: "unretire",
   description: "Makes you unretire.",
-  enabled: true,
+  enabled: false,
   aliases: ["unr"],
   usage: "[reason]",
   category: "Moderation",

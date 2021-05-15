@@ -20,58 +20,48 @@ exports.run = async (client, message, args) => {
 
   const guildId = message.guild.id;
   let success = false;
-  await mongo().then(async (mongoose) => {
-    try {
-      await warnSchema.find({ guildId }, async (err, entries) => {
-        if (err) throw err;
-        outer: for (let entry of entries) {
-          for (let warn of entry.warnings) {
-            if (warn.warnID === punishid) {
-              await warnSchema.findOneAndUpdate(
-                {
-                  userId: entry.userId,
-                  guildId: message.guild.id,
-                },
-                {
-                  $pull: {
-                    warnings: warn,
-                  },
-                }
-              );
-              message.channel.send(
-                em(
-                  `Success!`,
-                  `Deleted the warning ID \`${punishid}\`.`,
-                  `yay`,
-                  `GREEN`
-                )
-              );
-              let modlog = {
-                author: message.author.id,
-                reason,
-                caseID: 0,
-                timestamp: new Date().getTime(),
-                _type: "Removed Warning",
-              };
-              ml(entry.userId, guildId, modlog, client);
-              success = true;
-              break outer;
+
+  await warnSchema.find({ guildId }, async (err, entries) => {
+    if (err) throw err;
+    outer: for (let entry of entries) {
+      for (let warn of entry.warnings) {
+        if (warn.warnID === punishid) {
+          await warnSchema.findOneAndUpdate(
+            {
+              userId: entry.userId,
+              guildId: message.guild.id,
+            },
+            {
+              $pull: {
+                warnings: warn,
+              },
             }
-          }
-        }
-        if (!success)
-          return message.channel.send(
+          );
+          message.channel.send(
             em(
-              `Failure!`,
-              `I couldn't find a warning with this ID.`,
-              `duh`,
-              `RED`
+              `Success!`,
+              `Deleted the warning ID \`${punishid}\`.`,
+              `yay`,
+              `GREEN`
             )
           );
-      });
-    } finally {
-      mongoose.connection.close();
+          let modlog = {
+            author: message.author.id,
+            reason,
+            caseID: 0,
+            timestamp: new Date().getTime(),
+            _type: "Removed Warning",
+          };
+          ml(entry.userId, guildId, modlog, client);
+          success = true;
+          break outer;
+        }
+      }
     }
+    if (!success)
+      return message.channel.send(
+        em(`Failure!`, `I couldn't find a warning with this ID.`, `duh`, `RED`)
+      );
   });
 };
 exports.help = {

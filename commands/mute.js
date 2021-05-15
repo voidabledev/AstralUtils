@@ -172,23 +172,18 @@ exports.run = async (client, message, args) => {
     timestamp: new Date().getTime(),
     _type: "Mute",
   };
-  ml(userId, guildId, modlog, client);
+  await ml(userId, guildId, modlog, client);
+  const mongo = require("../mongo");
+  const muteschema = require("../schemas/muteschema");
+
+  await muteschema.create({
+    userId,
+    guildId,
+  });
   if (time > 0) {
     let timestamp = new Date().setTime(new Date().getTime() + time);
     await client.addTimer("Mute", userId, guildId, timestamp);
   }
-  const mongo = require("../mongo");
-  const muteschema = require("../schemas/muteschema");
-  await mongo().then(async (mongoose) => {
-    try {
-      await muteschema.create({
-        userId,
-        guildId,
-      });
-    } finally {
-      mongoose.connection.close();
-    }
-  });
 };
 
 exports.help = {

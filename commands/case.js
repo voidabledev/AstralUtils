@@ -1,6 +1,5 @@
 const Discord = require("discord.js");
 const { MessageEmbed } = require("discord.js");
-const mongo = require("../mongo");
 const modSchema = require("../schemas/modschema");
 
 exports.run = async (client, message, args) => {
@@ -10,22 +9,17 @@ exports.run = async (client, message, args) => {
   const toCheck = parseInt(args[0], 10);
   let foundLog;
   let found;
-  await mongo().then(async (mongoose) => {
-    try {
-      await modSchema.find({}, (err, logs) => {
-        if (err) throw err;
-        logs.map(async (log) => {
-          await log.modlogs.forEach((l) => {
-            if (l.caseID === toCheck) {
-              found = l;
-              foundLog = log;
-            }
-          });
-        });
+
+  await modSchema.find({}, (err, logs) => {
+    if (err) console.error(err);
+    logs.map(async (log) => {
+      await log.modlogs.forEach((l) => {
+        if (l.caseID === toCheck) {
+          found = l;
+          foundLog = log;
+        }
       });
-    } finally {
-      mongoose.connection.close();
-    }
+    });
   });
   if (!found)
     return message.channel.send(

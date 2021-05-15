@@ -46,19 +46,13 @@ exports.run = async (client, message, args) => {
   const mongo = require("../mongo");
   const muteSchema = require("../schemas/muteschema");
   const punishSchema = require("../schemas/punishschema");
-  await mongo().then(async (mongoose) => {
-    try {
-      await punishSchema.deleteOne({
-        userId,
-        guildId,
-      });
-      await muteSchema.deleteOne({
-        userId,
-        guildId,
-      });
-    } finally {
-      mongoose.connection.close();
-    }
+  await punishSchema.deleteOne({
+    userId,
+    guildId,
+  });
+  await muteSchema.deleteOne({
+    userId,
+    guildId,
   });
 };
 

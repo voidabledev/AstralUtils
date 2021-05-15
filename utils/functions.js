@@ -89,54 +89,47 @@ module.exports = async (client) => {
     const mongo = require("../mongo");
     const modSchema = require("../schemas/modschema");
     const logSchema = require("../schemas/logschema");
-    return new Promise(async (resolve, reject) => {
-      await mongo().then(async (mongoose) => {
-        let cid = 1;
-        try {
-          await modSchema.find({ guildId }, (err, logs) => {
-            if (err) throw err;
-            logs.map((log) => {
-              cid += log.modlogs.length;
-            });
-          });
-          modlog.caseID = cid;
-          await modSchema.findOneAndUpdate(
-            {
-              guildId,
-              userId,
-            },
-            {
-              guildId,
-              userId,
-              $push: {
-                modlogs: modlog,
-              },
-            },
-            {
-              upsert: true,
-            }
-          );
-          const log = await logSchema.findOne({
-            guildId,
-          });
-          if (log.channelId) {
-            const guild = client.guilds.cache.get(guildId);
-            const channel = guild.channels.cache.get(log.channelId);
-            let embed = new Discord.MessageEmbed()
-              .setTitle(`Case #${modlog.caseID}`)
-              .setDescription(
-                `**User: **<@${userId}>\n**Moderator:** ${modlog.author}\n**Type:** ${modlog._type}\n**Reason:** ${modlog.reason}`
-              )
-              .setFooter(`User ID: ${userId}`)
-              .setColor("RANDOM");
-            channel.send(embed);
-          }
-        } finally {
-          mongoose.connection.close();
-          resolve(modlog);
-        }
+    let cid = 1;
+    await modSchema.find({ guildId }, (err, logs) => {
+      if (err) throw err;
+      logs.map((log) => {
+        cid += log.modlogs.length;
       });
     });
+    modlog.caseID = cid;
+    await modSchema.findOneAndUpdate(
+      {
+        guildId,
+        userId,
+      },
+      {
+        guildId,
+        userId,
+        $push: {
+          modlogs: modlog,
+        },
+      },
+      {
+        upsert: true,
+      }
+    );
+    const log = await logSchema.findOne({
+      guildId,
+    });
+    if (log.channelId) {
+      const guild = client.guilds.cache.get(guildId);
+      const channel = guild.channels.cache.get(log.channelId);
+      const mod = modlog.author === "System" ? "System" : `<@${modlog.author}>`;
+      let embed = new Discord.MessageEmbed()
+        .setTitle(`Case #${modlog.caseID}`)
+        .setDescription(
+          `**User: **<@${userId}>\n**Moderator:** ${mod}\n**Type:** ${modlog._type}\n**Reason:** ${modlog.reason}`
+        )
+        .setFooter(`User ID: ${userId}`)
+        .setColor("RANDOM");
+      channel.send(embed);
+    }
+    return cid;
   };
   client.millis = (input) => {
     if (typeof input !== "string") return -1;
@@ -152,14 +145,30 @@ module.exports = async (client) => {
     Mute: async (uid, gid, client) => {
       const guild = client.guilds.cache.get(gid);
       if (!guild) return;
-      const member = await guild.members.fetch(uid);
-      if (!member) return;
       const role = await guild.roles.cache.find(
         (r) => r.name.toLowerCase() === "muted"
       );
       if (!role) return;
       if (!member.roles.cache.get(role.id)) return;
       member.roles.remove(role);
+      let modlog = {
+        author: "System",
+        reason: "Timed mute expired",
+        caseID: 0,
+        timestamp: new Date().getTime(),
+        _type: "Unmute",
+      };
+      client.setModlog(uid, gid, modlog, client);
+      const embed = new MessageEmbed()
+        .setDescription(
+          `You have been unmuted in **${message.guild.name}** for \`${reason}\``
+        )
+        .setColor("RED");
+      try {
+        await member.user.send(embed);
+      } catch (e) {
+        console.log("Unable to dm user, mute expired");
+      }
     },
     Ban: async (uid, gid, client) => {
       const guild = client.guilds.cache.get(gid);
@@ -168,23 +177,25 @@ module.exports = async (client) => {
       const banned = await bans.find((b) => b.user.id === uid);
       if (!banned) return;
       await guild.members.unban(banned.user);
+      member.roles.remove(role);
+      let modlog = {
+        author: "System",
+        reason: "Timed ban expired",
+        caseID: 0,
+        timestamp: new Date().getTime(),
+        _type: "Unban",
+      };
+      client.setModlog(uid, gid, modlog, client);
     },
   };
   client.addTimer = async (_type, userId, guildId, expires) => {
     const mongo = require("../mongo");
     const punishSchema = require("../schemas/punishschema");
-    await mongo().then(async (mongoose) => {
-      try {
-        if (!expires) expires = new Date().setTime(0);
-        await punishSchema.create({
-          _type,
-          userId,
-          guildId,
-          expires,
-        });
-      } finally {
-        mongoose.connection.close();
-      }
+    await punishSchema.create({
+      _type,
+      userId,
+      guildId,
+      expires,
     });
   };
   client.randomStatus = (client) => {
@@ -326,19 +337,10 @@ module.exports = async (client) => {
   client.blacklisted = async (userId) => {
     const mongo = require("../mongo");
     const blSchema = require("../schemas/blacklistschema");
-    return new Promise(async (resolve, reject) => {
-      await mongo().then(async (mongoose) => {
-        let bl;
-        try {
-          bl = await blSchema.findOne({
-            userId,
-          });
-        } finally {
-          mongoose.connection.close();
-          if (bl) resolve(true);
-          resolve(false);
-        }
-      });
+    let bl = await blSchema.findOne({
+      userId,
     });
+    if (bl) return true;
+    return false;
   };
 };

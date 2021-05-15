@@ -20,30 +20,24 @@ exports.run = async (client, message, args) => {
     return message.channel.send(
       em(`Failure!`, `This user isn't blacklisted!`, `bruh`, `RED`)
     );
-  await mongo().then(async (mongoose) => {
-    try {
-      await blSchema.deleteOne({
-        userId: id,
-      });
-    } finally {
-      mongoose.connection.close();
-      message.channel.send(
-        em(`Success!`, `<@${id}> is no longer blacklisted!`, `yay`, `GREEN`)
-      );
-      target
-        .send(
-          em(
-            `Unblacklist`,
-            `Your blacklist from ${client.user.username} has been revoked. You can now use commands and take part in giveaways again.`,
-            `yay`,
-            `GREEN`
-          )
-        )
-        .catch((e) =>
-          message.channel.send(`I was unable to notify this user.`)
-        );
-    }
+
+  await blSchema.deleteOne({
+    userId: id,
   });
+
+  message.channel.send(
+    em(`Success!`, `<@${id}> is no longer blacklisted!`, `yay`, `GREEN`)
+  );
+  target
+    .send(
+      em(
+        `Unblacklist`,
+        `Your blacklist from ${client.user.username} has been revoked. You can now use commands and take part in giveaways again.`,
+        `yay`,
+        `GREEN`
+      )
+    )
+    .catch((e) => message.channel.send(`I was unable to notify this user.`));
   let modlog = {
     author: message.author.id,
     reason,
