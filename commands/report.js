@@ -56,7 +56,7 @@ exports.help = {
   name: "report",
   description: "Report a user.",
   enabled: true,
-  aliases: ["r"],
+  aliases: ["rp"],
   usage: "[mention or id] [reason]",
   category: "Moderation",
 };
