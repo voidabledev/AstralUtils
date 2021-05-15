@@ -9,8 +9,7 @@ exports.run = async (client, message, args) => {
   const makeID = client.makeID;
   const ml = client.setModlog;
   let target =
-    message.mentions.users.first() || client.users.cache.get(args[0]);
-  const targetMember = await message.guild.members.cache.get(args[0]);
+    message.mentions.users.first() || (await client.users.fetch(args[0]));
   if (!target) {
     return message.channel.send(
       em(

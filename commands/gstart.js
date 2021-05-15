@@ -55,15 +55,15 @@ exports.run = async (client, message, args) => {
   if (withinaday.length > 4) {
     if (message.member.hasPermission("ADMINISTRATOR")) {
       await message.channel.send;
-      await message.channel
-        .send(
-          em(
-            `Attention!`,
-            `There were already ${withinaday.length} giveaways within the last day. Respond with yes if you want to host this giveaway anyways.`,
-            `say anything else to cancel`,
-            `ORANGE`
-          )
+      await message.channel.send(
+        em(
+          `Attention!`,
+          `There were already ${withinaday.length} giveaways within the last day. Respond with yes if you want to host this giveaway anyways.`,
+          `say anything else to cancel`,
+          `ORANGE`
         )
+      );
+      await message.channel
         .awaitMessages((m) => m.author.id === message.author.id, {
           max: 1,
           time: 60000,
