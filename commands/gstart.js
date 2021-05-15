@@ -47,6 +47,54 @@ exports.run = async (client, message, args) => {
   }
 
   let giveawayPrize = args.join(" ");
+
+  const withinaday = client.giveawaysManager.giveaways.filter(
+    (g) => new Date().getTime() - g.startAt < 1000 * 60 * 60 * 24
+  );
+  let stop;
+  if (withinaday.length > 4) {
+    if (message.member.hasPermission("ADMINISTRATOR")) {
+      await message.channel.send;
+      await message.channel
+        .send(
+          em(
+            `Attention!`,
+            `There were already ${withinaday.length} giveaways within the last day. Respond with yes if you want to host this giveaway anyways.`,
+            `say anything else to cancel`,
+            `ORANGE`
+          )
+        )
+        .awaitMessages((m) => m.author.id === message.author.id, {
+          max: 1,
+          time: 60000,
+          errors: ["time"],
+        })
+        .then((m) => {
+          if (m.first().content.toLowerCase() === "yes") stop = false;
+          else {
+            stop = true;
+            message.channel.send(`Giveaway creation cancelled.`);
+          }
+        })
+        .catch(() => {
+          stop = true;
+          message.channel.send(
+            `You didn't answer in time, giveaway creation cancelled.`
+          );
+        });
+    } else {
+      stop = true;
+      message.channel.send(
+        em(
+          `Failure!`,
+          `There are already ${withinaday.length} giveaways hosted within the last day, but only 5 are allowed!`,
+          `Message an admin if this needs to be hosted anyways.`,
+          `RED`
+        )
+      );
+    }
+  }
+  if (stop) return;
   client.giveawaysManager.start(giveawayChannel, {
     time: ms(giveawayDuration),
     prize: giveawayPrize,
@@ -79,7 +127,12 @@ exports.run = async (client, message, args) => {
   });
 
   message.channel.send(
-    em(`Success!`, `Giveaway started in ${giveawayChannel}`)
+    em(
+      `Success!`,
+      `Giveaway started in ${giveawayChannel}`,
+      `${withinaday.length + 1} giveaways hosted within the last 24 hours`,
+      `GREEN`
+    )
   );
   message.delete();
 };
