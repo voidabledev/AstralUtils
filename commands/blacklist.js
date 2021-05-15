@@ -35,7 +35,12 @@ exports.run = async (client, message, args) => {
   });
 
   message.channel.send(
-    em(`Success!`, `<@${id}> has been blacklisted!`, `yay`, `GREEN`)
+    em(
+      `Success!`,
+      `<@${id}> has been blacklisted for ${reason}!`,
+      `yay`,
+      `GREEN`
+    )
   );
   target
     .send(

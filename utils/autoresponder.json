@@ -1,7 +1,16 @@
 {
   "settings": [
     {
-      "triggers": ["bruh"],
+      "triggers": [
+        {
+          "type": "exact-anycase",
+          "content": "bruh"
+        },
+        {
+          "type:": "wildcard",
+          "content:": "BRUH"
+        }
+      ],
       "actions": [
         {
           "name": "message",
@@ -26,7 +35,12 @@
     }
   ],
   "template": {
-    "triggers": [""],
+    "triggers": [
+      {
+        "type": "",
+        "content": ""
+      }
+    ],
     "actions": [
       {
         "name": "",

@@ -15,46 +15,7 @@ exports.run = async (client, message, args) => {
   let reason = "";
   if (!args[1]) reason = "`No reason provided`";
   else reason = `\`${args.slice(1).join(" ")}\``;
-  if (target) {
-    const id = target.id;
-    if (id === message.author.id) {
-      return message.channel.send(
-        em(
-          `Failure!`,
-          `You can't ban yourself!`,
-          "what are you, stupid?",
-          "RANDOM"
-        )
-      );
-    }
-    const embed = new MessageEmbed()
-      .setDescription(
-        `You have been banned from **${message.guild.name}** for \`${reason}\``
-      )
-      .setColor("RED");
-    try {
-      await target.send(embed);
-    } catch (e) {
-      console.error(e);
-    }
-    message.guild.members
-      .ban(id)
-      .then(() =>
-        message.channel.send(
-          em(
-            `Success!`,
-            `${target} has been banned.`,
-            `haha ban abuse go brrrr`,
-            `#00ff66`
-          )
-        )
-      )
-      .catch(() => {
-        message.channel.send(
-          em(`Failure!`, `I can't ban that user!`, `brrrrrr`, `RED`)
-        );
-      });
-  } else {
+  if (!target)
     return message.channel.send(
       em(
         `Failure`,
@@ -63,7 +24,44 @@ exports.run = async (client, message, args) => {
         `#7a1b07`
       )
     );
+  const id = target.id;
+  if (id === message.author.id) {
+    return message.channel.send(
+      em(
+        `Failure!`,
+        `You can't ban yourself!`,
+        "what are you, stupid?",
+        "RANDOM"
+      )
+    );
   }
+  const embed = new MessageEmbed()
+    .setDescription(
+      `You have been banned from **${message.guild.name}** for ${reason}`
+    )
+    .setColor("RED");
+  try {
+    await target.send(embed);
+  } catch (e) {
+    console.error(e);
+  }
+  message.guild.members
+    .ban(id)
+    .then(() =>
+      message.channel.send(
+        em(
+          `Success!`,
+          `${target} has been banned for ${reason}.`,
+          `haha ban abuse go brrrr`,
+          `#00ff66`
+        )
+      )
+    )
+    .catch(() => {
+      message.channel.send(
+        em(`Failure!`, `I can't ban that user!`, `brrrrrr`, `RED`)
+      );
+    });
   const userId = target.id;
   const guildId = message.guild.id;
   let modlog = {

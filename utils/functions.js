@@ -247,27 +247,6 @@ module.exports = async (client) => {
           .setColor(args[3]);
         return message.channel.send(embed);
       }
-      if (action === "chat") {
-        if (message.channel.type !== "dm") return;
-        if (message.content === "disable") {
-          client.trolling = false;
-          return;
-        }
-        if (message.content === "enable") {
-          client.trolling = true;
-          return;
-        }
-        if (!client.trolling) return;
-        const channel = client.guilds.cache
-          .get("831995980097388604")
-          .channels.cache.get("831996525864419348");
-        return channel.send(message.content);
-      }
-      if (action === "chat2") {
-        if (!client.trolling) return;
-        const aure = client.users.cache.get("538635176847343636");
-        return aure.send(`**${message.author.tag}:** ${message.content}`);
-      }
       return;
     },
     checkAccess: (message, action) => {
@@ -322,11 +301,28 @@ module.exports = async (client) => {
       }
       return true;
     },
+    checkExecute: (trig, message, client) => {
+      if (trig.type === "exact" && trig.content === message.content)
+        return true;
+      if (
+        trig.type === "exact-anycase" &&
+        trig.content.toLowerCase() === message.content.toLowerCase()
+      )
+        return true;
+      if (trig.type === "wildcard" && message.content.includes(trig.content))
+        return true;
+      if (
+        trig.type === "wildcard-anycase" &&
+        message.content.toLowerCase().includes(trig.content.toLowerCase())
+      )
+        return true;
+      return false;
+    },
   };
   client.autoresponder = (client, message) => {
     const data = require("./autoresponder.json");
     data.settings.forEach(async (entry) => {
-      if (entry.triggers.some((v) => message.content.includes(v))) {
+      if (entry.triggers.some((v) => arUtil.checkExecute(v, message, client))) {
         entry.actions.forEach(async (action) => {
           if (client.arUtil.checkAccess(message, action))
             client.arUtil.convert(action.name, client, message, action.args);

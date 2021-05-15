@@ -94,7 +94,7 @@ exports.run = async (client, message, args) => {
       message.channel.send(
         em(
           `Success!`,
-          `Warned **${target}** with ID \`${warnID}\``,
+          `Warned **${target}** for \`${reason}\` with ID \`${warnID}\``,
           `the user is a dum dum`,
           `#00ff66`
         )
