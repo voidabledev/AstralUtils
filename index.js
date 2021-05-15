@@ -19,7 +19,7 @@ require("./utils/functions.js")(client);
 
 const { GiveawaysManager } = require("discord-giveaways");
 client.giveawaysManager = new GiveawaysManager(client, {
-  storage: "./giveaways.json",
+  storage: "./giveaways.js",
   updateCountdownEvery: 5000,
   default: {
     botsCanWin: false,

@@ -112,7 +112,7 @@ exports.run = async (client, message, args) => {
       winMessage: "Congratulations, {winners}! You won **{prize}**!",
       embedFooter: "Giveaways",
       embedColor: "#00ff66",
-      noWinner: "Giveaway cancelled, no valid participations.", // brb
+      noWinner: "Giveaway cancelled, no valid participations.",
       hostedBy: "Hosted by: {user}",
       winners: "winner(s)",
       endedAt: "Ended at",
