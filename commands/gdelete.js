@@ -6,7 +6,7 @@ exports.run = async (client, message, args) => {
   const yessir = client.yessir;
 
   const messageID = args[0];
-  client.giveawaysManager
+  await client.giveawaysManager
     .delete(messageID)
     .then(() => {
       message.channel.send("Success! Giveaway deleted!");

@@ -5,11 +5,11 @@ exports.run = async (client, message, args) => {
   const em = client.em;
   const yessir = client.yessir;
 
-  const allGiveaways = client.giveawaysManager.giveaways;
-  const onServer = client.giveawaysManager.giveaways.filter(
+  const allGiveaways = await client.giveawaysManager.giveaways;
+  const onServer = allGiveaways.filter(
     (g) => g.guildID === "831995980097388604"
   );
-  const notEnded = client.giveawaysManager.giveaways.filter((g) => !g.ended);
+  const notEnded = onServer.filter((g) => !g.ended);
   if (!notEnded.length)
     return message.channel.send(
       em(`Active giveaways`, `There are no active giveaways!`, `sad`, `YELLOW`)

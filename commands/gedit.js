@@ -5,12 +5,11 @@ exports.run = async (client, message, args) => {
   const em = client.em;
   const yessir = client.yessir;
 
-  const messageID = args[0];
-  client.giveawaysManager
+  const messageID = args.shift();
+  await client.giveawaysManager
     .edit(messageID, {
       addTime: 5000,
-      newWinnerCount: 3,
-      newPrize: "New Prize!",
+      newPrize: args.join(" "),
     })
     .then(() => {
       const numberOfSecondsMax =
@@ -25,7 +24,6 @@ exports.run = async (client, message, args) => {
       message.channel.send(
         "No giveaway found for " + messageID + ", please check and try again."
       );
-      console.log(err);
     });
 };
 exports.help = {

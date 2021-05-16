@@ -14,49 +14,16 @@ fs.readdir("./events/", (err, files) => {
   });
 });
 client.config = config;
-require("./mongo")().then(() => console.log("Connected to mongoose"));
-require("./utils/functions.js")(client);
-
-const { GiveawaysManager } = require("discord-giveaways");
-client.giveawaysManager = new GiveawaysManager(client, {
-  storage: "./giveaways.js",
-  updateCountdownEvery: 5000,
-  default: {
-    botsCanWin: false,
-    embedColor: "#00ff66",
-    reaction: "🎉",
-  },
-});
-client.giveawaysManager.on(
-  "giveawayReactionAdded",
-  async (giveaway, member, reaction) => {
-    if (await client.blacklisted(member.id)) {
-      return reaction.message.reactions
-        .resolve(reaction)
-        .users.remove(member.id);
-    }
-    console.log(
-      `${member.user.tag} entered giveaway #${giveaway.messageID} (${reaction.emoji.name})`
-    );
-  }
-);
-
-client.giveawaysManager.on(
-  "giveawayReactionRemoved",
-  (giveaway, member, reaction) => {
-    console.log(
-      `${member.user.tag} unreact to giveaway #${giveaway.messageID} (${reaction.emoji.name})`
-    );
-  }
-);
-
-client.giveawaysManager.on("giveawayEnded", (giveaway, winners) => {
-  console.log(
-    `Giveaway #${giveaway.messageID} ended! Winners: ${winners
-      .map((member) => member.user.username)
-      .join(", ")}`
+(async () => {
+  const mongoose = await require("./mongo")();
+  mongoose.connection.once("open", () => console.log("Connected to MongoDB"));
+  mongoose.connection.on(
+    "error",
+    console.error.bind(console, "Connection error:")
   );
-});
+})();
+require("./utils/functions.js")(client);
+require("./utils/giveaway-setup")(client);
 
 client.commands = new Enmap();
 

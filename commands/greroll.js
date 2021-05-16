@@ -20,8 +20,12 @@ exports.run = async (client, message, args) => {
   }
 
   let giveaway =
-    client.giveawaysManager.giveaways.find((g) => g.prize === args.join(" ")) ||
-    client.giveawaysManager.giveaways.find((g) => g.messageID === args[0]);
+    (await client.giveawaysManager.giveaways.find(
+      (g) => g.prize === args.join(" ")
+    )) ||
+    (await client.giveawaysManager.giveaways.find(
+      (g) => g.messageID === args[0]
+    ));
 
   if (!giveaway) {
     return message.channel.send(
@@ -29,7 +33,7 @@ exports.run = async (client, message, args) => {
     );
   }
 
-  client.giveawaysManager.reroll(giveaway.messageID).catch((e) => {
+  await client.giveawaysManager.reroll(giveaway.messageID).catch((e) => {
     if (
       e.startsWith(
         `Giveaway with message ID ${giveaway.messageID} is not ended.`
@@ -43,7 +47,7 @@ exports.run = async (client, message, args) => {
   });
 };
 exports.help = {
-  name: "gereroll",
+  name: "greroll",
   description: "Rerolls a giveaway",
   enabled: true,
   aliases: ["gr"],

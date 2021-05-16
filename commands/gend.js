@@ -25,8 +25,12 @@ exports.run = async (client, message, args) => {
   }
 
   let giveaway =
-    client.giveawaysManager.giveaways.find((g) => g.prize === args.join(" ")) ||
-    client.giveawaysManager.giveaways.find((g) => g.messageID === args[0]);
+    (await client.giveawaysManager.giveaways.find(
+      (g) => g.prize === args.join(" ")
+    )) ||
+    (await client.giveawaysManager.giveaways.find(
+      (g) => g.messageID === args[0]
+    ));
 
   if (!giveaway) {
     return message.channel.send(
@@ -34,7 +38,7 @@ exports.run = async (client, message, args) => {
     );
   }
 
-  client.giveawaysManager
+  await client.giveawaysManager
     .edit(giveaway.messageID, {
       setEndTimestamp: Date.now(),
     })
@@ -63,7 +67,7 @@ exports.help = {
   description: "Ends a giveaway",
   enabled: true,
   aliases: [],
-  usage: "[messagex id]",
+  usage: "[message id]",
   category: "Giveaways",
 };
 

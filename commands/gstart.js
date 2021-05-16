@@ -14,6 +14,11 @@ exports.run = async (client, message, args) => {
       "You need to have the manage messages permissions or a role called Giveaways."
     );
   }
+  let ping = true;
+  if (args[0].toLowerCase() === "noping") {
+    ping = false;
+    args.shift();
+  }
 
   let giveawayChannel = message.mentions.channels.first();
   if (args[0] === "here") giveawayChannel = message.channel;
@@ -95,18 +100,24 @@ exports.run = async (client, message, args) => {
     }
   }
   if (stop) return;
-  client.giveawaysManager.start(giveawayChannel, {
+  await client.giveawaysManager.start(giveawayChannel, {
+    exemptMembers: new Function(
+      "member",
+      `return await client.blacklisted(member.id)`
+    ),
     time: ms(giveawayDuration),
     prize: giveawayPrize,
     winnerCount: parseInt(giveawayNumberWinners),
     hostedBy: client.config.hostedBy ? message.author : null,
     messages: {
       giveaway:
-        (client.config.everyoneMention ? "<@&831996472458477588>\n" : "") +
-        "🎉 **GIVEAWAY** 🎉",
+        (client.config.everyoneMention && ping
+          ? "<@&831996472458477588>\n"
+          : "") + "🎉 **GIVEAWAY** 🎉",
       giveawayEnded:
-        (client.config.everyoneMention ? "<@&831996472458477588>\n" : "") +
-        "🎉 **GIVEAWAY ENDED** 🎉",
+        (client.config.everyoneMention && ping
+          ? "<@&831996472458477588>\n"
+          : "") + "🎉 **GIVEAWAY ENDED** 🎉",
       timeRemaining: "Time remaining: **{duration}**!",
       inviteToParticipate: "React with 🎉 to participate!",
       winMessage: "Congratulations, {winners}! You won **{prize}**!",
@@ -141,7 +152,7 @@ exports.help = {
   description: "Starts a giveaway",
   enabled: true,
   aliases: ["gs"],
-  usage: "[channel] [time] [winners] [prize]",
+  usage: "(optional: noping) [channel] [time] [winners] [prize]",
   category: "Giveaways",
 };
 
