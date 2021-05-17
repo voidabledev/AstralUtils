@@ -27,33 +27,4 @@ module.exports = (client) => {
     },
   });
   client.giveawaysManager = manager;
-
-  client.giveawaysManager.on(
-    "giveawayReactionAdded",
-    async (giveaway, member, reaction) => {
-      if (await client.blacklisted(member.id)) {
-        return reaction.message.reactions
-          .resolve(reaction)
-          .users.remove(member.id);
-      }
-      console.log(
-        `${member.user.tag} entered giveaway #${giveaway.messageID} (${reaction.emoji.name})`
-      );
-    }
-  );
-  client.giveawaysManager.on(
-    "giveawayReactionRemoved",
-    (giveaway, member, reaction) => {
-      console.log(
-        `${member.user.tag} unreact to giveaway #${giveaway.messageID} (${reaction.emoji.name})`
-      );
-    }
-  );
-  client.giveawaysManager.on("giveawayEnded", (giveaway, winners) => {
-    console.log(
-      `Giveaway #${giveaway.messageID} ended! Winners: ${winners
-        .map((member) => member.user.username)
-        .join(", ")}`
-    );
-  });
 };

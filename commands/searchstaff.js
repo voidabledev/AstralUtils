@@ -22,15 +22,15 @@ exports.run = async (client, message, args) => {
   }
   let response = [];
   let users = [];
-  const page = parseInt(args[pageIndex]) || 1;
+  const page = parseInt(args[pageIndex]) || -1;
 
   await modSchema.find({}, (err, logs) => {
     if (err) throw err;
     logs.forEach(async (log) => {
       await log.modlogs.forEach(async (ml) => {
         if (ml.author === target.id) {
-          response.push(ml);
-          users.push(log);
+          await response.push(ml);
+          await users.push(log);
         }
       });
     });
@@ -39,8 +39,78 @@ exports.run = async (client, message, args) => {
     return message.channel.send(
       em(`Staff Search`, `I couldn't find any modlogs by that user!`)
     );
+  const day = 1000 * 60 * 60 * 24;
   const pageNum = Math.ceil(response.length / 25);
   const system = (input) => (input === "System" ? "System" : `<@${input}>`);
+  if (page === -1) {
+    const embed = new MessageEmbed()
+      .setTitle("Staff Search")
+      .setDescription(
+        `This is a summary of ${target}'s modstats. To view individual modlogs, use ${client.config.prefix}searchstaff [page].`
+      )
+      .setFooter(`User ID: ${target.id} | Overview`)
+      .setColor("GREEN");
+    const embed2 = new MessageEmbed()
+      .setTitle("Staff Search (continued)")
+      .setFooter(`User ID: ${target.id} | Overview`)
+      .setColor("GREEN");
+    const sorted = {
+      Warnings: response.filter((r) => r._type === "Warn"),
+      Mutes: response.filter((r) => r._type === "Mute"),
+      Unmutes: response.filter((r) => r._type === "Unmute"),
+      Kicks: response.filter((r) => r._type === "Kick"),
+      Bans: response.filter((r) => r._type === "Ban"),
+      Unbans: response.filter((r) => r._type === "Unban"),
+      Subtotal: response.filter((r) =>
+        ["Warn", "Mute", "Unmute", "Kick", "Ban", "Unban"].includes(r._type)
+      ),
+    };
+    const continued = {
+      Blacklists: response.filter((r) => r._type === "Blacklist"),
+      Unblacklists: response.filter((r) => r._type === "Unblacklist"),
+      "Nick Moderations": response.filter((r) => r._type === "Nick Moderation"),
+      "Changed Nicknames": response.filter(
+        (r) => r._type === "Changed Nickname"
+      ),
+      "Warning Removals": response.filter((r) => r.type === "Removed Warning"),
+      Total: response,
+    };
+    for (let categ in sorted) {
+      embed
+        .addField(
+          `${categ} \n(last 7 days)`,
+          sorted[categ].filter((r) => Date.now() - r.timestamp < 7 * day)
+            .length,
+          true
+        )
+        .addField(
+          `${categ} \n(last 30 days)`,
+          sorted[categ].filter((r) => Date.now() - r.timestamp < 30 * day)
+            .length,
+          true
+        )
+        .addField(`${categ} \n(all time)`, sorted[categ].length, true);
+    }
+    for (let categ in continued) {
+      embed2
+        .addField(
+          `${categ} \n(last 7 days)`,
+          continued[categ].filter((r) => Date.now() - r.timestamp < 7 * day)
+            .length,
+          true
+        )
+        .addField(
+          `${categ} \n(last 30 days)`,
+          continued[categ].filter((r) => Date.now() - r.timestamp < 30 * day)
+            .length,
+          true
+        )
+        .addField(`${categ} \n(all time)`, continued[categ].length, true);
+    }
+    message.channel.send(embed);
+    message.channel.send(embed2);
+    return;
+  }
   if (page > pageNum || page < 1)
     return message.channel.send(
       em(`Failure!`, `This page does not exist!`, `bruh`, `RED`)

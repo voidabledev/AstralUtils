@@ -100,8 +100,9 @@ exports.run = async (client, message, args) => {
     }
   }
   if (stop) return;
+  const AsyncFunction = Object.getPrototypeOf(async function () {}).constructor;
   await client.giveawaysManager.start(giveawayChannel, {
-    exemptMembers: new Function(
+    exemptMembers: new AsyncFunction(
       "member",
       `return await client.blacklisted(member.id)`
     ),

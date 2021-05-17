@@ -1,4 +1,5 @@
 const Discord = require("discord.js");
+const { MessageEmbed } = Discord;
 
 module.exports = async (client) => {
   client.em = function (title, description, footer, color, author) {
@@ -90,12 +91,14 @@ module.exports = async (client) => {
     const modSchema = require("../schemas/modschema");
     const logSchema = require("../schemas/logschema");
     let cid = 1;
-    await modSchema.find({ guildId }, (err, logs) => {
-      if (err) throw err;
-      logs.map((log) => {
-        cid += log.modlogs.length;
+    while (cid === 1) {
+      await modSchema.find({ guildId }, (err, logs) => {
+        if (err) throw err;
+        logs.map((log) => {
+          cid += log.modlogs.length;
+        });
       });
-    });
+    }
     modlog.caseID = cid;
     await modSchema.findOneAndUpdate(
       {
@@ -143,32 +146,38 @@ module.exports = async (client) => {
   };
   client.expire = {
     Mute: async (uid, gid, client) => {
-      const guild = client.guilds.cache.get(gid);
-      if (!guild) return;
-      const role = await guild.roles.cache.find(
-        (r) => r.name.toLowerCase() === "muted"
-      );
-      if (!role) return;
-      if (!member.roles.cache.get(role.id)) return;
-      member.roles.remove(role);
-      let modlog = {
-        author: "System",
-        reason: "Timed mute expired",
-        caseID: 0,
-        timestamp: new Date().getTime(),
-        _type: "Unmute",
-      };
-      client.setModlog(uid, gid, modlog, client);
-      const embed = new MessageEmbed()
-        .setDescription(
-          `You have been unmuted in **${message.guild.name}** for \`${reason}\``
-        )
-        .setColor("RED");
-      try {
-        await member.user.send(embed);
-      } catch (e) {
-        console.log("Unable to dm user, mute expired");
-      }
+      return new Promise(async (resolve, reject) => {
+        const guild = client.guilds.cache.get(gid);
+        if (!guild) resolve("Guild no longer exists");
+        const role = await guild.roles.cache.find(
+          (r) => r.name.toLowerCase() === "muted"
+        );
+        if (!role) reject("Muted role doesn't exist");
+        const member = await guild.members.fetch(uid);
+        if (!member) resolve("Member is not in this guild");
+        if (!member.roles.cache.get(role.id))
+          resolve("User has already been unmuted");
+        member.roles.remove(role).catch(() => reject("User wasn't unmuted"));
+        let modlog = {
+          author: "System",
+          reason: "Timed mute expired",
+          caseID: 0,
+          timestamp: new Date().getTime(),
+          _type: "Unmute",
+        };
+        await client
+          .setModlog(uid, gid, modlog, client)
+          .catch(() => reject("Unable to set modlog"));
+        const embed = new MessageEmbed()
+          .setDescription(
+            `You have been unmuted in **${guild.name}** for \`${reason}\``
+          )
+          .setColor("RED");
+        await member.user
+          .send(embed)
+          .then(() => resolve("User unmuted and notified"))
+          .catch(() => resolve("User unmuted, unable to notify"));
+      });
     },
     Ban: async (uid, gid, client) => {
       const guild = client.guilds.cache.get(gid);

@@ -10,16 +10,20 @@ module.exports = (client) => {
         (e) => e.expires.getTime() < new Date().getTime()
       );
       filtered.forEach(async (entry) => {
-        await client.expire[entry._type](entry.userId, entry.guildId, client);
-        await punishSchema.deleteOne({
-          _type: entry._type,
-          userId: entry.userId,
-          guildId: entry.guildId,
-        });
-        await muteSchema.deleteOne({
-          userId: entry.userId,
-          guildId: entry.guildId,
-        });
+        await client.expire[entry._type](entry.userId, entry.guildId, client)
+          .then(async (reason) => {
+            console.log(reason);
+            await punishSchema.deleteOne({
+              _type: entry._type,
+              userId: entry.userId,
+              guildId: entry.guildId,
+            });
+            await muteSchema.deleteOne({
+              userId: entry.userId,
+              guildId: entry.guildId,
+            });
+          })
+          .catch((err) => console.log(err));
       });
     });
     await warnSchema.find({}, async (err, users) => {
