@@ -6,15 +6,6 @@ exports.run = async (client, message, args) => {
   const yessir = client.yessir;
 
   const amount = parseInt(args[0]);
-  if (isNaN(amount) || amount < 0)
-    message.channel.send(
-      em(
-        `Success!`,
-        `I need an amount to set the slowmode to.`,
-        `duh`,
-        `#7a1b07`
-      )
-    );
   message.channel.setRateLimitPerUser(amount);
   message.channel.send(
     em(
@@ -41,6 +32,7 @@ exports.data = {
   botMode: 1, // same as above. Set it to 0 to require all perms to be fulfilled.
   minArgs: 1,
   maxArgs: null,
+  noDel: true,
 };
 
 exports.errors = {

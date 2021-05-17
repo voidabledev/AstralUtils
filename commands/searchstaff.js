@@ -146,7 +146,7 @@ exports.data = {
   botMode: 1, // same as above. Set it to 0 to require all perms to be fulfilled.
   minArgs: 0,
   maxArgs: null,
-  noDel: false, // change this to true if the command belongs to the "Moderation" category
+  noDel: true, // change this to true if the command belongs to the "Moderation" category
 }; // and you don't want to og message to be deleted.
 
 exports.errors = {

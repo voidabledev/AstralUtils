@@ -7,7 +7,7 @@ exports.run = async (client, message, args) => {
 
   const { member } = message;
   const embed = new Discord.MessageEmbed()
-    .setAuthor(message.author.tag, message.author.avatarURL())
+    .setAuthor(message.author.username, message.author.avatarURL())
     .setDescription(args.join(" "))
     .setFooter(`Announcement`)
     .setTimestamp();

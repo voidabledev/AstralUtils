@@ -77,6 +77,7 @@ exports.data = {
   botMode: 1, // same as above. Set it to 0 to require all perms to be fulfilled.
   minArgs: 0,
   maxArgs: null,
+  noDel: true,
 };
 
 exports.errors = {

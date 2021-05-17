@@ -39,7 +39,7 @@ exports.run = async (client, message, args) => {
     timestamp: new Date().getTime(),
     _type: "Purge",
   };
-  ml(userId, guildId, modlog, client);
+  ml(amount, modlog, client);
   return;
 };
 exports.help = {
