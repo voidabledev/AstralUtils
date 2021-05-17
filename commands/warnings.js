@@ -51,7 +51,7 @@ exports.run = async (client, message, args) => {
     const a = client.users.cache.get(author).tag;
     embed.addField(
       `By ${a} on ${new Date(timestamp).toLocaleDateString()}`,
-      `**Reason:** ${reason}\n**Warning ID:** \`${warnID}\`\n**Case:** ${caseID}\n\n`
+      `**Reason:** ${reason}\n**Warning ID:** \`${warnID}\`\n\n`
     );
   });
 

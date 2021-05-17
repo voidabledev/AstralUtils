@@ -91,47 +91,46 @@ module.exports = async (client) => {
     const modSchema = require("../schemas/modschema");
     const logSchema = require("../schemas/logschema");
     let cid = 1;
-    await modSchema.find({ guildId }, (err, logs) => {
+    await modSchema.find({ guildId }, async (err, logs) => {
       if (err) throw err;
       logs.map((log) => {
-        cid += await log.modlogs.length;
+        cid += log.modlogs.length;
       });
       modlog.caseID = cid;
-    });
-
-    await modSchema.findOneAndUpdate(
-      {
-        guildId,
-        userId,
-      },
-      {
-        guildId,
-        userId,
-        $push: {
-          modlogs: modlog,
+      await modSchema.findOneAndUpdate(
+        {
+          guildId,
+          userId,
         },
-      },
-      {
-        upsert: true,
+        {
+          guildId,
+          userId,
+          $push: {
+            modlogs: modlog,
+          },
+        },
+        {
+          upsert: true,
+        }
+      );
+      const log = await logSchema.findOne({
+        guildId,
+      });
+      if (log.channelId) {
+        const guild = client.guilds.cache.get(guildId);
+        const channel = guild.channels.cache.get(log.channelId);
+        const mod =
+          modlog.author === "System" ? "System" : `<@${modlog.author}>`;
+        let embed = new Discord.MessageEmbed()
+          .setTitle(`Case #${modlog.caseID}`)
+          .setDescription(
+            `**User: **<@${userId}>\n**Moderator:** ${mod}\n**Type:** ${modlog._type}\n**Reason:** ${modlog.reason}`
+          )
+          .setFooter(`User ID: ${userId}`)
+          .setColor("RANDOM");
+        channel.send(embed);
       }
-    );
-    const log = await logSchema.findOne({
-      guildId,
     });
-    if (log.channelId) {
-      const guild = client.guilds.cache.get(guildId);
-      const channel = guild.channels.cache.get(log.channelId);
-      const mod = modlog.author === "System" ? "System" : `<@${modlog.author}>`;
-      let embed = new Discord.MessageEmbed()
-        .setTitle(`Case #${modlog.caseID}`)
-        .setDescription(
-          `**User: **<@${userId}>\n**Moderator:** ${mod}\n**Type:** ${modlog._type}\n**Reason:** ${modlog.reason}`
-        )
-        .setFooter(`User ID: ${userId}`)
-        .setColor("RANDOM");
-      channel.send(embed);
-    }
-    return cid;
   };
   client.millis = (input) => {
     if (typeof input !== "string") return -1;

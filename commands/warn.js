@@ -76,7 +76,7 @@ exports.run = async (client, message, args) => {
       `I was unable to notify the user. Warning has been logged.`
     );
   }
-  warning.caseID = await ml(userId, guildId, modlog, client);
+  ml(userId, guildId, modlog, client);
   await warnSchema
     .find({ guildId }, (err, entries) => {
       if (err) throw err;
