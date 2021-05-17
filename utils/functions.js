@@ -91,15 +91,14 @@ module.exports = async (client) => {
     const modSchema = require("../schemas/modschema");
     const logSchema = require("../schemas/logschema");
     let cid = 1;
-    while (cid === 1) {
-      await modSchema.find({ guildId }, (err, logs) => {
-        if (err) throw err;
-        logs.map((log) => {
-          cid += log.modlogs.length;
-        });
+    await modSchema.find({ guildId }, (err, logs) => {
+      if (err) throw err;
+      logs.map((log) => {
+        cid += await log.modlogs.length;
       });
-    }
-    modlog.caseID = cid;
+      modlog.caseID = cid;
+    });
+
     await modSchema.findOneAndUpdate(
       {
         guildId,
