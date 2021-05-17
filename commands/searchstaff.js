@@ -24,13 +24,13 @@ exports.run = async (client, message, args) => {
   let users = [];
   const page = parseInt(args[pageIndex]) || -1;
 
-  await modSchema.find({}, (err, logs) => {
+  await modSchema.find({ guildId: message.guild.id }, async (err, logs) => {
     if (err) throw err;
-    logs.forEach(async (log) => {
+    await logs.forEach(async (log) => {
       await log.modlogs.forEach(async (ml) => {
         if (ml.author === target.id) {
-          await response.push(ml);
-          await users.push(log);
+          response.push(ml);
+          users.push(log);
         }
       });
     });
