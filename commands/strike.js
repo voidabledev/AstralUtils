@@ -61,6 +61,12 @@ exports.run = async (client, message, args) => {
       `${target} has been striked by ${message.author} for ${reason} with ID \`${strikeId}\``
     )
     .setFooter(`User ID: ${id}`);
+  const messageEmbed = new MessageEmbed()
+    .setTitle(`Strike`)
+    .setDescription(
+      `You have striked ${target} for \`${reason}\` and with ID \`${strikeId}\``
+    );
+  message.channnel.send(messageEmbed);
   message.guild.channels.cache.get("831996554763829338").send(logEmbed);
 };
 exports.help = {
