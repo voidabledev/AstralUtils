@@ -121,16 +121,15 @@ module.exports = async (client) => {
         guildId,
         _type: "automod",
       });
-      const isAutomod = modlog.author === "Automod";
+      const isAutomod =
+        modlog.author === "Automod" || modlog.author === "System";
       if (log?.channelId && !isAutomod) {
         const guild = client.guilds.cache.get(guildId);
-        const channel = guild.channels.cache.get(log.channelId);
-        const mod =
-          modlog.author === "System" ? "System" : `<@${modlog.author}>`;
+        const channel = await guild.channels.fetch(log.channelId);
         let embed = new Discord.MessageEmbed()
           .setTitle(`Case #${modlog.caseID}`)
           .setDescription(
-            `**User: **<@${userId}>\n**Moderator:** ${mod}\n**Type:** ${modlog._type}\n**Reason:** ${modlog.reason}`
+            `**User: **<@${userId}>\n**Moderator:** <@${modlog.author}>\n**Type:** ${modlog._type}\n**Reason:** ${modlog.reason}`
           )
           .setFooter(`User ID: ${userId}`)
           .setColor("RANDOM");
