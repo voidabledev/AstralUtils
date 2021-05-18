@@ -132,7 +132,7 @@ module.exports = async (client) => {
       .setTitle(`Case #${modlog.caseID}`)
       .setDescription(
         `**User: **<@${userId}>\n${
-          isAuto ? "" : "**Moderator:** <@${modlog.author}>\n"
+          isAuto ? "" : `**Moderator:** <@${modlog.author}>\n`
         }**Type:** ${modlog._type}\n**Reason:** ${modlog.reason}`
       )
       .setFooter(`User ID: ${userId}`)
