@@ -141,7 +141,7 @@ module.exports = async (client) => {
         let embed = new Discord.MessageEmbed()
           .setTitle(`Case #${modlog.caseID}`)
           .setDescription(
-            `**User:** <@${userId}\n**Type:** ${modlog._type}\n**Reason:** ${modlog.reason}`
+            `**User:** <@${userId}>\n**Type:** ${modlog._type}\n**Reason:** ${modlog.reason}`
           )
           .setFooter(`User ID: ${userId}`)
           .setColor("RANDOM");
