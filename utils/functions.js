@@ -125,7 +125,7 @@ module.exports = async (client) => {
         modlog.author === "Automod" || modlog.author === "System";
       if (log?.channelId && !isAutomod) {
         const guild = client.guilds.cache.get(guildId);
-        const channel = await guild.channels.fetch(log.channelId);
+        const channel = guild.channels.cache.get(log.channelId);
         let embed = new Discord.MessageEmbed()
           .setTitle(`Case #${modlog.caseID}`)
           .setDescription(
