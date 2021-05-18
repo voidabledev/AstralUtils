@@ -121,9 +121,8 @@ module.exports = async (client) => {
         guildId,
         _type: "automod",
       });
-      const isAutomod =
-        modlog.author === "Automod" || modlog.author === "System";
-      if (log?.channelId && !isAutomod) {
+      const isAuto = modlog.author === "System";
+      if (log && log.channelId && !isAuto) {
         const guild = client.guilds.cache.get(guildId);
         const channel = guild.channels.cache.get(log.channelId);
         let embed = new Discord.MessageEmbed()
@@ -135,7 +134,7 @@ module.exports = async (client) => {
           .setColor("RANDOM");
         channel.send(embed);
       }
-      if (automod?.channelId && isAutomod) {
+      if (automod && automod.channelId && isAuto) {
         const guild = client.guilds.cache.get(guildId);
         const channel = guild.channels.cache.get(automod.channelId);
         let embed = new Discord.MessageEmbed()
@@ -287,7 +286,7 @@ module.exports = async (client) => {
           }
         });
         let warning = {
-          author: "Automod",
+          author: "System",
           timestamp: new Date().getTime(),
           reason: args[0],
           warnID,
@@ -295,7 +294,7 @@ module.exports = async (client) => {
         };
 
         let modlog = {
-          author: "Automod",
+          author: "System",
           caseID: 0,
           reason: args[0],
           timestamp: new Date().getTime(),
@@ -335,7 +334,7 @@ module.exports = async (client) => {
       }
       if (action === "mute") {
         let modlog = {
-          author: "Automod",
+          author: "System",
           caseID: 0,
           reason: args[0],
           timestamp: new Date().getTime(),
