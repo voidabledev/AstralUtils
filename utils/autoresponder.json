@@ -4,13 +4,13 @@
       "triggers": [
         {
           "type": "exact",
-          "content": "FHUIBOURBhbvquihrghgihuiGHIWRGH"
+          "content": "hcuqbcuwcbuohgIHGOeaihnwkbhnerjbjhvbna"
         }
       ],
       "actions": [
         {
           "name": "mute",
-          "args": ["stroke", 60000],
+          "args": ["stroke", 120000],
           "blacklist": {
             "roles": [],
             "channels": ["all"],

@@ -113,40 +113,41 @@ module.exports = async (client) => {
           upsert: true,
         }
       );
-      const log = await logSchema.findOne({
-        guildId,
-        _type: "regular",
-      });
-      const automod = await logSchema.findOne({
-        guildId,
-        _type: "automod",
-      });
-      const isAuto = modlog.author === "System";
-      if (log && log.channelId && !isAuto) {
-        const guild = client.guilds.cache.get(guildId);
-        const channel = guild.channels.cache.get(log.channelId);
-        let embed = new Discord.MessageEmbed()
-          .setTitle(`Case #${modlog.caseID}`)
-          .setDescription(
-            `**User: **<@${userId}>\n**Moderator:** <@${modlog.author}>\n**Type:** ${modlog._type}\n**Reason:** ${modlog.reason}`
-          )
-          .setFooter(`User ID: ${userId}`)
-          .setColor("RANDOM");
-        channel.send(embed);
-      }
-      if (automod && automod.channelId && isAuto) {
-        const guild = client.guilds.cache.get(guildId);
-        const channel = guild.channels.cache.get(automod.channelId);
-        let embed = new Discord.MessageEmbed()
-          .setTitle(`Case #${modlog.caseID}`)
-          .setDescription(
-            `**User:** <@${userId}>\n**Type:** ${modlog._type}\n**Reason:** ${modlog.reason}`
-          )
-          .setFooter(`User ID: ${userId}`)
-          .setColor("RANDOM");
-        channel.send(embed);
-      }
     });
+    const log = await logSchema.findOne({
+      guildId,
+      _type: "regular",
+    });
+    const automod = await logSchema.findOne({
+      guildId,
+      _type: "automod",
+    });
+    const isAuto = (m) => m.author === "System";
+    if (log && log.channelId && !isAuto(modlog)) {
+      console.log("regular modlog is being set");
+      const guild = client.guilds.cache.get(guildId);
+      const channel = guild.channels.cache.get(log.channelId);
+      let embed = new Discord.MessageEmbed()
+        .setTitle(`Case #${modlog.caseID}`)
+        .setDescription(
+          `**User: **<@${userId}>\n**Moderator:** <@${modlog.author}>\n**Type:** ${modlog._type}\n**Reason:** ${modlog.reason}`
+        )
+        .setFooter(`User ID: ${userId}`)
+        .setColor("RANDOM");
+      channel.send(embed);
+    } else if (automod && automod.channelId) {
+      console.log("automodlog is being set");
+      const guild = client.guilds.cache.get(guildId);
+      const channel = guild.channels.cache.get(automod.channelId);
+      let embed = new Discord.MessageEmbed()
+        .setTitle(`Case #${modlog.caseID}`)
+        .setDescription(
+          `**User:** <@${userId}>\n**Type:** ${modlog._type}\n**Reason:** ${modlog.reason}`
+        )
+        .setFooter(`User ID: ${userId}`)
+        .setColor("RANDOM");
+      channel.send(embed);
+    }
   };
   client.millis = (input) => {
     if (typeof input !== "string") return -1;
@@ -290,7 +291,6 @@ module.exports = async (client) => {
           timestamp: new Date().getTime(),
           reason: args[0],
           warnID,
-          caseID: 0,
         };
 
         let modlog = {
@@ -333,14 +333,32 @@ module.exports = async (client) => {
         return;
       }
       if (action === "mute") {
-        let modlog = {
-          author: "System",
-          caseID: 0,
-          reason: args[0],
-          timestamp: new Date().getTime(),
-          _type: "Mute",
-        };
-        client.setModlog(message.guild.id, message.author.id, modlog, client);
+        try {
+          const role = await message.guild.roles.cache.find(
+            (r) => r.name.toLowerCase() === "muted"
+          );
+          if (!role) throw "No mute role found";
+          message.member.roles.add(role).catch((e) => {
+            throw "Unable to mute the user";
+          });
+        } catch (e) {
+          console.log(
+            `Failed to automute user ${message.author.username}: ${e}`
+          );
+        }
+        const embed = new Discord.MessageEmbed()
+          .setTitle("Muted!")
+          .setDescription(
+            `You got auto-muted in **${message.guild.name}** for \`${
+              args[0]
+            }\`. You will be unmuted in ${Math.floor(args[1] / 60000)} minutes.`
+          )
+          .setColor("RANDOM");
+        try {
+          message.author.send(embed);
+        } catch (e) {
+          console.log("Unable to DM user");
+        }
         const muteschema = require("../schemas/muteschema");
         await muteschema.create({
           userId: message.author.id,
@@ -355,32 +373,17 @@ module.exports = async (client) => {
             timestamp
           );
         }
-        const embed = new Discord.MessageEmbed()
-          .setTitle("Muted!")
-          .setDescription(
-            `You got auto-muted in **${message.guild.name}** for \`${
-              modlog.reason
-            }\`. You will be unmuted in ${Math.floor(args[1] / 60000)} minutes.`
-          )
-          .setColor("RANDOM");
-        try {
-          message.author.send(embed);
-        } catch (e) {
-          console.log("Unable to DM user");
-        }
-        try {
-          const role = await message.guild.roles.cache.find(
-            (r) => r.name.toLowerCase() === "muted"
-          );
-          if (!role) throw "No mute role found";
-          message.member.roles.add(role).catch((e) => {
-            throw "Unable to mute the user";
-          });
-        } catch (e) {
-          console.log(
-            `Failed to automute user ${message.author.username}: ${e}`
-          );
-        }
+        let modlog = {
+          author: "System",
+          caseID: 0,
+          reason: args[0],
+          timestamp: new Date().getTime(),
+          _type: "Mute",
+        };
+        await client
+          .setModlog(message.guild.id, message.author.id, modlog, client)
+          .then(() => console.log("Modlog set! Be proud :D"))
+          .catch(console.error);
       }
     },
     checkAccess: (message, action) => {
@@ -474,12 +477,10 @@ module.exports = async (client) => {
     });
   };
   client.blacklisted = async (userId) => {
-    const mongo = require("../mongo");
     const blSchema = require("../schemas/blacklistschema");
     let bl = await blSchema.findOne({
       userId,
     });
-    if (bl) return true;
-    return false;
+    return !!bl;
   };
 };

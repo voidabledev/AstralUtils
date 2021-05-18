@@ -33,7 +33,6 @@ exports.run = async (client, message, args) => {
     timestamp: new Date().getTime(),
     reason,
     warnID,
-    caseID: 0,
   };
 
   let modlog = {
