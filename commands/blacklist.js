@@ -67,11 +67,11 @@ exports.help = {
   enabled: true,
   aliases: ["block", "bl"],
   usage: "[User mention or ID] [reason]",
-  category: "Administration",
+  category: "Moderation",
 };
 
 exports.data = {
-  userPermissions: ["ADMINISTRATOR"],
+  userPermissions: ["MANAGE_ROLES"],
   userMode: 1, // set this to a number to determined how many of the above permissions the user needs to have.
   botPermissions: [], // if no permissions are required, leave the array empty and set the Mode to 0
   botMode: 0, // same as above. Set it to 0 to require all perms to be fulfilled.

@@ -6,17 +6,28 @@ exports.run = async (client, message, args) => {
   const yessir = client.yessir;
   const mongo = require("../mongo");
   const log = require("../schemas/logschema");
-
+  const _type = args.shift();
+  if (!["regular", "automod"].includes(_type))
+    return message.channel.send(
+      em(
+        `Failure!`,
+        `Invalid log type!`,
+        `aure and me made a typo doing this lol`
+      )
+    );
   try {
     let logChannel = message.mentions.channels.first();
     if (!logChannel) {
       await log.findOneAndDelete({
         guildId: message.guild.id,
+        _type,
       });
       const embed = new MessageEmbed()
         .setColor("#33ffb7")
         .setTitle("Log Channel")
-        .setDescription(`${message.author.tag} changed Log Channel to \`None\``)
+        .setDescription(
+          `${message.author.tag} changed ${_type} Log Channel to \`None\``
+        )
         .setFooter(`User ID: ${message.author.id}`);
 
       message.channel.send(embed);
@@ -25,12 +36,14 @@ exports.run = async (client, message, args) => {
 
     const logFind = await log.findOne({
       guildId: message.guild.id,
+      _type,
     });
 
     if (!logFind) {
       const newLog = new log({
         guildId: message.guild.id,
         channelId: logChannel.id,
+        _type,
       });
       await newLog
         .save()
@@ -48,10 +61,12 @@ exports.run = async (client, message, args) => {
       await log.findOneAndUpdate(
         {
           guildId: message.guild.id,
+          _type,
         },
         {
           channelId: logChannel.id,
           guildId: message.guild.id,
+          _type,
         },
         {
           upsert: true,
@@ -62,7 +77,9 @@ exports.run = async (client, message, args) => {
     const embed2 = new MessageEmbed()
       .setColor("33ffb7")
       .setTitle("Log Channel")
-      .setDescription(`${message.author} changed Log Channel to ${logChannel}`);
+      .setDescription(
+        `${message.author} changed ${_type} Log Channel to ${logChannel}`
+      );
 
     message.channel.send(embed2).catch(() => {});
   } catch (e) {

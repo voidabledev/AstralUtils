@@ -3,32 +3,28 @@
     {
       "triggers": [
         {
-          "type": "exact-anycase",
-          "content": "bruh"
-        },
-        {
-          "type:": "wildcard",
-          "content:": "BRUH"
+          "type": "exact",
+          "content": "FHUIBOURBhbvquihrghgihuiGHIWRGH"
         }
       ],
       "actions": [
         {
-          "name": "message",
-          "args": ["moment"],
+          "name": "mute",
+          "args": ["stroke", 60000],
           "blacklist": {
             "roles": [],
-            "channels": [],
+            "channels": ["all"],
             "categories": [],
-            "permissions": [],
+            "permissions": ["ADMINISTRATOR"],
             "users": [],
-            "full": true
+            "full": false
           },
           "whitelist": {
             "roles": [],
-            "channels": [],
+            "channels": ["842875871077072926"],
             "categories": [],
             "permissions": [],
-            "users": []
+            "users": ["538635176847343636"]
           }
         }
       ]
@@ -56,7 +52,16 @@
         "whitelist": {
           "roles": [],
           "channels": [],
-          "categories": [],
+          "categories": [
+            "843532723262849035",
+            "831996499989889074",
+            "831996500816822333",
+            "831996501298511923",
+            "831996502553133204",
+            "839231003864072192",
+            "844065597562421249",
+            "831996506282131546"
+          ],
           "permissions": [],
           "users": []
         }

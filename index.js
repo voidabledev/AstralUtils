@@ -15,7 +15,8 @@ fs.readdir("./events/", (err, files) => {
 });
 client.config = config;
 (async () => {
-  const mongoose = await require("./mongo")();
+  await require("./mongo")();
+  const mongoose = require("mongoose");
   mongoose.connection.once("open", () => console.log("Connected to MongoDB"));
   mongoose.connection.on(
     "error",

@@ -91,6 +91,7 @@ exports.run = async (client, message, args) => {
       }
     })
     .then(async () => {
+      warning.warnID = warnID;
       message.channel.send(
         em(
           `Success!`,

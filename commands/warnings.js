@@ -48,7 +48,8 @@ exports.run = async (client, message, args) => {
 
   await results.warnings.forEach(async (warning) => {
     const { timestamp, reason, warnID, caseID, author } = warning;
-    const a = client.users.cache.get(author).tag;
+    let a = client.users.cache.get(author)?.tag;
+    if (author === "Automod") a = "Automod";
     embed.addField(
       `By ${a} on ${new Date(timestamp).toLocaleDateString()}`,
       `**Reason:** ${reason}\n**Warning ID:** \`${warnID}\`\n\n`

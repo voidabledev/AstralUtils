@@ -115,8 +115,14 @@ module.exports = async (client) => {
       );
       const log = await logSchema.findOne({
         guildId,
+        _type: "regular",
       });
-      if (log.channelId) {
+      const automod = await logSchema.findOne({
+        guildId,
+        _type: "automod",
+      });
+      const isAutomod = modlog.author === "Automod";
+      if (log?.channelId && !isAutomod) {
         const guild = client.guilds.cache.get(guildId);
         const channel = guild.channels.cache.get(log.channelId);
         const mod =
@@ -125,6 +131,18 @@ module.exports = async (client) => {
           .setTitle(`Case #${modlog.caseID}`)
           .setDescription(
             `**User: **<@${userId}>\n**Moderator:** ${mod}\n**Type:** ${modlog._type}\n**Reason:** ${modlog.reason}`
+          )
+          .setFooter(`User ID: ${userId}`)
+          .setColor("RANDOM");
+        channel.send(embed);
+      }
+      if (automod?.channelId && isAutomod) {
+        const guild = client.guilds.cache.get(guildId);
+        const channel = guild.channels.cache.get(automod.channelId);
+        let embed = new Discord.MessageEmbed()
+          .setTitle(`Case #${modlog.caseID}`)
+          .setDescription(
+            `**User:** <@${userId}\n**Type:** ${modlog._type}\n**Reason:** ${modlog.reason}`
           )
           .setFooter(`User ID: ${userId}`)
           .setColor("RANDOM");
@@ -168,7 +186,7 @@ module.exports = async (client) => {
           .catch(() => reject("Unable to set modlog"));
         const embed = new MessageEmbed()
           .setDescription(
-            `You have been unmuted in **${guild.name}** for \`${reason}\``
+            `You have been unmuted in **${guild.name}** for \`${modlog.reason}\``
           )
           .setColor("RED");
         await member.user
@@ -237,9 +255,8 @@ module.exports = async (client) => {
       },
     });
   };
-  client.trolling = false;
   client.arUtil = {
-    convert: (action, client, message, args) => {
+    convert: async (action, client, message, args) => {
       if (action === "delete") {
         return message.delete();
       }
@@ -254,7 +271,119 @@ module.exports = async (client) => {
           .setColor(args[3]);
         return message.channel.send(embed);
       }
-      return;
+      if (action === "warn") {
+        const modSchema = require("../schemas/modschema");
+        const warnSchema = require("../schemas/warnschema");
+        let warnID = client.makeID(36, 8);
+        await warnSchema.find({ guildId: message.guild.id }, (err, entries) => {
+          if (err) throw err;
+          retry: while (true) {
+            for (let entry of entries) {
+              if (entry.warnings.some((w) => w.warnID === warnID)) {
+                warnID = makeID(36, 8);
+                continue retry;
+              }
+            }
+            break;
+          }
+        });
+        let warning = {
+          author: "Automod",
+          timestamp: new Date().getTime(),
+          reason: args[0],
+          warnID,
+          caseID: 0,
+        };
+
+        let modlog = {
+          author: "Automod",
+          caseID: 0,
+          reason: args[0],
+          timestamp: new Date().getTime(),
+          _type: "Warn",
+        };
+        await client.setModlog(
+          message.author.id,
+          message.guild.id,
+          modlog,
+          client
+        );
+        await warnSchema.findOneAndUpdate(
+          {
+            guildId: message.guild.id,
+            userId: message.author.id,
+          },
+          {
+            $push: {
+              warnings: warning,
+            },
+          },
+          {
+            upsert: true,
+          }
+        );
+        try {
+          message.author.send(
+            client.em(
+              `Warning!`,
+              `You got auto-warned in **${message.guild.name}** for \`${args[0]}\``
+            )
+          );
+        } catch (e) {
+          console.log(`Unable to DM User ${message.author.username}`);
+        }
+        return;
+      }
+      if (action === "mute") {
+        let modlog = {
+          author: "Automod",
+          caseID: 0,
+          reason: args[0],
+          timestamp: new Date().getTime(),
+          _type: "Mute",
+        };
+        client.setModlog(message.guild.id, message.author.id, modlog, client);
+        const muteschema = require("../schemas/muteschema");
+        await muteschema.create({
+          userId: message.author.id,
+          guildId: message.guild.id,
+        });
+        if (args[1] && args[1] > 0) {
+          let timestamp = new Date().setTime(new Date().getTime() + args[1]);
+          await client.addTimer(
+            "Mute",
+            message.author.id,
+            message.guild.id,
+            timestamp
+          );
+        }
+        const embed = new Discord.MessageEmbed()
+          .setTitle("Muted!")
+          .setDescription(
+            `You got auto-muted in **${message.guild.name}** for \`${
+              modlog.reason
+            }\`. You will be unmuted in ${Math.floor(args[1] / 60000)} minutes.`
+          )
+          .setColor("RANDOM");
+        try {
+          message.author.send(embed);
+        } catch (e) {
+          console.log("Unable to DM user");
+        }
+        try {
+          const role = await message.guild.roles.cache.find(
+            (r) => r.name.toLowerCase() === "muted"
+          );
+          if (!role) throw "No mute role found";
+          message.member.roles.add(role).catch((e) => {
+            throw "Unable to mute the user";
+          });
+        } catch (e) {
+          console.log(
+            `Failed to automute user ${message.author.username}: ${e}`
+          );
+        }
+      }
     },
     checkAccess: (message, action) => {
       if (
@@ -336,7 +465,12 @@ module.exports = async (client) => {
       ) {
         entry.actions.forEach(async (action) => {
           if (client.arUtil.checkAccess(message, action))
-            client.arUtil.convert(action.name, client, message, action.args);
+            await client.arUtil.convert(
+              action.name,
+              client,
+              message,
+              action.args
+            );
         });
       }
     });
