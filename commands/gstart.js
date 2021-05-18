@@ -100,8 +100,9 @@ exports.run = async (client, message, args) => {
     }
   }
   if (stop) return;
+  const exemptMembers = (member) => client.blacklisted(member.id);
   await client.giveawaysManager.start(giveawayChannel, {
-    exemptMembers: (member) => client.blacklisted(member.id),
+    exemptMembers,
     time: ms(giveawayDuration),
     prize: giveawayPrize,
     winnerCount: parseInt(giveawayNumberWinners),
