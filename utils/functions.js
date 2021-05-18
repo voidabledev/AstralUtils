@@ -122,32 +122,22 @@ module.exports = async (client) => {
       guildId,
       _type: "automod",
     });
-    const isAuto = (m) => m.author === "System";
-    if (log && log.channelId && !isAuto(modlog)) {
-      console.log("regular modlog is being set");
-      const guild = client.guilds.cache.get(guildId);
-      const channel = guild.channels.cache.get(log.channelId);
-      let embed = new Discord.MessageEmbed()
-        .setTitle(`Case #${modlog.caseID}`)
-        .setDescription(
-          `**User: **<@${userId}>\n**Moderator:** <@${modlog.author}>\n**Type:** ${modlog._type}\n**Reason:** ${modlog.reason}`
-        )
-        .setFooter(`User ID: ${userId}`)
-        .setColor("RANDOM");
-      channel.send(embed);
-    } else if (automod && automod.channelId) {
-      console.log("automodlog is being set");
-      const guild = client.guilds.cache.get(guildId);
-      const channel = guild.channels.cache.get(automod.channelId);
-      let embed = new Discord.MessageEmbed()
-        .setTitle(`Case #${modlog.caseID}`)
-        .setDescription(
-          `**User:** <@${userId}>\n**Type:** ${modlog._type}\n**Reason:** ${modlog.reason}`
-        )
-        .setFooter(`User ID: ${userId}`)
-        .setColor("RANDOM");
-      channel.send(embed);
-    }
+    const isAuto = modlog.author === "System";
+    console.log(`${isAuto ? "auto" : "regular"} modlog is being set`);
+    const guild = client.guilds.cache.get(guildId);
+    const channel = guild.channels.cache.get(
+      isAuto ? automod.channelId : log.channelId
+    );
+    let embed = new Discord.MessageEmbed()
+      .setTitle(`Case #${modlog.caseID}`)
+      .setDescription(
+        `**User: **<@${userId}>\n${
+          isAuto ? "" : "**Moderator:** <@${modlog.author}>\n"
+        }**Type:** ${modlog._type}\n**Reason:** ${modlog.reason}`
+      )
+      .setFooter(`User ID: ${userId}`)
+      .setColor("RANDOM");
+    channel.send(embed);
   };
   client.millis = (input) => {
     if (typeof input !== "string") return -1;
@@ -381,7 +371,7 @@ module.exports = async (client) => {
           _type: "Mute",
         };
         await client
-          .setModlog(message.guild.id, message.author.id, modlog, client)
+          .setModlog(message.author.id, message.guild.id, modlog, client)
           .then(() => console.log("Modlog set! Be proud :D"))
           .catch(console.error);
       }
