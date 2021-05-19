@@ -153,16 +153,17 @@ module.exports = async (client) => {
     Mute: async (uid, gid, client) => {
       return new Promise(async (resolve, reject) => {
         const guild = client.guilds.cache.get(gid);
-        if (!guild) resolve("Guild no longer exists");
+        if (!guild) resolve();
         const role = await guild.roles.cache.find(
           (r) => r.name.toLowerCase() === "muted"
         );
         if (!role) reject("Muted role doesn't exist");
         const member = await guild.members.fetch(uid);
-        if (!member) resolve("Member is not in this guild");
-        if (!member.roles.cache.get(role.id))
-          resolve("User has already been unmuted");
-        member.roles.remove(role).catch(() => reject("User wasn't unmuted"));
+        if (!member) resolve();
+        if (!member.roles.cache.get(role.id)) resolve();
+        member.roles
+          .remove(role)
+          .catch(() => reject(`Failed to unmute user ${member.user.username}`));
         let modlog = {
           author: "System",
           reason: "Timed mute expired",
@@ -180,8 +181,8 @@ module.exports = async (client) => {
           .setColor("RED");
         await member.user
           .send(embed)
-          .then(() => resolve("User unmuted and notified"))
-          .catch(() => resolve("User unmuted, unable to notify"));
+          .then(() => resolve())
+          .catch(() => resolve());
       });
     },
     Ban: async (uid, gid, client) => {
@@ -257,7 +258,8 @@ module.exports = async (client) => {
           .setTitle(args[0])
           .setDescription(args[1])
           .setFooter(args[2])
-          .setColor(args[3]);
+          .setColor(args[3] || "RANDOM");
+        args[4] ? embed.setTimestamp() : null;
         return message.channel.send(embed);
       }
       if (action === "warn") {
@@ -312,14 +314,13 @@ module.exports = async (client) => {
         );
         try {
           message.author.send(
-            client.em(
-              `Warning!`,
-              `You got auto-warned in **${message.guild.name}** for \`${args[0]}\``
-            )
+            new MessageEmbed()
+              .setDescription(
+                `You got auto-warned in **${message.guild.name}** for \`${args[0]}\``
+              )
+              .setColor("RANDOM")
           );
-        } catch (e) {
-          console.log(`Unable to DM User ${message.author.username}`);
-        }
+        } catch (e) {}
         return;
       }
       if (action === "mute") {
@@ -331,13 +332,8 @@ module.exports = async (client) => {
           message.member.roles.add(role).catch((e) => {
             throw "Unable to mute the user";
           });
-        } catch (e) {
-          console.log(
-            `Failed to automute user ${message.author.username}: ${e}`
-          );
-        }
+        } catch (e) {}
         const embed = new Discord.MessageEmbed()
-          .setTitle("Muted!")
           .setDescription(
             `You got auto-muted in **${message.guild.name}** for \`${
               args[0]
@@ -346,9 +342,7 @@ module.exports = async (client) => {
           .setColor("RANDOM");
         try {
           message.author.send(embed);
-        } catch (e) {
-          console.log("Unable to DM user");
-        }
+        } catch (e) {}
         const muteschema = require("../schemas/muteschema");
         await muteschema.create({
           userId: message.author.id,
@@ -370,10 +364,33 @@ module.exports = async (client) => {
           timestamp: new Date().getTime(),
           _type: "Mute",
         };
-        await client
-          .setModlog(message.author.id, message.guild.id, modlog, client)
-          .then(() => console.log("Modlog set! Be proud :D"))
-          .catch(console.error);
+        await client.setModlog(
+          message.author.id,
+          message.guild.id,
+          modlog,
+          client
+        );
+        return;
+      }
+      if (action === "ban") {
+        if (!message.member.bannable) return;
+        let modlog = {
+          author: "System",
+          caseID: 0,
+          reason: args[0],
+          timestamp: new Date().getTime(),
+          _type: "Ban",
+        };
+        let embed = new MessageEmbed()
+          .setDescription(
+            `You got auto-banned in **${message.guild.name}** for \`${args[0]}\`. If you think this was a mistake, you can appeal [here](https://forms.gle/SUynmsZQzWwjxwVn7)`
+          )
+          .setColor("RED");
+        try {
+          await message.author.send(embed).then(() => {
+            message.guild.members.ban(message.author.id);
+          });
+        } catch (e) {}
       }
     },
     checkAccess: (message, action) => {

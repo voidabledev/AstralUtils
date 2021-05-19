@@ -13,8 +13,7 @@ module.exports = (client) => {
       );
       filtered.forEach(async (entry) => {
         await client.expire[entry._type](entry.userId, entry.guildId, client)
-          .then(async (reason) => {
-            console.log(reason);
+          .then(async () => {
             await punishSchema.deleteOne({
               _type: entry._type,
               userId: entry.userId,

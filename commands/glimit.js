@@ -4,6 +4,7 @@ const { MessageEmbed } = require("discord.js");
 exports.run = async (client, message, args) => {
   const em = client.em;
   const yessir = client.yessir;
+  const limit = client.giveawaysManager.limitPerDay;
   const withinaday = client.giveawaysManager.giveaways.filter(
     (g) => new Date().getTime() - g.startAt < 1000 * 60 * 60 * 24
   );
@@ -12,10 +13,12 @@ exports.run = async (client, message, args) => {
   const embed = new MessageEmbed().setTitle(
     `${withinaday.length} giveaways in the last day`
   );
-  if (withinaday.length < 5) {
+  if (withinaday.length < limit) {
     embed
       .setColor("GREEN")
-      .setDescription(`${5 - withinaday.length} more giveaways can be hosted.`)
+      .setDescription(
+        `${limit - withinaday.length} more giveaways can be hosted.`
+      )
       .setFooter("Another one will be available at")
       .setTimestamp(nextToExpire + 1000 * 60 * 60 * 24);
   } else {

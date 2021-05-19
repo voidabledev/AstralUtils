@@ -37,7 +37,7 @@ exports.run = async (client, message, args) => {
   }
   const embed = new MessageEmbed()
     .setDescription(
-      `You have been banned from **${message.guild.name}** for ${reason}`
+      `You have been banned from **${message.guild.name}** for ${reason}. If you think this was a mistake, you can appeal [here](https://forms.gle/SUynmsZQzWwjxwVn7)`
     )
     .setColor("RED");
   try {

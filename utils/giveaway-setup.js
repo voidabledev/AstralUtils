@@ -27,4 +27,5 @@ module.exports = (client) => {
     },
   });
   client.giveawaysManager = manager;
+  client.giveawaysManager.limitPerDay = 5;
 };

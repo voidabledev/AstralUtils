@@ -35,7 +35,7 @@ exports.run = async (client, message, args) => {
 exports.help = {
   name: "massban",
   description: "Mass bans users",
-  enabled: true,
+  enabled: false,
   aliases: ["mb"],
   usage: "[user ids] [reason]",
   category: "Moderation",
