@@ -29,6 +29,7 @@ exports.run = async (client, message, args) => {
         `RED`
       )
     );
+  const expires = new Date(Date.now() + 1000 * 60 * 60 * 24 * 7);
   await blSchema.create({
     userId: id,
     reason,
@@ -47,7 +48,7 @@ exports.run = async (client, message, args) => {
       em(
         `Bot blacklist`,
         `You have been blacklisted from using ${client.user.username} for \`${reason}\`. This means that you can no longer use any commands of this bot, and that you can no longer take part in giveaways. If you think this was a mistake, please DM <@804074816704348182>.`,
-        `what a noob lol`,
+        `You will be unblacklisted automatically in one week.`,
         `RED`
       )
     )

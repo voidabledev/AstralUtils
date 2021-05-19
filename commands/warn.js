@@ -1,6 +1,5 @@
 const Discord = require("discord.js");
 const { MessageEmbed } = require("discord.js");
-const mongo = require("../mongo");
 const warnSchema = require("../schemas/warnschema");
 
 exports.run = async (client, message, args) => {

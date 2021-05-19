@@ -1,9 +1,11 @@
+const Discord = require("discord.js");
 module.exports = (client) => {
   client.setInterval(async () => {
     const mongo = require("../mongo");
     const punishSchema = require("../schemas/punishschema");
     const muteSchema = require("../schemas/muteschema");
     const warnSchema = require("../schemas/warnschema");
+    const blSchema = require("../schemas/blacklistschema");
     punishSchema.find({}, async (err, entries) => {
       if (err) console.error(err);
       let filtered = entries.filter(
@@ -47,6 +49,32 @@ module.exports = (client) => {
             );
           }
         });
+      });
+    });
+    await blSchema.find({}, async (err, blacklists) => {
+      if (err) console.error(err);
+      const filtered = blacklists.filter(
+        (b) => b.expires < new Date().getTime()
+      );
+      filtered.forEach(async (bl) => {
+        await blSchema.deleteOne({ userId: bl.userId });
+        const modlog = {
+          author: "System",
+          reason: "Timed blacklist expired after 7 days",
+          caseID: 0,
+          timestamp: new Date().getTime(),
+          _type: "Unblacklist",
+        };
+        await client.setModlog(bl.userId, bl.guildId, modlog, client);
+        try {
+          const user = client.users.fetch(bl.userId);
+          const guild = client.guilds.cache.get(bl.deleteOne.guildId);
+          user.send(
+            new Discord.MessageEmbed().setDescription(
+              `Your blacklist has expired. You can now take part in giveaways again.`
+            )
+          );
+        } catch (e) {}
       });
     });
   }, 30000);

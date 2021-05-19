@@ -5,10 +5,15 @@ const blacklistSchema = mongoose.Schema({
     type: String,
     required: true,
   },
+  guildId: {
+    type: String,
+    require: true,
+  },
   reason: {
     type: String,
     requred: true,
   },
+  expires: Number,
 });
 
 module.exports = mongoose.model("blacklist", blacklistSchema);
