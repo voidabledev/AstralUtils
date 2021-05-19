@@ -8,7 +8,7 @@ exports.run = async (client, message, args) => {
   const limit = client.giveawaysManager.limitPerDay;
   if (
     !message.member.hasPermission("MANAGE_MESSAGES") &&
-    !message.member.roles.cache.some((r) => r.name === "Giveaways")
+    !message.member.roles.cache.some((r) => r.id === "831996436333592586")
   ) {
     return message.channel.send(
       "You need to have the manage messages permissions or a role called Giveaways."

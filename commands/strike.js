@@ -4,7 +4,7 @@ const { MessageEmbed } = require("discord.js");
 exports.run = async (client, message, args) => {
   const em = client.em;
   const yessir = client.yessir;
-  const strikeId = client.makeID(32, 8);
+  const strikeSchema = require("../schemas/strikeschema");
   let target;
   try {
     target =
@@ -46,6 +46,19 @@ exports.run = async (client, message, args) => {
         `Who are you trying to strike, the owner? You can't strike people above you!`
       )
     );
+  const strikeId = client.makeID(36, 8);
+  await strikeSchema.find({}, (err, entries) => {
+    if (err) throw err;
+    retry: while (true) {
+      for (let entry of entries) {
+        if (entry.warnings.some((s) => s.strikeId === strikeId)) {
+          strikeId = makeID(36, 8);
+          continue retry;
+        }
+      }
+      break;
+    }
+  });
   const embed = new MessageEmbed()
     .setTitle(`Striked`)
     .setDescription(
@@ -66,8 +79,17 @@ exports.run = async (client, message, args) => {
     .setDescription(
       `You have striked ${target} for \`${reason}\` and with ID \`${strikeId}\``
     );
-  message.channnel.send(messageEmbed);
-  message.guild.channels.cache.get("831996554763829338").send(logEmbed);
+  message.channel.send(messageEmbed);
+  message.guild.channels.cache
+    .get("831996554763829338")
+    .send(logEmbed)
+    .then((msg) => {
+      strikeSchema.create({
+        userId: target.id,
+        strikeId,
+        messageId: msg.id,
+      });
+    });
 };
 exports.help = {
   name: "strike",
@@ -75,7 +97,7 @@ exports.help = {
   enabled: true,
   aliases: ["s"],
   usage: "[user] [reason]",
-  category: "Moderation",
+  category: "Administration",
   hidden: true,
 };
 

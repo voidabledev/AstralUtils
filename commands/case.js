@@ -12,13 +12,10 @@ exports.run = async (client, message, args) => {
 
   await modSchema.find({}, (err, logs) => {
     if (err) console.error(err);
-    logs.map(async (log) => {
-      await log.modlogs.forEach((l) => {
-        if (l.caseID === toCheck) {
-          found = l;
-          foundLog = log;
-        }
-      });
+    foundLog = logs.find((log) => {
+      let ml = log.modlogs.find((l) => l.caseID === toCheck);
+      if (ml) found = ml;
+      return !!ml;
     });
   });
   if (!found)
@@ -30,20 +27,21 @@ exports.run = async (client, message, args) => {
         `RED`
       )
     );
-  return message.channel.send(
-    em(
-      `Information on Case #${found.caseID}`,
-      `**User:** <@${foundLog.userId}>\n**Moderator:** <@${
-        found.author
-      }>\n **Date:** ${new Date(
-        found.timestamp
-      ).toLocaleDateString()}\n**Type:** ${found._type}\n**Reason:** ${
-        found.reason
-      }\n\n`,
-      `User ID: ${foundLog.userId}`,
-      `GREEN`
+  const embed = new MessageEmbed()
+    .setTitle(`Case #${found.caseID}`)
+    .addField("Punishment Type", found._type)
+    .addField(
+      "Moderator",
+      `${found.author === "System" ? "" : "<@"}${found.author}${
+        found.author === "System" ? "" : ">"
+      } ${found.author === "System" ? "" : `(${found.author})`}`
     )
-  );
+    .addField("User", `<@${foundLog.userId}> (${foundLog.userId})`)
+    .addField("Reason", found.reason)
+    .setFooter("Created")
+    .setTimestamp(found.timestamp)
+    .setColor("RANDOM");
+  return message.channel.send(embed);
 };
 exports.help = {
   name: "case",
