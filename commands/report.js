@@ -46,8 +46,8 @@ exports.run = async (client, message, args) => {
   );
   return reportChannel.send(
     em(
-      `${message.author.tag} reported ${target.tag}`,
-      `**Reason:**\n${reason}`,
+      `Report`,
+      `${message.author.username} reported ${target.username} for:\n${reason}`,
       `User ID: ${target.id}`
     )
   );
