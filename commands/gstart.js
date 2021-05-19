@@ -5,7 +5,7 @@ const ms = require("ms");
 exports.run = async (client, message, args) => {
   const em = client.em;
   const yessir = client.yessir;
-
+  const limit = client.giveawaysManager.limitPerDay;
   if (
     !message.member.hasPermission("MANAGE_MESSAGES") &&
     !message.member.roles.cache.some((r) => r.name === "Giveaways")
@@ -57,7 +57,7 @@ exports.run = async (client, message, args) => {
     (g) => new Date().getTime() - g.startAt < 1000 * 60 * 60 * 24
   );
   let stop;
-  if (withinaday.length > 4) {
+  if (withinaday.length >= limit) {
     if (message.member.hasPermission("ADMINISTRATOR")) {
       await message.channel.send;
       await message.channel.send(
@@ -92,7 +92,7 @@ exports.run = async (client, message, args) => {
       message.channel.send(
         em(
           `Failure!`,
-          `There are already ${withinaday.length} giveaways hosted within the last day, but only 5 are allowed!`,
+          `There are already ${withinaday.length} giveaways hosted within the last day, but only ${limit} are allowed!`,
           `Message an admin if this needs to be hosted anyways.`,
           `RED`
         )
