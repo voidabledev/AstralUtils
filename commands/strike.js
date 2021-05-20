@@ -36,9 +36,9 @@ exports.run = async (client, message, args) => {
       )
     );
   }
+  const targetMember = await message.guild.members.fetch(id);
   if (
-    message.member.roles.highest.position <
-    (await message.guild.members.fetch(id).roles.highest.position)
+    message.member.roles.highest.position < targetMember.roles.highest.position
   )
     return message.channel.send(
       em(
@@ -51,7 +51,7 @@ exports.run = async (client, message, args) => {
     if (err) throw err;
     retry: while (true) {
       for (let entry of entries) {
-        if (entry.warnings.some((s) => s.strikeId === strikeId)) {
+        if (entry.strikeId === strikeId) {
           strikeId = makeID(36, 8);
           continue retry;
         }
