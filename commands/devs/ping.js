@@ -20,6 +20,12 @@ module.exports = {
 						value: `${botPing} miliseconds`,
 						inline: true,
 					},
+
+					{
+						name: 'Latency of the websocket',
+						value: `${client.ws.ping} miliseconds`,
+						inline: false,
+					},
 				)
 				.setTimestamp();
 			message.channel.send(embed);
