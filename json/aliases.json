@@ -1,0 +1,5 @@
+{
+    "devs": {
+        "ping": ["pong", "latency", "getlatency"]   
+    }
+}
