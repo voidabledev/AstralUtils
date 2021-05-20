@@ -19,13 +19,14 @@ exports.run = async (client, message, args) => {
     .setFooter(`wooooo`)
     .setColor(`GREEN`);
   for (const entry of notEnded) {
+    const timestamp = new Date(entry.endAt);
     embed.addField(
       entry.prize,
-      `**Hosted by:** <@${entry.hostedBy}>\n**Channel:** <#${
+      `**Hosted by:** ${entry.hostedBy}\n**Channel:** <#${
         entry.channelID
-      }>\n**Ends on:** ${new Date().setTime(entry.endAt)}\n**Winners:** ${
-        entry.winnerCount
-      }\n\n_ _`
+      }>\n**Ends on:** ${timestamp.toLocaleString("en-US", {
+        timeZone: "UTC",
+      })} UTC\n**Winners:** ${entry.winnerCount}\n\n_ _`
     );
   }
   message.channel.send(embed);
