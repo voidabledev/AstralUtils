@@ -38,7 +38,7 @@ exports.run = async (client, message, args) => {
   }
   if (
     message.member.roles.highest.position <
-    message.guild.members.cache.get(target.id).roles.highest.position
+    (await message.guild.members.fetch(id).roles.highest.position)
   )
     return message.channel.send(
       em(
@@ -98,7 +98,6 @@ exports.help = {
   aliases: ["s"],
   usage: "[user] [reason]",
   category: "Administration",
-  hidden: true,
 };
 
 exports.data = {
