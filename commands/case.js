@@ -7,41 +7,48 @@ exports.run = async (client, message, args) => {
   const yessir = client.yessir;
 
   const toCheck = parseInt(args[0], 10);
-  let foundLog;
-  let found;
-
-  await modSchema.find({}, (err, logs) => {
-    if (err) console.error(err);
-    foundLog = logs.find((log) => {
-      let ml = log.modlogs.find((l) => l.caseID === toCheck);
-      if (ml) found = ml;
-      return !!ml;
+  new Promise(async (resolve) => {
+    let foundLog;
+    let found;
+    await modSchema.find({}, (err, logs) => {
+      if (err) console.error(err);
+      foundLog = logs.find((log) => {
+        let ml = log.modlogs.find((l) => l.caseID === toCheck);
+        if (ml) found = ml;
+        return !!ml;
+      });
+      resolve({
+        found,
+        foundLog,
+      });
     });
-  });
-  if (!found)
-    return message.channel.send(
-      em(
-        `Failure!`,
-        `I couldn't find a modlog corresponding to that case.`,
-        `duh`,
-        `RED`
+  }).then((res) => {
+    const { found, foundLog } = res;
+    if (!found)
+      return message.channel.send(
+        em(
+          `Failure!`,
+          `I couldn't find a modlog corresponding to that case.`,
+          `duh`,
+          `RED`
+        )
+      );
+    const embed = new MessageEmbed()
+      .setTitle(`Case #${found.caseID}`)
+      .addField("Punishment Type", found._type)
+      .addField(
+        "Moderator",
+        `${found.author === "System" ? "" : "<@"}${found.author}${
+          found.author === "System" ? "" : ">"
+        } ${found.author === "System" ? "" : `(${found.author})`}`
       )
-    );
-  const embed = new MessageEmbed()
-    .setTitle(`Case #${found.caseID}`)
-    .addField("Punishment Type", found._type)
-    .addField(
-      "Moderator",
-      `${found.author === "System" ? "" : "<@"}${found.author}${
-        found.author === "System" ? "" : ">"
-      } ${found.author === "System" ? "" : `(${found.author})`}`
-    )
-    .addField("User", `<@${foundLog.userId}> (${foundLog.userId})`)
-    .addField("Reason", found.reason)
-    .setFooter("Created")
-    .setTimestamp(found.timestamp)
-    .setColor("RANDOM");
-  return message.channel.send(embed);
+      .addField("User", `<@${foundLog.userId}> (${foundLog.userId})`)
+      .addField("Reason", found.reason)
+      .setFooter("Created")
+      .setTimestamp(found.timestamp)
+      .setColor("RANDOM");
+    return message.channel.send(embed);
+  });
 };
 exports.help = {
   name: "case",
