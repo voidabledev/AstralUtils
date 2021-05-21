@@ -1,5 +1,5 @@
 {
-  "name": "galaxyutils-V2",
+  "name": "galaxyutils-v2",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -19,6 +19,7 @@
   "homepage": "https://github.com/diego201grgtg/galaxyutils#readme",
   "dependencies": {
     "discord.js": "^12.5.3",
-    "fs": "0.0.1-security"
+    "fs": "0.0.1-security",
+    "mongoose": "^5.12.10"
   }
 }

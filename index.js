@@ -1,7 +1,9 @@
 // Packages...
 const Discord = require('discord.js');
 const client = new Discord.Client();
+const conf = require('./json/configuration.json');
 const fs = require('fs');
+const mongoose = require('mongoose');
 
 const eventFiles = fs.readdirSync('./events').filter(file => file.endsWith('.js'));
 for (const file of eventFiles) {
@@ -25,3 +27,12 @@ for (const folder of commandFolders) {
 }
 
 client.cooldowns = new Discord.Collection();
+
+mongoose.connect(conf.db, {
+	useNewUrlParser: true,
+	useUnifiedTopology: true,
+	useFindAndModify: false,
+	keepAlive: true,
+});
+
+client.login(conf.token);

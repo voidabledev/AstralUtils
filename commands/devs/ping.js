@@ -8,7 +8,7 @@ module.exports = {
 	// eslint-disable-next-line no-unused-vars
 	async execute(message, args, client) {
 		// ...
-		if(!message.member.roles.cache.has('')) return message.delete();
+		/* if(!message.member.roles.cache.has('')) return message.delete(); */
 		message.channel.send('Pinging...').then(resMsg =>{
 			const botPing = resMsg.createdTimestamp - message.createdTimestamp;
 			const embed = new Discord.MessageEmbed()

@@ -3,7 +3,7 @@ async function errorEmbed(errText) {
 	new Discord.MessageEmbed()
 		.setColor('RED')
 		.setTitle('Uh oh...')
-		.setDescription(`There's been an error: ${errText}`)
+		.setDescription(`There's been an error: \`\`\`\n${errText}\n\`\`\``)
 		.setFooter('Please contact a developer if the error still persists')
 		.setTimestamp();
 }

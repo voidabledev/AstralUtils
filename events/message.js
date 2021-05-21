@@ -1,5 +1,6 @@
 /* eslint-disable no-unused-vars */
 const errEmbed = require('../functions/error-embed.js');
+const failureEmbed = require('../functions/failure-embed.js');
 const Discord = require('discord.js');
 const conf = require('../json/configuration.json');
 module.exports = {
@@ -7,7 +8,7 @@ module.exports = {
 	once: false,
 	async execute(message, client) {
 		const { cooldowns } = client;
-		const prefix = conf.prefix;
+		const prefix = process.argv[2].length ? conf.betaPrefix : conf.prefix;
 		if(!message.content.startsWith(prefix) || message.author.bot) return;
 		const args = message.content.slice(prefix.length).split(/ +/);
 		const commandName = args.shift().toLowerCase();
@@ -24,7 +25,7 @@ module.exports = {
 
 			if (now < expirationTime) {
 				const timeLeft = (expirationTime - now) / 1000;
-				return message.reply(`please wait ${timeLeft.toFixed(1)} more second(s) before reusing the \`${command.name}\` command.`);
+				return message.channel.send(failureEmbed(`please wait ${timeLeft.toFixed(1)} more second(s) before reusing the \`${command.name}\` command.`));
 			}
 		}
 
