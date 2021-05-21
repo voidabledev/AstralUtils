@@ -1,5 +1,6 @@
 {
     "devs": {
-        "ping": ["pong", "latency", "getlatency"]
+        "ping": ["pong", "latency", "getlatency"],
+				"eval": ["ev", "e"]
     }
 }
