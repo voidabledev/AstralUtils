@@ -1,6 +1,17 @@
 {
-    "devs": {
-        "ping": ["pong", "latency", "getlatency"],
-				"eval": ["ev", "e"]
-    }
+  "devs": {
+    "eval": ["ev", "e"]
+  },
+  "info": {
+    "ping": ["pong", "latency", "getlatency"],
+    "help": ["commands"]
+  },
+  "mod": {
+    "ban": ["b"]
+  },
+  "admin": {
+    "strike": ["s"]
+  },
+  "giveaways": {},
+  "misc": {}
 }
