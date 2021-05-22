@@ -7,7 +7,12 @@
     "help": ["commands"]
   },
   "mod": {
-    "ban": ["b"]
+    "ban": ["b"],
+    "lock": ["l"],
+    "unban": ["ub"],
+    "warn": ["w"],
+    "mute": ["m"],
+    "rmpunish": ["delpunish"]
   },
   "admin": {
     "strike": ["s"]
