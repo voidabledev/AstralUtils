@@ -1,6 +1,6 @@
 // eslint-disable indent-space
 const alias = require('../../json/aliases.json');
-const failureEmbed = require('../../utils/failure-embed');
+const failureEmbed = require('../../functions/failure-embed');
 const { MessageEmbed } = require('discord.js');
 
 module.exports = {
@@ -53,7 +53,7 @@ module.exports = {
 				),
 			);
 		}
-		const strikeId = require('../../utils/id');
+		const strikeId = require('../../functions/id');
 		const embed = new MessageEmbed()
 			.setTitle('Striked')
 			.setDescription(

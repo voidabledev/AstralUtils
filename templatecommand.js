@@ -1,5 +1,9 @@
 // Packages you will need...
 const alias = require('../../json/aliases.json');
+// eslint-disable-next-line no-unused-vars
+const successEmbed = require('./functions/success-embed');
+// eslint-disable-next-line no-unused-vars
+const failureEmbed = require('./functions/failure-embed');
 
 module.exports = {
 	name: String,

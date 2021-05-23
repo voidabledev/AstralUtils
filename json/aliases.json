@@ -1,8 +1,9 @@
 {
   "devs": {
-    "eval": ["ev", "e"]
+    "eval": ["ev", "e"],
+    "activtity": ["act"]
   },
-  "info": {
+  "utilities": {
     "ping": ["pong", "latency", "getlatency"],
     "help": ["commands"]
   },
@@ -12,11 +13,11 @@
     "unban": ["ub"],
     "warn": ["w"],
     "mute": ["m"],
-    "rmpunish": ["delpunish"]
+    "rmpunish": ["delpunish"],
+    "blacklist": ["bl", "block"]
   },
   "admin": {
     "strike": ["s"]
   },
-  "giveaways": {},
-  "misc": {}
+  "giveaways": {}
 }

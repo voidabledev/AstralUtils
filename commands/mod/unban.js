@@ -1,8 +1,8 @@
 // Packages you will need...
 const alias = require('../../json/aliases.json');
-const successEmbed = require('../../utils/success-embed');
-const failureEmbed = require('../../utils/failure-embed');
-const errorEmbed = require('../../utils/error-embed');
+const successEmbed = require('../../functions/success-embed');
+const failureEmbed = require('../../functions/failure-embed');
+const errorEmbed = require('../../functions/error-embed');
 
 module.exports = {
 	name: 'unban',

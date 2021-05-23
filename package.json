@@ -20,6 +20,8 @@
   "dependencies": {
     "discord.js": "^12.5.3",
     "fs": "0.0.1-security",
-    "mongoose": "^5.12.10"
+    "moment": "^2.29.1",
+    "mongoose": "^5.12.10",
+    "ms": "^2.1.2"
   }
 }
