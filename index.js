@@ -5,6 +5,8 @@ const conf = require('./json/configuration.json');
 const fs = require('fs');
 const mongoose = require('mongoose');
 
+global.aliases = require('./json/aliases.json');
+
 const eventFiles = fs
 	.readdirSync('./events')
 	.filter((file) => file.endsWith('.js'));
@@ -27,6 +29,7 @@ for (const folder of commandFolders) {
 	for (const file of commandFiles) {
 		const command = require(`./commands/${folder}/${file}`);
 		client.commands.set(command.name, command);
+		console.log(`Loaded ${folder}/${file}`);
 	}
 }
 

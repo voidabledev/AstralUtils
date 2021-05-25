@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 const errEmbed = require('../functions/error-embed.js');
-const failureEmbed = require('../functions/failure-embed.js.js');
+const failureEmbed = require('../functions/failure-embed.js');
 const Discord = require('discord.js');
 const conf = require('../json/configuration.json');
 module.exports = {
@@ -13,7 +13,7 @@ module.exports = {
 		const args = message.content.slice(prefix.length).split(/ +/);
 		const commandName = args.shift().toLowerCase();
 		const command =
-      client.commands.find((cmd) => cmd.name.toLowerCase() === commandName) ||
+      client.commands.get(commandName) ||
       client.commands.find((cmd) => cmd.aliases && cmd.aliases.includes(commandName),
       );
 		if (!command) return;

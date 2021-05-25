@@ -1,6 +1,6 @@
 const alias = require('../../json/aliases.json');
-const successEmbed = require('./functions/success-embed');
-const failureEmbed = require('./functions/failure-embed');
+const successEmbed = require('../../functions/success-embed');
+const failureEmbed = require('../../functions/failure-embed');
 const statuses = require('../../functions/statuses');
 const validTypes = [
 	'PLAYING',

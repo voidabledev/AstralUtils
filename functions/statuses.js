@@ -23,6 +23,7 @@ async function statuses(client) {
 	const index = Math.floor(Math.random() * rand.length);
 	client.user.setPresence({
 		status: rand[index][2],
+		// AH TU LO DEL PACKAGE NO SE ME OCURRIÓ EN LA VIDA
 		activity: {
 			name: `${rand[index][0]} | ${process.argv.length > 2 ? conf.betaPrefix : conf.prefix}help | v${
 				require('../package.json').version
@@ -33,3 +34,4 @@ async function statuses(client) {
 }
 
 module.exports = statuses;
+// La hostia
