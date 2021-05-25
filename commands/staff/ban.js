@@ -5,19 +5,28 @@ const failureEmbed = require('../../functions/failure-embed');
 const { MessageEmbed } = require('discord.js');
 
 module.exports = {
-	name: 'ban',
-	description: 'Bans a user',
-	aliases: ['b'] || alias.mod.ban,
-	cooldown: 5,
+	help: {
+		name: 'ban',
+		description: 'Bans a user',
+		usage: '[user mention or ID] (time) [reason]',
+		aliases: alias.mod.ban,
+		cooldown: 5,
+	},
+	data: {
+		minArgs: 2,
+		maxArgs: null,
+		userPerms: ['BAN_MEMBERS'],
+		botPerms: ['BAN_MEMBERS'],
+		requiredRoles: [],
+		delete: true,
+	},
 	// eslint-disable-next-line no-unused-vars
 	async execute(message, args, client) {
 		let target = message.mentions.users.first();
 		if (!target) target = await client.users.fetch(args[0]);
 		const time = client.millis(args[1]);
 		if (time > 0) args.shift();
-		let reason = '';
-		if (!args[1]) reason = '`No reason provided`';
-		else reason = `\`${args.slice(1).join(' ')}\``;
+		const reason = `\`${args.slice(1).join(' ')}\``;
 		if (!target) {
 			return message.channel.send(
 				failureEmbed('Please specify someone to ban.'),

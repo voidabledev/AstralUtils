@@ -5,13 +5,24 @@ const failureEmbed = require('../../functions/failure-embed');
 const { MessageEmbed } = require('discord.js');
 
 module.exports = {
-	name: 'lock',
-	description: 'Locks a channel',
-	aliases: ['l'] || alias.mod.lock,
-	cooldown: 30,
+	help: {
+		name: 'lock',
+		description: 'Locks a channel',
+		usage: '[channel mention, channel ID or "here"] (reason)',
+		aliases: alias.mod.lock,
+		cooldown: 30,
+	},
+	data: {
+		minArgs: 2,
+		maxArgs: null,
+		userPerms: ['MANAGE_CHANNELS'],
+		botPerms: ['MANAGE_CHANNELS'],
+		requiredRoles: [],
+		delete: true,
+	},
 	// eslint-disable-next-line no-unused-vars
 	async execute(message, args, client) {
-		const channelID = args.shift();
+		const channelID = message.mentions.channels.first() || args.shift();
 		const reason = args.join(' ');
 		let channel =
       message.mentions.channels.first() ||

@@ -6,10 +6,21 @@ const failureEmbed = require('../../functions/failure-embed');
 const isenabled = require('../../functions/isenabled');
 
 module.exports = {
-	name: 'help',
-	description: 'Displays the commands',
-	aliases: alias.utilities.help,
-	cooldown: 10,
+	help: {
+		name: 'help',
+		description: 'Displays the commands',
+		usage: '(command name or category)',
+		aliases: alias.utilities.help,
+		cooldown: 10,
+	},
+	data: {
+		minArgs: 0,
+		maxArgs: null,
+		userPerms: [],
+		botPerms: [],
+		requiredRoles: [],
+		delete: false,
+	},
 	// eslint-disable-next-line no-unused-vars
 	async execute(message, args, client) {
 		if (args[0]) {

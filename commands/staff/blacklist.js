@@ -6,10 +6,21 @@ const blSchema = require('../../models/punishschema');
 const { MessageEmbed } = require('discord.js');
 
 module.exports = {
-	name: 'blacklist',
-	description: 'Blocks a member from using the bot',
-	aliases: ['bl', 'block'] || alias.mod.blacklist,
-	cooldown: 30,
+	help: {
+		name: 'blacklist',
+		description: 'Blocks a member from using the bot',
+		usage: '[reason]',
+		aliases: alias.mod.blacklist,
+		cooldown: 30,
+	},
+	data: {
+		minArgs: 1,
+		maxArgs: null,
+		userPerms: ['MANAGE_ROLES'],
+		botPerms: [],
+		requiredRoles: [],
+		delete: true,
+	},
 	async execute(message, args, client) {
 		const target =
     message.mentions.users.first() || client.users.cache.get(args[0]);

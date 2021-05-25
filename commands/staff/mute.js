@@ -2,10 +2,21 @@
 const alias = require('../../json/aliases.json');
 
 module.exports = {
-	name: String,
-	description: String,
-	aliases: Array || alias.commandCategory.commandName,
-	cooldown: Number,
+	help: {
+		name: 'mute',
+		description: 'Mutes a member',
+		usage: '[user mention or ID] (time) [reason]',
+		aliases: alias.mod.mute,
+		cooldown: 5,
+	},
+	data: {
+		minArgs: 2,
+		maxArgs: null,
+		userPerms: ['MANAGE_MESSAGES'],
+		botPerms: ['MANAGE_ROLES'],
+		requiredRoles: [],
+		delete: true,
+	},
 	// eslint-disable-next-line no-unused-vars
 	async execute(message, args, client) {
 		// Code here

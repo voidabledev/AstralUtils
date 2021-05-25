@@ -11,10 +11,21 @@ const validTypes = [
 ];
 
 module.exports = {
-	name: 'activity',
-	description: 'Changes the activity of the bot.',
-	aliases: ['act'] || alias.devs.activity,
-	cooldown: 15,
+	help: {
+		name: 'activity',
+		description: 'Sets the bot\'s activity',
+		usage: '[new activity]',
+		aliases: alias.devs.activity,
+		cooldown: 15,
+	},
+	data: {
+		minArgs: 2,
+		maxArgs: null,
+		userPerms: [],
+		botPerms: [],
+		requiredRoles: [],
+		delete: false,
+	},
 	// eslint-disable-next-line no-unused-vars
 	async execute(message, args, client) {
 		if (!client.conf.devs.includes(message.author.id)) {

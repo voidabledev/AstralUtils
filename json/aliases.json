@@ -6,7 +6,8 @@
   },
   "utilities": {
     "ping": ["pong", "latency", "getlatency"],
-    "help": ["commands"]
+    "help": ["commands"],
+    "setlogs": ["setl"]
   },
   "mod": {
     "ban": ["b"],
@@ -15,10 +16,13 @@
     "warn": ["w"],
     "mute": ["m"],
     "rmpunish": ["delpunish"],
-    "blacklist": ["bl", "block"]
+    "blacklist": ["bl", "block"],
+    "unlock": ["unl"],
+    "case": ["c"]
   },
   "admin": {
-    "strike": ["s"]
+    "strike": ["s"],
+    "announce": ["a"]
   },
   "giveaways": {}
 }

@@ -5,10 +5,21 @@ const failureEmbed = require('../../functions/failure-embed');
 const errorEmbed = require('../../functions/error-embed');
 
 module.exports = {
-	name: 'unban',
-	description: 'Unbans a user.',
-	aliases: ['ub'] || alias.mod.unban,
-	cooldown: 5,
+	help: {
+		name: 'unban',
+		description: 'Unbans a user',
+		usage: '[user ID] [reason]',
+		aliases: alias.mod.unban,
+		cooldown: 5,
+	},
+	data: {
+		minArgs: 1,
+		maxArgs: null,
+		userPerms: ['BAN_MEMBERS'],
+		botPerms: ['BAN_MEMBERS'],
+		requiredRoles: [],
+		delete: true,
+	},
 	// eslint-disable-next-line no-unused-vars
 	async execute(message, args, client) {
 		const guild = message.guild;

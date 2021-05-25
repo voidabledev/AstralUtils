@@ -5,6 +5,21 @@ module.exports = {
 	description: 'Get the latency of the bot',
 	aliases: alias.devs.ping,
 	cooldown: 10,
+	help: {
+		name: 'ping',
+		description: 'Get the bot\'s latency',
+		usage: '',
+		aliases: alias.utilities.ping,
+		cooldown: 10,
+	},
+	data: {
+		minArgs: 0,
+		maxArgs: null,
+		userPerms: [],
+		botPerms: [],
+		requiredRoles: [],
+		delete: false,
+	},
 	// eslint-disable-next-line no-unused-vars
 	async execute(message, args, client) {
 		// ...

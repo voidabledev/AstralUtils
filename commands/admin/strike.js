@@ -4,10 +4,21 @@ const failureEmbed = require('../../functions/failure-embed');
 const { MessageEmbed } = require('discord.js');
 
 module.exports = {
-	name: 'strike',
-	description: 'Strikes a staff member',
-	aliases: ['s'] || alias.admin.strike,
-	cooldown: 5,
+	help: {
+		name: 'strike',
+		description: 'Strikes a staff member',
+		usage: '[User ID] [reason]',
+		aliases: alias.admin.strike,
+		cooldown: 5,
+	},
+	data: {
+		minArgs: 2,
+		maxArgs: null,
+		userPerms: ['ADMINISTRATOR'],
+		botPerms: [],
+		requiredRoles: [],
+		delete: true,
+	},
 	// eslint-disable-next-line no-unused-vars
 	async execute(message, args, client) {
 		let target;
