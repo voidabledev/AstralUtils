@@ -1,15 +1,16 @@
+const conf = require('../json/configuration.json');
 async function statuses(client) {
 	const rand = [
-		['with the universe', 'PLAYING', 'online'],
-		['with the stars', 'PLAYING', 'idle'],
+		['with code', 'PLAYING', 'online'],
+		['the developers yelling at me', 'WATCHING', 'idle'],
 		['with your computer', 'PLAYING', 'dnd'],
 		['Minecraft', 'PLAYING', 'dnd'],
-		['in the galaxy', 'PLAYING', 'online'],
+		['with the other bots', 'PLAYING', 'online'],
 		['with your feelings', 'PLAYING', 'idle'],
 		['you', 'WATCHING', 'online'],
-		['space', 'COMPETING', 'dnd'],
-		['the sound of silence', 'LISTENING', 'idle'],
-		['over the galaxy', 'WATCHING', 'online'],
+		['Simon Says', 'COMPETING', 'dnd'],
+		['my fav songs', 'LISTENING', 'idle'],
+		['over the island', 'WATCHING', 'online'],
 		['the sky', 'WATCHING', 'dnd'],
 		['with code', 'PLAYING', 'idle'],
 		['you like a fiddle', 'PLAYING', 'online'],
@@ -23,7 +24,7 @@ async function statuses(client) {
 	client.user.setPresence({
 		status: rand[index][2],
 		activity: {
-			name: `${rand[index][0]} | >help | v${
+			name: `${rand[index][0]} | ${process.argv.length > 2 ? conf.betaPrefix : conf.prefix}help | v${
 				require('../package.json').version
 			}`,
 			type: rand[index][1],

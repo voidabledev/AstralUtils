@@ -1,9 +1,9 @@
-async function identification(base, length) {
-	let id = Math.floor(Math.random() * base ** length).toString(base);
-	while (id.length < length) {
-		id = '0' + id;
+async function id(base, length, zeroes) {
+	let gen = Math.floor(Math.random() * base ** length).toString(base);
+	while (gen.length < length && zeroes !== false) {
+		gen = '0' + gen;
 	}
-	return id;
+	return gen;
 }
 
-module.exports = identification;
+module.exports = id;

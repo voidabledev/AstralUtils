@@ -25,6 +25,10 @@ const punishSchema = mongoose.Schema({
 		type: String,
 		required: true,
 	},
+	timestamp: {
+		type: Number,
+		required: true,
+	},
 });
 
 module.exports = mongoose.model('punishments', punishSchema);
