@@ -5,6 +5,8 @@ const conf = require('./json/configuration.json');
 const fs = require('fs');
 const mongoose = require('mongoose');
 
+global.aliases = require('./json/aliases.json');
+
 const eventFiles = fs
 	.readdirSync('./events')
 	.filter((file) => file.endsWith('.js'));

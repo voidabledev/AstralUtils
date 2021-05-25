@@ -1,7 +1,8 @@
 {
   "devs": {
     "eval": ["ev", "e"],
-    "activtity": ["act"]
+    "activtity": ["act"],
+    "execute": ["exec"]
   },
   "utilities": {
     "ping": ["pong", "latency", "getlatency"],
