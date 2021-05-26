@@ -1,6 +1,6 @@
 const { MessageEmbed } = require('discord.js');
-async function successEmbed(succText, succFooter) {
-	new MessageEmbed()
+function successEmbed(succText, succFooter) {
+	return new MessageEmbed()
 		.setTitle('Success!')
 		.setDescription(succText)
 		.setFooter(succFooter || null)

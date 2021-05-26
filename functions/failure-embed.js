@@ -1,6 +1,6 @@
 const { MessageEmbed } = require('discord.js');
-async function failureEmbed(failText, failFooter) {
-	new MessageEmbed()
+function failureEmbed(failText, failFooter) {
+	return new MessageEmbed()
 		.setTitle('Failure!')
 		.setDescription(failText)
 		.setColor('RED')

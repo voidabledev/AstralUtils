@@ -28,7 +28,7 @@ for (const folder of commandFolders) {
 		.filter((file) => file.endsWith('.js'));
 	for (const file of commandFiles) {
 		const command = require(`./commands/${folder}/${file}`);
-		client.commands.set(command.name, command);
+		client.commands.set(command.help.name, command);
 		console.log(`Loaded ${folder}/${file}`);
 	}
 }

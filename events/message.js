@@ -9,28 +9,40 @@ module.exports = {
 	once: false,
 	async execute(message, client) {
 		const { cooldowns } = client;
-		const prefix = process.argv[2].length ? conf.betaPrefix : conf.prefix;
+		const prefix = process.argv.length > 2 ? conf.betaPrefix : conf.prefix;
 		if (!message.content.startsWith(prefix) || message.author.bot) return;
 		const args = message.content.slice(prefix.length).split(/ +/);
 		const commandName = args.shift().toLowerCase();
 		const command =
       client.commands.get(commandName) ||
-      client.commands.find((cmd) => cmd.aliases && cmd.aliases.includes(commandName),
+      client.commands.find((cmd) => cmd.help.aliases && cmd.help.aliases.includes(commandName),
       );
 		if (!command) return;
-
+		if (command.data.delete) message.delete();
 		perms(command.data.userPerms);
 		perms(command.data.botPerms);
-		if(!command.data.userPerms.some((p) => message.member.hasPermission(p))) {
+		if (command.data.userPerms.length && !command.data.userPerms.some((p) => message.member.hasPermission(p))) {
 			return message.channel.send(failureEmbed(
 				'You don\'t have permission to use this command!',
 				'Come back when you are more respected',
 			));
 		}
-		if(command.data.botPerms.some(p => !message.guild.me.hasPermission(p))) {
+		if (command.data.botPerms.length && command.data.botPerms.some(p => !message.guild.me.hasPermission(p))) {
 			return message.channel.send(failureEmbed(
 				'I don\'t have enough permission to use this command!',
 				'Contact an admin to fix this.',
+			));
+		}
+		if (args.length < command.data.minArgs || (command.data.maxArgs !== null) && args.length > command.data.maxArgs) {
+			return message.channel.send(failureEmbed(
+				`Wrong usage! The correct usage for this command is: \`${prefix}${command.help.name} ${command.help.usage}\``,
+				'what a noob',
+			));
+		}
+		if(command.data.requiredRoles.length && !command.data.requiredRoles.some(r => message.member.roles.cache.get(r))) {
+			return message.channel.send(failureEmbed(
+				'You don\'t have permission to use this command!',
+				'Come back when you are more respected',
 			));
 		}
 		if (!cooldowns.has(command.help.name)) {
@@ -56,12 +68,11 @@ module.exports = {
 
 		timestamps.set(message.author.id, now);
 		setTimeout(() => timestamps.delete(message.author.id), cooldownAmount);
-
 		try {
-			command.execute(message, args, client);
+			await command.execute(message, args, client);
 		}
-		catch (errorMessage) {
-			errEmbed(errorMessage);
+		catch (err) {
+			message.channel.send(errEmbed(err));
 		}
 	},
 };

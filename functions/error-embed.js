@@ -1,6 +1,6 @@
 const { MessageEmbed } = require('discord.js');
-async function errorEmbed(errText) {
-	new MessageEmbed()
+function errorEmbed(errText) {
+	return new MessageEmbed()
 		.setColor('RED')
 		.setTitle('Uh oh...')
 		.setDescription(`There's been an error: \`\`\`\n${errText}\n\`\`\``)

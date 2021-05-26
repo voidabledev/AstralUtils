@@ -7,7 +7,7 @@ module.exports = {
 		name: 'audit',
 		description: 'Displays the last 15 actions of the audit log',
 		usage: 'Empty',
-		aliases: alias.commandCategory.commandName,
+		aliases: alias.mod.audit,
 		category: 'staff',
 		cooldown: 5,
 	},
