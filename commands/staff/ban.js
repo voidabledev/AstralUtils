@@ -2,6 +2,7 @@
 const alias = require('../../json/aliases.json');
 const successEmbed = require('../../functions/success-embed');
 const failureEmbed = require('../../functions/failure-embed');
+const ms = require('../../functions/ms');
 const { MessageEmbed } = require('discord.js');
 
 module.exports = {
@@ -24,7 +25,7 @@ module.exports = {
 	async execute(message, args, client) {
 		let target = message.mentions.users.first();
 		if (!target) target = await client.users.fetch(args[0]);
-		const time = client.millis(args[1]);
+		const time = ms(args[1]);
 		if (time > 0) args.shift();
 		const reason = `\`${args.slice(1).join(' ')}\``;
 		if (!target) {

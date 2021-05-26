@@ -5,7 +5,7 @@ const id = require('./id');
 const { MessageEmbed } = require('discord.js');
 async function processLog(data, client) {
 	let punishID = id(10, 10);
-	const channel = client.guilds.cache.get(data.guildID).channels.cache.get(modlogs);
+	const channel = client.channels.cache.get(modlogs);
 	/* eslint-disable-next-line no-constant-condition */
 	while(true) {
 		if(punish.findOne({ punishID })) {
@@ -21,6 +21,14 @@ async function processLog(data, client) {
 		.setDescription(`**Type:** ${data.caseType}\n**User:** <@${data.userID}>\n**Moderator:** <@${data.staffID}>\n**Reason:** ${data.reason}`)
 		.setTimestamp(data.timestamp)
 		.setColor('#ff0066');
-	channel.send(embed);
+	const webhooks = await channel.fetchWebhooks();
+	const webhook = webhooks ? webhooks.first() : await channel.createWebhook(client.user.username, {
+		avatar: client.user.avatarURL(),
+	});
+	webhook.send({
+		username: client.user.username,
+		avatarURL: client.user.avatarURL(),
+		embeds: [embed],
+	});
 }
 module.exports = processLog;

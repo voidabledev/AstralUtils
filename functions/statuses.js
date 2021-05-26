@@ -33,4 +33,3 @@ async function statuses(client) {
 }
 
 module.exports = statuses;
-// La hostia
