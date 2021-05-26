@@ -1,7 +1,7 @@
 // Packages you will need...
 const alias = require('../../json/aliases.json');
-const successEmbed = require('./functions/success-embed');
-const failureEmbed = require('./functions/failure-embed');
+const successEmbed = require('../../functions/success-embed');
+const failureEmbed = require('../../functions/failure-embed');
 const { MessageEmbed } = require('discord.js');
 
 module.exports = {
@@ -14,6 +14,7 @@ module.exports = {
 		description: 'Unlocks a locked channel',
 		usage: '[channel mention, ID or "here"] (reason)',
 		aliases: alias.mod.unlock,
+		category: 'staff',
 		cooldown: 15,
 	},
 	data: {

@@ -9,6 +9,7 @@ module.exports = {
 		description: 'Removes a punishment',
 		usage: '[punishment ID]',
 		aliases: alias.mod.rmpunish,
+		category: 'staff',
 		cooldown: 30,
 	},
 	data: {

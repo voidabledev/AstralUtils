@@ -10,6 +10,7 @@ module.exports = {
 		description: 'Get the bot\'s latency',
 		usage: '',
 		aliases: alias.utilities.ping,
+		category: 'utilities',
 		cooldown: 10,
 	},
 	data: {

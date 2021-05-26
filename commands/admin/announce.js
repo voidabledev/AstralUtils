@@ -8,6 +8,7 @@ module.exports = {
 		description: 'Sends an announcement',
 		usage: '[Message]',
 		aliases: alias.admin.announce,
+		category: 'admin',
 		cooldown: 5,
 	},
 	data: {

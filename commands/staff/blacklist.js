@@ -11,6 +11,7 @@ module.exports = {
 		description: 'Blocks a member from using the bot',
 		usage: '[reason]',
 		aliases: alias.mod.blacklist,
+		category: 'staff',
 		cooldown: 30,
 	},
 	data: {

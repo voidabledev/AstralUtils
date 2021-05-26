@@ -16,6 +16,7 @@ module.exports = {
 		description: 'Sets the bot\'s activity',
 		usage: '[new activity]',
 		aliases: alias.devs.activity,
+		category: 'developers',
 		cooldown: 15,
 	},
 	data: {

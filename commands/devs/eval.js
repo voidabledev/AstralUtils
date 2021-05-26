@@ -9,6 +9,7 @@ module.exports = {
 		description: 'Executes js code. Devs only.',
 		usage: '[code]',
 		aliases: alias.devs.eval,
+		category: 'developers',
 		cooldown: 0,
 	},
 	data: {

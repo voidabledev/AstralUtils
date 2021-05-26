@@ -4,20 +4,20 @@ const successEmbed = require('../../functions/success-embed');
 const failureEmbed = require('../../functions/failure-embed');
 module.exports = {
 	help: {
-		name: String,
-		description: String,
-		usage: String,
+		name: 'audit',
+		description: 'Displays the last 15 actions of the audit log',
+		usage: 'Empty',
 		aliases: alias.commandCategory.commandName,
-		category: String,
-		cooldown: Number,
+		category: 'staff',
+		cooldown: 5,
 	},
 	data: {
-		minArgs: Number,
-		maxArgs: Number || null,
-		userPerms: [String],
-		botPerms: [String],
-		requiredRoles: [String],
-		delete: Boolean,
+		minArgs: 0,
+		maxArgs: null,
+		userPerms: ['VIEW_AUDIT_LOG'],
+		botPerms: ['VIEW_AUDIT_LOG'],
+		requiredRoles: [],
+		delete: false,
 	},
 	async execute(message, args, client) {
 		// Code here

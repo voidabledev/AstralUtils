@@ -10,6 +10,7 @@ module.exports = {
 		description: 'Execute something in the terminal',
 		usage: '[new activity]',
 		aliases: alias.devs.execute,
+		category: 'developers',
 		cooldown: 10,
 	},
 	data: {

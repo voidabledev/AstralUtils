@@ -9,6 +9,7 @@ module.exports = {
 		description: 'Strikes a staff member',
 		usage: '[User ID] [reason]',
 		aliases: alias.admin.strike,
+		category: 'admin',
 		cooldown: 5,
 	},
 	data: {
