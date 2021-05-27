@@ -9,7 +9,7 @@ module.exports = {
 		name: 'unban',
 		description: 'Unbans a user',
 		usage: '[user ID] [reason]',
-		aliases: alias.mod.unban,
+		aliases: alias.staff.unban,
 		category: 'staff',
 		cooldown: 5,
 	},

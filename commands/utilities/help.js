@@ -9,7 +9,7 @@ module.exports = {
 	help: {
 		name: 'help',
 		description: 'Displays the commands',
-		usage: '(command name or category)',
+		usage: '[command name or category]',
 		aliases: alias.utilities.help,
 		category: 'utilities',
 		cooldown: 10,
@@ -22,12 +22,11 @@ module.exports = {
 		requiredRoles: [],
 		delete: false,
 	},
-	// eslint-disable-next-line no-unused-vars
 	async execute(message, args, client) {
 		const prefix = process.argv.length > 2 ? conf.betaPrefix : conf.prefix;
 		const categories = ['admin', 'developers', 'staff', 'giveaways', 'utilities'];
 		const embed = new MessageEmbed()
-			.setDescription(`This server's prefix is ${prefix}`)
+			.setDescription(`This server's prefix is \`${prefix}\``)
 			.setColor('RANDOM');
 		if(!args[0]) {
 			embed.setAuthor('Help Menu', client.user.avatarURL());
@@ -41,7 +40,7 @@ module.exports = {
 			const cmds = client.commands.filter(cmd => cmd.help.category === args[0].toLowerCase());
 			cmds.forEach(c => embed.addField(
 				`${c.help.name.charAt(0).toUpperCase()}${c.help.name.slice(1)}`,
-				`**Description:** ${c.help.description}\n**Usage:** \`${prefix}${c.help.name} ${c.help.usage}\`\n**Aliases:** ${c.help.aliases.join(', ')}\n**Cooldown:** ${c.help.cooldown} seconds`,
+				`**Description:** ${c.help.description}\n**Usage:** \`${prefix}${c.help.name} ${c.help.usage}\`\n**Aliases:** ${c.help.global.aliases.join(', ')}\n**Cooldown:** ${c.help.cooldown} seconds`,
 			));
 		}
 		else if (client.commands.get(args[0])) {
@@ -50,7 +49,7 @@ module.exports = {
 				.setAuthor(`Command Info: ${c.help.name}`, client.user.avatarURL())
 				.addField(
 					`${c.help.name.charAt(0).toUpperCase()}${c.help.name.slice(1)}`,
-					`**Description:** ${c.help.description}\n**Usage:** \`${prefix}${c.help.name} ${c.help.usage}\`\n**Aliases:** ${c.help.aliases.join(', ')}\n**Cooldown:** ${c.help.cooldown} seconds`,
+					`**Description:** ${c.help.description}\n**Usage:** \`${prefix}${c.help.name} ${c.help.usage}\`\n**Aliases:** ${c.help.global.aliases.join(', ')}\n**Cooldown:** ${c.help.cooldown} seconds`,
 				);
 		}
 		else {

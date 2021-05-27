@@ -9,7 +9,7 @@ module.exports = {
 		name: 'lock',
 		description: 'Locks a channel',
 		usage: '[channel mention, channel ID or "here"] (reason)',
-		aliases: alias.mod.lock,
+		aliases: alias.staff.lock,
 		category: 'staff',
 		cooldown: 30,
 	},

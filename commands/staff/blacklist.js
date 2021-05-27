@@ -10,7 +10,7 @@ module.exports = {
 		name: 'blacklist',
 		description: 'Blocks a member from using the bot',
 		usage: '[reason]',
-		aliases: alias.mod.blacklist,
+		aliases: alias.staff.blacklist,
 		category: 'staff',
 		cooldown: 30,
 	},

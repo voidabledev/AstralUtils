@@ -1,5 +1,6 @@
 const Discord = require('discord.js');
 const alias = require('../../json/aliases.json');
+const ms = require('ms');
 module.exports = {
 	name: 'ping',
 	description: 'Get the latency of the bot',
@@ -21,30 +22,19 @@ module.exports = {
 		requiredRoles: [],
 		delete: false,
 	},
-	// eslint-disable-next-line no-unused-vars
 	async execute(message, args, client) {
-		// ...
-		/* if(!message.member.roles.cache.has('')) return message.delete(); */
-		message.channel.send('Pinging...').then((resMsg) => {
-			const botPing = resMsg.createdTimestamp - message.createdTimestamp;
-			const embed = new Discord.MessageEmbed()
-				.setColor('BLURPLE')
-				.setTitle('Pong!')
-				.addFields(
-					{
-						name: 'Latency of the bot',
-						value: `${botPing} miliseconds`,
-						inline: true,
-					},
 
-					{
-						name: 'Latency of the websocket',
-						value: `${client.ws.ping} miliseconds`,
-						inline: false,
-					},
-				)
-				.setTimestamp();
-			message.channel.send(embed);
-		});
+		const timeNow = Date.now();
+		const m = await message.channel.send('Pinging...');
+		const messageLat = Date.now() - timeNow;
+		const ping = ms(client.uptime);
+
+		const e = new Discord.MessageEmbed()
+			.addField('Client Ping', `${Math.round(client.ws.ping)}ms`, true)
+			.addField('Message Latency', `${messageLat}ms`, true)
+			.addField('Uptime', ping)
+			.setColor('RANDOM')
+			.setTimestamp();
+		m.edit(e);
 	},
 };

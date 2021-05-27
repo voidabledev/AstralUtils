@@ -7,13 +7,13 @@ const { MessageEmbed } = require('discord.js');
 module.exports = {
 	name: 'unlock',
 	description: 'Unlocks a locked channel',
-	aliases: ['unl'] || alias.mod.unlock,
+	aliases: alias.staff.unlock,
 	cooldown: 15,
 	help: {
 		name: 'unlock',
 		description: 'Unlocks a locked channel',
 		usage: '[channel mention, ID or "here"] (reason)',
-		aliases: alias.mod.unlock,
+		aliases: alias.staff.unlock,
 		category: 'staff',
 		cooldown: 15,
 	},

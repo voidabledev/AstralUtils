@@ -6,7 +6,7 @@ module.exports = {
 		name: 'mute',
 		description: 'Mutes a member',
 		usage: '[user mention or ID] (time) [reason]',
-		aliases: alias.mod.mute,
+		aliases: alias.staff.mute,
 		category: 'staff',
 		cooldown: 5,
 	},

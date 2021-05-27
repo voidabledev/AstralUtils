@@ -9,7 +9,7 @@ module.exports = {
 		name: 'case',
 		description: 'Show details of a case',
 		usage: '[case number]',
-		aliases: alias.mod.case,
+		aliases: alias.staff.case,
 		cooldown: 5,
 	},
 	data: {

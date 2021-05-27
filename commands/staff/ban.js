@@ -10,7 +10,7 @@ module.exports = {
 		name: 'ban',
 		description: 'Bans a user',
 		usage: '[user mention or ID] (time) [reason]',
-		aliases: alias.mod.ban,
+		aliases: alias.staff.ban,
 		category: 'staff',
 		cooldown: 5,
 	},

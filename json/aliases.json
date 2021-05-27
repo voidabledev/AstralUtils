@@ -9,7 +9,7 @@
     "help": ["commands"],
     "setlogs": ["setl"]
   },
-  "mod": {
+  "staff": {
     "ban": ["b"],
     "lock": ["l"],
     "unban": ["ub"],
@@ -18,7 +18,8 @@
     "rmpunish": ["delpunish"],
     "blacklist": ["bl", "block"],
     "unlock": ["unl"],
-    "case": ["c"]
+    "case": ["c"],
+    "mod": ["mnick"]
   },
   "admin": {
     "strike": ["s"],
