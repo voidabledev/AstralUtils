@@ -2,6 +2,7 @@
 const alias = require('../../json/aliases.json');
 const successEmbed = require('../../functions/success-embed');
 const failureEmbed = require('../../functions/failure-embed');
+
 module.exports = {
 	help: {
 		name: String,

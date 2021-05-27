@@ -4,6 +4,9 @@ const failureEmbed = require('../functions/failure-embed.js');
 const Discord = require('discord.js');
 const conf = require('../json/configuration.json');
 const perms = require('../functions/permissions.js');
+const moment = require('moment');
+const afkSchema = require('../models/afkschema');
+
 module.exports = {
 	name: 'message',
 	once: false,
@@ -73,6 +76,57 @@ module.exports = {
 		}
 		catch (err) {
 			message.channel.send(errEmbed(err));
+		}
+		const guildId = message.guild.id;
+		if (message.mentions.members.first()) {
+			const results = await afkSchema.find({
+				guildId,
+			});
+
+			if (results) {
+				for (let i = 0; i < results.length; i++) {
+					const { userId, afk, timestamp } = results[i];
+					if (message.mentions.members.first().id === message.author.id) return;
+
+					if (message.mentions.members.first().id === userId) {
+						const user = message.guild.members.cache.get(userId);
+
+						return message.channel.send(new Discord.MessageEmbed()
+							.setColor(message.guild.me.displayColor)
+							.setAuthor(`${user.user.username} Is AFK`, user.user.displayAvatarURL())
+							.setDescription(`\`${afk}\``)
+							.setFooter(`${moment(timestamp).fromNow()}`));
+					}
+				}
+			}
+		}
+
+		const afkResults = await afkSchema.find({
+			guildId,
+		});
+		if (afkResults) {
+			for (let i = 0; i < afkResults.length; i++) {
+				const { userId, timestamp, username } = afkResults[i];
+
+				if (timestamp + (1000 * 10) <= new Date().getTime()) {
+
+					if (message.author.id === userId) {
+						await afkSchema.findOneAndDelete({
+							guildId,
+							userId,
+						});
+
+
+						message.member.setNickname(`${username}`).catch((e) => {
+							console.log('No Permissions');
+						});
+
+						return message.channel.send(new Discord.MessageEmbed()
+							.setColor(message.guild.me.displayColor)
+							.setDescription(`Welcome back <@${message.member.id}>, I removed your afk`));
+					}
+				}
+			}
 		}
 	},
 };

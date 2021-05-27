@@ -7,7 +7,10 @@
   "utilities": {
     "ping": ["pong", "latency", "getlatency"],
     "help": ["commands"],
-    "setlogs": ["setl"]
+    "userinfo": ["ui"],
+    "serverinfo": ["svi"],
+    "membercount": ["mbc"],
+    "afk": ["brb"]
   },
   "staff": {
     "ban": ["b"],
