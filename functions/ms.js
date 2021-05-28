@@ -1,4 +1,4 @@
-async function ms(input) {
+function ms(input) {
 	if (typeof input !== 'string') return -1;
 	if (isNaN(input.slice(0, -1))) return -1;
 	const inputNumber = parseInt(input.slice(0, -1));

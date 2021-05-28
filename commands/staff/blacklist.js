@@ -2,7 +2,8 @@
 const alias = require('../../json/aliases.json');
 const successEmbed = require('../../functions/success-embed');
 const failureEmbed = require('../../functions/failure-embed');
-const blSchema = require('../../models/punishschema');
+const bl = require('../../models/blacklistschema');
+const log = require('../../functions/process-log');
 const { MessageEmbed } = require('discord.js');
 
 module.exports = {
@@ -17,9 +18,9 @@ module.exports = {
 	data: {
 		minArgs: 1,
 		maxArgs: null,
-		userPerms: ['MANAGE_ROLES'],
+		userPerms: [],
 		botPerms: [],
-		requiredRoles: [],
+		requiredRoles: ['831996400782016563'],
 		delete: true,
 	},
 	async execute(message, args, client) {
@@ -33,7 +34,7 @@ module.exports = {
 		args.shift();
 		const reason = args.join(' ');
 		const { id } = target;
-		if (await client.blacklisted(id)) {
+		if (await bl.findOne({ userID: target.id })) {
 			return message.channel.send(
 				failureEmbed('This user is already blacklisted!'),
 			);
@@ -46,22 +47,34 @@ module.exports = {
 			);
 		}
 		const expires = new Date(Date.now() + 1000 * 60 * 60 * 24 * 7);
-		await blSchema.create({
-			userId: id,
+		const punish = await log({
+			guildID: message.guild.id,
+			userID: target.id,
+			staffID: message.author.id,
 			reason,
 			caseType: 'Blacklist',
+			timestamp: new Date().getTime(),
+			expires: expires,
+		}, client);
+		await bl.create({
+			userID: target.id,
+			reason,
 		});
-
-		message.channel.send(
-			successEmbed(
-				`<@${id}> has been blacklisted for ${reason}!`,
-			),
-		);
+		let successMessage = `<@${id}> has been blacklisted for ${reason} with ID ${punish}!`;
 		const embed = new MessageEmbed()
-			.setTitle('Bot blacklist')
-			.setDescription(`You have been blacklisted from using ${client.user.username} for \`${reason}\`. This means that you can no longer use any commands of this bot, and that you can no longer take part in giveaways. If you think this was a mistake, please DM <@804074816704348182>.`)
-			.target
-			.send(embed)
-			.catch((e) => message.channel.send('I was unable to notify the user.'));
+			.setAuthor(client.user, client.displayAvatarURL())
+			.setTitle(`You've been blacklisted in ${message.guild.name}`)
+			.addField('Reason', reason)
+			.addField('Expires', expires)
+			.setFooter(`Punishment ID: ${punish}`);
+		try {
+			await target.send(embed);
+		}
+		catch (e) {
+			successMessage += 'I was unable to DM them.';
+		}
+		message.channel.send(
+			successEmbed(successMessage),
+		);
 	},
 };

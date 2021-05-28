@@ -30,5 +30,6 @@ async function processLog(data, client) {
 		avatarURL: client.user.avatarURL(),
 		embeds: [embed],
 	});
+	return punishID;
 }
 module.exports = processLog;

@@ -29,6 +29,7 @@ const punishSchema = mongoose.Schema({
 		type: Number,
 		required: true,
 	},
+	expires: Number,
 });
 
 module.exports = mongoose.model('punishments', punishSchema);

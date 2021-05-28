@@ -2,13 +2,8 @@
 const alias = require('../../json/aliases.json');
 const successEmbed = require('../../functions/success-embed');
 const failureEmbed = require('../../functions/failure-embed');
-async function id(base, length) {
-	let identification = Math.floor(Math.random() * base ** length).toString(base);
-	while (id.length < length) {
-		identification = '0' + identification;
-	}
-	return identification;
-}
+const id = require('../../functions/id.js');
+const log = require('../../functions/process-log.js');
 
 module.exports = {
 	help: {
@@ -45,8 +40,16 @@ module.exports = {
 				failureEmbed('I can\'t edit that user\'s nickname.'),
 			);
 		}
-		const mod = id(32, 8);
+		const mod = id(36, 8);
 		target.setNickname(`Moderated Nickname ${mod}`);
 		message.channel.send(successEmbed(`Moderated ${target}'s nickname.`));
+		log({
+			guildID: message.guild.id,
+			userID: target.user.id,
+			staffID: message.author.id,
+			reason: 'Unpingable Nickname',
+			caseType: 'Moderated Nickname',
+			timestamp: new Date().getTime(),
+		}, client);
 	},
 };

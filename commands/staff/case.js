@@ -28,11 +28,13 @@ module.exports = {
 		});
 		if(!foundCase) return message.channel.send(failureEmbed('I couldn\'t find a modlog corresponing to this case.'));
 		const embed = new MessageEmbed()
+			.setAuthor(message.author.user, message.author.displayavatarURL())
 			.setTitle('Case Information')
 			.addField('Type', punish.caseType)
 			.addField('User', punish.userID)
 			.addField('Moderator', `<@${punish.staffID}>`)
 			.addField('Time', punish.timestamp)
+			.addField('Expires', punish.expires)
 			.addField('Reason', punish.reason)
 			.setFooter(`Punishment ID: ${punish.punishID}`)
 			.setColor('GREEN');

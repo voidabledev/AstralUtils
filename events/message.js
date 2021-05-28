@@ -6,6 +6,7 @@ const conf = require('../json/configuration.json');
 const perms = require('../functions/permissions.js');
 const moment = require('moment');
 const afkSchema = require('../models/afkschema');
+const bl = require('../models/blacklistschema');
 
 module.exports = {
 	name: 'message',
@@ -14,6 +15,7 @@ module.exports = {
 		const { cooldowns } = client;
 		const prefix = process.argv.length > 2 ? conf.betaPrefix : conf.prefix;
 		if (!message.content.startsWith(prefix) || message.author.bot) return;
+		if (await bl.findOne({ userID: message.author.id })) return;
 		const args = message.content.slice(prefix.length).split(/ +/);
 		const commandName = args.shift().toLowerCase();
 		const command =
@@ -84,16 +86,16 @@ module.exports = {
 			});
 
 			if (results) {
-				for (let i = 0; i < results.length; i++) {
-					const { userId, afk, timestamp } = results[i];
+				for (const res of results) {
+					const { userId, afk, timestamp } = res;
 					if (message.mentions.members.first().id === message.author.id) return;
 
 					if (message.mentions.members.first().id === userId) {
-						const user = message.guild.members.cache.get(userId);
+						const member = message.guild.members.cache.get(userId);
 
 						return message.channel.send(new Discord.MessageEmbed()
 							.setColor(message.guild.me.displayColor)
-							.setAuthor(`${user.user.username} Is AFK`, user.user.displayAvatarURL())
+							.setAuthor(`${member.user.username} is AFK`, member.user.displayAvatarURL())
 							.setDescription(`\`${afk}\``)
 							.setFooter(`${moment(timestamp).fromNow()}`));
 					}
@@ -105,22 +107,17 @@ module.exports = {
 			guildId,
 		});
 		if (afkResults) {
-			for (let i = 0; i < afkResults.length; i++) {
-				const { userId, timestamp, username } = afkResults[i];
-
+			for (const res of afkResults) {
+				const { userId, timestamp, username } = res;
 				if (timestamp + (1000 * 10) <= new Date().getTime()) {
-
 					if (message.author.id === userId) {
 						await afkSchema.findOneAndDelete({
 							guildId,
 							userId,
 						});
-
-
 						message.member.setNickname(`${username}`).catch((e) => {
 							console.log('No Permissions');
 						});
-
 						return message.channel.send(new Discord.MessageEmbed()
 							.setColor(message.guild.me.displayColor)
 							.setDescription(`Welcome back <@${message.member.id}>, I removed your afk`));

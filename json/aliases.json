@@ -22,11 +22,25 @@
     "blacklist": ["bl", "block"],
     "unlock": ["unl"],
     "case": ["c"],
-    "mod": ["mnick"]
+    "mod": ["mnick"],
+    "slowmode": ["slow", "sm"],
+    "modlogs": ["mls", "punishments"],
+    "rule": ["r"],
+    "unmute": ["unm"],
+    "prune": ["purge"],
+    "searchstaff": ["ss", "modstats"],
+    "nick": ["n"],
+    "unblacklist": ["unbl", "unblock"]
   },
   "admin": {
     "strike": ["s"],
     "announce": ["a"]
   },
-  "giveaways": {}
+  "giveaways": {
+    "gstart": ["gs"],
+    "greroll": ["gr"],
+    "gend": ["ge"],
+    "glist": ["gl"],
+    "gedit": ["ged"]
+  }
 }

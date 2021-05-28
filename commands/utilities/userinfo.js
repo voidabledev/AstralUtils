@@ -22,22 +22,18 @@ module.exports = {
 		delete: false,
 	},
 	async execute(message, args, client) {
-
 		const guild = message.guild;
-		const usr = message.mentions.users.first() || message.author;
-
-		const membero = guild.members.cache.get(usr.id);
-
-		const usero = membero.user;
+		const user = message.mentions.users.first() || message.author;
+		const member = guild.members.cache.get(user.id);
 		const embed = new MessageEmbed()
-			.setAuthor(`${usr.tag}`, `${usr.displayAvatarURL({ dynamic: true })}`)
-			.setThumbnail(`${usr.displayAvatarURL({ dynamic: true })}`)
-			.setDescription(`${usr}'s Information`)
-			.addField('**ID:**', `${usr.id}`)
-			.addField('**Avatar URL:**', `${usr.displayAvatarURL({ dynamic: true })}`)
-			.addField('**Nickname (If Applicable):**', `${membero.nickname || '**Cannot Find A Nickname For This User**'}`)
-			.addField('**Joined Server:**', `${membero.joinedAt}`)
-			.addField('**Joined Discord:**', `${usr.createdAt}`);
+			.setAuthor(`${user.tag}`, `${user.displayAvatarURL({ dynamic: true })}`)
+			.setThumbnail(`${user.displayAvatarURL({ dynamic: true })}`)
+			.setDescription(`${user}'s Information`)
+			.addField('**ID:**', `${user.id}`)
+			.addField('**Avatar URL:**', `${user.displayAvatarURL({ dynamic: true })}`)
+			.addField('**Nickname (If Applicable):**', `${member.nickname || '**Cannot Find A Nickname For This User**'}`)
+			.addField('**Joined Server:**', `${member.joinedAt}`)
+			.addField('**Joined Discord:**', `${user.createdAt}`);
 		message.channel.send(embed);
 	},
 };

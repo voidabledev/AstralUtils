@@ -4,6 +4,7 @@ const successEmbed = require('../../functions/success-embed');
 const failureEmbed = require('../../functions/failure-embed');
 const ms = require('../../functions/ms');
 const { MessageEmbed } = require('discord.js');
+const log = require('../../functions/process-log.js');
 
 module.exports = {
 	help: {
@@ -34,15 +35,28 @@ module.exports = {
 				failureEmbed('Please specify someone to ban.'),
 			);
 		}
+		if (!target.bannable) {
+			message.channel.send(failureEmbed('I can\'t ban that user!', 'oh no'));
+		}
 		const id = target.id;
 		if (id === message.author.id) {
 			return message.channel.send(failureEmbed('You can\'t ban yourself!'));
 		}
+		const punish = await log({
+			guildID: message.guild.id,
+			userID: target.id,
+			staffID: message.author.id,
+			reason,
+			caseType: 'Ban',
+			timestamp: new Date().getTime(),
+			expires: time > 0 ? Date.now() + time : null,
+		}, client);
 		const embed = new MessageEmbed()
-			.setDescription(
-				`You have been banned from **${message.guild.name}** for ${reason}. If you think this was a mistake, you can appeal [here](https://forms.gle/SUynmsZQzWwjxwVn7)`,
-			)
-			.setColor('RED');
+			.setAuthor(client.user, client.displayAvatarURL())
+			.setTitle(`You've been banned in ${message.guild.name}`)
+			.addField('Reason', reason)
+			.addField('Expires', time > 0 ? new Date(Date.now() + time).toLocaleString() : 'Permanent')
+			.setFooter(`Punishment ID: ${punish}`);
 		try {
 			await target.send(embed);
 		}
@@ -51,8 +65,9 @@ module.exports = {
 		}
 		message.guild.members
 			.ban(id)
-			.then(() =>
-				message.channel.send(successEmbed(`${target} has been banned.`)),
+			.then(async () => {
+				message.channel.send(successEmbed(`${target} has been banned for \`${reason}\` with ID ${punish}`, 'ban perms abuse go brrrr'));
+			},
 			)
 			.catch(() => {
 				message.channel.send(failureEmbed('I can\'t ban that user!', 'oh no'));
