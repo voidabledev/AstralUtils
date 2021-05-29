@@ -1,6 +1,8 @@
 // eslint-disable indent-space
 const alias = require('../../json/aliases.json');
 const failureEmbed = require('../../functions/failure-embed');
+const strikes = require('../../models/strikeschema');
+const id = require('../../functions/id');
 const { MessageEmbed } = require('discord.js');
 
 module.exports = {
@@ -45,8 +47,7 @@ module.exports = {
 				),
 			);
 		}
-		const { id } = target;
-		if (id === message.author.id) {
+		if (target.id === message.author.id) {
 			return message.channel.send(
 				failureEmbed(
 					'Failure!',
@@ -54,7 +55,7 @@ module.exports = {
 				),
 			);
 		}
-		const targetMember = await message.guild.members.fetch(id);
+		const targetMember = await message.guild.members.fetch(target.id);
 		if (
 			message.member.roles.highest.position <
       targetMember.roles.highest.position
@@ -65,11 +66,11 @@ module.exports = {
 				),
 			);
 		}
-		const strikeId = require('../../functions/id');
+		const strikeID = id(36, 8);
 		const embed = new MessageEmbed()
 			.setTitle('Striked')
 			.setDescription(
-				`You have been striked by ${message.author} for ${reason} with ID \`${strikeId}\``,
+				`You have been striked by ${message.author} for ${reason} with ID \`${strikeID}\``,
 			)
 			.setFooter(
 				'If you think this is a mistake, please DM the Admin who striked you',
@@ -78,15 +79,23 @@ module.exports = {
 		const logEmbed = new MessageEmbed()
 			.setTitle('Striked')
 			.setDescription(
-				`${target} has been striked by ${message.author} for ${reason} with ID \`${strikeId}\``,
+				`${target} has been striked by ${message.author} for ${reason} with ID \`${strikeID}\``,
 			)
 			.setFooter(`User ID: ${id}`);
 		const messageEmbed = new MessageEmbed()
 			.setTitle('Strike')
 			.setDescription(
-				`You have striked ${target} for \`${reason}\` and with ID \`${strikeId}\``,
+				`You have striked ${target} for \`${reason}\` with ID \`${strikeID}\``,
 			);
 		message.channel.send(messageEmbed);
-		message.guild.channels.cache.get('831996554763829338').send(logEmbed);
+		message.guild.channels.cache.get('831996554763829338')
+			.send(logEmbed)
+			.then(async (m) => {
+				await strikes.create({
+					userID: target.id,
+					strikeID,
+					messageID: m.id,
+				});
+			});
 	},
 };

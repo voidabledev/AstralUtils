@@ -30,10 +30,13 @@
     "prune": ["purge"],
     "searchstaff": ["ss", "modstats"],
     "nick": ["n"],
-    "unblacklist": ["unbl", "unblock"]
+    "unblacklist": ["unbl", "unblock"],
+    "kick": ["k"],
+    "dm": ["send"]
   },
   "admin": {
     "strike": ["s"],
+    "rmstrike": ["rms","delstrike", "dels"],
     "announce": ["a"]
   },
   "giveaways": {
@@ -41,6 +44,8 @@
     "greroll": ["gr"],
     "gend": ["ge"],
     "glist": ["gl"],
-    "gedit": ["ged"]
+    "gedit": ["ged"],
+    "gdelete": ["gd"],
+    "glimit": ["glm"]
   }
 }

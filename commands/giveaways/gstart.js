@@ -20,7 +20,7 @@ module.exports = {
 		userPerms: [],
 		botPerms: [],
 		requiredRoles: ['831996436333592586'],
-		delete: true,
+		delete: false,
 	},
 	async execute(message, args, client) {
 		const limit = client.giveawaysManager.limitPerDay;
