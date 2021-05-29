@@ -9,7 +9,7 @@ module.exports = {
 		name: 'dm',
 		description: 'Sends a direct message to a user',
 		usage: '[user mention or ID] [message]',
-		aliases: alias.commandCategory.commandName,
+		aliases: alias.staff.dm,
 		category: 'admin',
 		cooldown: 10,
 	},

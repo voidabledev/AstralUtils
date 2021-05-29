@@ -33,7 +33,9 @@
     "unblacklist": ["unbl", "unblock"],
     "kick": ["k"],
     "dm": ["send"],
-    "reason": ["r"]
+    "reason": ["r"],
+    "reportstaff": ["rs"],
+    "role": []
   },
   "admin": {
     "strike": ["s"],

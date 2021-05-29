@@ -8,7 +8,7 @@ module.exports = {
 		name: 'role',
 		description: 'Add or remove a role from a user',
 		usage: '[user mention or ID] [+/-] [role name or ID]',
-		aliases: alias.commandCategory.commandName,
+		aliases: alias.staff.role,
 		category: 'staff',
 		cooldown: 10,
 	},

@@ -9,7 +9,7 @@ module.exports = {
 		name: 'reportstaff',
 		description: 'Report a staff member to the staff manager',
 		usage: String,
-		aliases: alias.commandCategory.commandName,
+		aliases: alias.staff.reportstaff,
 		category: 'staff',
 		cooldown: 60,
 	},
