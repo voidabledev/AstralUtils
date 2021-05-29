@@ -1,9 +1,10 @@
 const { MessageEmbed } = require('discord.js');
 function failureEmbed(failText, failFooter) {
-	return new MessageEmbed()
+	const embed = new MessageEmbed()
 		.setTitle('Failure!')
 		.setDescription(failText)
-		.setColor('RED')
-		.setFooter(failFooter || null);
+		.setColor('RED');
+	failFooter ? embed.setFooter(failFooter) : null;
+	return embed;
 }
 module.exports = failureEmbed;

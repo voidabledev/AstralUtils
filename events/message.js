@@ -11,11 +11,15 @@ module.exports = {
 	name: 'message',
 	once: false,
 	async execute(message, client) {
+		if (!message.guild.available) return console.log('Guild not available');
 		afk(message);
 		const { cooldowns } = client;
 		const prefix = process.argv.length > 2 ? conf.betaPrefix : conf.prefix;
 		if (!message.content.startsWith(prefix) || message.author.bot) return;
-		if (await bl.findOne({ userID: message.author.id })) return;
+		if (await bl.findOne({ userID: message.author.id })) {
+			console.log(`User ${message.author.username} is blacklisted`);
+			return;
+		}
 		const args = message.content.slice(prefix.length).split(/ +/);
 		const commandName = args.shift().toLowerCase();
 		const command =
@@ -78,6 +82,7 @@ module.exports = {
 		}
 		catch (err) {
 			message.channel.send(errEmbed(err));
+			console.error(err);
 		}
 	},
 };

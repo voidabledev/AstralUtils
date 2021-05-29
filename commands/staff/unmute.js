@@ -7,7 +7,7 @@ const { MessageEmbed } = require('discord.js');
 
 module.exports = {
 	help: {
-		name: 'mute',
+		name: 'unmute',
 		description: 'Unmutes a member',
 		usage: '[mention or id] [reason]',
 		aliases: alias.staff.unmute,
@@ -24,9 +24,9 @@ module.exports = {
 	},
 	async execute(message, args, client) {
 		const member = message.mentions.members.first() || (await message.guild.members.fetch(args[0]));
-		const role = message.guild.cache.find((r) => r.name.toLowerCase() === 'muted');
-		const reason = '';
-		if (reason < 5) message.channel.send(failureEmbed('You need to provide a user.'));
+		const role = message.guild.roles.cache.find((r) => r.name.toLowerCase() === 'muted');
+		const reason = args.slice(1).join(' ');
+		if (!member) message.channel.send(failureEmbed('You need to provide a user.'));
 		if (!member.roles.cache.get(role.id)) message.channel.send(failureEmbed('The user\'s not muted.'));
 
 		member.roles.remove(role)
