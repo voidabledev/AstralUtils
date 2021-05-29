@@ -10,7 +10,7 @@ module.exports = {
 		description: 'Sends a direct message to a user',
 		usage: '[user mention or ID] [message]',
 		aliases: alias.staff.dm,
-		category: 'admin',
+		category: 'staff',
 		cooldown: 10,
 	},
 	data: {
