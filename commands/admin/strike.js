@@ -17,9 +17,9 @@ module.exports = {
 	data: {
 		minArgs: 2,
 		maxArgs: null,
-		userPerms: ['ADMINISTRATOR'],
+		userPerms: [],
 		botPerms: [],
-		requiredRoles: [],
+		requiredRoles: ['836583124283686943', '831996396684050443', '831996396151636029'],
 		delete: true,
 	},
 	// eslint-disable-next-line no-unused-vars

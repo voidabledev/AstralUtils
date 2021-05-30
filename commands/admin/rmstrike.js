@@ -3,7 +3,7 @@ const alias = require('../../json/aliases.json');
 const successEmbed = require('../../functions/success-embed');
 const failureEmbed = require('../../functions/failure-embed');
 const { MessageEmbed } = require('discord.js');
-const strikes = require('../../models/strikeschema');
+const strikeSchema = require('../../models/strikeschema');
 
 module.exports = {
 	help: {
@@ -17,15 +17,15 @@ module.exports = {
 	data: {
 		minArgs: 1,
 		maxArgs: null,
-		userPerms: ['ADMINISTRATOR'],
+		userPerms: [],
 		botPerms: [],
-		requiredRoles: [],
+		requiredRoles: ['836583124283686943', '831996396684050443', '831996396151636029'],
 		delete: true,
 	},
 	async execute(message, args, client) {
 		const strikeID = args.shift();
 		const reason = args.join(' ') || 'No reason provided';
-		const strike = await strikes.findOneAndDelete({
+		const strike = await strikeSchema.findOneAndDelete({
 			strikeID,
 		});
 		if (!strike) {
@@ -34,7 +34,10 @@ module.exports = {
 			);
 		}
 		const logChannel = message.guild.channels.cache.get('831996554763829338');
-		const user = await client.users.fetch(strike.userId);
+		const user = await client.users.fetch(strike.userID);
+		const id = user.id;
+		if (id === message.author.id) message.channel.send(failureEmbed('You can\'t strike yourself.'));
+		if (id === client.user.id) message.channel.send(failureEmbed('You can\'t strike me.'));
 		let notifiedUser;
 		let deletedMessage;
 		user
@@ -50,7 +53,7 @@ module.exports = {
 				.catch(() => (notifiedUser = false))
 			: (notifiedUser = false);
 		await logChannel.messages
-			.delete(strike.messageId)
+			.delete(strike.messageID)
 			.then(() => (deletedMessage = true))
 			.catch(() => (deletedMessage = false));
 		message.channel.send(
@@ -60,7 +63,6 @@ module.exports = {
 				} been notified. The message in ${logChannel} ${
 					deletedMessage ? 'has' : 'hasn\'t'
 				} been deleted.`,
-				'yay',
 			),
 		);
 	},

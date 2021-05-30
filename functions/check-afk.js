@@ -2,6 +2,7 @@ const { MessageEmbed } = require('discord.js');
 const moment = require('moment');
 const afkSchema = require('../models/afkschema');
 async function checkAFK(message) {
+	if(!message.guild) return;
 	const guildId = message.guild.id;
 	if (message.mentions.members.first()) {
 		const results = await afkSchema.find({
