@@ -67,6 +67,7 @@ module.exports = {
 			);
 		}
 		const strikeID = id(36, 8);
+		let messaged = '';
 		const embed = new MessageEmbed()
 			.setTitle('Striked')
 			.setDescription(
@@ -75,7 +76,8 @@ module.exports = {
 			.setFooter(
 				'If you think this is a mistake, please DM the Admin who striked you',
 			);
-		target.send(embed);
+		target.send(embed)
+			.catch(() => (messaged = 'I was unable to DM this user.'));
 		const logEmbed = new MessageEmbed()
 			.setTitle('Striked')
 			.setDescription(
@@ -85,7 +87,7 @@ module.exports = {
 		const messageEmbed = new MessageEmbed()
 			.setTitle('Strike')
 			.setDescription(
-				`You have striked ${target} for \`${reason}\` with ID \`${strikeID}\``,
+				`You have striked ${target} for \`${reason}\` with ID \`${strikeID}\` ${messaged}`,
 			);
 		message.channel.send(messageEmbed);
 		message.guild.channels.cache.get('831996554763829338')

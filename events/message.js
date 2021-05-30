@@ -11,7 +11,6 @@ module.exports = {
 	name: 'message',
 	once: false,
 	async execute(message, client) {
-		if (!message.guild.available) return console.log('Guild not available');
 		afk(message);
 		const { cooldowns } = client;
 		const prefix = process.argv.length > 2 ? conf.betaPrefix : conf.prefix;

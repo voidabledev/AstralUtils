@@ -34,20 +34,21 @@ module.exports = {
 			);
 		}
 		const logChannel = message.guild.channels.cache.get('831996554763829338');
-		const user =
-		client.users.cache.get(strike.userId) || await client.users.fetch(strike.userId);
+		const user = await client.users.fetch(strike.userId);
 		let notifiedUser;
 		let deletedMessage;
-		await user
-			.send(
-				new MessageEmbed()
-					.setDescription(
-						`Your strike with ID \`${strikeID}\` has been revoked by ${message.author} for \`${reason}\``,
-					)
-					.setColor('GREEN'),
-			)
-			.then(() => (notifiedUser = true))
-			.catch(() => (notifiedUser = false));
+		user
+			? await user
+				.send(
+					new MessageEmbed()
+						.setDescription(
+							`Your strike with ID \`${strikeID}\` has been revoked by ${message.author} for \`${reason}\``,
+						)
+						.setColor('GREEN'),
+				)
+				.then(() => (notifiedUser = true))
+				.catch(() => (notifiedUser = false))
+			: (notifiedUser = false);
 		await logChannel.messages
 			.delete(strike.messageId)
 			.then(() => (deletedMessage = true))
