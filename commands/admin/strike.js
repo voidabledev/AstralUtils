@@ -81,7 +81,7 @@ module.exports = {
 			.setDescription(
 				`${target} has been striked by ${message.author} for ${reason} with ID \`${strikeID}\``,
 			)
-			.setFooter(`User ID: ${id}`);
+			.setFooter(`User ID: ${target.id}`);
 		const messageEmbed = new MessageEmbed()
 			.setTitle('Strike')
 			.setDescription(

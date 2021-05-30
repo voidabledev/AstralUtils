@@ -17,10 +17,10 @@ module.exports = {
 	data: {
 		minArgs: 1,
 		maxArgs: null,
-		userPerms: [String],
-		botPerms: [String],
-		requiredRoles: [String],
-		delete: Boolean,
+		userPerms: ['ADMINISTRATOR'],
+		botPerms: [],
+		requiredRoles: [],
+		delete: true,
 	},
 	async execute(message, args, client) {
 		const strikeID = args.shift();
@@ -35,21 +35,19 @@ module.exports = {
 		}
 		const logChannel = message.guild.channels.cache.get('831996554763829338');
 		const user =
-		client.users.cache.get(strike.userId) || client.users.fetch(strike.userId);
+		client.users.cache.get(strike.userId) || await client.users.fetch(strike.userId);
 		let notifiedUser;
 		let deletedMessage;
-		user
-			? await user
-				.send(
-					new MessageEmbed()
-						.setDescription(
-							`Your strike with ID \`${strikeID}\` has been revoked by ${message.author} for \`${reason}\``,
-						)
-						.setColor('GREEN'),
-				)
-				.then(() => (notifiedUser = true))
-				.catch(() => (notifiedUser = false))
-			: (notifiedUser = false);
+		await user
+			.send(
+				new MessageEmbed()
+					.setDescription(
+						`Your strike with ID \`${strikeID}\` has been revoked by ${message.author} for \`${reason}\``,
+					)
+					.setColor('GREEN'),
+			)
+			.then(() => (notifiedUser = true))
+			.catch(() => (notifiedUser = false));
 		await logChannel.messages
 			.delete(strike.messageId)
 			.then(() => (deletedMessage = true))

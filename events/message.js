@@ -27,7 +27,6 @@ module.exports = {
       client.commands.find((cmd) => cmd.help.aliases && cmd.help.aliases.includes(commandName),
       );
 		if (!command) return;
-		if (command.data.delete) message.delete();
 		perms(command.data.userPerms);
 		perms(command.data.botPerms);
 		if (command.data.userPerms.length && !command.data.userPerms.some((p) => message.member.hasPermission(p))) {
@@ -83,6 +82,9 @@ module.exports = {
 		catch (err) {
 			message.channel.send(errEmbed(err));
 			console.error(err);
+		}
+		finally {
+			if (command.data.delete) message.delete();
 		}
 	},
 };

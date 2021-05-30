@@ -6,13 +6,8 @@ const { MessageEmbed } = require('discord.js');
 async function processLog(data, client) {
 	let punishID = id(10, 10);
 	const channel = client.channels.cache.get(modlogs);
-	/* eslint-disable-next-line no-constant-condition */
-	while(true) {
-		if(punish.findOne({ punishID })) {
-			punishID = id(10, 10);
-			continue;
-		}
-		break;
+	while(await punish.findOne({ punishID })) {
+		punishID = id(10, 10);
 	}
 	data.punishID = punishID;
 	await punish.create(data);
@@ -22,7 +17,7 @@ async function processLog(data, client) {
 		.setTimestamp(data.timestamp)
 		.setColor('#ff0066');
 	const webhooks = await channel.fetchWebhooks();
-	const webhook = webhooks ? webhooks.first() : await channel.createWebhook(client.user.username, {
+	const webhook = webhooks.size ? webhooks.first() : await channel.createWebhook(client.user.username, {
 		avatar: client.user.avatarURL(),
 	});
 	webhook.send({

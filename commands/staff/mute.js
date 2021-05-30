@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 const alias = require('../../json/aliases.json');
 const log = require('../../functions/process-log');
-const ms = require('ms');
+const ms = require('../../functions/ms');
 const failureEmbed = require('../../functions/failure-embed');
 const successEmbed = require('../../functions/success-embed');
 const errEmbed = require('../../functions/error-embed');
@@ -50,12 +50,12 @@ module.exports = {
 			return message.channel.send(failureEmbed('You can\'t mute this person!', 'they are too strong to be silenced'));
 		}
 		if(!role) {
-			const embed = new MessageEmbed()
+			const noRole = new MessageEmbed()
 				.setTitle('Muting Error')
 				.setDescription('This server currently doesn\'t have a "Muted" role. Would you like to generate one?')
 				.setFooter('Say yes or no')
 				.setColor('ORANGE');
-			message.channel.send(embed).then(async (msg) => {
+			message.channel.send(noRole).then(async (msg) => {
 				await message.channel.awaitMessages((m) => m.author.id === message.author.id, {
 					max: 1,
 					time: 60000,
@@ -94,7 +94,7 @@ module.exports = {
 					});
 			});
 		}
-		await member.roles.add(role);
+		member.roles.add(role);
 		const punish = await log({
 			guildID: message.guild.id,
 			userID: member.user.id,
@@ -105,16 +105,17 @@ module.exports = {
 			expires: time > 0 ? Date.now() + time : null,
 		}, client);
 		const embed = new MessageEmbed()
-			.setAuthor(client.user, client.displayAvatarURL())
+			.setAuthor(client.user, client.user.avatarURL())
 			.setTitle(`You've been muted in ${message.guild.name}`)
 			.addField('Reason', reason)
 			.addField('Expires', time > 0 ? new Date(Date.now() + time).toLocaleString() : 'Permanent')
 			.setFooter(`Punishment ID: ${punish}`);
-		member.user.send(embed);
-		message.channel.send(successEmbed(`${member} has been **muted** |  \`${punish}\`.`))
+		let messaged = true;
+		member.user.send(embed)
 			.catch((err) => {
-				message.channel.send(failureEmbed('I was unable to DM this user.'));
+				messaged = false;
 				console.error(err);
 			});
+		return message.channel.send(successEmbed(`${member} has been **muted** |  \`${punish}\`. ${messaged ? '' : ' I was unable to message them.'}`));
 	},
 };
