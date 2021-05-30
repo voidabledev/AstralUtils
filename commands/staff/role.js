@@ -69,6 +69,7 @@ module.exports = {
 					),
 				);
 			}
+			member.roles.add(role);
 			return message.channel.send(
 				successEmbed(`${member} now has the ${role.name} role`, 'yay'),
 			);

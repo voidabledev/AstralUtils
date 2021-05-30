@@ -17,16 +17,13 @@ module.exports = {
 		maxArgs: null,
 		userPerms: [],
 		botPerms: [],
-		requiredRoles: ['831996400782016563'],
+		requiredRoles: ['831996400782016563', '831996399209414697', '836583124283686943', '831996396684050443', '831996396151636029'],
 		delete: true,
 	},
 	// eslint-disable-next-line no-unused-vars
 	async execute(message, args, client) {
-		const data = await punish.findOne({ punishID: args[0] });
+		const data = await punish.findOneAndDelete({ punishID: args[0] });
 		if(!data) return message.channel.send(fail('I couldn\'t find a punishment with this ID!', 'dummy'));
-		if(data.staffID !== message.author.id && !message.member.hasPermission('MANAGE_ROLES')) {
-			return message.channel.send(fail('Only head mods and above are allowed to delete other mods\' punishments.', 'Come back when you\'re more respected'));
-		}
 		const embed = succ(`Deleted the punishment with ID \`${data.punishID}\``, 'yay')
 			.addField('Case Data', `**Type:** ${data.caseType}\n**User:** <@${data.userID}>\n**Moderator:** <@${data.staffID}>\n**Reason:** ${data.reason}`);
 		return message.channel.send(embed);

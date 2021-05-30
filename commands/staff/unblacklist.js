@@ -4,6 +4,7 @@ const successEmbed = require('../../functions/success-embed');
 const failureEmbed = require('../../functions/failure-embed');
 const bl = require('../../models/blacklistschema');
 const log = require('../../functions/process-log');
+const conf = require('../../json/configuration.json');
 const { MessageEmbed } = require('discord.js');
 
 module.exports = {
@@ -20,12 +21,12 @@ module.exports = {
 		maxArgs: null,
 		userPerms: [],
 		botPerms: [],
-		requiredRoles: ['831996400782016563'],
+		requiredRoles: ['831996400782016563', '831996399209414697', '836583124283686943', '831996396684050443', '831996396151636029'],
 		delete: true,
 	},
 	async execute(message, args, client) {
 		const target =
-    message.mentions.users.first() || client.users.cache.get(args[0]);
+    message.mentions.users.first() || await client.users.fetch(args[0]);
 		if (!target) {
 			return message.channel.send(
 				failureEmbed('Please specify someone to unblacklist!'),
@@ -34,12 +35,12 @@ module.exports = {
 		args.shift();
 		const reason = args.join(' ');
 		const { id } = target;
-		if (await bl.findOne({ userID: target.id })) {
+		if (!await bl.findOne({ userID: target.id })) {
 			return message.channel.send(
 				failureEmbed('This user isn\'t blacklisted!'),
 			);
 		}
-		if (client.conf.devs.includes(id) || message.author.id === id) {
+		if (conf.devs.includes(id) || message.author.id === id) {
 			return message.channel.send(
 				failureEmbed(
 					'If this happens, something is seriously broken or someone modified the database. Please message the devs.',
@@ -59,7 +60,7 @@ module.exports = {
 		});
 		let successMessage = `<@${id}> has been unblacklisted for ${reason} with ID ${punish}!`;
 		const embed = new MessageEmbed()
-			.setAuthor(client.user, client.displayAvatarURL())
+			.setAuthor(client.user, client.user.avatarURL())
 			.setTitle(`You've been unblacklisted in ${message.guild.name}`)
 			.addField('Reason', reason)
 			.setFooter(`Punishment ID: ${punish}`);

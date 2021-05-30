@@ -2,6 +2,7 @@ const alias = require('../../json/aliases.json');
 const successEmbed = require('../../functions/success-embed');
 const failureEmbed = require('../../functions/failure-embed');
 const statuses = require('../../functions/statuses');
+const conf = require('../../json/configuration.json');
 const validTypes = [
 	'PLAYING',
 	'STREAMING',
@@ -20,7 +21,7 @@ module.exports = {
 		cooldown: 15,
 	},
 	data: {
-		minArgs: 2,
+		minArgs: 1,
 		maxArgs: null,
 		userPerms: [],
 		botPerms: [],
@@ -29,7 +30,7 @@ module.exports = {
 	},
 	// eslint-disable-next-line no-unused-vars
 	async execute(message, args, client) {
-		if (!client.conf.devs.includes(message.author.id)) {
+		if (!conf.devs.includes(message.author.id)) {
 			return message.channel.send(
 				failureEmbed(
 					'You don\'t have permission to use this command!',
@@ -50,7 +51,7 @@ module.exports = {
 					`You didn't provide a valid activity type. Choose on of the following (case insensitive):\n${validTypes.join(
 						',\n',
 					)}`,
-					'or just use "random" for a predfined set of activities',
+					'or just use "random" for a predefined set of activities',
 				),
 			);
 		}

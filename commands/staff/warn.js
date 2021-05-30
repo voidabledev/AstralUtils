@@ -28,7 +28,7 @@ module.exports = {
 		const reason = args.slice(1).join(' ');
 		if (target.id === message.author.id) message.channel.send(failureEmbed('You can\'t warn yourself, dummy.'));
 		if (target.id === client.user.id) message.channel.send(failureEmbed('You can\'t warn me!'));
-		const punish = log({
+		const punish = await log({
 			guildID: message.guild.id,
 			userID: target.id,
 			staffID: message.author.id,
@@ -37,7 +37,7 @@ module.exports = {
 			timestamp: new Date().getTime(),
 			expires: Date.now() + 1000 * 60 * 60 * 24 * 30,
 		}, client);
-		let successMessage = `${target} has been warned for \`${reason}\`.`;
+		let successMessage = `${target} has been warned for \`${reason}\`. `;
 		try {
 			const embed = new MessageEmbed()
 				.setAuthor(client.user, client.displayAvatarURL())

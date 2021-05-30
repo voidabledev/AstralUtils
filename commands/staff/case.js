@@ -28,15 +28,15 @@ module.exports = {
 		});
 		if(!foundCase) return message.channel.send(failureEmbed('I couldn\'t find a modlog corresponing to this case.'));
 		const embed = new MessageEmbed()
-			.setAuthor(message.author.user, message.author.displayavatarURL())
+			.setAuthor(message.author.username, message.author.avatarURL())
 			.setTitle('Case Information')
-			.addField('Type', punish.caseType)
-			.addField('User', punish.userID)
-			.addField('Moderator', `<@${punish.staffID}>`)
-			.addField('Time', punish.timestamp)
-			.addField('Expires', punish.expires)
-			.addField('Reason', punish.reason)
-			.setFooter(`Punishment ID: ${punish.punishID}`)
+			.addField('Type', foundCase.caseType)
+			.addField('User', foundCase.userID)
+			.addField('Moderator', `<@${foundCase.staffID}>`)
+			.addField('Time', new Date(foundCase.timestamp).toLocaleString())
+			.addField('Expires', foundCase.expires ? new Date(foundCase.expires).toLocaleString() : 'Not applicable')
+			.addField('Reason', foundCase.reason)
+			.setFooter(`Punishment ID: ${foundCase.punishID}`)
 			.setColor('GREEN');
 		message.channel.send(embed);
 	},

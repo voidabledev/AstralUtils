@@ -35,16 +35,13 @@ module.exports = {
 				failureEmbed('Please specify someone to ban.'),
 			);
 		}
-		if (!target.bannable) {
-			message.channel.send(failureEmbed('I can\'t ban that user!', 'oh no'));
-		}
-		const id = target.id;
+		const id = target.id ? target.id : args[0];
 		if (id === message.author.id) {
 			return message.channel.send(failureEmbed('You can\'t ban yourself!'));
 		}
 		const punish = await log({
 			guildID: message.guild.id,
-			userID: target.id,
+			userID: id,
 			staffID: message.author.id,
 			reason,
 			caseType: 'Ban',
@@ -52,7 +49,7 @@ module.exports = {
 			expires: time > 0 ? Date.now() + time : null,
 		}, client);
 		const embed = new MessageEmbed()
-			.setAuthor(client.user, client.displayAvatarURL())
+			.setAuthor(client.user, client.user.avatarURL())
 			.setTitle(`You've been banned in ${message.guild.name}`)
 			.addField('Reason', reason)
 			.addField('Expires', time > 0 ? new Date(Date.now() + time).toLocaleString() : 'Permanent')

@@ -30,9 +30,9 @@ module.exports = {
 		let channel =
     message.mentions.channels.first() ||
     message.guild.channels.cache.get(args[0]);
-		let reason = args.join(' ');
 		if (args[0] === 'here') channel = message.channel;
-
+		args.shift();
+		let reason = args.join(' ');
 		if (!reason) reason = '`No reason provided`';
 		if (!channel) {
 			message.channel.send(
@@ -62,7 +62,8 @@ module.exports = {
 		}
 		const embed = new MessageEmbed()
 			.setTitle('Lockdown')
-			.setDescription(`This channel has been unlocked for:\n${reason}`);
+			.setDescription(`This channel has been unlocked for:\n${reason}`)
+			.setColor('GREEN');
 		channel.send(embed);
 	},
 };

@@ -22,8 +22,8 @@ module.exports = {
 		delete: false,
 	},
 	async execute(message, args, client) {
-		if (!args) {
-			message.channel.send(`The current slowmode in the channel is **${message.channel.rateLimitPerUser}** seconds.`);
+		if (!args.length) {
+			return message.channel.send(`The current slowmode in the channel is **${message.channel.rateLimitPerUser}** seconds.`);
 		}
 		const amount = parseInt(args[0]);
 		message.channel.setRateLimitPerUser(amount);

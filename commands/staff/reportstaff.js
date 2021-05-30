@@ -8,7 +8,7 @@ module.exports = {
 	help: {
 		name: 'reportstaff',
 		description: 'Report a staff member to the staff manager',
-		usage: String,
+		usage: '[user mention or ID] [reason]',
 		aliases: alias.staff.reportstaff,
 		category: 'staff',
 		cooldown: 60,

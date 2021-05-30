@@ -16,7 +16,7 @@ module.exports = {
 		cooldown: 5,
 	},
 	data: {
-		minArgs: 1,
+		minArgs: 0,
 		maxArgs: null,
 		userPerms: ['MANAGE_MESSAGES'],
 		botPerms: [],
@@ -24,16 +24,34 @@ module.exports = {
 		delete: false,
 	},
 	async execute(message, args, client) {
-		const target = message.mentions.users.first() || client.users.fetch(args[0]) || message.author;
+		let target = message.mentions.users.first();
+		if(!target) {
+			try {
+				target = await client.users.fetch(args[0]);
+			}
+			catch {
+				target = message.author;
+			}
+		}
 		await punish.find({ staffID: target.id }, (err, logs) => {
 			if(err) console.error(err);
+			if(!logs.length) {
+				const embed = new MessageEmbed()
+					.setTitle('Staff Search')
+					.setDescription('No punishments found by this user')
+					.setFooter('demot')
+					.setColor('RED');
+				return message.channel.send(embed);
+			}
 			const embed1 = new MessageEmbed()
 				.setTitle('Staff Search')
 				.setDescription('This is an overview. Detailed search for staff members is no longer supported, use the `>case` command to view case specific information instead.')
-				.setFooter(`User ID: ${target.id}`);
+				.setFooter(`User ID: ${target.id}`)
+				.setColor('RANDOM');
 			const embed2 = new MessageEmbed()
 				.setTitle('Staff Search (Continued)')
-				.setFooter(`User ID: ${target.id}`);
+				.setFooter(`User ID: ${target.id}`)
+				.setColor(embed1.color);
 			const sorted = {
 				Warnings: logs.filter((r) => r.caseType === 'Warn'),
 				Mutes: logs.filter((r) => r.caseType === 'Mute'),

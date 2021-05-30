@@ -30,7 +30,7 @@ module.exports = {
 		const page = parseInt(args[1]) || 1;
 		await punish.find({ userID: target.id }, (err, logs) => {
 			if(err) throw err;
-			const maxPage = 1 + logs.length / 25;
+			const maxPage = Math.floor(1 + logs.length / 25);
 			if(page > maxPage || page < 1) return message.channel.send(failureEmbed('This page does not exist!'));
 			if(logs.length === 0) {
 				const em = new MessageEmbed()

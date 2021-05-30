@@ -67,7 +67,7 @@ module.exports = {
 					failureEmbed(
 						`Please wait ${timeLeft.toFixed(
 							1,
-						)} more second(s) before reusing the \`${command.name}\` command.`,
+						)} more second(s) before reusing the \`${command.help.name}\` command.`,
 					),
 				);
 			}

@@ -61,7 +61,7 @@ module.exports = {
 		}
 		const embed = new MessageEmbed()
 			.setTitle('Lockdown')
-			.setDescription(`This channel has been lockdown for:\n${reason}`)
+			.setDescription(`This channel has been locked down for:\n${reason}`)
 			.setFooter('Lockdown')
 			.setColor('RED');
 		channel.send(embed);
