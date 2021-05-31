@@ -38,7 +38,7 @@ module.exports = {
 					`${limit - withinaday.length} more giveaways can be hosted.`,
 				)
 				.setFooter('Another one will be available')
-				.setTimestamp(nextToExpire + 1000 * 60 * 60 * 24);
+				.setTimestamp(nextToExpire ? nextToExpire + 1000 * 60 * 60 * 24 : new Date().getTime());
 		}
 		else {
 			embed

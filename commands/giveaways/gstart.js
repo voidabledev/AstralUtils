@@ -118,12 +118,12 @@ module.exports = {
 			time: ms(giveawayDuration),
 			prize: giveawayPrize,
 			winnerCount: parseInt(giveawayNumberWinners),
-			hostedBy: client.config.hostedBy ? message.author : null,
+			hostedBy: message.author,
 			_messages: {
-				giveaway: (client.config.everyoneMention && ping
+				giveaway: (ping
 					? '<@&831996472458477588>\n'
 					: '') + '🎉 **GIVEAWAY** 🎉',
-				_giveawayEnded: (client.config.everyoneMention && ping
+				_giveawayEnded: (ping
 					? '<@&831996472458477588>\n'
 					: '') + '🎉 **GIVEAWAY ENDED** 🎉',
 				get giveawayEnded() {

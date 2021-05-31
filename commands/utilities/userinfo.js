@@ -23,7 +23,11 @@ module.exports = {
 	},
 	async execute(message, args, client) {
 		const guild = message.guild;
-		const user = message.mentions.users.first() || message.author;
+		let user = message.mentions.users.first() || await client.users.fetch(args[0]);
+		if(!user) {
+			if (args[0]) return message.channel.send(failureEmbed(`Couldn't find user ${args[0]}`));
+			user = message.author;
+		}
 		const member = guild.members.cache.get(user.id);
 		const embed = new MessageEmbed()
 			.setAuthor(`${user.tag}`, `${user.displayAvatarURL({ dynamic: true })}`)
@@ -31,8 +35,11 @@ module.exports = {
 			.setDescription(`${user}'s Information`)
 			.addField('**ID:**', `${user.id}`)
 			.addField('**Avatar URL:**', `${user.displayAvatarURL({ dynamic: true })}`)
-			.addField('**Nickname (If Applicable):**', `${member.nickname || '**Cannot Find A Nickname For This User**'}`)
-			.addField('**Joined Server:**', `${member.joinedAt}`)
+			.addField('**Nickname (If Applicable):**', `${member ?
+				member.nickname || '**Cannot find a nickname for this user**' :
+				'**User is not in this server**'
+			}`)
+			.addField('**Joined Server:**', `${member ? member.joinedAt : '**User is not in this server**'}`)
 			.addField('**Joined Discord:**', `${user.createdAt}`);
 		message.channel.send(embed);
 	},

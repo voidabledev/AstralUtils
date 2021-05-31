@@ -32,7 +32,7 @@
     "nick": ["n"],
     "unblacklist": ["unbl", "unblock"],
     "kick": ["k"],
-    "dm": ["send"],
+    "notify": ["send", "dm"],
     "reason": ["r"],
     "reportstaff": ["rs"],
     "role": []

@@ -6,10 +6,10 @@ const { MessageEmbed } = require('discord.js');
 
 module.exports = {
 	help: {
-		name: 'dm',
+		name: 'notify',
 		description: 'Sends a direct message to a user',
 		usage: '[user mention or ID] [message]',
-		aliases: alias.staff.dm,
+		aliases: alias.staff.notify,
 		category: 'staff',
 		cooldown: 10,
 	},

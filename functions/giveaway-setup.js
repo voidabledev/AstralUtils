@@ -1,6 +1,7 @@
+const conf = require('../json/configuration.json');
+const { GiveawaysManager } = require('discord-giveaways');
+const gwSchema = require('../models/gwschema');
 async function giveaways(client) {
-	const { GiveawaysManager } = require('discord-giveaways');
-	const gwSchema = require('../models/gwschema');
 	const GiveawayDatabase = class extends GiveawaysManager {
 		async getAllGiveaways() {
 			return await gwSchema.find({});
@@ -27,7 +28,7 @@ async function giveaways(client) {
 		},
 	});
 	client.giveawaysManager = manager;
-	client.giveawaysManager.limitPerDay = 4;
+	client.giveawaysManager.limitPerDay = conf.giveawaysPerDay;
 }
 
 module.exports = giveaways;
