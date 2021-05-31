@@ -10,7 +10,8 @@
     "userinfo": ["ui"],
     "serverinfo": ["svi"],
     "membercount": ["mbc"],
-    "afk": ["brb"]
+    "afk": ["brb"],
+    "cas": ["emergency","call-all-staff"]
   },
   "staff": {
     "ban": ["b"],
