@@ -1,8 +1,7 @@
 const { MessageEmbed } = require('discord.js');
 function successEmbed(succText, succFooter) {
 	const embed = new MessageEmbed()
-		.setTitle('Success!')
-		.setDescription(succText)
+		.setDescription('<a:yes:836302807485251674>', succText)
 		.setColor('GREEN');
 	succFooter ? embed.setFooter(succFooter) : null;
 	return embed;
