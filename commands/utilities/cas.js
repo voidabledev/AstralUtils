@@ -21,7 +21,7 @@ module.exports = {
 		delete: false,
 	},
 	async execute(message, args, client) {
-		message.channel.send('Are you sure you want to ping ALL the staff members?\n**Note:** This would be only usable in Raids or something like that.').then(async (msg) => {
+		message.channel.send('Are you sure you want to ping ALL the staff members?\n\n**Note:** This would be only usable in emergencies. Say yes or no.').then(async (msg) => {
 			await message.channel.awaitMessages((m) => m.author.id === message.author.id, {
 				max: 1,
 				time: 60000,
@@ -29,7 +29,7 @@ module.exports = {
 			})
 				.then(async (m) => {
 					if (m.first().content.toLowerCase().includes('yes')) {
-						message.channel.send('<@831996404549419018>');
+						message.channel.send('<@&831996404549419018>');
 					}
 					else {
 						message.channel.send('Call-all-staff canceled.');

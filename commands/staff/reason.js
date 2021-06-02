@@ -10,8 +10,8 @@ module.exports = {
 		description: 'Change the reason for an existing punishment',
 		usage: '[punishment ID] [new reason]',
 		aliases: alias.staff.reason,
-		category: String,
-		cooldown: Number,
+		category: 'staff',
+		cooldown: 10,
 	},
 	data: {
 		minArgs: 2,
@@ -28,8 +28,7 @@ module.exports = {
 		if (!oldCase) return message.channel.send(failureEmbed('I couldn\'t find a punishment associated with this ID!', 'Maybe it was removed?'));
 		if (oldCase.staffID !== message.author.id && !message.member.hasPermission('MANAGE_ROLES')) {
 			return message.channel.send(failureEmbed(
-				'Only Head Moderators and up can change other staff\'s punishments!',
-				'Come back when you\'re more respected',
+				'Only Head Moderators and up can change other staff\'s punishments.',
 			));
 		}
 		const reason = args.slice(1).join(' ');
@@ -41,7 +40,6 @@ module.exports = {
 		message.channel.send(
 			successEmbed(
 				`I changed the reason of this case from \`${oldCase.reason}\` to \`${reason}\``,
-				'yay',
 			));
 	},
 };

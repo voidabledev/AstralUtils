@@ -39,7 +39,7 @@ module.exports = {
 					caseType: 'Unmute',
 					timestamp: new Date().getTime(),
 				}, client);
-				let success = `${member.user} has been unmuted for \`${reason}\` with ID \`${punish}\`.`;
+				let success = `${member.user} has been **unmuted** | \`${punish}\``;
 				try {
 					const embed = new MessageEmbed()
 						.setAuthor(client.user, client.displayAvatarURL())

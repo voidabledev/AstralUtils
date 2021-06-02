@@ -8,7 +8,7 @@ module.exports = {
 	help: {
 		name: 'notify',
 		description: 'Sends a direct message to a user',
-		usage: '[user mention or ID] [message]',
+		usage: '[user mention or id] [message]',
 		aliases: alias.staff.notify,
 		category: 'staff',
 		cooldown: 10,
@@ -22,39 +22,29 @@ module.exports = {
 		delete: true,
 	},
 	async execute(message, args, client) {
-
 		const u = message.mentions.users.first() || client.users.cache.get(args[0]);
-
 		const msg = args.slice(1).join(' ');
-
 		if (!u) {
 			message.channel
 				.send(
 					failureEmbed(
 						'Please provide a user to DM.',
-						'doesn\'t know even how to use a dm cmd',
 					),
-				)
-				.then((m) => {
-					m.delete({ timeout: 10000 });
-					message.delete({ timeout: 10000 });
-				});
-			return;
+				);
 		}
 
 		try {
 			const embed = new MessageEmbed()
 				.setTitle('Direct Message')
 				.setDescription(`From **${message.guild.name}**\n${msg}`)
-				.setFooter(`You were direct messaged by ${message.author.username}`);
+				.setFooter(`You were DM'd by ${message.author.tag}`);
 			u.send(embed);
 		}
 		catch (e) {
 			message.channel.send(failureEmbed('I can\'t DM that user.', 'lol'));
 		}
-
 		message.channel.send(
-			successEmbed(`I've sent the message to ${u}`, 'you learned!'),
+			successEmbed(`I've sent the message to ${u}.`),
 		);
 	},
 };

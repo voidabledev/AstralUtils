@@ -23,10 +23,14 @@ module.exports = {
 	},
 	async execute(message, args, client) {
 		if (!args.length) {
-			return message.channel.send(`The current slowmode in the channel is **${message.channel.rateLimitPerUser}** seconds.`);
+			message.channel.send(`The current slowmode in the channel is \`${message.channel.rateLimitPerUser}\` seconds.`);
 		}
 		const amount = parseInt(args[0]);
 		message.channel.setRateLimitPerUser(amount);
-		message.channel.send(`I've set the channel slowmode to **${amount}** seconds.`);
+		if (amount === 0) {
+			message.channel.send('Slowmode has been turned off. Go crazy!');
+			return;
+		}
+		message.channel.send(`I've set the channel slowmode to \`${amount}\` seconds.`);
 	},
 };

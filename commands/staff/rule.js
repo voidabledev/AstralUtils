@@ -18,11 +18,10 @@ module.exports = {
 		userPerms: ['MANAGE_MESSAGES'],
 		botPerms: [],
 		requiredRoles: [],
-		delete: true,
+		delete: false,
 	},
 	async execute(message, args, client) {
 		const number = parseInt(args.shift());
-		const target = message.mentions.members.first();
 		const rules = [
 			['Respect', 'Treat everyone in the server with respect, both the staff and the members. Treat everybody how you would want to be treated.'],
 			['No Spamming', 'No spamming or flooding text channels. This includes excessive characters or emojis in one message and spamming messages containing the same or similar content. This also includes spam pinging a user.'],
@@ -50,6 +49,6 @@ module.exports = {
 			.setDescription(rules[number - 1][1])
 			.setFooter(`Requested by: ${message.author.tag}`)
 			.setTimestamp();
-		message.channel.send(target, embed);
+		message.channel.send(embed);
 	},
 };

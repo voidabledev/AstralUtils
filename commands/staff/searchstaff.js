@@ -38,7 +38,7 @@ module.exports = {
 			if(!logs.length) {
 				const embed = new MessageEmbed()
 					.setTitle('Staff Search')
-					.setDescription('No punishments found by this user')
+					.setDescription('This staff member has no punishments.')
 					.setFooter('demot')
 					.setColor('RED');
 				return message.channel.send(embed);

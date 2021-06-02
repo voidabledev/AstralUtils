@@ -44,7 +44,6 @@ module.exports = {
 			return message.channel.send(
 				failureEmbed(
 					'That channel is already locked.',
-					'sorry no double lockdown',
 				),
 			);
 		}
@@ -55,7 +54,6 @@ module.exports = {
 			message.channel.send(
 				successEmbed(
 					`Locked down ${channel}`,
-					'manage channel perms abuse go brrrrrr',
 				),
 			);
 		}

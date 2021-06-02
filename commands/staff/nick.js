@@ -39,18 +39,20 @@ module.exports = {
 		if (target.id === message.author.id) {
 			return message.channel.send(
 				failureEmbed(
-					'There\'s other ways to edit your nickname you know?',
-					'xD',
-				),
+					'There\'s other ways to edit your nickname you know?'),
 			);
 		}
 		if (nick.length > 32) {
 			return message.channel.send(
 				failureEmbed(
-					'This nickname is too long, please try one with a most 32 characters!',
-					'dummy',
-				),
+					'This nickname is too long, please try one with a most 32 characters!'),
 			);
+		}
+		if (!nick) {
+			target.setNickname('').then(() => {
+				message.channel.send('I\'ve reset their nickname.');
+			});
+			return;
 		}
 		target.setNickname(nick);
 		message.channel.send(`I've changed their nickname to \`${nick}\``);

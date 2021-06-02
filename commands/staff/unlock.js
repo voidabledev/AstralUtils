@@ -20,8 +20,8 @@ module.exports = {
 	data: {
 		minArgs: 1,
 		maxArgs: null,
-		userPerms: ['MANAGE_CHANNELS'],
-		botPerms: ['MANAGE_CHANNELS'],
+		userPerms: ['MANAGE_ROLES'],
+		botPerms: ['MANAGE_ROLES'],
 		requiredRoles: [],
 		delete: true,
 	},
@@ -47,8 +47,6 @@ module.exports = {
 				failureEmbed(
 					'Failure!',
 					'That channel isn\'t locked.',
-					'can\'t end something that doesn\'t exist',
-					'#7a1b07',
 				),
 			);
 		}
