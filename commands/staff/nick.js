@@ -53,9 +53,7 @@ module.exports = {
 			);
 		}
 		target.setNickname(nick);
-		message.channel.send(
-			successEmbed(`I've changed the nickname to ${nick}`),
-		);
+		message.channel.send(`I've changed their nickname to \`${nick}\``);
 		log({
 			guildID: message.guild.id,
 			userID: target.user.id,

@@ -29,7 +29,9 @@ module.exports = {
 		if (!target) target = await client.users.fetch(args[0]);
 		const time = ms(args[1]);
 		if (time > 0) args.shift();
-		const reason = `\`${args.slice(1).join(' ')}\``;
+		let reason = '';
+		if (!args[1]) reason = 'No reason provided';
+		else reason = `\`${args.slice(1).join(' ')}\``;
 		if (!target) {
 			return message.channel.send(
 				failureEmbed('Please specify someone to ban.'),
@@ -49,7 +51,7 @@ module.exports = {
 			expires: time > 0 ? Date.now() + time : null,
 		}, client);
 		const embed = new MessageEmbed()
-			.setAuthor(client.user, client.user.avatarURL())
+			.setAuthor(client.user.username, client.user.avatarURL())
 			.setTitle(`You've been banned in ${message.guild.name}`)
 			.addField('Reason', reason)
 			.addField('Expires', time > 0 ? new Date(Date.now() + time).toLocaleString() : 'Permanent')
@@ -63,11 +65,11 @@ module.exports = {
 		message.guild.members
 			.ban(id)
 			.then(async () => {
-				message.channel.send(successEmbed(`${target} has been banned for \`${reason}\` with ID ${punish}`, 'ban perms abuse go brrrr'));
+				message.channel.send(successEmbed(`${target} has been **banned** | ${punish}`));
 			},
 			)
 			.catch(() => {
-				message.channel.send(failureEmbed('I can\'t ban that user!', 'oh no'));
+				message.channel.send(failureEmbed('I can\'t ban that user!'));
 			});
 	},
 };

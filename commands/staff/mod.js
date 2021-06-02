@@ -23,7 +23,6 @@ module.exports = {
 		delete: true,
 	},
 	async execute(message, args, client) {
-
 		let target = message.mentions.members.first();
 		if (!target) {
 			target = await message.guild.members.fetch(args[0]);
@@ -42,12 +41,12 @@ module.exports = {
 		}
 		const mod = id(36, 8);
 		target.setNickname(`Moderated Nickname ${mod}`);
-		message.channel.send(successEmbed(`Moderated ${target}'s nickname.`));
+		message.channel.send(`Changed their nickname to \`Moderated Nickname ${mod}\``);
 		log({
 			guildID: message.guild.id,
 			userID: target.user.id,
 			staffID: message.author.id,
-			reason: 'Unpingable Nickname',
+			reason: 'Rule 10',
 			caseType: 'Moderated Nickname',
 			timestamp: new Date().getTime(),
 		}, client);

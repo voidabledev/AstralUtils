@@ -105,7 +105,7 @@ module.exports = {
 			expires: time > 0 ? Date.now() + time : null,
 		}, client);
 		const embed = new MessageEmbed()
-			.setAuthor(client.user, client.user.avatarURL())
+			.setAuthor(client.user.username, client.user.avatarURL())
 			.setTitle(`You've been muted in ${message.guild.name}`)
 			.addField('Reason', reason)
 			.addField('Expires', time > 0 ? new Date(Date.now() + time).toLocaleString() : 'Permanent')

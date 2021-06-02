@@ -3,6 +3,7 @@ const alias = require('../../json/aliases.json');
 const successEmbed = require('../../functions/success-embed');
 const failureEmbed = require('../../functions/failure-embed');
 const { MessageEmbed } = require('discord.js');
+const moment = require('moment');
 
 module.exports = {
 	help: {
@@ -22,25 +23,81 @@ module.exports = {
 		delete: false,
 	},
 	async execute(message, args, client) {
-		const guild = message.guild;
-		let user = message.mentions.users.first() || await client.users.fetch(args[0]);
-		if(!user) {
-			if (args[0]) return message.channel.send(failureEmbed(`Couldn't find user ${args[0]}`));
-			user = message.author;
-		}
-		const member = guild.members.cache.get(user.id);
+		let member =
+    message.mentions.members.last() ||
+    message.guild.members.cache.get(args[0]);
+		if (!member) member = message.author;
+
+		const trimArray = (arr, maxLen = 10) => {
+			if (arr.length > maxLen) {
+				const len = arr.length - maxLen;
+				arr = arr.slice(0, maxLen);
+				arr.push(` and ${len} more roles...`);
+			}
+			return arr;
+		};
+		const upperCase = (str) => {
+			return str.toUpperCase().replace(/_/g, ' ').split(' ').join(' ');
+		};
+		const roles = member.roles.cache
+			.sort((a, b) => b.position - a.position)
+			.map((role) => role.toString())
+			.slice(0, -1);
 		const embed = new MessageEmbed()
-			.setAuthor(`${user.tag}`, `${user.displayAvatarURL({ dynamic: true })}`)
-			.setThumbnail(`${user.displayAvatarURL({ dynamic: true })}`)
-			.setDescription(`${user}'s Information`)
-			.addField('**ID:**', `${user.id}`)
-			.addField('**Avatar URL:**', `${user.displayAvatarURL({ dynamic: true })}`)
-			.addField('**Nickname (If Applicable):**', `${member ?
-				member.nickname || '**Cannot find a nickname for this user**' :
-				'**User is not in this server**'
-			}`)
-			.addField('**Joined Server:**', `${member ? member.joinedAt : '**User is not in this server**'}`)
-			.addField('**Joined Discord:**', `${user.createdAt}`);
+			.setAuthor(
+				`${member.user.tag}`,
+				member.user.displayAvatarURL({ dynamic: true, size: 512 }),
+			)
+			.setThumbnail(member.user.displayAvatarURL({ dynamic: true, size: 512 }))
+			.addFields(
+				{
+					name: 'Joined Discord',
+					value: `${moment(member.user.createdTimestamp).format('DD MMM YYYY')}`,
+					inline: true,
+				},
+				{
+					name: 'Joined Server',
+					value: `${moment(member.joinedAt).format('DD MMM YYYY')}`,
+					inline: true,
+				},
+				{
+					name: 'Nickname',
+					value: `${member.displayName}` || 'None',
+					inline: true,
+				},
+				{
+					name: 'Discriminator',
+					value: `${member.user.discriminator}`,
+					inline: true,
+				},
+				{
+					name: 'User Colour',
+					value: `${upperCase(member.displayHexColor)}`,
+					inline: true,
+				},
+				{ name: 'User ID', value: `${member.user.id}`, inline: true },
+				{
+					name: 'Highest Role',
+					value: `${
+						member.roles.highest.id === message.guild.id
+							? 'None'
+							: member.roles.highest
+					}`,
+					inline: true,
+				},
+				{
+					name: 'Roles',
+					value: `${
+						roles.length < 10
+							? roles.join(', ')
+							: roles.length > 10
+								? trimArray(roles).join(', ')
+								: 'None'
+					}`,
+					inline: false,
+				},
+			)
+			.setColor(`${member.displayHexColor || 'RANDOM'}`);
 		message.channel.send(embed);
 	},
 };
