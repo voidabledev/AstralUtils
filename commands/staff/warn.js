@@ -37,7 +37,7 @@ module.exports = {
 			timestamp: new Date().getTime(),
 			expires: Date.now() + 1000 * 60 * 60 * 24 * 30,
 		}, client);
-		let successMessage = `${target} has been **warned** | \`${punish}\``;
+		let successMessage = `${target} has been **warned** | \`${punish}\`. `;
 		try {
 			const embed = new MessageEmbed()
 				.setAuthor(client.user, client.displayAvatarURL())

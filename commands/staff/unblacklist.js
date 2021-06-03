@@ -58,7 +58,7 @@ module.exports = {
 		await bl.deleteOne({
 			userID: target.id,
 		});
-		let successMessage = `<@${id}> has been **unblacklisted** | \`${punish}\``;
+		let successMessage = `<@${id}> has been **unblacklisted** | \`${punish}\`. `;
 		const embed = new MessageEmbed()
 			.setAuthor(client.user, client.user.avatarURL())
 			.setTitle(`You've been unblacklisted in ${message.guild.name}`)

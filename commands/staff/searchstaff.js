@@ -39,7 +39,7 @@ module.exports = {
 				const embed = new MessageEmbed()
 					.setTitle('Staff Search')
 					.setDescription('This staff member has no punishments.')
-					.setFooter('demot')
+					.setFooter('demoted')
 					.setColor('RED');
 				return message.channel.send(embed);
 			}

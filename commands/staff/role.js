@@ -27,7 +27,6 @@ module.exports = {
 			return message.channel.send(
 				failureEmbed(
 					'Please specify who to give the role to.',
-					'bruh moment',
 				),
 			);
 		}
@@ -43,7 +42,7 @@ module.exports = {
 		) || guild.roles.cache.get(roleName);
 		if (!role) {
 			return message.channel.send(
-				failureEmbed('There is no role with that name.', 'duh'),
+				failureEmbed('There is no role with that name.'),
 			);
 		}
 		if (role.position >= message.member.roles.highest.position) {
@@ -56,7 +55,7 @@ module.exports = {
 		}
 		if (role.position >= message.guild.me.roles.highest.position) {
 			return message.channel.send(
-				failureEmbed('I can\'t manage this role!', 'eh'),
+				failureEmbed('I can\'t manage this role!'),
 			);
 		}
 		const member = guild.members.cache.get(targetUser.id);
@@ -65,13 +64,12 @@ module.exports = {
 				return message.channel.send(
 					failureEmbed(
 						`${member} already has the ${role.name} role!`,
-						'duh',
 					),
 				);
 			}
 			member.roles.add(role);
 			return message.channel.send(
-				successEmbed(`${member} now has the ${role.name} role`, 'yay'),
+				successEmbed(`${member} now has the ${role.name} role.`),
 			);
 		}
 		if (['-', 'remove', 'rm', 'take'].includes(mode)) {

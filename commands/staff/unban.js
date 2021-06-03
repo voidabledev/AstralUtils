@@ -39,7 +39,7 @@ module.exports = {
 				caseType: 'Unban',
 				timestamp: new Date().getTime(),
 			}, client);
-			message.channel.send(successEmbed(`${banned.user} has been **unbanned** | ${punish}`));
+			message.channel.send(successEmbed(`${banned.user} has been **unbanned** | \`${punish}\`.`));
 		}
 		catch (err) {
 			return message.channel.send(errorEmbed);

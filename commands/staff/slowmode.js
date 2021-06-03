@@ -22,10 +22,70 @@ module.exports = {
 		delete: false,
 	},
 	async execute(message, args, client) {
+		const amount = parseInt(args[0]);
 		if (!args.length) {
 			message.channel.send(`The current slowmode in the channel is \`${message.channel.rateLimitPerUser}\` seconds.`);
 		}
-		const amount = parseInt(args[0]);
+		if (message.author.roles.has('831996402619777045') && amount > 30) {
+			message.channel.send(new MessageEmbed()
+				.setTitle('Slowmode')
+				.setDescription(`As a Trainne Moderator, you're restricted to \`30\` seconds. Are you sure you want to set the slowmode to ${amount}?`)
+				.setFooter('Say yes or no'),
+			);
+			await message.channel.awaitMessages((m) => m.author.id === message.author.id, {
+				max: 1,
+				time: 60000,
+				errors: ['time'],
+			}).then(async (m) => {
+				if (m.first().content.toLowerCase().includes('yes')) {
+					message.channel.setRateLimitPerUser(amount);
+					message.channel.send(`I've set the channel slowmode to \`${amount}\` seconds.`);
+				}
+				else {
+					message.channel.send('Slowmode change canceled.');
+				}
+			});
+		}
+		if (message.author.roles.has('831996401872535573') && amount > 60) {
+			message.channel.send(new MessageEmbed()
+				.setTitle('Slowmode')
+				.setDescription(`As a Moderator, you're restricted to \`60\` seconds. Are you sure you want to set the slowmode to ${amount}?`)
+				.setFooter('Say yes or no'),
+			);
+			await message.channel.awaitMessages((msg) => msg.author.id === message.author.id, {
+				max: 1,
+				time: 60000,
+				errors: ['time'],
+			}).then(async (msg) => {
+				if (msg.first().content.toLowerCase().includes('yes')) {
+					message.channel.setRateLimitPerUser(amount);
+					message.channel.send(`I've set the channel slowmode to \`${amount}\` seconds.`);
+				}
+				else {
+					message.channel.send('Slowmode change canceled.');
+				}
+			});
+		}
+		if (message.author.roles.has('831996400782016563') && amount > 200) {
+			message.channel.send(new MessageEmbed()
+				.setTitle('Slowmode')
+				.setDescription(`As a Head Moderator, you're restricted to \`200\` seconds. Are you sure you want to set the slowmode to ${amount}?`)
+				.setFooter('Say yes or no'),
+			);
+			await message.channel.awaitMessages((msg) => msg.author.id === message.author.id, {
+				max: 1,
+				time: 60000,
+				errors: ['time'],
+			}).then(async (msg) => {
+				if (msg.first().content.toLowerCase().includes('yes')) {
+					message.channel.setRateLimitPerUser(amount);
+					message.channel.send(`I've set the channel slowmode to \`${amount}\` seconds.`);
+				}
+				else {
+					message.channel.send('Slowmode change canceled.');
+				}
+			});
+		}
 		message.channel.setRateLimitPerUser(amount);
 		if (amount === 0) {
 			message.channel.send('Slowmode has been turned off. Go crazy!');

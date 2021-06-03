@@ -62,7 +62,7 @@ module.exports = {
 		message.guild.members
 			.ban(id)
 			.then(async () => {
-				message.channel.send(successEmbed(`${target} has been **banned** | ${punish}`));
+				message.channel.send(successEmbed(`${target} has been **banned** |  \`${punish}\`.`));
 			},
 			)
 			.catch(() => {

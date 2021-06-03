@@ -51,7 +51,6 @@ module.exports = {
 			return message.channel.send(
 				failureEmbed(
 					'What are you doing? They aren\'t even a staff member...',
-					'dummy, that\'s not how it works',
 				),
 			);
 		}

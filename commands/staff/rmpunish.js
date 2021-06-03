@@ -25,7 +25,7 @@ module.exports = {
 		const data = await punish.findOneAndDelete({ punishID: args[0] });
 		if(!data) return message.channel.send(fail('I couldn\'t find a punishment with this ID.'));
 		const embed = succ(`Deleted the punishment with ID \`${data.punishID}\``, 'yay')
-			.addField('Case Data', `**Type:** ${data.caseType}\n**User:** <@${data.userID}>\n**Moderator:** <@${data.staffID}>\n**Reason:** ${data.reason}`);
+			.addField('Case Data', `**Type:** ${data.caseType}\n\n**User:** <@${data.userID}>\n\n**Moderator:** <@${data.staffID}>\n\n**Reason:** ${data.reason}`);
 		return message.channel.send(embed);
 	},
 };

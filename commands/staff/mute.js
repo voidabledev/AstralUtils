@@ -34,20 +34,19 @@ module.exports = {
 		args.shift();
 		const time = ms(args[0]);
 		if (time > 0) args.shift();
-		let reason = '';
-		if (!args[1]) reason = 'No reason specified';
-		else reason = args.slice(1).join(' ');
+		const reason = args.slice(1).join(' ');
+		if (reason < 5) return message.channel.send(failureEmbed('You have to provide a reason that\'s more than 5 characters.'));
 		if (member.roles.cache.find(r => r.name.toLowerCase() === 'muted')) {
-			return message.channel.send(failureEmbed('That user is already muted! Unmute them first to mute them again.', 'but why?'));
+			return message.channel.send(failureEmbed('That user is already muted! Unmute them first to mute them again.'));
 		}
 		if (member.id === message.author.id) {
-			return message.channel.send(failureEmbed('You can\'t mute yourself, dummy', 'why would you even try tbh'));
+			return message.channel.send(failureEmbed('You can\'t mute yourself, dummy'));
 		}
 		if (member.id === client.user.id) {
 			return message.channel.send(failureEmbed('You can\'t mute me! I\'m the muter, remember?'));
 		}
 		if (message.member.roles.highest.position <= member.roles.highest.position || !member.manageable) {
-			return message.channel.send(failureEmbed('You can\'t mute this person!', 'they are too strong to be silenced'));
+			return message.channel.send(failureEmbed('You can\'t mute this person!'));
 		}
 		if(!role) {
 			const noRole = new MessageEmbed()

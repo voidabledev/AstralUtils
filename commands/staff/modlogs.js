@@ -48,11 +48,11 @@ module.exports = {
 			thisPage.forEach((log) => {
 				embed.addField(
 					`${log.caseType} on ${new Date(log.timestamp).toLocaleDateString()}`,
-					`**Moderator:** <@${log.staffID}>\n**Reason:** ${log.reason}\n**Exact Date:** ${
+					`**Moderator:** <@${log.staffID}>\n\n**Reason:** ${log.reason}\n\n**Exact Date:** ${
 						new Date(log.timestamp).toLocaleString()
-					}\n**Expires:** ${
-						log.expires ? new Date(log.expires).toLocaleString() : 'No'
-					}\n**Punishment ID:** ${log.punishID}`,
+					}\n\n**Expires:** ${
+						log.expires ? new Date(log.expires).toLocaleString() : 'Never'
+					}\n\n**Punishment ID:** ${log.punishID}`,
 				);
 			});
 			message.channel.send(embed);

@@ -41,7 +41,7 @@ module.exports = {
 			u.send(embed);
 		}
 		catch (e) {
-			message.channel.send(failureEmbed('I can\'t DM that user.', 'lol'));
+			message.channel.send(failureEmbed('I can\'t DM that user.'));
 		}
 		message.channel.send(
 			successEmbed(`I've sent the message to ${u}.`),

@@ -29,7 +29,6 @@ module.exports = {
       message.mentions.channels.first() ||
       message.guild.channels.cache.get(channelID);
 		if (channelID === 'here') channel = message.channel;
-
 		if (!channel) {
 			return message.channel.send(
 				failureEmbed(
