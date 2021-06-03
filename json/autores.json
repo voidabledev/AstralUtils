@@ -1,0 +1,71 @@
+{
+  "settings": [
+    {
+      "triggers": [
+        {
+          "type": "exact",
+          "content": "FIGBVWIVPbiwzwraghGZOWbwzilvnhwbui"
+        }
+      ],
+      "actions": [
+        {
+          "name": "mute",
+          "args": ["stroke", 120000],
+          "blacklist": {
+            "roles": [],
+            "channels": ["all"],
+            "categories": [],
+            "permissions": ["ADMINISTRATOR"],
+            "users": [],
+            "full": false
+          },
+          "whitelist": {
+            "roles": [],
+            "channels": ["842875871077072926"],
+            "categories": [],
+            "permissions": [],
+            "users": ["538635176847343636"]
+          }
+        }
+      ]
+    }
+  ],
+  "template": {
+    "triggers": [
+      {
+        "type": "",
+        "content": ""
+      }
+    ],
+    "actions": [
+      {
+        "name": "",
+        "args": [],
+        "blacklist": {
+          "roles": [],
+          "channels": [],
+          "categories": [],
+          "permissions": [],
+          "users": [],
+          "full": true
+        },
+        "whitelist": {
+          "roles": [],
+          "channels": [],
+          "categories": [
+            "843532723262849035",
+            "831996499989889074",
+            "831996500816822333",
+            "831996501298511923",
+            "831996502553133204",
+            "839231003864072192",
+            "844065597562421249",
+            "831996506282131546"
+          ],
+          "permissions": [],
+          "users": []
+        }
+      }
+    ]
+  }
+}
