@@ -25,6 +25,7 @@ module.exports = {
 		const amount = parseInt(args[0]);
 		if (!args.length) {
 			message.channel.send(`The current slowmode in the channel is \`${message.channel.rateLimitPerUser}\` seconds.`);
+			return;
 		}
 		// Trainee Moderator
 		if (message.member.roles.cache.has('831996402619777045') && amount > 30) {
