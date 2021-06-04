@@ -4,7 +4,7 @@ const failureEmbed = require('../functions/failure-embed.js');
 const Discord = require('discord.js');
 const conf = require('../json/configuration.json');
 const perms = require('../functions/permissions.js');
-const bl = require('../models/blacklistschema');
+const bl = require('../models/blacklistschema.js');
 const afk = require('../functions/check-afk');
 
 module.exports = {

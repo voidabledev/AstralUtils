@@ -20,7 +20,7 @@ module.exports = {
 		userPerms: ['MANAGE_NICKNAMES'],
 		botPerms: ['MANAGE_NICKNAMES'],
 		requiredRoles: [],
-		delete: true,
+		delete: false,
 	},
 	async execute(message, args, client) {
 		let target = message.mentions.members.first();
