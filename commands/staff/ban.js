@@ -3,6 +3,7 @@ const alias = require('../../json/aliases.json');
 const successEmbed = require('../../functions/success-embed');
 const failureEmbed = require('../../functions/failure-embed');
 const { MessageEmbed } = require('discord.js');
+const ms = require('../../functions/ms');
 const log = require('../../functions/process-log.js');
 
 module.exports = {
@@ -26,6 +27,8 @@ module.exports = {
 	async execute(message, args, client) {
 		let target = message.mentions.users.first();
 		if (!target) target = await client.users.fetch(args[0]);
+		const time = ms(args[1]);
+		if (time > 0) args.shift();
 		let reason = '';
 		if (!args[1]) reason = 'No reason provided';
 		else reason = `\`${args.slice(1).join(' ')}\``;
@@ -45,13 +48,13 @@ module.exports = {
 			reason,
 			caseType: 'Ban',
 			timestamp: new Date().getTime(),
-			expires: 'Permanent',
+			expires: time > 0 ? Date.now() + time : null,
 		}, client);
 		const embed = new MessageEmbed()
 			.setAuthor(client.user.username, client.user.avatarURL())
 			.setTitle(`You've been banned in ${message.guild.name}`)
 			.addField('Reason', reason)
-			.addField('Expires: Permanent')
+			.addField('Expires', time > 0 ? new Date(Date.now() + time).toLocaleString() : 'Permanent')
 			.setFooter(`Punishment ID: ${punish}`);
 		try {
 			await target.send(embed);
