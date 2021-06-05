@@ -23,7 +23,7 @@ module.exports = {
 		delete: false,
 	},
 	async execute(message, args, client) {
-		const member = message.mentions.members.last() || message.guild.members.cache.get(args[0]) || message.member;
+		const member = message.mentions.members.first() || await message.guild.members.fetch(args[0]) || message.member;
 		const trimArray = (arr, maxLen = 10) => {
 			if (arr.length > maxLen) {
 				const len = arr.length - maxLen;

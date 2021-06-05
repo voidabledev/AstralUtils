@@ -4,8 +4,9 @@ async function interval(client) {
 	client.setInterval(() => {
 		punish.find({ caseType: 'Mute' }, (err, mutes) => {
 			if (err) console.error(err);
-			const expired = mutes.filter(m => m.expires && m.expires < Date.now());
+			const expired = mutes.filter(m => m.expires && m.expires < Date.now() && m.isActive);
 			expired.forEach(mute => {
+				punish.updateOne(mute, { isActive: false });
 				const guild = client.guilds.cache.get(mute.guildID);
 				if (guild) {
 					const member = guild.members.cache.get(mute.userID);
@@ -16,26 +17,11 @@ async function interval(client) {
 				}
 			});
 		});
-		punish.find({ caseType: 'Ban' }, (err, bans) => {
-			if (err) console.error(err);
-			const expired = bans.filter(b => b.expires && b.expires < Date.now());
-			expired.forEach(ban => {
-				const guild = client.guilds.cache.get(ban.guildID);
-				if (guild) {
-					try {
-						guild.members.unban(ban.userID);
-					}
-					catch (e) {
-						console.log(`Unable to unban user ${ban.userID}`);
-					}
-				}
-			});
-		});
 		punish.find({ caseType: 'Warn' }, (err, warns) => {
 			if (err) console.error(err);
 			const expired = warns.filter(w => w.expires && w.expires < Date.now());
 			expired.forEach(warn => {
-				punish.deleteOne(warn);
+				punish.updateOne(warn, { isActive: false });
 			});
 		});
 		punish.find({ caseType: 'Blacklist' }, (err, bls) => {

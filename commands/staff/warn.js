@@ -36,6 +36,7 @@ module.exports = {
 			caseType: 'Warn',
 			timestamp: new Date().getTime(),
 			expires: Date.now() + 1000 * 60 * 60 * 24 * 30,
+			isActive: true,
 		}, client);
 		let successMessage = `${target} has been **warned** | \`${punish}\`. `;
 		try {

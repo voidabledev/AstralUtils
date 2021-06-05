@@ -102,6 +102,7 @@ module.exports = {
 			caseType: 'Mute',
 			timestamp: new Date().getTime(),
 			expires: time > 0 ? Date.now() + time : null,
+			isActive: true,
 		}, client);
 		const embed = new MessageEmbed()
 			.setAuthor(client.user.username, client.user.avatarURL())

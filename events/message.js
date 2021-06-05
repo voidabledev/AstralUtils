@@ -6,12 +6,15 @@ const conf = require('../json/configuration.json');
 const perms = require('../functions/permissions.js');
 const bl = require('../models/blacklistschema.js');
 const afk = require('../functions/check-afk');
+const autores = require('../functions/autores');
 
 module.exports = {
 	name: 'message',
 	once: false,
 	async execute(message, client) {
 		afk(message);
+		/* autores(message, client); */
+		// ^ this is bugged and I can't be bothered fixing it rn
 		const { cooldowns } = client;
 		const prefix = process.argv.length > 2 ? conf.betaPrefix : conf.prefix;
 		if (!message.content.startsWith(prefix) || message.author.bot) return;

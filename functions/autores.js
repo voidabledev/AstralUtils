@@ -94,7 +94,7 @@ const exec = {
 			userID: message.author.id,
 			staffID: client.user.id,
 			reason: args[0],
-			caseType: 'Warn (auto)',
+			caseType: 'Warn',
 			timestamp: new Date().getTime(),
 			expires: Date.now() + 1000 * 60 * 60 * 24 * 30,
 		}, client);
@@ -126,10 +126,10 @@ const exec = {
 			userID: message.author.id,
 			staffID: client.user.id,
 			reason: args[0],
-			caseType: 'Mute (auto)',
+			caseType: 'Mute',
 			timestamp: new Date().getTime(),
 			expires: Date.now() + args[1],
-		});
+		}, client);
 		const embed = new MessageEmbed()
 			.setDescription(
 				`You got auto-muted in **${message.guild.name}** for \`${
@@ -152,7 +152,7 @@ const exec = {
 			userID: message.author.id,
 			staffID: client.user.id,
 			reason: args[0],
-			caseType: 'Ban (auto)',
+			caseType: 'Ban',
 			timestamp: new Date().getTime(),
 		}, client);
 		const embed = new MessageEmbed()
