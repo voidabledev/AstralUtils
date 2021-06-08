@@ -39,6 +39,9 @@ module.exports = {
 				failureEmbed('I can\'t edit that user\'s nickname.'),
 			);
 		}
+		if (target.nickname.has('Moderated Nickname')) {
+			return message.channel.send(failureEmbed('That user is already moderated!'));
+		}
 		const mod = id(36, 8);
 		target.setNickname(`Moderated Nickname ${mod}`);
 		message.channel.send(`Moderated the name to \`Moderated Nickname ${mod}\`.`);

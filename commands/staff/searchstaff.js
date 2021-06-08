@@ -69,7 +69,7 @@ module.exports = {
 				Blacklists: logs.filter((r) => r.caseType === 'Blacklist'),
 				Unblacklists: logs.filter((r) => r.caseType === 'Unblacklist'),
 				'Nick Moderations': logs.filter(
-					(r) => r.caseType === 'Nick Moderation',
+					(r) => r.caseType === 'Moderated Nickname',
 				),
 				'Changed Nicknames': logs.filter(
 					(r) => r.caseType === 'Changed Nickname',
