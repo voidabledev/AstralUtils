@@ -4,6 +4,7 @@ const successEmbed = require('../../functions/success-embed');
 const failureEmbed = require('../../functions/failure-embed');
 const ms = require('../../functions/ms');
 const { MessageEmbed } = require('discord.js');
+const blacklist = require('../../models/blacklistschema');
 
 module.exports = {
 	help: {
@@ -102,7 +103,6 @@ module.exports = {
 		if (stop) return;
 		await client.giveawaysManager.start(giveawayChannel, {
 			exemptMembers: async (member) => {
-				const blacklist = require('../../models/blacklistschema');
 				return await blacklist.findOne({ userID: member.user.id });
 			},
 			bonusEntries: [

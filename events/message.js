@@ -13,8 +13,8 @@ module.exports = {
 	once: false,
 	async execute(message, client) {
 		afk(message);
+		// TODO
 		/* autores(message, client); */
-		// ^ this is bugged and I can't be bothered fixing it rn
 		const { cooldowns } = client;
 		const prefix = process.argv.length > 2 ? conf.betaPrefix : conf.prefix;
 		if (!message.content.startsWith(prefix) || message.author.bot) return;
