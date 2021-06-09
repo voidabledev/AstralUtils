@@ -1,8 +1,8 @@
 // Packages you will need...
 const alias = require('../../json/aliases.json');
 const conf = require('../../json/configuration.json');
-const failEmbed = require('../../functions/failure-embed');
 const Discord = require('discord.js');
+
 module.exports = {
 	help: {
 		name: 'eval',
@@ -10,14 +10,14 @@ module.exports = {
 		usage: '[code]',
 		aliases: alias.devs.eval,
 		category: 'developers',
-		cooldown: 0,
+		cooldown: 5,
 	},
 	data: {
 		minArgs: 1,
 		maxArgs: null,
 		userPerms: [],
 		botPerms: [],
-		requiredRoles: [],
+		requiredRoles: ['841804547000893490'],
 		delete: false,
 	},
 	// eslint-disable-next-line no-unused-vars
@@ -25,16 +25,6 @@ module.exports = {
 		const silent = args[0].toLowerCase() === 'silent';
 		if (silent) args.shift();
 		let code = args.join(' ');
-
-		if (!conf.devs.includes(message.author.id)) {
-			return message.channel.send(
-				failEmbed(
-					'You don\'t have permission to use this command!',
-					'devs only, noob',
-				),
-			);
-		}
-
 		const embed = new Discord.MessageEmbed();
 		if (
 			message.content ===
@@ -42,7 +32,6 @@ module.exports = {
 		) {
 			return message.channel.send('21, You stupid');
 		}
-
 		try {
 			if (code.startsWith('```js') && code.endsWith('```')) {
 				code = code.slice(5, -3);

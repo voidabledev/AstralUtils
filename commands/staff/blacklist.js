@@ -63,7 +63,7 @@ module.exports = {
 		});
 		let successMessage = `<@${id}> has been **blacklisted** | \`${punish}\`. `;
 		const embed = new MessageEmbed()
-			.setAuthor(client.user, client.user.avatarURL())
+			.setAuthor(client.user.username, client.user.avatarURL())
 			.setTitle(`You've been blacklisted in ${message.guild.name}`)
 			.addField('Reason', reason)
 			.addField('Expires', expires)

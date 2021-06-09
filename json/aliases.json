@@ -2,7 +2,9 @@
   "devs": {
     "eval": ["ev", "e"],
     "activtity": ["act"],
-    "execute": ["exec"]
+    "execute": ["exec"],
+    "pull": ["p"],
+    "restart": ["res"]
   },
   "utilities": {
     "ping": ["pong", "latency", "getlatency"],

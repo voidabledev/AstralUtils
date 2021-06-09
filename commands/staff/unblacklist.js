@@ -60,7 +60,7 @@ module.exports = {
 		});
 		let successMessage = `<@${id}> has been **unblacklisted** | \`${punish}\`. `;
 		const embed = new MessageEmbed()
-			.setAuthor(client.user, client.user.avatarURL())
+			.setAuthor(client.user.username, client.user.avatarURL())
 			.setTitle(`You've been unblacklisted in ${message.guild.name}`)
 			.addField('Reason', reason)
 			.setFooter(`Punishment ID: ${punish}`);

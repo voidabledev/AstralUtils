@@ -18,13 +18,12 @@ module.exports = {
 		maxArgs: null,
 		userPerms: [],
 		botPerms: [],
-		requiredRoles: [],
+		requiredRoles: ['841804547000893490'],
 		delete: false,
 	},
 	async execute(message, args) {
-		if(!devs.includes(message.author.id)) return message.delete();
 		const codeExec = args.join(' ');
-		if(!codeExec) return message.channel.send('Alright, we arent executing anything today');
+		if (!codeExec) return message.channel.send('Alright, we arent executing anything today');
 		try {
 			message.channel.send('Starting to execute now. You will see the output once I\'m done.');
 			exec(codeExec, async (err, stdout, stderr) => {

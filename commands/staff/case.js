@@ -30,14 +30,15 @@ module.exports = {
 		const embed = new MessageEmbed()
 			.setAuthor(message.author.username, message.author.avatarURL())
 			.setTitle('Case Information')
+			.setAuthor(`${message.author.tag} (${message.author.id})`, message.author.displayAvatarURL())
 			.addField('Type', foundCase.caseType)
-			.addField('User', foundCase.userID)
-			.addField('Moderator', `<@${foundCase.staffID}>`)
-			.addField('Time', new Date(foundCase.timestamp).toLocaleString())
-			.addField('Expires', foundCase.expires ? new Date(foundCase.expires).toLocaleString() : 'Not applicable')
+			.addField('Moderator', `<@${foundCase.staffID}> (${foundCase.staffID})`)
+			.addField('User', `<@${foundCase.userID}> (${foundCase.userID})`)
 			.addField('Reason', foundCase.reason)
+			.addField('Time', new Date(foundCase.timestamp).toLocaleString())
+			.addField('Expires', foundCase.expires ? new Date(foundCase.expires).toLocaleString() : 'Not Applicable')
 			.setFooter(`Punishment ID: ${foundCase.punishID}`)
-			.setColor('GREEN');
+			.setColor('RANDOM');
 		message.channel.send(embed);
 	},
 };

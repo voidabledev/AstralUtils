@@ -12,10 +12,13 @@ async function processLog(data, client) {
 	data.punishID = punishID;
 	await punish.create(data);
 	const embed = new MessageEmbed()
-		.setTitle(`Case #${punishID}`)
-		.setDescription(`**Type:** ${data.caseType}\n**User:** <@${data.userID}>\n**Moderator:** <@${data.staffID}>\n**Reason:** ${data.reason}`)
+		.setTitle('Case ID', data.punishID)
+		.addField('Type', data.caseType)
+		.addField('User', `<@${data.userID}> (${data.userID})`)
+		.addField('Moderator', `<@${data.staffID}> (${data.userID})`)
+		.addField('Reason', data.reason)
 		.setTimestamp(data.timestamp)
-		.setColor('#ff0066');
+		.setColor('RANDOM');
 	const webhooks = await channel.fetchWebhooks();
 	const webhook = webhooks.size ? webhooks.first() : await channel.createWebhook(client.user.username, {
 		avatar: client.user.avatarURL(),

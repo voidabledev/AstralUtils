@@ -2,7 +2,6 @@ const alias = require('../../json/aliases.json');
 const successEmbed = require('../../functions/success-embed');
 const failureEmbed = require('../../functions/failure-embed');
 const statuses = require('../../functions/statuses');
-const conf = require('../../json/configuration.json');
 const validTypes = [
 	'PLAYING',
 	'STREAMING',
@@ -25,19 +24,11 @@ module.exports = {
 		maxArgs: null,
 		userPerms: [],
 		botPerms: [],
-		requiredRoles: [],
+		requiredRoles: ['841804547000893490'],
 		delete: false,
 	},
 	// eslint-disable-next-line no-unused-vars
 	async execute(message, args, client) {
-		if (!conf.devs.includes(message.author.id)) {
-			return message.channel.send(
-				failureEmbed(
-					'You don\'t have permission to use this command!',
-					'this is for devs',
-				),
-			);
-		}
 		if (args[0].toLowerCase() === 'random') {
 			statuses(client);
 			return message.channel.send(

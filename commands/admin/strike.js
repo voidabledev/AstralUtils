@@ -66,6 +66,9 @@ module.exports = {
 				),
 			);
 		}
+		if (target.roles.cache.get('836583124283686943') || target.roles.cache.get('831996396684050443') || target.roles.cache.get('718813416407564340')) {
+			return message.channel.send(failureEmbed('You can\'t strike a Manager or above.'));
+		}
 		const strikeID = id(36, 8);
 		let messaged = '';
 		const embed = new MessageEmbed()
