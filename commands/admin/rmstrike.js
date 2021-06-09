@@ -44,9 +44,7 @@ module.exports = {
 			? await user
 				.send(
 					new MessageEmbed()
-						.setDescription(
-							`Your strike with ID \`${strikeID}\` has been revoked by ${message.author} for \`${reason}\``,
-						)
+						.setDescription(`Your strike with ID \`${strikeID}\` has been revoked by ${message.author} for \`${reason}\``)
 						.setColor('GREEN'),
 				)
 				.then(() => (notifiedUser = true))

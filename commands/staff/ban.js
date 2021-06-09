@@ -25,19 +25,17 @@ module.exports = {
 	},
 	// eslint-disable-next-line no-unused-vars
 	async execute(message, args, client) {
-		let target = message.mentions.users.first();
-		if (!target) target = await client.users.fetch(args[0]);
-		const time = ms(args[1]);
+		const target =
+    message.mentions.members.first() ||
+    (await message.guild.members.fetch(args[0]));
+		args.shift();
+		const time = ms(args[0]);
 		if (time > 0) args.shift();
-		let reason = '';
-		if (!args[1]) reason = 'No reason provided';
-		else reason = `\`${args.slice(1).join(' ')}\``;
-		if (!target) {
-			return message.channel.send(
-				failureEmbed('Please specify someone to ban.'),
-			);
-		}
+		const reason = args.slice(1).join(' ');
 		const id = target.id ? target.id : args[0];
+		if (!target) {
+			return message.channel.send(failureEmbed('You didn\'t provide a valid user mention or ID!'));
+		}
 		if (id === message.author.id) {
 			return message.channel.send(failureEmbed('You can\'t ban yourself!'));
 		}

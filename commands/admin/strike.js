@@ -78,16 +78,12 @@ module.exports = {
 		target.send(embed)
 			.catch(() => (messaged = 'I was unable to DM this user.'));
 		const logEmbed = new MessageEmbed()
-			.setTitle('Striked')
-			.setDescription(
-				`${target} has been striked by ${message.author} for ${reason} with ID \`${strikeID}\``,
-			)
+			.setTitle('New Strike')
+			.setDescription(`${target} has been **striked** by ${message.author} for ${reason} | \`${strikeID}\`.`)
 			.setFooter(`User ID: ${target.id}`);
 		const messageEmbed = new MessageEmbed()
 			.setTitle('Strike')
-			.setDescription(
-				`You have striked ${target} for \`${reason}\` with ID \`${strikeID}\` ${messaged}`,
-			);
+			.setDescription(`${target} has been **striked** | \`${strikeID}\`. ${messaged}`);
 		message.channel.send(messageEmbed);
 		message.guild.channels.cache.get('831996554763829338')
 			.send(logEmbed)

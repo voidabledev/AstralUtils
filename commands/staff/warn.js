@@ -24,7 +24,7 @@ module.exports = {
 	},
 	async execute(message, args, client) {
 		const target = message.mentions.users.first() || await client.users.fetch(args[0]);
-		if(!target) return message.channel.send(failureEmbed('Please provide a valid user mention or ID!', 'what a noob'));
+		if (!target) return message.channel.send(failureEmbed('Please provide a valid user mention or ID!', 'what a noob'));
 		const reason = args.slice(1).join(' ');
 		if (target.id === message.author.id) message.channel.send(failureEmbed('You can\'t warn yourself, dummy.'));
 		if (target.id === client.user.id) message.channel.send(failureEmbed('You can\'t warn me!'));

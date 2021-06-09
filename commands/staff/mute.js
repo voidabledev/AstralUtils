@@ -35,12 +35,11 @@ module.exports = {
 		const time = ms(args[0]);
 		if (time > 0) args.shift();
 		const reason = args.slice(1).join(' ');
-		if (reason < 5) return message.channel.send(failureEmbed('You have to provide a reason that\'s more than 5 characters.'));
 		if (member.roles.cache.find(r => r.name.toLowerCase() === 'muted')) {
 			return message.channel.send(failureEmbed('That user is already muted! Unmute them first to mute them again.'));
 		}
 		if (member.id === message.author.id) {
-			return message.channel.send(failureEmbed('You can\'t mute yourself, dummy'));
+			return message.channel.send(failureEmbed('You can\'t mute yourself.'));
 		}
 		if (member.id === client.user.id) {
 			return message.channel.send(failureEmbed('You can\'t mute me! I\'m the muter, remember?'));
@@ -48,7 +47,7 @@ module.exports = {
 		if (message.member.roles.highest.position <= member.roles.highest.position || !member.manageable) {
 			return message.channel.send(failureEmbed('You can\'t mute this person!'));
 		}
-		if(!role) {
+		if (!role) {
 			const noRole = new MessageEmbed()
 				.setTitle('Muting Error')
 				.setDescription('This server currently doesn\'t have a "Muted" role. Would you like to generate one?')
@@ -59,38 +58,36 @@ module.exports = {
 					max: 1,
 					time: 60000,
 					errors: ['time'],
-				})
-					.then(async (m) => {
-						if(m.first().content.toLowerCase().includes('yes')) {
-							if(message.guild.roles.cache.size >= 250) {
-								return message.channel.send(failureEmbed('There are too many roles in your server for me to make another one! [250]'));
-							}
-							const mutedRole = await message.guild.roles.create({
-								data: {
-									name: 'Muted',
-									color: 'GRAY',
-								},
-							});
-							message.guild.channels.cache.forEach(async (channel) => {
-								await channel.createOverwrite(mutedRole, {
-									READ_MESSAGES: false,
-									SEND_MESSAGES: false,
-									READ_MESSAGE_HISTORY: false,
-									ADD_REACTIONS: false,
-									VIEW_CHANNEL: false,
-									CONNECT: false,
-									SPEAK: false,
-								});
-							});
-							role = mutedRole;
+				}).then(async (m) => {
+					if (m.first().content.toLowerCase().includes('yes')) {
+						if (message.guild.roles.cache.size >= 250) {
+							return message.channel.send(failureEmbed('There are too many roles in your server for me to make another one! [250]'));
 						}
-						else {
-							return message.channel.send(failureEmbed('Muting process was cancelled.'));
-						}
-					})
-					.catch(() => {
-						return message.channel.send(failureEmbed('Timed out, muting process was cancelled.'));
-					});
+						const mutedRole = await message.guild.roles.create({
+							data: {
+								name: 'Muted',
+								color: 'GRAY',
+							},
+						});
+						message.guild.channels.cache.forEach(async (channel) => {
+							await channel.createOverwrite(mutedRole, {
+								READ_MESSAGES: false,
+								SEND_MESSAGES: false,
+								READ_MESSAGE_HISTORY: false,
+								ADD_REACTIONS: false,
+								VIEW_CHANNEL: false,
+								CONNECT: false,
+								SPEAK: false,
+							});
+						});
+						role = mutedRole;
+					}
+					else {
+						return message.channel.send(failureEmbed('Muting process was cancelled.'));
+					}
+				}).catch(() => {
+					return message.channel.send(failureEmbed('Timed out, muting process was cancelled.'));
+				});
 			});
 		}
 		member.roles.add(role);
