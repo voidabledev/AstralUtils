@@ -50,12 +50,12 @@ module.exports = {
 		}
 		if (!nick) {
 			target.setNickname('').then(() => {
-				message.channel.send('I\'ve reset their nickname.');
+				message.channel.send(`I've reset ${target.username}'s nickname.`);
 			});
 			return;
 		}
 		target.setNickname(nick);
-		message.channel.send(`I've changed their nickname to \`${nick}\`.`);
+		message.channel.send(`I've changed ${target.username}'s nickname to \`${nick}\`.`);
 		log({
 			guildID: message.guild.id,
 			userID: target.user.id,

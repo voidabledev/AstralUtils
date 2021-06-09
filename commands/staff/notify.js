@@ -37,7 +37,8 @@ module.exports = {
 			const embed = new MessageEmbed()
 				.setTitle('Direct Message')
 				.setDescription(`From **${message.guild.name}**\n${msg}`)
-				.setFooter(`You were DM'd by ${message.author.tag}`);
+				.setFooter(`You were DM'd by ${message.author.tag}`)
+				.setTimestamp();
 			u.send(embed);
 		}
 		catch (e) {
