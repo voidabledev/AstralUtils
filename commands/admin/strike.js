@@ -73,12 +73,8 @@ module.exports = {
 		let messaged = '';
 		const embed = new MessageEmbed()
 			.setTitle('Striked')
-			.setDescription(
-				`You have been striked by ${message.author} for ${reason} with ID \`${strikeID}\``,
-			)
-			.setFooter(
-				'If you think this is a mistake, please DM the Admin who striked you',
-			);
+			.setDescription(`You have been striked by ${message.author} for ${reason} with ID \`${strikeID}\``)
+			.setFooter('If you think this is a mistake, please appeal with a Manager.');
 		target.send(embed)
 			.catch(() => (messaged = 'I was unable to DM this user.'));
 		const logEmbed = new MessageEmbed()

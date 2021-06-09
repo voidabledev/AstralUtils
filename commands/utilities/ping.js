@@ -1,10 +1,11 @@
+/* eslint-disable no-unused-vars */
 const Discord = require('discord.js');
 const alias = require('../../json/aliases.json');
-const ms = require('ms');
+
 module.exports = {
 	name: 'ping',
 	description: 'Get the latency of the bot',
-	aliases: alias.devs.ping,
+	aliases: alias.utilities.ping,
 	cooldown: 10,
 	help: {
 		name: 'ping',
@@ -23,18 +24,13 @@ module.exports = {
 		delete: false,
 	},
 	async execute(message, args, client) {
-
-		const timeNow = Date.now();
-		const m = await message.channel.send('Pinging...');
-		const messageLat = Date.now() - timeNow;
-		const ping = ms(client.uptime);
-
-		const e = new Discord.MessageEmbed()
-			.addField('Client Ping', `${Math.round(client.ws.ping)}ms`, true)
-			.addField('Message Latency', `${messageLat}ms`, true)
-			.addField('Uptime', ping)
-			.setColor('RANDOM')
+		const msg = await message.channel.send('Pinging...');
+		const em = new Discord.MessageEmbed()
+			.setAuthor(message.author.tag, message.author.displayAvatarURL())
+			.setTitle('Pong!')
+			.addField(`Latency is ${Date.now() - message.createdTimestamp} ms`)
+			.addField(`API Latency is ${Math.round(client.ws.ping)} ms`)
 			.setTimestamp();
-		m.edit(e);
+		msg.edit(em);
 	},
 };

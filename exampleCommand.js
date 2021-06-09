@@ -1,5 +1,6 @@
 /* eslint-disable no-unused-vars */
 const alias = require('../../json/aliases.json');
+const { MessageEmbed } = require('discord.js');
 const successEmbed = require('../../functions/success-embed');
 const failureEmbed = require('../../functions/failure-embed');
 
