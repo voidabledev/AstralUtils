@@ -28,8 +28,8 @@ module.exports = {
 		const em = new Discord.MessageEmbed()
 			.setAuthor(message.author.tag, message.author.displayAvatarURL())
 			.setTitle('Pong!')
-			.addField(`Latency is ${Date.now() - message.createdTimestamp} ms`)
-			.addField(`API Latency is ${Math.round(client.ws.ping)} ms`)
+			.addField('Latency is', `${Date.now() - message.createdTimestamp} ms`)
+			.addField('API Latency is', `${Math.round(client.ws.ping)} ms`)
 			.setTimestamp();
 		msg.edit(em);
 	},
