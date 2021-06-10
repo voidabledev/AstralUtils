@@ -50,7 +50,7 @@ module.exports = {
 					`${log.caseType} on ${new Date(log.timestamp).toLocaleDateString()}`,
 					`**Moderator:** <@${log.staffID}>\n**Reason:** ${log.reason}\n**Exact Date:** ${
 						new Date(log.timestamp).toLocaleString()
-					}\n**Expires:** ${
+					}\n**${log.isActive ? 'Expires' : 'Expired'}:** ${
 						log.expires ? new Date(log.expires).toLocaleString() : 'Never'
 					}\n**Punishment ID:** ${log.punishID}`,
 				);

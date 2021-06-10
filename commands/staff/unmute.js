@@ -3,6 +3,7 @@ const alias = require('../../json/aliases.json');
 const successEmbed = require('../../functions/success-embed');
 const failureEmbed = require('../../functions/failure-embed');
 const log = require('../../functions/process-log');
+const punishSchema = require('../../models/punishschema');
 const { MessageEmbed } = require('discord.js');
 
 module.exports = {
@@ -52,6 +53,14 @@ module.exports = {
 					success += 'I was unable to DM this user.';
 				}
 				message.channel.send(successEmbed(success));
+				await punishSchema.findOneAndUpdate({
+					caseType: 'Mute',
+					userID: member.id,
+					isActive: true,
+				}, {
+					isActive: false,
+					expires: Date.now(),
+				});
 			});
 	},
 };

@@ -34,7 +34,7 @@ module.exports = {
 		args.shift();
 		const time = ms(args[0]);
 		if (time > 0) args.shift();
-		const reason = args.slice(1).join(' ');
+		const reason = args.join(' ');
 		if (member.roles.cache.find(r => r.name.toLowerCase() === 'muted')) {
 			return message.channel.send(failureEmbed('That user is already muted! Unmute them first to mute them again.'));
 		}

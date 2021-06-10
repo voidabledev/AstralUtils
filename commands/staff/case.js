@@ -36,7 +36,7 @@ module.exports = {
 			.addField('User', `<@${foundCase.userID}> (${foundCase.userID})`)
 			.addField('Reason', foundCase.reason)
 			.addField('Time', new Date(foundCase.timestamp).toLocaleString())
-			.addField('Expires', foundCase.expires ? new Date(foundCase.expires).toLocaleString() : 'Not Applicable')
+			.addField(foundCase.isActive !== false ? 'Expires' : 'Expired', foundCase.expires ? new Date(foundCase.expires).toLocaleString() : 'Not Applicable')
 			.setFooter(`Punishment ID: ${foundCase.punishID}`)
 			.setColor('RANDOM');
 		message.channel.send(embed);

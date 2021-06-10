@@ -24,81 +24,44 @@ module.exports = {
 	async execute(message, args, client) {
 		const amount = parseInt(args[0]);
 		if (!args.length) {
-			message.channel.send(`The current slowmode in the channel is \`${message.channel.rateLimitPerUser}\` seconds.`);
+			message.channel.send(successEmbed(`The current slowmode in the channel is \`${message.channel.rateLimitPerUser}\` seconds.`));
 			return;
 		}
-		// Trainee Moderator
-		if (message.member.roles.cache.has('831996402619777045') && amount > 30) {
+		let maxAmount = -1;
+		let pos = '';
+		if (message.member.roles.cache.get('831996402619777045')) {
+			maxAmount = 30;
+			pos = 'Trainee Moderator';
+		}
+		if (message.member.roles.cache.get('831996401872535573')) {
+			maxAmount = 60;
+			pos = 'Moderator';
+		}
+		if (message.member.roles.cache.get('831996400782016563')) {
+			maxAmount = 200;
+			pos = 'Head Moderator';
+		}
+
+		if (pos.length && amount > maxAmount) {
 			message.channel.send(new MessageEmbed()
 				.setTitle('Slowmode')
-				.setDescription(`As a Trainne Moderator, you're restricted to \`30\` seconds. Are you sure you want to set the slowmode to \`${amount}?\``)
+				.setDescription(`As a ${pos}, you're restricted to \`${maxAmount}\` seconds. Are you sure you want to set the slowmode to \`${amount}?\``)
 				.setFooter('Say yes or no'),
 			);
-			await message.channel.awaitMessages((m) => m.author.id === message.author.id, {
+			const res = await message.channel.awaitMessages((m) => m.author.id === message.author.id, {
 				max: 1,
 				time: 60000,
 				errors: ['time'],
-			}).then(async (m) => {
-				if (m.first().content.toLowerCase().includes('yes')) {
-					message.channel.setRateLimitPerUser(amount);
-					message.channel.send(`I've set the channel slowmode to \`${amount}\` seconds.`);
-				}
-				else {
-					message.channel.send('Slowmode change canceled.');
-				}
 			});
-			return;
+			if (!res.first().content.toLowerCase().includes('yes')) {
+				return message.channel.send(failureEmbed('Slowmode change cancelled.'));
+			}
 		}
-		// Moderator
-		if (message.member.roles.cache.has('831996401872535573') && amount > 60) {
-			message.channel.send(new MessageEmbed()
-				.setTitle('Slowmode')
-				.setDescription(`As a Moderator, you're restricted to \`60\` seconds. Are you sure you want to set the slowmode to \`${amount}\`?`)
-				.setFooter('Say yes or no'),
-			);
-			await message.channel.awaitMessages((msg) => msg.author.id === message.author.id, {
-				max: 1,
-				time: 60000,
-				errors: ['time'],
-			}).then(async (msg) => {
-				if (msg.first().content.toLowerCase().includes('yes')) {
-					message.channel.setRateLimitPerUser(amount);
-					message.channel.send(`I've set the channel slowmode to \`${amount}\` seconds.`);
-				}
-				else {
-					message.channel.send('Slowmode change canceled.');
-				}
-			});
-			return;
-		}
-		// Head Moderator
-		if (message.member.roles.cache.has('831996400782016563') && amount > 200) {
-			message.channel.send(new MessageEmbed()
-				.setTitle('Slowmode')
-				.setDescription(`As a Head Moderator, you're restricted to \`200\` seconds. Are you sure you want to set the slowmode to \`${amount}\`?`)
-				.setFooter('Say yes or no'),
-			);
-			await message.channel.awaitMessages((msgs) => msgs.author.id === message.author.id, {
-				max: 1,
-				time: 60000,
-				errors: ['time'],
-			}).then(async (msgs) => {
-				if (msgs.first().content.toLowerCase().includes('yes')) {
-					message.channel.setRateLimitPerUser(amount);
-					message.channel.send(`I've set the channel slowmode to \`${amount}\` seconds.`);
-				}
-				else {
-					message.channel.send('Slowmode change canceled.');
-				}
-			});
-			return;
-		}
-		// Normal (Admin or above)
 		message.channel.setRateLimitPerUser(amount);
 		if (amount === 0) {
-			message.channel.send('Slowmode has been turned off. Go crazy!');
+			message.channel.send(successEmbed('Slowmode has been turned off. Go crazy!'));
 			return;
 		}
-		message.channel.send(`I've set the channel slowmode to \`${amount}\` seconds.`);
+		message.channel.send(successEmbed(`I've set the channel slowmode to \`${amount}\` seconds.`));
 	},
 };
