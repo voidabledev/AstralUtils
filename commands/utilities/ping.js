@@ -26,11 +26,7 @@ module.exports = {
 	async execute(message, args, client) {
 		const msg = await message.channel.send('Pinging...');
 		const em = new Discord.MessageEmbed()
-			.setAuthor(message.author.tag, message.author.displayAvatarURL())
-			.setTitle('Pong!')
-			.addField('Latency is', `${Date.now() - message.createdTimestamp} ms`)
-			.addField('API Latency is', `${Math.round(client.ws.ping)} ms`)
-			.setTimestamp();
+			.setDescription(`**Latency:** \`${Date.now() - message.createdTimestamp}\` ms\n**API Latency:** \`${Math.round(client.ws.ping)}\` ms`);
 		msg.edit(em);
 	},
 };
