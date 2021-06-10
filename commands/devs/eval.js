@@ -28,7 +28,7 @@ module.exports = {
 		const embed = new Discord.MessageEmbed();
 		if (
 			message.content ===
-			`${process.argv[2].length ? conf.betaPrefix : conf.prefix}eval 9+10`
+			`${process.argv.length > 2 ? conf.betaPrefix : conf.prefix}eval 9+10`
 		) {
 			return message.channel.send('21, You stupid');
 		}
