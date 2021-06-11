@@ -29,7 +29,6 @@ module.exports = {
 		const reason = args.slice(1).join(' ');
 		if (!member) message.channel.send(failureEmbed('You need to provide a user.'));
 		if (!member.roles.cache.get(role.id)) message.channel.send(failureEmbed('The user\'s not muted.'));
-
 		member.roles.remove(role)
 			.then(async () => {
 				const punish = await log({

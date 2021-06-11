@@ -24,45 +24,21 @@ module.exports = {
 	async execute(message, args, client) {
 		const target = message.mentions.members.first() || await message.guild.members.fetch(args[0]);
 		if (!target) {
-			return message.channel.send(
-				failureEmbed(
-					'You didn\'t provide a valid user mention or id!',
-					'get good noob',
-				),
-			);
+			return message.channel.send(failureEmbed('You didn\'t provide a valid user mention or id!'));
 		}
 		if (target.user.id === client.user.id) {
-			return message.channel.send(
-				failureEmbed(
-					'You can\'t report me!',
-					'Trying to report a bug? DM a developer!',
-				),
-			);
+			return message.channel.send(failureEmbed('You can\'t report me!', 'Trying to report a bug? DM a developer!'));
 		}
 		if (target.user.id === message.author.id) {
-			return message.channel.send(
-				failureEmbed(
-					'You can\'t report yourself!',
-					'why are you reporting yourself dummy?',
-				),
-			);
+			return message.channel.send(failureEmbed('You can\'t report yourself!'));
 		}
 		if (target.roles.highest.position < message.guild.roles.cache.get('831996404549419018').position) {
-			return message.channel.send(
-				failureEmbed(
-					'What are you doing? They aren\'t even a staff member...',
-				),
-			);
+			return message.channel.send(failureEmbed('What are you doing? They aren\'t even a staff member...'));
 		}
 		args.shift();
 		const reason = args.join(' ');
 		const staffManager = await client.users.fetch('691635044388700250');
-		message.channel.send(
-			successEmbed(
-				'Your report was sent to the staff manager.',
-				'report go brrrrr',
-			),
-		);
+		message.channel.send(successEmbed('Your report was sent to the staff manager.'));
 		const rEmbed = new MessageEmbed()
 			.setTitle(`${message.author.tag} reported ${target.user.tag}`)
 			.setDescription(`**Reason:** ${reason}`)

@@ -26,45 +26,23 @@ module.exports = {
 	async execute(message, args, client) {
 		let target;
 		try {
-			target =
-        message.mentions.users.first() || (await client.users.fetch(args[0]));
+			target = message.mentions.users.first() || (await client.users.fetch(args[0]));
 		}
 		catch (e) {
 			return message.channel.send(
-				failureEmbed('You have to specify someone to strike!', 'lol'),
-			);
-		}
-		if (!target) {
-			return message.channel.send(
-				failureEmbed('You have to specify someone to strike!', 'ok'),
+				failureEmbed('You have to specify someone to strike!'),
 			);
 		}
 		const reason = `\`${args.slice(1).join(' ')}\``;
 		if (reason.length < 5) {
-			return message.channel.send(
-				failureEmbed(
-					'You have to specify a reason! You can\'t strike without a reason.',
-				),
-			);
+			return message.channel.send(failureEmbed('You have to specify a reason! You can\'t strike without a reason.'));
 		}
 		if (target.id === message.author.id) {
-			return message.channel.send(
-				failureEmbed(
-					'Failure!',
-					'You\'re a silly Admin you know? You can\'t strike yourself.',
-				),
-			);
+			return message.channel.send(failureEmbed('You can\'t strike yourself.'));
 		}
 		const targetMember = await message.guild.members.fetch(target.id);
-		if (
-			message.member.roles.highest.position <
-      targetMember.roles.highest.position
-		) {
-			return message.channel.send(
-				failureEmbed(
-					'Who are you trying to strike, the owner? You can\'t strike people above you!',
-				),
-			);
+		if (message.member.roles.highest.position < targetMember.roles.highest.position) {
+			return message.channel.send(failureEmbed('Who are you trying to strike, the owner? You can\'t strike people above you!'));
 		}
 		if (targetMember.roles.cache.get('836583124283686943') || targetMember.roles.cache.get('831996396684050443') || targetMember.roles.cache.get('718813416407564340')) {
 			return message.channel.send(failureEmbed('You can\'t strike a Manager or above.'));

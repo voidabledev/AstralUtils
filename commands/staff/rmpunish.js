@@ -27,20 +27,20 @@ module.exports = {
 		const data = await punish.findOneAndDelete({ punishID: args[0] });
 		const logChannel = message.guild.channels.cache.get('851883465364078632');
 		if(!data) return message.channel.send(fail('I couldn\'t find a punishment with this ID.'));
-		const embed = succ(`Deleted the punishment with ID \`${data.punishID}\``)
-			.addField('Case Data')
+		const embed = succ(`Deleted the punishment with ID \`${data.punishID}\`.`)
 			.addField('Type', data.caseType)
 			.addField('Moderator', `<@${data.staffID}> (${data.staffID})`)
 			.addField('User', `<@${data.userID}> (${data.userID})`)
 			.addField('Reason', data.reason);
 		message.channel.send(embed);
-		logChannel.send(new MessageEmbed()
-			.setTitle('Punishment Removed')
-			.addField('Type', data.caseType)
-			.addField('Moderator', `<@${data.staffID}> (${data.staffID})`)
-			.addField('User', `<@${data.userID}> (${data.userID})`)
-			.addField('Reason', data.reason)
-			.setFooter(`Deleted by: ${message.author.tag}`),
+		logChannel.send(
+			new MessageEmbed()
+				.setTitle('Punishment Removed')
+				.addField('Type', data.caseType)
+				.addField('Moderator', `<@${data.staffID}> (${data.staffID})`)
+				.addField('User', `<@${data.userID}> (${data.userID})`)
+				.addField('Reason', data.reason)
+				.setFooter(`Deleted by: ${message.author.tag}`),
 		);
 	},
 };

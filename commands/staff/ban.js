@@ -25,9 +25,7 @@ module.exports = {
 	},
 	// eslint-disable-next-line no-unused-vars
 	async execute(message, args, client) {
-		const target =
-    message.mentions.members.first() ||
-    (await message.guild.members.fetch(args[0]));
+		const target = message.mentions.members.first() || (await message.guild.members.fetch(args[0]));
 		args.shift();
 		const time = ms(args[0]);
 		if (time > 0) args.shift();
@@ -64,9 +62,7 @@ module.exports = {
 			.ban(id)
 			.then(async () => {
 				message.channel.send(successEmbed(`${target} has been **banned** |  \`${punish}\`.`));
-			},
-			)
-			.catch(() => {
+			}).catch(() => {
 				message.channel.send(failureEmbed('I can\'t ban that user!'));
 			});
 	},

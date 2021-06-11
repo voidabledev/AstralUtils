@@ -24,7 +24,7 @@ module.exports = {
 	async execute(message, args, client) {
 		const amount = parseInt(args[0]);
 		if (!args.length) {
-			message.channel.send(successEmbed(`The current slowmode in the channel is \`${message.channel.rateLimitPerUser}\` seconds.`));
+			message.channel.send(successEmbed(`The current slowmode is \`${message.channel.rateLimitPerUser}\` second(s).`));
 			return;
 		}
 		let maxAmount = -1;
@@ -41,12 +41,12 @@ module.exports = {
 			maxAmount = 200;
 			pos = 'Head Moderator';
 		}
-
 		if (pos.length && amount > maxAmount) {
-			message.channel.send(new MessageEmbed()
-				.setTitle('Slowmode')
-				.setDescription(`As a ${pos}, you're restricted to \`${maxAmount}\` seconds. Are you sure you want to set the slowmode to \`${amount}?\``)
-				.setFooter('Say yes or no'),
+			message.channel.send(
+				new MessageEmbed()
+					.setTitle('Slowmode')
+					.setDescription(`As a ${pos}, you're restricted to \`${maxAmount}\` seconds. Are you sure you want to set the slowmode to \`${amount}?\``)
+					.setFooter('Yes or No'),
 			);
 			const res = await message.channel.awaitMessages((m) => m.author.id === message.author.id, {
 				max: 1,
@@ -62,6 +62,6 @@ module.exports = {
 			message.channel.send(successEmbed('Slowmode has been turned off. Go crazy!'));
 			return;
 		}
-		message.channel.send(successEmbed(`I've set the channel slowmode to \`${amount}\` seconds.`));
+		message.channel.send(successEmbed(`Slowmode set to \`${amount}\` second(s).`));
 	},
 };

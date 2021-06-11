@@ -25,25 +25,26 @@
     "blacklist": ["bl", "block"],
     "unlock": ["unl"],
     "case": ["c"],
-    "mod": ["mnick"],
+    "mod": ["mnick", "moderate", "modnick"],
     "slowmode": ["slow", "sm"],
-    "modlogs": ["mls", "punishments"],
+    "warnings": ["warns", "punishments", "strikes"],
     "rule": ["r"],
     "unmute": ["unm"],
     "prune": ["purge"],
     "searchstaff": ["ss", "modstats"],
     "nick": ["n"],
     "unblacklist": ["unbl", "unblock"],
-    "kick": ["k"],
     "notify": ["send", "dm"],
-    "reason": ["r"],
+    "reason": ["rsn"],
     "reportstaff": ["rs"],
-    "role": []
+    "role": ["rl"]
   },
   "admin": {
     "strike": ["s"],
     "rmstrike": ["rms","delstrike", "dels"],
-    "announce": ["a"]
+    "announce": ["a"],
+    "admingive": ["admadd", "admgive"],
+    "adminrem": ["admrem"]
   },
   "giveaways": {
     "gstart": ["gs"],

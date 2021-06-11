@@ -41,7 +41,7 @@ module.exports = {
 			['Voice Changers', 'Do not use voice changers, soundboards, or other related programs to alter your voice, unless others are fine with it.'],
 			['Background Noise', 'No loud or obnoxious background noise. Please mute your microphone, or use push to talk if needed.'],
 		];
-		if(!rules[number] || isNaN(number)) {
+		if (!rules[number] || isNaN(number)) {
 			return message.channel.send(failureEmbed('I couldn\'t find the rule you requested!'));
 		}
 		const embed = new MessageEmbed()
