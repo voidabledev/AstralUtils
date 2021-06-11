@@ -3,7 +3,6 @@ const alias = require('../../json/aliases.json');
 const { MessageEmbed } = require('discord.js');
 const conf = require('../../json/configuration.json');
 const failureEmbed = require('../../functions/failure-embed');
-const isenabled = require('../../functions/isenabled');
 
 module.exports = {
 	help: {

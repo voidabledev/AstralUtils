@@ -34,6 +34,9 @@ module.exports = {
 				),
 			);
 		}
+		if (target.nickname.includes('Moderated Nickname')) {
+			return message.channel.send(failureEmbed('That user is already moderated.'));
+		}
 		if (!target.manageable) {
 			return message.channel.send(
 				failureEmbed('I can\'t edit that user\'s nickname.'),
@@ -41,7 +44,7 @@ module.exports = {
 		}
 		const mod = id(36, 8);
 		target.setNickname(`Moderated Nickname ${mod}`);
-		message.channel.send(successEmbed(`Moderated ${target}'s nickname!`));
+		message.channel.send(successEmbed(`Moderated name to \`Moderated Nickname ${mod}\``));
 		log({
 			guildID: message.guild.id,
 			userID: target.user.id,
