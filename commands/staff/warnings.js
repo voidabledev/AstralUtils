@@ -24,7 +24,8 @@ module.exports = {
 	},
 	async execute(message, args, client) {
 		const target =
-    message.mentions.members.first() || (await message.guild.members.fetch(args[0]));
+    message.mentions.members.first() ||
+    (await message.guild.members.fetch(args[0]));
 		if (!target) {
 			return message.channel.send(failureEmbed('Please specify someone to check punishments for!'));
 		}
@@ -39,7 +40,7 @@ module.exports = {
 				return message.channel.send(`${message.author}, that user has no punishments.`);
 			}
 			const embed = new MessageEmbed()
-				.setAuthor(target.tag, target.displayAvatarURL())
+				.setAuthor(client.user.username, client.user.displayAvatarURL())
 				.setDescription(`All the modlogs for ${target}`)
 				.setFooter(`Page ${page}/${maxPage}`)
 				.setColor('RANDOM');
@@ -47,11 +48,7 @@ module.exports = {
 			thisPage.forEach((log) => {
 				embed.addField(
 					`ID: ${log.punishID} | Type: ${log.caseType}`,
-					`**Moderator:** <@${log.staffID}> (${log.staffID})\n
-					**Reason:** ${log.reason}\n
-					**Date:** ${new Date(log.timestamp).toLocaleString()}\n
-					**${log.isActive ? 'Expires' : 'Expired'}:** 
-					${log.expires ? new Date(log.expires).toLocaleString() : 'Never'}`,
+					`<@${log.staffID}> - ${log.reason} - ${new Date(log.timestamp).toLocaleString()}`,
 				);
 			});
 			message.channel.send(embed);
