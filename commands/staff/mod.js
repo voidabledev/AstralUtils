@@ -20,31 +20,25 @@ module.exports = {
 		userPerms: ['MANAGE_NICKNAMES'],
 		botPerms: ['MANAGE_NICKNAMES'],
 		requiredRoles: [],
-		delete: false,
+		delete: true,
 	},
 	async execute(message, args, client) {
-		let target = message.mentions.members.first();
-		if (!target) {
-			target = await message.guild.members.fetch(args[0]);
-		}
+		const target = message.mentions.members.first() ||
+		await message.guild.members.fetch(args[0]);
 		if (!target) {
 			return message.channel.send(
-				failureEmbed(
-					'You didn\'t provide a user.',
-				),
-			);
+				failureEmbed('You didn\'t provide a user.'));
 		}
-		if (target.nickname.includes('Moderated Nickname')) {
+		if (target.displayName.includes('Moderated Nickname')) {
 			return message.channel.send(failureEmbed('That user is already moderated.'));
 		}
 		if (!target.manageable) {
 			return message.channel.send(
-				failureEmbed('I can\'t edit that user\'s nickname.'),
-			);
+				failureEmbed('I can\'t edit that user\'s nickname.'));
 		}
 		const mod = id(36, 8);
 		target.setNickname(`Moderated Nickname ${mod}`);
-		message.channel.send(successEmbed(`Moderated name to \`Moderated Nickname ${mod}\``));
+		message.channel.send(successEmbed(`Moderated ${target.user}'s nickname.`));
 		log({
 			guildID: message.guild.id,
 			userID: target.user.id,

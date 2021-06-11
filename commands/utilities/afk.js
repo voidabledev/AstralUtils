@@ -28,11 +28,9 @@ module.exports = {
 		const guildId = message.guild.id;
 
 		const embed = new MessageEmbed();
-
 		if (!afkMessage) {
 			afkMessage = 'AFK';
 		}
-
 		await afkSchema.findOneAndUpdate({
 			guildId,
 			userId,
@@ -49,7 +47,7 @@ module.exports = {
 		});
 
 		await message.member.setNickname(`[AFK] ${message.member.nickname === null ? `${message.author.username}` : `${message.member.nickname}`}`).catch((e) => {
-			console.log('No Permissions');
+			console.log('No Permissions.');
 		});
 
 		return message.channel.send(embed

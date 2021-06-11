@@ -40,7 +40,7 @@ async function checkAFK(message) {
 						userId,
 					});
 					message.member.setNickname(`${username}`).catch(() => {
-						console.log('No Permissions');
+						console.log('No Permissions.');
 					});
 					return message.channel.send(new MessageEmbed()
 						.setColor(message.guild.me.displayColor)

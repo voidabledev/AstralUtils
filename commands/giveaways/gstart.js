@@ -10,7 +10,7 @@ module.exports = {
 	help: {
 		name: 'gstart',
 		description: 'Starts a giveaway',
-		usage: ['(optional: noping) [channel] [time] [winners] [prize]'],
+		usage: '(optional: noping) [channel] [time] [winners] [prize]',
 		aliases: alias.giveaways.gstart,
 		category: 'giveaways',
 		cooldown: 10,
