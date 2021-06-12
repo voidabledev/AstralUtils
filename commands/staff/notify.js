@@ -16,7 +16,7 @@ module.exports = {
 	data: {
 		minArgs: 2,
 		maxArgs: null,
-		userPerms: ['ADMINISTRATOR'],
+		userPerms: ['MANAGE_MESSAGES'],
 		botPerms: [],
 		requiredRoles: [],
 		delete: true,
@@ -24,15 +24,6 @@ module.exports = {
 	async execute(message, args, client) {
 		const u = message.mentions.users.first() || client.users.cache.get(args[0]);
 		const msg = args.slice(1).join(' ');
-		if (!u) {
-			message.channel
-				.send(
-					failureEmbed(
-						'Please provide a user to DM.',
-					),
-				);
-		}
-
 		try {
 			const embed = new MessageEmbed()
 				.setTitle('Direct Message')

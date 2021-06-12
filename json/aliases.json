@@ -27,7 +27,7 @@
     "case": ["c"],
     "mod": ["mnick", "moderate", "modnick"],
     "slowmode": ["slow", "sm"],
-    "warnings": ["warns", "punishments", "strikes", "modlogs"],
+    "warnings": ["warns", "punishments", "modlogs"],
     "rule": ["r"],
     "unmute": ["unm"],
     "prune": ["purge"],
