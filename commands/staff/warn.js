@@ -50,6 +50,6 @@ module.exports = {
 		catch {
 			successMessage += 'I was unable to DM them.';
 		}
-		message.channel.send(successEmbed(successMessage, `Punishment ID: ${punish}`));
+		message.channel.send(successEmbed(successMessage));
 	},
 };
