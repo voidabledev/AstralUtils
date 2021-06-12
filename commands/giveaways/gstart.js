@@ -102,9 +102,6 @@ module.exports = {
 		}
 		if (stop) return;
 		await client.giveawaysManager.start(giveawayChannel, {
-			exemptMembers: async (member) => {
-				return await blacklist.findOne({ userID: member.user.id });
-			},
 			bonusEntries: [
 				{
 					bonus: (member) => member.roles.cache.get('836325180842049567') ? 1 : null,
