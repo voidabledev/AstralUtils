@@ -54,6 +54,7 @@
     "glist": ["gl"],
     "gedit": ["ged"],
     "gdelete": ["gd"],
-    "glimit": ["glm"]
+    "glimit": ["glm"],
+    "gcreate": ["gc"]
   }
 }

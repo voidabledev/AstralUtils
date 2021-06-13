@@ -33,14 +33,21 @@ module.exports = {
 			.addField('User', `<@${data.userID}> (${data.userID})`)
 			.addField('Reason', data.reason);
 		message.channel.send(embed);
-		logChannel.send(
-			new MessageEmbed()
-				.setTitle('Punishment Removed')
-				.addField('Type', data.caseType)
-				.addField('Moderator', `<@${data.staffID}> (${data.staffID})`)
-				.addField('User', `<@${data.userID}> (${data.userID})`)
-				.addField('Reason', data.reason)
-				.setFooter(`Deleted by: ${message.author.tag}`),
-		);
+		const logEmbed = new MessageEmbed()
+			.setTitle('Punishment Removed')
+			.addField('Type', data.caseType)
+			.addField('Moderator', `<@${data.staffID}> (${data.staffID})`)
+			.addField('User', `<@${data.userID}> (${data.userID})`)
+			.addField('Reason', data.reason)
+			.setFooter(`Deleted by: ${message.author.tag}`);
+		const webhooks = await logChannel.fetchWebhooks();
+		const webhook = webhooks.size ? webhooks.first() : await logChannel.createWebhook(client.user.username, {
+			avatar: client.user.avatarURL(),
+		});
+		webhook.send({
+			username: client.user.username,
+			avatarURL: client.user.avatarURL(),
+			embeds: [logEmbed],
+		});
 	},
 };
