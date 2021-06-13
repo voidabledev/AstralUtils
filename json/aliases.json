@@ -37,7 +37,8 @@
     "notify": ["send", "dm"],
     "reason": ["rsn"],
     "reportstaff": ["rs"],
-    "role": ["rl"]
+    "role": ["rl"],
+    "warnings": ["warns", "ws"]
   },
   "admin": {
     "strike": ["s"],
