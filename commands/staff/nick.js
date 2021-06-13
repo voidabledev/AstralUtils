@@ -2,6 +2,7 @@
 const alias = require('../../json/aliases.json');
 const successEmbed = require('../../functions/success-embed');
 const failureEmbed = require('../../functions/failure-embed');
+const log = require('../../functions/process-log');
 
 module.exports = {
 	help: {
@@ -55,5 +56,13 @@ module.exports = {
 		}
 		target.setNickname(nick);
 		message.channel.send(successEmbed(`I've changed ${target}'s nickname to \`${nick}\`.`));
+		log({
+			guildID: message.guild.id,
+			userID: target.user.id,
+			staffID: message.author.id,
+			reason: 'No reason specified',
+			caseType: 'Changed Nickname',
+			timestamp: new Date().getTime(),
+		}, client);
 	},
 };

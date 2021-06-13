@@ -68,9 +68,10 @@ module.exports = {
 			const continued = {
 				Blacklists: logs.filter((r) => r.caseType === 'Blacklist'),
 				Unblacklists: logs.filter((r) => r.caseType === 'Unblacklist'),
-				'Moderated Nickname': logs.filter(
+				'Moderated Nicknames': logs.filter(
 					(r) => r.caseType === 'Moderated Nickname',
 				),
+				'Changed Nicknames': logs.filter((r) => r.caseType === 'Changed Nickname'),
 				Total: logs,
 			};
 			for (const categ in sorted) {

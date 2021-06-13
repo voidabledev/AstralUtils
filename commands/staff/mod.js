@@ -38,7 +38,7 @@ module.exports = {
 		}
 		const mod = id(36, 8);
 		target.setNickname(`Moderated Nickname ${mod}`);
-		message.channel.send(successEmbed(`Moderated name to \`Moderated Nickname ${mod}\`.`));
+		message.channel.send(successEmbed(`Moderated ${target.user}'s nickname.`));
 		log({
 			guildID: message.guild.id,
 			userID: target.user.id,
