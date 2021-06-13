@@ -11,7 +11,7 @@ module.exports = {
 		description: 'Gives a user administrator.',
 		usage: '[user]',
 		aliases: alias.admin.admingive,
-		category: 'admin',
+		category: 'staff',
 		cooldown: 30,
 	},
 	data: {

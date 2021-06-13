@@ -11,7 +11,7 @@ module.exports = {
 		description: 'Removes a strike',
 		usage: '[Strike ID]',
 		aliases: alias.admin.rmstrike,
-		category: 'admin',
+		category: 'staff',
 		cooldown: 5,
 	},
 	data: {

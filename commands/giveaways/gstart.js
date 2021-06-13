@@ -70,34 +70,28 @@ module.exports = {
 					.setFooter('Say anything else to cancel')
 					.setColor('ORANGE');
 				await message.channel.send(em);
-				await message.channel
-					.awaitMessages((m) => m.author.id === message.author.id, {
-						max: 1,
-						time: 60000,
-						errors: ['time'],
-					})
-					.then((m) => {
-						if (m.first().content.toLowerCase() === 'yes') {stop = false;}
-						else {
-							stop = true;
-							message.channel.send('Giveaway creation cancelled.');
-						}
-					})
-					.catch(() => {
+				await message.channel.awaitMessages((m) => m.author.id === message.author.id, {
+					max: 1,
+					time: 60000,
+					errors: ['time'],
+				}).then((m) => {
+					if (m.first().content.toLowerCase() === 'yes') {stop = false;}
+					else {
 						stop = true;
-						message.channel.send(
-							'You didn\'t answer in time, giveaway creation cancelled.',
-						);
-					});
+						message.channel.send('Giveaway creation cancelled.');
+					}
+				}).catch(() => {
+					stop = true;
+					message.channel.send(
+						'You didn\'t answer in time, giveaway creation cancelled.',
+					);
+				});
 			}
 			else {
 				stop = true;
-				message.channel.send(
-					failureEmbed(
-						`There are already ${withinaday.length} giveaways hosted within the last day, but only ${limit} are allowed!`,
-						'Message an admin if this needs to be hosted anyways.',
-					),
-				);
+				message.channel.send(failureEmbed(
+					`There are already ${withinaday.length} giveaways hosted within the last day, but only ${limit} are allowed!`,
+					'Message an admin if this needs to be hosted anyways.'));
 			}
 		}
 		if (stop) return;

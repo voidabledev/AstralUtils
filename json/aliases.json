@@ -25,9 +25,9 @@
     "blacklist": ["bl", "block"],
     "unlock": ["unl"],
     "case": ["c"],
-    "mod": ["mnick", "moderate", "modnick"],
+    "moderate": ["mnick", "mod", "modnick"],
     "slowmode": ["slow", "sm"],
-    "modlogs": ["punishments", "modlogs", "mls"],
+    "search": ["punishments", "srch"],
     "rule": ["r"],
     "unmute": ["unm"],
     "prune": ["purge"],
@@ -41,7 +41,7 @@
     "warnings": ["warns", "ws"]
   },
   "admin": {
-    "strike": ["s"],
+    "strike": ["warnstaff"],
     "rmstrike": ["rms","delstrike", "dels"],
     "announce": ["a"],
     "admingive": ["admadd", "admgive"],

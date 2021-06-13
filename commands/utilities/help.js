@@ -23,7 +23,7 @@ module.exports = {
 	},
 	async execute(message, args, client) {
 		const prefix = process.argv.length > 2 ? conf.betaPrefix : conf.prefix;
-		const categories = ['admin', 'developers', 'staff', 'giveaways', 'utilities'];
+		const categories = ['utilities', 'giveaways', 'staff', 'developers'];
 		const embed = new MessageEmbed()
 			.setDescription(`This server's prefix is \`${prefix}\``)
 			.setColor('RANDOM');
@@ -52,7 +52,7 @@ module.exports = {
 				);
 		}
 		else {
-			return message.channel.send(failureEmbed('I couldn\'t find a command with this name!', `Run ${prefix}help to see a list of all commands`));
+			return message.channel.send(failureEmbed('I couldn\'t find a command with this name!', `Run '${prefix}help' to see a list of all commands`));
 		}
 		return message.channel.send(embed);
 	},

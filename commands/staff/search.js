@@ -7,10 +7,10 @@ const { MessageEmbed } = require('discord.js');
 
 module.exports = {
 	help: {
-		name: 'modlogs',
+		name: 'search',
 		description: 'Displays all punishments for a user',
 		usage: '[mention or id] (page)',
-		aliases: alias.staff.modlogs,
+		aliases: alias.staff.search,
 		category: 'staff',
 		cooldown: 5,
 	},

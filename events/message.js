@@ -33,26 +33,23 @@ module.exports = {
 		perms(command.data.botPerms);
 		if (command.data.userPerms.length && !command.data.userPerms.some((p) => message.member.hasPermission(p))) {
 			return message.channel.send(failureEmbed(
-				'You don\'t have permission to use this command!',
-				'Come back when you are more respected',
+				'You don\'t have permission to use this command.',
 			));
 		}
 		if (command.data.botPerms.length && command.data.botPerms.some(p => !message.guild.me.hasPermission(p))) {
 			return message.channel.send(failureEmbed(
 				'I don\'t have enough permission to use this command!',
-				'Contact an admin to fix this.',
+				'Contact an Administrator to fix this.',
 			));
 		}
 		if (args.length < command.data.minArgs || (command.data.maxArgs !== null) && args.length > command.data.maxArgs) {
 			return message.channel.send(failureEmbed(
 				`Wrong usage! The correct usage for this command is: \`${prefix}${command.help.name} ${command.help.usage}\``,
-				'what a noob',
 			));
 		}
 		if(command.data.requiredRoles.length && !command.data.requiredRoles.some(r => message.member.roles.cache.get(r))) {
 			return message.channel.send(failureEmbed(
-				'You don\'t have permission to use this command!',
-				'Come back when you are more respected',
+				'You don\'t have permission to use this command.',
 			));
 		}
 		if (!cooldowns.has(command.help.name)) {
@@ -63,19 +60,14 @@ module.exports = {
 		const cooldownAmount = (command.help.cooldown || 1) * 1000;
 		if (timestamps.has(message.author.id)) {
 			const expirationTime = timestamps.get(message.author.id) + cooldownAmount;
-
 			if (now < expirationTime) {
 				const timeLeft = (expirationTime - now) / 1000;
-				return message.channel.send(
-					failureEmbed(
-						`Please wait ${timeLeft.toFixed(
-							1,
-						)} more second(s) before reusing the \`${command.help.name}\` command.`,
-					),
+				return message.channel.send(failureEmbed(
+					`Please wait ${timeLeft.toFixed(1)} more second(s) before reusing the \`${command.help.name}\` command.`,
+				),
 				);
 			}
 		}
-
 		timestamps.set(message.author.id, now);
 		setTimeout(() => timestamps.delete(message.author.id), cooldownAmount);
 		try {

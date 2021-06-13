@@ -10,7 +10,7 @@ module.exports = {
 		description: 'Removes Admin from a user.',
 		usage: '[user]',
 		aliases: alias.admin.adminrem,
-		category: 'admin',
+		category: 'staff',
 		cooldown: 30,
 	},
 	data: {

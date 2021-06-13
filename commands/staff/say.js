@@ -26,7 +26,6 @@ module.exports = {
 			.setDescription(args.join(' '))
 			.setFooter('Announcement')
 			.setTimestamp();
-		message.delete();
 		message.channel.send(embed);
 	},
 };
