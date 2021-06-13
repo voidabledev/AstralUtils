@@ -43,7 +43,7 @@ module.exports = {
 			const thisPage = warns.filter((l, index) => index >= (page - 1) * 25 && index < page * 25);
 			thisPage.forEach((log) => {
 				embed.addField(
-					`ID: ${log.punishID} | Type: ${log.caseType}`,
+					`ID: ${log.punishID}`,
 					`<@${log.staffID}> - ${log.reason}\nCreated: ${new Date(log.timestamp).toLocaleString()}`,
 				);
 			});
