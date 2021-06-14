@@ -44,7 +44,7 @@ module.exports = {
 			thisPage.forEach((log) => {
 				embed.addField(
 					`ID: ${log.punishID}`,
-					`<@${log.staffID}> - ${log.reason}\nCreated: ${new Date(log.timestamp).toLocaleString()}`,
+					`<@${log.staffID}> - ${log.reason} - ${new Date(log.timestamp).toLocaleString()}`,
 				);
 			});
 			message.channel.send(embed);

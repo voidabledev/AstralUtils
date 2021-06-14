@@ -37,13 +37,13 @@ module.exports = {
 			}
 			const embed = new MessageEmbed()
 				.setAuthor(client.user.username, client.user.displayAvatarURL())
-				.setDescription(`All the modlogs for <@${id}>`)
+				.setDescription(`All the punishments for <@${id}>`)
 				.setFooter(`Page ${page}/${maxPage}`)
 				.setColor('RANDOM');
 			const thisPage = logs.filter((l, index) => index >= (page - 1) * 25 && index < page * 25);
 			thisPage.forEach((log) => {
 				embed.addField(
-					`ID: ${log.punishID} | Type: ${log.caseType}`,
+					`Case ID: ${log.punishID} | Type: ${log.caseType}`,
 					`<@${log.staffID}> - ${log.reason}\nCreated: ${new Date(log.timestamp).toLocaleString()}\n${
 						log.expires ? (
 							(log.isActive !== false ? 'Expires: ' : 'Expired: ') +

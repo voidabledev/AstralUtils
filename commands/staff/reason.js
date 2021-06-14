@@ -19,7 +19,7 @@ module.exports = {
 		userPerms: ['MANAGE_MESSAGES'],
 		botPerms: [],
 		requiredRoles: [],
-		delete: true,
+		delete: false,
 	},
 	async execute(message, args, client) {
 		const oldCase = await punish.findOne({

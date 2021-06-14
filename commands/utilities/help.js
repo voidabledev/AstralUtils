@@ -39,7 +39,10 @@ module.exports = {
 			const cmds = client.commands.filter(cmd => cmd.help.category === args[0].toLowerCase());
 			cmds.forEach(c => embed.addField(
 				`${c.help.name.charAt(0).toUpperCase()}${c.help.name.slice(1)}`,
-				`**Description:** ${c.help.description}\n**Usage:** \`${prefix}${c.help.name} ${c.help.usage}\`\n**Aliases:** ${c.help.aliases.join(', ')}\n**Cooldown:** ${c.help.cooldown} seconds`,
+				`**Description:** ${c.help.description}
+				**Usage:** \`${prefix}${c.help.name} ${c.help.usage}\`
+				**Aliases:** \`${c.help.aliases.join(', ')}\`
+				**Cooldown:** ${c.help.cooldown} seconds`,
 			));
 		}
 		else if (client.commands.get(args[0])) {
@@ -48,7 +51,10 @@ module.exports = {
 				.setAuthor(`Command Info: ${c.help.name}`, client.user.avatarURL())
 				.addField(
 					`${c.help.name.charAt(0).toUpperCase()}${c.help.name.slice(1)}`,
-					`**Description:** ${c.help.description}\n**Usage:** \`${prefix}${c.help.name} ${c.help.usage}\`\n**Aliases:** ${c.help.aliases.join(', ')}\n**Cooldown:** ${c.help.cooldown} seconds`,
+					`**Description:** ${c.help.description}
+					**Usage:** \`${prefix}${c.help.name} ${c.help.usage}\`
+					**Aliases:** \`${c.help.aliases.join(', ')}\`
+					**Cooldown:** ${c.help.cooldown} seconds`,
 				);
 		}
 		else {
