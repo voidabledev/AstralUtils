@@ -7,13 +7,13 @@ const { MessageEmbed } = require('discord.js');
 async function processLog(data, client) {
 	let punishID = id(10, 10);
 	const channel = client.channels.cache.get(data.staffID === client.user.id ? automod : modlogs);
-	while(await punish.findOne({ punishID })) {
+	while (await punish.findOne({ punishID })) {
 		punishID = id(10, 10);
 	}
 	data.punishID = punishID;
 	await punish.create(data);
 	const embed = new MessageEmbed()
-		.setTitle(`Case ID ${data.punishID}`)
+		.setTitle(`Case ID #${data.punishID}`)
 		.addField('Type', data.caseType)
 		.addField('User', `<@${data.userID}> (${data.userID})`)
 		.addField('Moderator', `<@${data.staffID}> (${data.userID})`)
