@@ -3,29 +3,15 @@ const bl = require('../models/blacklistschema');
 const { MessageEmbed } = require('discord.js');
 const log = require('./process-log');
 function checkExec(trig, message, client) {
-	if (trig.type === 'exact' && trig.content === message.content) {
-		return true;
-	}
 	if (
-		trig.type === 'exact-anycase' &&
-    trig.content.toLowerCase() === message.content.toLowerCase()
-	) {
-		return true;
-	}
-	if (
-		trig.type === 'wildcard' &&
-		message.content.includes(trig.content)) {
-		return true;
-	}
-	if (
-		trig.type === 'wildcard-anycase' &&
-		message.content.toLowerCase().includes(trig.content.toLowerCase())
-	) {
-		return true;
-	}
+		(trig.type === 'exact' && trig.content === message.content) ||
+		(trig.type === 'exact-anycase' && trig.content.toLowerCase() === message.content.toLowerCase()) ||
+		(trig.type === 'wildcard' && message.content.includes(trig.content)) ||
+		(trig.type === 'wildcard-anycase' && message.content.toLowerCase().includes(trig.content.toLowerCase()))
+	) return true;
 	return false;
 }
-function checkAccess(message, action) {
+async function checkAccess(message, action) {
 	if (
 		((action.blacklist.channels.length &&
 			action.blacklist.channels.some(
@@ -58,7 +44,7 @@ function checkAccess(message, action) {
 			action.blacklist.users.some(
 				(u) => u === message.author.id || u === 'all',
 			)) ||
-		(action.blacklist.full && bl.findOne({ userID: message.author.id }))
+		(action.blacklist.full && await bl.findOne({ userID: message.author.id }))
 	) {
 		if (
 			(action.whitelist.roles.length &&
@@ -97,6 +83,7 @@ const exec = {
 			caseType: 'Warn',
 			timestamp: new Date().getTime(),
 			expires: Date.now() + 1000 * 60 * 60 * 24 * 30,
+			isActive: true,
 		}, client);
 		try {
 			const embed = new MessageEmbed()
@@ -129,6 +116,7 @@ const exec = {
 			caseType: 'Mute',
 			timestamp: new Date().getTime(),
 			expires: Date.now() + args[1],
+			isActive: true,
 		}, client);
 		const embed = new MessageEmbed()
 			.setDescription(
@@ -170,13 +158,13 @@ const exec = {
 		}
 	},
 };
-async function autoresponder(message, client) {
+function autoresponder(message, client) {
 	const data = require('../json/autores.json');
-	data.settings.forEach(async (entry) => {
-		if(entry.triggers.some(async (v) => checkExec(v, message, client))) {
+	data.settings.forEach((entry) => {
+		if(entry.triggers.some((v) => checkExec(v, message, client))) {
 			entry.actions
-				.filter((a) => checkAccess(message, a))
-				.forEach(async (a) => await exec[a.name](message, a.args, client));
+				.filter(async (a) => await checkAccess(message, a))
+				.forEach((a) => exec[a.name](message, a.args, client));
 		}
 	});
 }

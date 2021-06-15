@@ -1,12 +1,12 @@
 /* eslint-disable no-unused-vars */
 const punish = require('../models/punishschema');
-const { modlogs } = require('../json/channels.json');
+const { modlogs, automod } = require('../json/channels.json');
 const id = require('./id');
 const { MessageEmbed } = require('discord.js');
 
 async function processLog(data, client) {
 	let punishID = id(10, 10);
-	const channel = client.channels.cache.get(modlogs);
+	const channel = client.channels.cache.get(data.staffID === client.user.id ? automod : modlogs);
 	while(await punish.findOne({ punishID })) {
 		punishID = id(10, 10);
 	}

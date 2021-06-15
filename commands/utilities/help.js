@@ -45,8 +45,10 @@ module.exports = {
 				**Cooldown:** ${c.help.cooldown} seconds`,
 			));
 		}
-		else if (client.commands.get(args[0])) {
-			const c = client.commands.get(args[0]);
+		else if (client.commands.get(args[0].toLowerCase()) ||
+		client.commands.find(c => c.help.aliases.some(a => a === args[0].toLowerCase()))) {
+			const c = client.commands.get(args[0].toLowerCase()) ||
+			client.commands.find(cmd => cmd.help.aliases.some(a => a === args[0].toLowerCase()));
 			embed
 				.setAuthor(`Command Info: ${c.help.name}`, client.user.avatarURL())
 				.addField(

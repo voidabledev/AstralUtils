@@ -21,6 +21,7 @@ for (const file of eventFiles) {
 }
 
 client.commands = new Discord.Collection();
+let cmds = 0;
 const commandFolders = fs.readdirSync('./commands');
 for (const folder of commandFolders) {
 	const commandFiles = fs
@@ -29,9 +30,10 @@ for (const folder of commandFolders) {
 	for (const file of commandFiles) {
 		const command = require(`./commands/${folder}/${file}`);
 		client.commands.set(command.help.name, command);
-		console.log(`Loaded ${folder}/${file}`);
+		cmds++;
 	}
 }
+console.log(`Loaded ${cmds} commands.`);
 
 client.cooldowns = new Discord.Collection();
 

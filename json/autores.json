@@ -1,34 +1,292 @@
 {
   "settings": [
     {
-      "triggers": [
-        {
-          "type": "exact",
-          "content": "FIGBVWIVPbiwzwraghGZOWbwzilvnhwbui"
+    "triggers": [
+      {
+        "type": "wildcard",
+        "content": "discord.gg"
+      }
+    ],
+    "actions": [
+      {
+        "name": "mute",
+        "args": ["Advertising [auto]", 600000],
+        "blacklist": {
+          "roles": [],
+          "channels": [
+					"831996541501308939",
+					"831996540436086884"
+				],
+          "categories": [
+						"843532723262849035",
+            "831996499989889074",
+            "831996500816822333",
+            "831996501298511923",
+            "831996502553133204",
+            "839231003864072192",
+            "844065597562421249",
+            "831996506282131546",
+						"831996498412699668"
+					],
+          "permissions": ["ADMINISTRATOR"],
+          "users": [],
+          "full": false
+        },
+        "whitelist": {
+          "roles": [],
+          "channels": [],
+          "categories": [],
+          "permissions": [],
+          "users": []
         }
-      ],
-      "actions": [
-        {
-          "name": "mute",
-          "args": ["stroke", 120000],
-          "blacklist": {
-            "roles": [],
-            "channels": ["all"],
-            "categories": [],
-            "permissions": ["ADMINISTRATOR"],
-            "users": [],
-            "full": false
-          },
-          "whitelist": {
-            "roles": [],
-            "channels": ["842875871077072926"],
-            "categories": [],
-            "permissions": [],
-            "users": ["538635176847343636"]
-          }
+      },
+			{
+        "name": "delete",
+        "args": [],
+        "blacklist": {
+          "roles": [],
+          "channels": [
+					"831996541501308939",
+					"831996540436086884"
+				],
+          "categories": [
+						"843532723262849035",
+            "831996499989889074",
+            "831996500816822333",
+            "831996501298511923",
+            "831996502553133204",
+            "839231003864072192",
+            "844065597562421249",
+            "831996506282131546",
+						"831996498412699668"
+					],
+          "permissions": ["ADMINISTRATOR"],
+          "users": [],
+          "full": false
+        },
+        "whitelist": {
+          "roles": [],
+          "channels": [],
+          "categories": [],
+          "permissions": [],
+          "users": []
         }
-      ]
-    }
+      }
+    ]
+  }, 
+	{
+    "triggers": [
+      {
+        "type": "wildcard",
+        "content": "https://grabify.link"
+      },
+			{
+        "type": "wildcard",
+        "content": "https://bmwforum.co"
+      },
+			{
+        "type": "wildcard",
+        "content": "https://leancoding.co"
+      },
+			{
+        "type": "wildcard",
+        "content": "https://spottyfly.com"
+      },
+			{
+        "type": "wildcard",
+        "content": "https://stopify.co"
+      },
+			{
+        "type": "wildcard",
+        "content": "https://yoütu.be"
+      },
+			{
+        "type": "wildcard",
+        "content": "https://discörd.com"
+      },
+			{
+        "type": "wildcard",
+        "content": "https://minecräft.com"
+      },
+			{
+        "type": "wildcard",
+        "content": "https://freegiftcards.co"
+      },
+			{
+        "type": "wildcard",
+        "content": "https://disçordapp.com"
+      },
+			{
+        "type": "wildcard",
+        "content": "https://särahah.eu"
+      },
+			{
+        "type": "wildcard",
+        "content": "https://särahah.pl"
+      },
+			{
+        "type": "wildcard",
+        "content": "https://xda-developers.us"
+      },
+			{
+        "type": "wildcard",
+        "content": "https://quickmessage.us"
+      },
+			{
+        "type": "wildcard",
+        "content": "https://särahah.pl"
+      },
+			{
+        "type": "wildcard",
+        "content": "https://fortnight.space"
+      },
+			{
+        "type": "wildcard",
+        "content": "https://särahah.pl"
+      },
+			{
+        "type": "wildcard",
+        "content": "https://fortnitechat.site"
+      },
+			{
+        "type": "wildcard",
+        "content": "https://youshouldclick.us"
+      },
+			{
+        "type": "wildcard",
+        "content": "https://joinmy.site"
+      },
+			{
+        "type": "wildcard",
+        "content": "https://crabrave.pw"
+      },
+			{
+        "type": "wildcard",
+        "content": "https://lovebird.guru"
+      },
+			{
+        "type": "wildcard",
+        "content": "https://trulove.guru"
+      },
+			{
+        "type": "wildcard",
+        "content": "https://dateing.club"
+      },
+			{
+        "type": "wildcard",
+        "content": "https://otherhalf.life"
+      },
+			{
+        "type": "wildcard",
+        "content": "https://shrekis.life"
+      },
+			{
+        "type": "wildcard",
+        "content": "https://datasig.io"
+      },
+			{
+        "type": "wildcard",
+        "content": "https://datauth.io"
+      },
+			{
+        "type": "wildcard",
+        "content": "https://headshot.monster"
+      },
+			{
+        "type": "wildcard",
+        "content": "https://gaming-at-my.best"
+      },
+			{
+        "type": "wildcard",
+        "content": "https://progaming.monster"
+      },
+			{
+        "type": "wildcard",
+        "content": "https://yourmy.monster"
+      },
+			{
+        "type": "wildcard",
+        "content": "https://screenshare.host"
+      },
+			{
+        "type": "wildcard",
+        "content": "https://imageshare.best"
+      },
+			{
+        "type": "wildcard",
+        "content": "https://screenshot.best"
+      },
+			{
+        "type": "wildcard",
+        "content": "https://gamingfun.me"
+      },
+			{
+        "type": "wildcard",
+        "content": "https://catsnthing.com"
+      },
+			{
+        "type": "wildcard",
+        "content": "https://mypic.icu"
+      },
+			{
+        "type": "wildcard",
+        "content": "https://catsnthings.fun"
+      },
+			{
+        "type": "wildcard",
+        "content": "https://curiouscat.club"
+      }
+    ],
+    "actions": [
+      {
+        "name": "ban",
+        "args": ["Forbidden links [auto]"],
+        "blacklist": {
+          "roles": [],
+          "channels": [],
+          "categories": [
+						"843532723262849035",
+            "831996499989889074",
+            "831996500816822333",
+            "831996501298511923",
+            "831996502553133204",
+            "839231003864072192",
+            "844065597562421249",
+            "831996506282131546"
+					],
+          "permissions": ["ADMINISTRATOR"],
+          "users": [],
+          "full": false
+        },
+        "whitelist": {
+          "roles": [],
+          "channels": [],
+          "categories": [],
+          "permissions": [],
+          "users": []
+        }
+      }, 
+			{
+        "name": "delete",
+        "args": [],
+        "blacklist": {
+          "roles": [],
+          "channels": [],
+          "categories": [],
+          "permissions": [],
+          "users": [],
+          "full": false
+        },
+        "whitelist": {
+          "roles": [],
+          "channels": [],
+          "categories": [],
+          "permissions": [],
+          "users": []
+        }
+      }
+    ]
+  }
   ],
   "template": {
     "triggers": [
