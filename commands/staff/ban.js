@@ -29,7 +29,7 @@ module.exports = {
 		args.shift();
 		const time = ms(args[0]);
 		if (time > 0) args.shift();
-		const reason = args.slice(1).join(' ');
+		const reason = args.join(' ');
 		const id = target.id ? target.id : args[0];
 		if (!target) {
 			return message.channel.send(failureEmbed('You didn\'t provide a valid user mention or ID!'));

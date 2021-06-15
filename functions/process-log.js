@@ -15,9 +15,9 @@ async function processLog(data, client) {
 	const embed = new MessageEmbed()
 		.setTitle(`Case ID #${data.punishID}`)
 		.addField('Type', data.caseType)
-		.addField('User', `<@${data.userID}> (${data.userID})`)
-		.addField('Moderator', `<@${data.staffID}> (${data.userID})`)
-		.addField('Reason', data.reason)
+		.addField('User', `<@${data.userID}> (${data.userID})`);
+	channel.id === automod ? embed.addField('Moderator', `<@${data.staffID}> (${data.userID})`) : null;
+	embed.addField('Reason', data.reason)
 		.setTimestamp(data.timestamp)
 		.setColor('RANDOM');
 	const webhooks = await channel.fetchWebhooks();

@@ -30,7 +30,10 @@ async function checkAccess(message, action) {
 					(c) => c === message.channel.parent.id,
 				))
 		)
-	) {return false;}
+	) {
+		console.log(`Channel ${message.channel.name} is blocked from auto-action ${action.name}`);
+		return false;
+	}
 	if (
 		(action.blacklist.roles.length &&
 			action.blacklist.roles.some((r1) =>
@@ -57,9 +60,14 @@ async function checkAccess(message, action) {
 				)) ||
 			(action.whitelist.users.length &&
 				action.whitelist.users.some((u) => u === message.author.id))
-		) {return true;}
+		) {
+			console.log(`User ${message.author.tag} was both white- and blacklisted for auto-action ${action.name}`);
+			return true;
+		}
+		console.log(`User ${message.author.tag} is not permitted for action ${action.name}`);
 		return false;
 	}
+	console.log(`User ${message.author.username} is permitted for action ${action.name}`);
 	return true;
 }
 const exec = {
@@ -160,11 +168,11 @@ const exec = {
 };
 function autoresponder(message, client) {
 	const data = require('../json/autores.json');
-	data.settings.forEach((entry) => {
+	data.settings.forEach(async (entry) => {
 		if(entry.triggers.some((v) => checkExec(v, message, client))) {
 			entry.actions
-				.filter(async (a) => await checkAccess(message, a))
-				.forEach((a) => exec[a.name](message, a.args, client));
+				.filter(async (a) => await checkAccess(message, a) === true)
+				.forEach(async (a) => await exec[a.name](message, a.args, client));
 		}
 	});
 }
