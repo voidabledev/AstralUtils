@@ -13,7 +13,7 @@ module.exports = {
 	once: false,
 	async execute(message, client) {
 		afk(message);
-		autores(message, client);
+		// autores(message, client);
 		const { cooldowns } = client;
 		const prefix = process.argv.length > 2 ? conf.betaPrefix : conf.prefix;
 		if (!message.content.startsWith(prefix) || message.author.bot) return;
