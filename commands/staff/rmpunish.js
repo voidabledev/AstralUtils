@@ -8,8 +8,8 @@ const { MessageEmbed } = require('discord.js');
 module.exports = {
 	help: {
 		name: 'rmpunish',
-		description: 'Removes a punishment',
-		usage: '[punishment ID]',
+		description: 'Removes a punishment.',
+		usage: '[punishment ID] [reason]',
 		aliases: alias.staff.rmpunish,
 		category: 'staff',
 		cooldown: 15,
@@ -26,8 +26,10 @@ module.exports = {
 	async execute(message, args, client) {
 		const data = await punish.findOneAndDelete({ punishID: args[0] });
 		const logChannel = message.guild.channels.cache.get('851883465364078632');
-		if(!data) return message.channel.send(fail('I couldn\'t find a punishment with this ID.'));
-		const embed = succ(`Deleted the punishment with ID \`${data.punishID}\`.`)
+		if (!data) return message.channel.send(fail('I couldn\'t find a punishment with this ID.'));
+		args.shift();
+		const reason = args.join(' ');
+		const embed = succ(`Deleted the punishment with ID \`${data.punishID}\` for \`${reason}\`.`)
 			.addField('Type', data.caseType)
 			.addField('Moderator', `<@${data.staffID}> (${data.staffID})`)
 			.addField('User', `<@${data.userID}> (${data.userID})`)
@@ -35,6 +37,7 @@ module.exports = {
 		message.channel.send(embed);
 		const logEmbed = new MessageEmbed()
 			.setTitle('Punishment Removed')
+			.addField('Removed For', reason)
 			.addField('Type', data.caseType)
 			.addField('Moderator', `<@${data.staffID}> (${data.staffID})`)
 			.addField('User', `<@${data.userID}> (${data.userID})`)

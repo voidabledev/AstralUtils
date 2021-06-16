@@ -6,14 +6,14 @@ const conf = require('../json/configuration.json');
 const perms = require('../functions/permissions.js');
 const bl = require('../models/blacklistschema.js');
 const afk = require('../functions/check-afk');
-const autores = require('../functions/autores');
+const automod = require('../functions/automod');
 
 module.exports = {
 	name: 'message',
 	once: false,
 	async execute(message, client) {
 		afk(message);
-		// autores(message, client);
+		automod(message, client);
 		const { cooldowns } = client;
 		const prefix = process.argv.length > 2 ? conf.betaPrefix : conf.prefix;
 		if (!message.content.startsWith(prefix) || message.author.bot) return;

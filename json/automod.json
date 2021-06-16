@@ -1,0 +1,397 @@
+{
+  "settings": [
+    {
+    "triggers": [
+      {
+        "type": "wildcard",
+        "content": ["discord.gg"]
+      }
+    ],
+    "actions": [
+      {
+        "name": "warn-mute",
+        "args": ["[Automod] Sending server invite links.", 900000],
+        "blacklist": {
+          "roles": [],
+          "channels": [
+					"831996541501308939",
+					"831996540436086884"
+					],
+          "categories": [
+						"843532723262849035",
+            "831996499989889074",
+            "831996500816822333",
+            "831996501298511923",
+            "831996502553133204",
+            "839231003864072192",
+            "844065597562421249",
+            "831996506282131546",
+						"831996498412699668"
+					],
+          "permissions": ["MANAGE_MESSAGES"],
+          "users": []
+        },
+        "whitelist": {
+          "roles": [],
+          "channels": [],
+          "categories": [],
+          "permissions": [],
+          "users": []
+        }
+      },
+			{
+        "name": "message",
+        "args": ["%u You can't send invite links here.", 5000],
+        "blacklist": {
+          "roles": [],
+          "channels": [
+					"831996541501308939",
+					"831996540436086884"
+				],
+          "categories": [
+						"843532723262849035",
+            "831996499989889074",
+            "831996500816822333",
+            "831996501298511923",
+            "831996502553133204",
+            "839231003864072192",
+            "844065597562421249",
+            "831996506282131546",
+						"831996498412699668"
+					],
+          "permissions": ["MANAGE_MESSAGES"],
+          "users": []
+        },
+        "whitelist": {
+          "roles": [],
+          "channels": [],
+          "categories": [],
+          "permissions": [],
+          "users": []
+        }
+      },
+			{
+        "name": "delete",
+        "args": [],
+        "blacklist": {
+          "roles": [],
+          "channels": [
+					"831996541501308939",
+					"831996540436086884"
+				],
+          "categories": [
+						"843532723262849035",
+            "831996499989889074",
+            "831996500816822333",
+            "831996501298511923",
+            "831996502553133204",
+            "839231003864072192",
+            "844065597562421249",
+            "831996506282131546",
+						"831996498412699668"
+					],
+          "permissions": ["MANAGE_MESSAGES"],
+          "users": []
+        },
+        "whitelist": {
+          "roles": [],
+          "channels": [],
+          "categories": [],
+          "permissions": [],
+          "users": []
+        }
+      }
+    ]
+  }, 
+	{
+    "triggers": [
+			{
+				"type": "wildcard",
+				"content": [
+				"https://grabify.link",
+				"https://bmwforum.co",
+				"https://leancoding.co",
+				"https://spottyfly.com",
+				"https://stopify.co",
+				"https://yoütu.be",
+				"https://discörd.com",
+				"https://minecräft.com",
+				"https://freegiftcards.co",
+				"https://disçordapp.com",
+				"https://särahah.eu",
+				"https://särahah.pl",
+				"https://xda-developers.us",
+				"https://quickmessage.us",
+				"https://särahah.pl",
+				"https://fortnight.space",
+				"https://särahah.pl",
+				"https://fortnitechat.site",
+				"https://youshouldclick.us",
+				"https://joinmy.site",
+				"https://crabrave.pw",
+				"https://lovebird.guru",
+				"https://trulove.guru",
+				"https://dateing.club",
+				"https://otherhalf.life",
+				"https://shrekis.life",
+				"https://datasig.io",
+				"https://datauth.io",
+				"https://headshot.monster",
+				"https://gaming-at-my.best",
+				"https://progaming.monster",
+				"https://yourmy.monster",
+				"https://screenshare.host",
+				"https://imageshare.best",
+				"https://screenshot.best",
+				"https://gamingfun.me",
+				"https://mypic.icu",
+				"https://catsnthings.fun",
+				"https://curiouscat.club"
+				]
+			}
+    ],
+    "actions": [
+      {
+        "name": "ban",
+        "args": ["[Automod] Sending prohibited links."],
+        "blacklist": {
+          "roles": [],
+          "channels": [],
+          "categories": [
+						"843532723262849035",
+            "831996499989889074",
+            "831996500816822333",
+            "831996501298511923",
+            "831996502553133204",
+            "839231003864072192",
+            "844065597562421249",
+            "831996506282131546"
+					],
+          "permissions": ["ADMINISTRATOR"],
+          "users": []
+        },
+        "whitelist": {
+          "roles": [],
+          "channels": [],
+          "categories": [],
+          "permissions": [],
+          "users": []
+        }
+      }, 
+			{
+        "name": "delete",
+        "args": [],
+        "blacklist": {
+          "roles": [],
+          "channels": [],
+          "categories": [],
+          "permissions": [],
+          "users": []
+        },
+        "whitelist": {
+          "roles": [],
+          "channels": [],
+          "categories": [],
+          "permissions": [],
+          "users": []
+        }
+      },
+			{
+    "triggers": [
+			{
+				"type": "wildcard-anycase",
+				"content": [
+				"nigger",
+        "n1gger",
+        "n!gger",
+        "nigeria",
+        "niger"
+				]
+			}
+    ],
+    "actions": [
+      {
+        "name": "ban",
+        "args": ["[Automod] Racist language."],
+        "blacklist": {
+          "roles": [],
+          "channels": [],
+          "categories": [],
+          "permissions": ["ADMINISTRATOR"],
+          "users": []
+        },
+        "whitelist": {
+          "roles": [],
+          "channels": [],
+          "categories": [],
+          "permissions": [],
+          "users": []
+        }
+      }, 
+			{
+        "name": "delete",
+        "args": [],
+        "blacklist": {
+          "roles": [],
+          "channels": [],
+          "categories": [],
+          "permissions": [],
+          "users": []
+        },
+        "whitelist": {
+          "roles": [],
+          "channels": [],
+          "categories": [],
+          "permissions": [],
+          "users": []
+        }
+  			}
+				]
+			},
+			{
+  "triggers": [
+      {
+        "type": "wildcard-anycase",
+        "content": [
+					"bitch",
+					"b!tch",
+					"b1tch",
+					"dick",
+          "d1ck",
+					"d!ck",
+					"cum",
+					"pussy",
+          "penis",
+					"p3nis",
+					"pen1s",
+					"p3n1s",
+          "c0ck",
+          "cock"
+				]
+      }
+    ],
+    "actions": [
+      {
+        "name": "delete",
+        "args": [],
+        "blacklist": {
+          "roles": [],
+          "channels": [],
+          "categories": [
+						"843532723262849035",
+            "831996499989889074",
+            "831996500816822333",
+            "831996501298511923",
+            "831996502553133204",
+            "839231003864072192",
+            "844065597562421249",
+            "831996506282131546"
+					],
+          "permissions": ["MANAGE_MESSAGES"],
+          "users": []
+        },
+        "whitelist": {
+          "roles": [],
+          "channels": [],
+          "categories": [],
+          "permissions": [],
+          "users": []
+        }
+      },
+			{
+        "name": "message",
+        "args": ["%u Astral Island is a friendly server, please watch your language.", 5000],
+        "blacklist": {
+          "roles": [],
+          "channels": [],
+          "categories": [
+						"843532723262849035",
+            "831996499989889074",
+            "831996500816822333",
+            "831996501298511923",
+            "831996502553133204",
+            "839231003864072192",
+            "844065597562421249",
+            "831996506282131546"
+					],
+          "permissions": ["MANAGE_MESSAGES"],
+          "users": []
+        },
+        "whitelist": {
+          "roles": [],
+          "channels": [],
+          "categories": [],
+          "permissions": [],
+          "users": []
+        }
+      },
+			{
+        "name": "warn",
+        "args": ["[Automod] Sending explicit words."],
+        "blacklist": {
+          "roles": [],
+          "channels": [],
+          "categories": [
+						"843532723262849035",
+            "831996499989889074",
+            "831996500816822333",
+            "831996501298511923",
+            "831996502553133204",
+            "839231003864072192",
+            "844065597562421249",
+            "831996506282131546"
+					],
+          "permissions": ["MANAGE_MESSAGES"],
+          "users": []
+        },
+        "whitelist": {
+          "roles": [],
+          "channels": [],
+          "categories": [],
+          "permissions": [],
+          "users": []
+        }
+      }
+    ]
+  }
+    ]
+  }
+  ],
+  "template": {
+    "triggers": [
+      {
+        "type": "",
+        "content": [""]
+      }
+    ],
+    "actions": [
+      {
+        "name": "",
+        "args": [],
+        "blacklist": {
+          "roles": [],
+          "channels": [],
+          "categories": [
+            "843532723262849035",
+            "831996499989889074",
+            "831996500816822333",
+            "831996501298511923",
+            "831996502553133204",
+            "839231003864072192",
+            "844065597562421249",
+            "831996506282131546"
+          ],
+          "permissions": [],
+          "users": []
+        },
+        "whitelist": {
+          "roles": [],
+          "channels": [],
+          "categories": [],
+          "permissions": [],
+          "users": []
+        }
+      }
+    ]
+  }
+}
