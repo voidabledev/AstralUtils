@@ -1,4 +1,3 @@
-const conf = require('../json/configuration.json');
 async function statuses(client) {
 	const rand = [
 		['with code', 'PLAYING', 'online'],
@@ -19,14 +18,13 @@ async function statuses(client) {
 		['Discord', 'PLAYING', 'online'],
 		['the sky', 'WATCHING', 'dnd'],
 		['with fire', 'PLAYING', 'idle'],
+		['everyone', 'WATCHING', 'online'],
 	];
 	const index = Math.floor(Math.random() * rand.length);
 	client.user.setPresence({
 		status: rand[index][2],
 		activity: {
-			name: `${rand[index][0]} | ${process.argv.length > 2 ? conf.betaPrefix : conf.prefix}help | v${
-				require('../package.json').version
-			}`,
+			name: `${rand[index][0]}`,
 			type: rand[index][1],
 		},
 	});

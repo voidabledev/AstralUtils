@@ -4,9 +4,9 @@ const { MessageEmbed } = require('discord.js');
 
 module.exports = {
 	help: {
-		name: 'announce',
-		description: 'Sends an announcement',
-		usage: '[Message]',
+		name: 'say',
+		description: 'Says something in an embed.',
+		usage: '[message]',
 		aliases: alias.admin.announce,
 		category: 'admin',
 		cooldown: 5,

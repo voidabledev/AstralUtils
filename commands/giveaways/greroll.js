@@ -27,13 +27,11 @@ module.exports = {
     )) ||
     (await client.giveawaysManager.giveaways.find((g) => g.messageID === args[0],
     ));
-
 		if (!giveaway) {
 			return message.channel.send(
 				'Unable to find a giveaway for `' + args.join(' ') + '`.',
 			);
 		}
-
 		await client.giveawaysManager.reroll(giveaway.messageID).catch((e) => {
 			if (
 				e.startsWith(

@@ -7,9 +7,9 @@ const punish = require('../../models/punishschema');
 
 module.exports = {
 	help: {
-		name: 'warnings',
+		name: 'warns',
 		description: 'Displays all active warnings of a member.',
-		usage: '[User mention or ID] (page)',
+		usage: '[mention or ID] (page)',
 		aliases: alias.staff.warnings,
 		category: 'staff',
 		cooldown: 5,

@@ -12,7 +12,7 @@ module.exports = {
 	help: {
 		name: 'unlock',
 		description: 'Unlocks a locked channel',
-		usage: '[channel mention, ID or "here"] (reason)',
+		usage: '[channel mention, id or "here"] (reason)',
 		aliases: alias.staff.unlock,
 		category: 'staff',
 		cooldown: 15,

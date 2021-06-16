@@ -38,12 +38,14 @@
     "reason": ["rsn"],
     "reportstaff": ["rs"],
     "role": ["rl"],
-    "warnings": ["warns", "ws"]
+    "warns": ["warnings", "ws"],
+    "snipe": ["snp"],
+    "unretire": ["unr", "babyimback"]
   },
   "admin": {
     "strike": ["warnstaff"],
     "rmstrike": ["rms","delstrike", "dels"],
-    "announce": ["a"],
+    "say": ["s"],
     "admingive": ["admadd", "admgive"],
     "adminrem": ["admrem"]
   },

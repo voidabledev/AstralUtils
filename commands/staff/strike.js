@@ -9,7 +9,7 @@ module.exports = {
 	help: {
 		name: 'strike',
 		description: 'Strikes a staff member',
-		usage: '[User ID] [reason]',
+		usage: '[mention or id] [reason]',
 		aliases: alias.admin.strike,
 		category: 'staff',
 		cooldown: 5,

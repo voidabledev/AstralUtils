@@ -8,7 +8,7 @@ const { MessageEmbed } = require('discord.js');
 module.exports = {
 	help: {
 		name: 'search',
-		description: 'Displays all punishments for a user',
+		description: 'Displays all punishments for a user.',
 		usage: '[mention or id] (page)',
 		aliases: alias.staff.search,
 		category: 'staff',
@@ -43,13 +43,11 @@ module.exports = {
 			const thisPage = logs.filter((l, index) => index >= (page - 1) * 25 && index < page * 25);
 			thisPage.forEach((log) => {
 				embed.addField(
-					`Case ID: ${log.punishID} | Type: ${log.caseType}`,
-					`<@${log.staffID}> - ${log.reason}\nCreated: ${new Date(log.timestamp).toLocaleString()}\n${
-						log.expires ? (
-							(log.isActive !== false ? 'Expires: ' : 'Expired: ') +
-							new Date(log.expires).toLocaleString()
-						) : ''
-					}`,
+					`Case ID: ${log.punishID} (\`${log.caseType}\`)`,
+					`- **Reason:** ${log.reason}
+					- **Punished By:** <@${log.staffID}>
+					- **Created at:** ${new Date(log.timestamp).toLocaleString()}
+					${log.expires ? ((log.isActive !== false ? '- **Expires at:** ' : '- **Expired at:** ') + new Date(log.expires).toLocaleString()) : ''}`,
 				);
 			});
 			message.channel.send(embed);

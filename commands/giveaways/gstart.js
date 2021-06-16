@@ -30,7 +30,6 @@ module.exports = {
 			ping = false;
 			args.shift();
 		}
-
 		let giveawayChannel = message.mentions.channels.first();
 		if (args[0] === 'here') giveawayChannel = message.channel;
 		if (!giveawayChannel) {
@@ -111,25 +110,21 @@ module.exports = {
 			winnerCount: parseInt(giveawayNumberWinners),
 			hostedBy: message.author,
 			_messages: {
-				giveaway: (ping
-					? '<@&831996472458477588>\n'
-					: '') + '🎉 **GIVEAWAY** 🎉',
-				_giveawayEnded: (ping
-					? '<@&831996472458477588>\n'
-					: '') + '🎉 **GIVEAWAY ENDED** 🎉',
+				giveaway: (ping ? '<@&831996472458477588>\n\n' : '') + '🎉 **Giveaway** 🎉',
+				_giveawayEnded: (ping ? '<@&831996472458477588>\n\n' : '') + '🎉 **Giveaway Ended** 🎉',
 				get giveawayEnded() {
 					return this._giveawayEnded;
 				},
 				set giveawayEnded(value) {
 					this._giveawayEnded = value;
 				},
-				timeRemaining: 'Time remaining: **{duration}**!',
-				inviteToParticipate: 'React with 🎉 to participate!',
-				winMessage: 'Congratulations, {winners}! You won **{prize}**!',
+				timeRemaining: '**Time remaining:** {duration}',
+				inviteToParticipate: 'Click the reaction to enter the giveaway!',
+				winMessage: '{winners} has won `{prize}`. Congratulations!\n\nTo claim, please DM the sponsor or the host.\n{messageURL}',
 				embedFooter: 'Giveaways',
 				embedColor: '#00ff66',
-				noWinner: 'Giveaway cancelled, no valid participations.',
-				hostedBy: 'Hosted by: {user}',
+				noWinner: 'Giveaway cancelled, no valid participations.\n{messageURL}',
+				hostedBy: '**Hosted by:** {user}',
 				winners: 'winner(s)',
 				endedAt: 'Ended at',
 				units: {
