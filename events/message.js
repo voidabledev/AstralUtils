@@ -46,7 +46,7 @@ module.exports = {
 				`Wrong usage! The correct usage for this command is: \`${prefix}${command.help.name} ${command.help.usage}\``,
 			));
 		}
-		if(command.data.requiredRoles.length && !command.data.requiredRoles.some(r => message.member.roles.cache.get(r))) {
+		if (command.data.requiredRoles.length && !command.data.requiredRoles.some(r => message.member.roles.cache.get(r))) {
 			return message.channel.send(failureEmbed(
 				'You don\'t have permission to use this command.',
 			));

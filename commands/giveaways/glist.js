@@ -28,7 +28,7 @@ module.exports = {
 		);
 		const notEnded = onServer.filter((g) => !g.ended);
 		if (!notEnded.length) {
-			if(!notEnded.length) {
+			if (!notEnded.length) {
 				const em = new MessageEmbed()
 					.setTitle('Active giveaways')
 					.setDescription('There are no active giveaways!')

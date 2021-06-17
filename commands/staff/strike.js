@@ -20,7 +20,7 @@ module.exports = {
 		userPerms: [],
 		botPerms: [],
 		requiredRoles: ['836583124283686943', '831996396684050443', '831996396151636029'],
-		delete: true,
+		delete: false,
 	},
 	// eslint-disable-next-line no-unused-vars
 	async execute(message, args, client) {

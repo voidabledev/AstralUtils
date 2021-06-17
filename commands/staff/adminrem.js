@@ -18,7 +18,7 @@ module.exports = {
 		maxArgs: null,
 		userPerms: [],
 		botPerms: [],
-		requiredRoles: ['836583124283686943', '689175390471979178', '831996396151636029'],
+		requiredRoles: ['836583124283686943', '831996396684050443', '831996396151636029'],
 		delete: false,
 	},
 	async execute(message, args, client) {

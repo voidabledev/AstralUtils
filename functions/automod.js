@@ -95,7 +95,7 @@ const exec = {
 			embed.setTimestamp();
 		}
 		const m = await message.channel.send(embed);
-		if(args[5]) {
+		if (args[5]) {
 			setTimeout(() => m.delete(), args[5]);
 		}
 	},
@@ -159,7 +159,7 @@ const exec = {
 		}
 	},
 	'ban': async (message, args, client) => {
-		if(!message.member.bannable) return;
+		if (!message.member.bannable) return;
 		const punishment = await log({
 			guildID: message.guild.id,
 			userID: message.author.id,
@@ -200,7 +200,7 @@ const exec = {
 function automod(message, client) {
 	const data = require('../json/automod.json');
 	data.settings.forEach(async (entry) => {
-		if(entry.triggers.some((v) => checkExec(v, message, client))) {
+		if (entry.triggers.some((v) => checkExec(v, message, client))) {
 			entry.actions
 				.filter((a) => checkAccess(message, a))
 				.forEach((a) => exec[a.name](message, a.args, client));

@@ -24,7 +24,6 @@ module.exports = {
 	async execute(message, args, client) {
 		const { member } = message;
 		const reason = args.join(' ');
-
 		message.guild.channels.create(`${member.user.username}-unretire`, {
 			type: 'text',
 			topic: reason,

@@ -25,7 +25,7 @@ module.exports = {
 	},
 	async execute(message, args, client) {
 		let target = message.mentions.users.first();
-		if(!target) {
+		if (!target) {
 			try {
 				target = await client.users.fetch(args[0]);
 			}
@@ -34,8 +34,8 @@ module.exports = {
 			}
 		}
 		await punish.find({ staffID: target.id }, (err, logs) => {
-			if(err) console.error(err);
-			if(!logs.length) {
+			if (err) console.error(err);
+			if (!logs.length) {
 				const embed = new MessageEmbed()
 					.setTitle('Staff Search')
 					.setDescription('This staff member has no punishments.')

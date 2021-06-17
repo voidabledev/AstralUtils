@@ -26,7 +26,7 @@ module.exports = {
 			guildID: message.guild.id,
 			punishID: args[0],
 		});
-		if(!foundCase) return message.channel.send(failureEmbed('I couldn\'t find a modlog corresponing to this case.'));
+		if (!foundCase) return message.channel.send(failureEmbed('I couldn\'t find a modlog corresponing to this case.'));
 		const embed = new MessageEmbed()
 			.setAuthor(message.author.username, message.author.avatarURL())
 			.setTitle('Case Information')

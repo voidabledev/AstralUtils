@@ -4,7 +4,6 @@ const successEmbed = require('../../functions/success-embed');
 const failureEmbed = require('../../functions/failure-embed');
 const ms = require('../../functions/ms');
 const { MessageEmbed } = require('discord.js');
-const blacklist = require('../../models/blacklistschema.js');
 
 module.exports = {
 	help: {

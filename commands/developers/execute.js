@@ -30,12 +30,12 @@ module.exports = {
 				const embed = new MessageEmbed()
 					.setTitle('Shell Execution')
 					.addField('Input', `\`\`\`\n${codeExec}\n\`\`\``);
-				if(stdout) {
+				if (stdout) {
 					embed
 						.addField('Output', `\`\`\`\n${stdout.slice(0, 1023)}\n\`\`\``)
 						.setColor('GREEN');
 				}
-				if(err) {
+				if (err) {
 					embed
 						.addField('Output', `\`\`\`\nError: ${err.name}\n${err.message.slice(0, 900)}${err.message.length > 900 ? '...' : ''}\n\`\`\``)
 						.setColor('RED');
