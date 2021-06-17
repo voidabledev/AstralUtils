@@ -26,7 +26,6 @@ module.exports = {
 		const categories = ['utilities', 'giveaways', 'staff', 'developers'];
 		const embed = new MessageEmbed()
 			.setDescription(`This server's prefix is \`${prefix}\`.\nThe arguments with \`[]\` are required and with \`()\` are optional`)
-			.addField('The arguments with `[]` are required and with `()` are optional.')
 			.setColor('RANDOM');
 		if (!args[0]) {
 			embed.setAuthor('Help Menu', client.user.avatarURL());
@@ -39,14 +38,14 @@ module.exports = {
 		client.commands.find(c => c.help.aliases.some(a => a === args[0].toLowerCase()))) {
 			const c = client.commands.get(args[0].toLowerCase()) ||
 			client.commands.find(cmd => cmd.help.aliases.some(a => a === args[0].toLowerCase()));
-			embed.setAuthor(`Command Info: ${c.help.name}`, client.displayAvatarURL());
+			embed.setAuthor(`Command Info: ${c.help.name}`, client.user.displayAvatarURL());
 			embed.addField(`${c.help.name.charAt(0).toUpperCase()}${c.help.name.slice(1)}`,
 				`**Description:** ${c.help.description}\n**Usage:** \`${prefix}${c.help.name} ${c.help.usage}\`\n**Aliases:** \`${c.help.aliases.join(', ')}\`\n**Cooldown:** ${c.help.cooldown} seconds`);
 		}
 		else {
 			return message.channel.send(
 				new MessageEmbed()
-					.setAuthor(client.user.username, client.displayAvatarURL())
+					.setAuthor(client.user.username, client.user.displayAvatarURL())
 					.setDescription('I couldn\'t find that command! Run `>help` for a list of commands.')
 					.setColor('RED')
 					.setTimestamp(),

@@ -112,7 +112,7 @@ const exec = {
 		}, client);
 		try {
 			const embed = new MessageEmbed()
-				.setAuthor(client.user.username, client.displayAvatarURL())
+				.setAuthor(client.user.username, client.user.displayAvatarURL())
 				.setTitle(`You've been warned in ${message.guild.name}`)
 				.addField('Reason', args[0])
 				.setFooter(`Punishment ID: ${punishwarn}`);

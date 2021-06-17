@@ -42,7 +42,7 @@ module.exports = {
 				let success = `${member.user} has been **unmuted** | \`${punish}\`. `;
 				try {
 					const embed = new MessageEmbed()
-						.setAuthor(client.user.username, client.displayAvatarURL())
+						.setAuthor(client.user.username, client.user.displayAvatarURL())
 						.setTitle(`You've been unmuted in ${message.guild.name}`)
 						.addField('Reason', reason)
 						.setFooter(`Punishment ID: ${punish}`);
