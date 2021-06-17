@@ -8,7 +8,7 @@ const strikeSchema = require('../../models/strikeschema');
 module.exports = {
 	help: {
 		name: 'rmstrike',
-		description: 'Removes a strike',
+		description: 'Removes a strike from a user.',
 		usage: '[Strike ID]',
 		aliases: alias.admin.rmstrike,
 		category: 'staff',

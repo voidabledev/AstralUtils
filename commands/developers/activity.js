@@ -13,7 +13,7 @@ const validTypes = [
 module.exports = {
 	help: {
 		name: 'activity',
-		description: 'Sets the bot\'s activity',
+		description: 'Sets the bot\'s activity.',
 		usage: '[new activity]',
 		aliases: alias.devs.activity,
 		category: 'developers',

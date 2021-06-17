@@ -9,7 +9,7 @@ module.exports = {
 	help: {
 		name: 'warns',
 		description: 'Displays all active warnings of a member.',
-		usage: '[mention or ID] (page)',
+		usage: '[mention or id] (page)',
 		aliases: alias.staff.warnings,
 		category: 'staff',
 		cooldown: 5,

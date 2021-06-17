@@ -26,6 +26,7 @@ module.exports = {
 		const categories = ['utilities', 'giveaways', 'staff', 'developers'];
 		const embed = new MessageEmbed()
 			.setDescription(`This server's prefix is \`${prefix}\``)
+			.addField('The arguments with `[]` are required and with `()` are optional.')
 			.setColor('RANDOM');
 		if (!args[0]) {
 			embed.setAuthor('Help Menu', client.user.avatarURL());
@@ -34,33 +35,22 @@ module.exports = {
 				embed.addField(`${c.charAt(0).toUpperCase()}${c.slice(1)}`, `\`${cmds}\``);
 			}
 		}
-		else if (categories.includes(args[0].toLowerCase())) {
-			embed.setAuthor(`Category Info: ${args[0].toLowerCase()}`, client.user.avatarURL());
-			const cmds = client.commands.filter(cmd => cmd.help.category === args[0].toLowerCase());
-			cmds.forEach(c => embed.addField(
-				`${c.help.name.charAt(0).toUpperCase()}${c.help.name.slice(1)}`,
-				`**Description:** ${c.help.description}
-				**Usage:** \`${prefix}${c.help.name} ${c.help.usage}\`
-				**Aliases:** \`${c.help.aliases.join(', ')}\`
-				**Cooldown:** ${c.help.cooldown} seconds`,
-			));
-		}
 		else if (client.commands.get(args[0].toLowerCase()) ||
 		client.commands.find(c => c.help.aliases.some(a => a === args[0].toLowerCase()))) {
 			const c = client.commands.get(args[0].toLowerCase()) ||
 			client.commands.find(cmd => cmd.help.aliases.some(a => a === args[0].toLowerCase()));
-			embed
-				.setAuthor(`Command Info: ${c.help.name}`, client.user.avatarURL())
-				.addField(
-					`${c.help.name.charAt(0).toUpperCase()}${c.help.name.slice(1)}`,
-					`**Description:** ${c.help.description}
-					**Usage:** \`${prefix}${c.help.name} ${c.help.usage}\`
-					**Aliases:** \`${c.help.aliases.join(', ')}\`
-					**Cooldown:** ${c.help.cooldown} seconds`,
-				);
+			embed.setAuthor(`Command Info: ${c.help.name}`, client.displayAvatarURL());
+			embed.addField(`${c.help.name.charAt(0).toUpperCase()}${c.help.name.slice(1)}`,
+				`**Description:** ${c.help.description}\n**Usage:** \`${prefix}${c.help.name} ${c.help.usage}\`\n**Aliases:** \`${c.help.aliases.join(', ')}\`\n**Cooldown:** ${c.help.cooldown} seconds`);
 		}
 		else {
-			return message.channel.send(failureEmbed('I couldn\'t find a command with this name!', `Run '${prefix}help' to see a list of all commands`));
+			return message.channel.send(
+				new MessageEmbed()
+					.setAuthor(client.user.username, client.displayAvatarURL())
+					.setDescription('I couldn\'t find that command! Run `>help` for a list of commands.')
+					.setColor('RED')
+					.setTimestamp(),
+			);
 		}
 		return message.channel.send(embed);
 	},

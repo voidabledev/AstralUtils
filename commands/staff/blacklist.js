@@ -10,7 +10,7 @@ const { MessageEmbed } = require('discord.js');
 module.exports = {
 	help: {
 		name: 'blacklist',
-		description: 'Blocks a member from using the bot',
+		description: 'Blacklists',
 		usage: '[reason]',
 		aliases: alias.staff.blacklist,
 		category: 'staff',

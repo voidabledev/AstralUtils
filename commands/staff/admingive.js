@@ -8,7 +8,7 @@ const log = require('../../functions/process-log');
 module.exports = {
 	help: {
 		name: 'admingive',
-		description: 'Gives a user administrator.',
+		description: 'Gives a user administrator permissions.',
 		usage: '[user]',
 		aliases: alias.admin.admingive,
 		category: 'staff',

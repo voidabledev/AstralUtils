@@ -5,7 +5,7 @@ const failureEmbed = require('../../functions/failure-embed');
 module.exports = {
 	help: {
 		name: 'prune',
-		description: 'Deletes a certain amount of messages in a channel',
+		description: 'Purges the given amount of messages in a channel.',
 		usage: '[amount]',
 		aliases: alias.staff.prune,
 		category: 'staff',

@@ -8,7 +8,7 @@ const { MessageEmbed } = require('discord.js');
 module.exports = {
 	help: {
 		name: 'strike',
-		description: 'Strikes a staff member',
+		description: 'Strikes a staff member.',
 		usage: '[mention or id] [reason]',
 		aliases: alias.admin.strike,
 		category: 'staff',

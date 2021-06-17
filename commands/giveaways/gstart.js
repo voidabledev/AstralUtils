@@ -8,7 +8,7 @@ const { MessageEmbed } = require('discord.js');
 module.exports = {
 	help: {
 		name: 'gstart',
-		description: 'Starts a giveaway',
+		description: 'Starts a giveaway.',
 		usage: '(optional: noping) [channel] [time] [winners] [prize]',
 		aliases: alias.giveaways.gstart,
 		category: 'giveaways',

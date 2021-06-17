@@ -12,7 +12,7 @@ module.exports = {
 	help: {
 		name: 'unlock',
 		description: 'Unlocks a locked channel',
-		usage: '[channel mention, id or "here"] (reason)',
+		usage: '(channel) [reason]',
 		aliases: alias.staff.unlock,
 		category: 'staff',
 		cooldown: 15,
@@ -20,8 +20,8 @@ module.exports = {
 	data: {
 		minArgs: 1,
 		maxArgs: null,
-		userPerms: ['MANAGE_ROLES'],
-		botPerms: ['MANAGE_ROLES'],
+		userPerms: ['BAN_MEMBERS'],
+		botPerms: ['MANAGE_CHANNELS'],
 		requiredRoles: [],
 		delete: true,
 	},
@@ -30,37 +30,23 @@ module.exports = {
 		let channel =
     message.mentions.channels.first() ||
     message.guild.channels.cache.get(args[0]);
-		if (args[0] === 'here') channel = message.channel;
-		args.shift();
-		let reason = args.join(' ');
-		if (!reason) reason = '`No reason provided`';
 		if (!channel) {
-			message.channel.send(
-				failureEmbed(
-					'You didn\'t provide a valid channel!',
-					'Use \'here\' to unlock this channel.',
-				),
-			);
+			channel = message.channel;
 		}
+		else {
+			args.shift();
+		}
+		const reason = args.join(' ');
 		if (channel.permissionsFor(message.guild.roles.everyone).has('SEND_MESSAGES')) {
-			message.channel.send(
-				failureEmbed(
-					'Failure!',
-					'That channel isn\'t locked.',
-				),
-			);
+			message.channel.send(failureEmbed('That channel isn\'t locked.'));
 		}
-		channel.updateOverwrite(message.guild.roles.everyone, {
-			SEND_MESSAGES: true,
-		});
+		channel.updateOverwrite(message.guild.roles.everyone, { SEND_MESSAGES: true });
 		if (message.channel.id !== channel.id) {
-			message.channel.send(
-				successEmbed(`Unlocked ${channel}.`),
-			);
+			message.channel.send(successEmbed(`Unlocked ${channel} for \`${reason}\`.`));
 		}
 		const embed = new MessageEmbed()
 			.setTitle('Lockdown')
-			.setDescription(`This channel has been unlocked for:\n${reason}`)
+			.setDescription(`This channel has been unlocked for:\n\`${reason}\``)
 			.setColor('GREEN');
 		channel.send(embed);
 	},

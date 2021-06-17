@@ -9,8 +9,8 @@ const log = require('../../functions/process-log.js');
 module.exports = {
 	help: {
 		name: 'ban',
-		description: 'Bans a user',
-		usage: '[user mention or ID] [reason]',
+		description: 'Bans a user.',
+		usage: '[mention or id] [reason]',
 		aliases: alias.staff.ban,
 		category: 'staff',
 		cooldown: 5,

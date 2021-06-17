@@ -6,8 +6,8 @@ const{ MessageEmbed } = require('discord.js');
 module.exports = {
 	help: {
 		name: 'rule',
-		description: 'Displays a rule',
-		usage: '[rule] [user]',
+		description: 'Displays a rule.',
+		usage: '[rule number]',
 		aliases: alias.staff.rule,
 		category: 'staff',
 		cooldown: 5,

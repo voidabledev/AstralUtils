@@ -6,7 +6,7 @@ const Discord = require('discord.js');
 module.exports = {
 	help: {
 		name: 'eval',
-		description: 'Executes js code. Devs only.',
+		description: 'Evaluates JavaScript code.',
 		usage: '[code]',
 		aliases: alias.devs.eval,
 		category: 'developers',

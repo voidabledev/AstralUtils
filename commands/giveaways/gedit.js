@@ -6,7 +6,7 @@ const failureEmbed = require('../../functions/failure-embed');
 module.exports = {
 	help: {
 		name: 'gedit',
-		description: 'Edits a giveaway',
+		description: 'Edits a already running giveaway.',
 		usage: '[message id]',
 		aliases: alias.giveaways.gedit,
 		category: 'giveaways',

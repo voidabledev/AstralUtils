@@ -9,7 +9,7 @@ const { MessageEmbed } = require('discord.js');
 module.exports = {
 	help: {
 		name: 'unmute',
-		description: 'Unmutes a member',
+		description: 'Unmutes a muted user.',
 		usage: '[mention or id] [reason]',
 		aliases: alias.staff.unmute,
 		category: 'staff',

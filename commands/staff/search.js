@@ -44,10 +44,11 @@ module.exports = {
 			thisPage.forEach((log) => {
 				embed.addField(
 					`Case ID: ${log.punishID} (\`${log.caseType}\`)`,
-					`- **Reason:** ${log.reason}
-					- **Punished By:** <@${log.staffID}>
-					- **Created at:** ${new Date(log.timestamp).toLocaleString()}
-					${log.expires ? ((log.isActive !== false ? '- **Expires at:** ' : '- **Expired at:** ') + new Date(log.expires).toLocaleString()) : ''}`,
+					`- **Reason:** ${log.reason}\n- **Punished By:** <@${log.staffID}>\n- **Created at:** ${new Date(log.timestamp).toLocaleString()}\n${log.expires ?
+						((log.isActive !== false ?
+							'- **Expires at:** ' :
+							'- **Expired at:** ') +
+							new Date(log.expires).toLocaleString()) : ''}`,
 				);
 			});
 			message.channel.send(embed);

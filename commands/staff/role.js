@@ -6,7 +6,7 @@ const failureEmbed = require('../../functions/failure-embed');
 module.exports = {
 	help: {
 		name: 'role',
-		description: 'Add or remove a role from a user',
+		description: 'Add or remove a role from a user.',
 		usage: '[user mention or ID] [+/-] [role name or ID]',
 		aliases: alias.staff.role,
 		category: 'staff',

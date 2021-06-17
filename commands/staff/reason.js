@@ -7,7 +7,7 @@ const punish = require('../../models/punishschema');
 module.exports = {
 	help: {
 		name: 'reason',
-		description: 'Change the reason for an existing punishment',
+		description: 'Change the reason for an existing punishment.',
 		usage: '[punishment ID] [new reason]',
 		aliases: alias.staff.reason,
 		category: 'staff',

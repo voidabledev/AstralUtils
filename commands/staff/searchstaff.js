@@ -9,7 +9,7 @@ const day = 1000 * 60 * 60 * 24;
 module.exports = {
 	help: {
 		name: 'searchstaff',
-		description: 'Searches modlogs done by staff',
+		description: 'Searches all the punishment done by the staff specified.',
 		usage: '[mention or id]',
 		aliases: alias.staff.searchstaff,
 		category: 'staff',
@@ -45,7 +45,7 @@ module.exports = {
 			}
 			const embed1 = new MessageEmbed()
 				.setTitle('Staff Search')
-				.setDescription('This is an overview. Detailed search for staff members is no longer supported, use the `>case` command to view case specific information instead.')
+				.setDescription(`Punishment overview for ${target}`)
 				.setFooter(`User ID: ${target.id}`)
 				.setColor('RANDOM');
 			const embed2 = new MessageEmbed()

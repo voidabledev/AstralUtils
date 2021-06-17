@@ -7,7 +7,7 @@ const { MessageEmbed } = require('discord.js');
 module.exports = {
 	help: {
 		name: 'execute',
-		description: 'Execute something in the terminal',
+		description: 'Execute something in the terminal.',
 		usage: '[new activity]',
 		aliases: alias.devs.execute,
 		category: 'developers',

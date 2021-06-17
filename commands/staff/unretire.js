@@ -7,7 +7,7 @@ const failureEmbed = require('../../functions/failure-embed');
 module.exports = {
 	help: {
 		name: 'unretire',
-		description: 'Unretires you',
+		description: 'Unretires you.',
 		usage: '',
 		aliases: alias.staff.unretire,
 		category: 'staff',

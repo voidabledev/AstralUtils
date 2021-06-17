@@ -8,7 +8,7 @@ const log = require('../../functions/process-log.js');
 module.exports = {
 	help: {
 		name: 'mod',
-		description: 'Moderates a nickname',
+		description: 'Moderates a nickname.',
 		usage: '[mention or id]',
 		aliases: alias.staff.mod,
 		category: 'staff',
@@ -26,15 +26,13 @@ module.exports = {
 		const target = message.mentions.members.first() ||
 		await message.guild.members.fetch(args[0]);
 		if (!target) {
-			return message.channel.send(
-				failureEmbed('You didn\'t provide a user.'));
+			return message.channel.send(failureEmbed('You didn\'t provide a user.'));
 		}
 		if (target.displayName.includes('Moderated Nickname')) {
 			return message.channel.send(failureEmbed('That user is already moderated.'));
 		}
 		if (!target.manageable) {
-			return message.channel.send(
-				failureEmbed('I can\'t edit that user\'s nickname.'));
+			return message.channel.send(failureEmbed('I can\'t edit that user\'s nickname.'));
 		}
 		const mod = id(36, 8);
 		target.setNickname(`Moderated Nickname ${mod}`);

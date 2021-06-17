@@ -7,7 +7,7 @@ const { MessageEmbed } = require('discord.js');
 module.exports = {
 	help: {
 		name: 'notify',
-		description: 'Sends a direct message to a user',
+		description: 'Sends the specified message to a user.',
 		usage: '[user mention or id] [message]',
 		aliases: alias.staff.notify,
 		category: 'staff',

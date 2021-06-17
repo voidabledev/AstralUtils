@@ -10,8 +10,8 @@ const { MessageEmbed } = require('discord.js');
 module.exports = {
 	help: {
 		name: 'unblacklist',
-		description: 'Unblacklists a user',
-		usage: '[user id] [reason]',
+		description: 'Unblacklists a user.',
+		usage: '[mention or id] [reason]',
 		aliases: alias.staff.unblacklist,
 		category: 'staff',
 		cooldown: 15,

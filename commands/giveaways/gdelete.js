@@ -6,7 +6,7 @@ const failureEmbed = require('../../functions/failure-embed');
 module.exports = {
 	help: {
 		name: 'gdelete',
-		description: 'Removes a giveaway entirely without determining a winner',
+		description: 'Removes a giveaway entirely without determining a winner.',
 		usage: '[message ID]',
 		aliases: alias.giveaways.gdelete,
 		category: 'giveaways',

@@ -8,8 +8,8 @@ const log = require('../../functions/process-log.js');
 module.exports = {
 	help: {
 		name: 'unban',
-		description: 'Unbans a user',
-		usage: '[user ID] [reason]',
+		description: 'Unbans a banned user',
+		usage: '[user id] [reason]',
 		aliases: alias.staff.unban,
 		category: 'staff',
 		cooldown: 5,

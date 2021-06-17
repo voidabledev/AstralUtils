@@ -7,7 +7,7 @@ const { MessageEmbed } = require('discord.js');
 module.exports = {
 	help: {
 		name: 'glist',
-		description: 'Lists all active giveaways',
+		description: 'Lists all active giveaways.',
 		usage: '',
 		aliases: alias.giveaways.glist,
 		category: 'giveaways',

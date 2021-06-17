@@ -41,14 +41,14 @@ module.exports = {
 				'Contact an Administrator to fix this.',
 			));
 		}
+		if (command.data.requiredRoles.length && !command.data.requiredRoles.some(r => message.member.roles.cache.has(r))) {
+			return message.channel.send(failureEmbed(
+				'You don\'t have permission to use this command.',
+			));
+		}
 		if (args.length < command.data.minArgs || (command.data.maxArgs !== null) && args.length > command.data.maxArgs) {
 			return message.channel.send(failureEmbed(
 				`Wrong usage! The correct usage for this command is: \`${prefix}${command.help.name} ${command.help.usage}\``,
-			));
-		}
-		if (command.data.requiredRoles.length && !command.data.requiredRoles.some(r => message.member.roles.cache.get(r))) {
-			return message.channel.send(failureEmbed(
-				'You don\'t have permission to use this command.',
 			));
 		}
 		if (!cooldowns.has(command.help.name)) {

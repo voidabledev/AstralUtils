@@ -7,7 +7,7 @@ const { MessageEmbed } = require('discord.js');
 module.exports = {
 	help: {
 		name: 'slowmode',
-		description: 'Sets slowmode in a channel',
+		description: 'Changes slowmode in a channel.',
 		usage: '[seconds]',
 		aliases: alias.staff.slowmode,
 		category: 'staff',

@@ -7,7 +7,7 @@ const failureEmbed = require('../../functions/failure-embed');
 module.exports = {
 	help: {
 		name: 'adminrem',
-		description: 'Removes Admin from a user.',
+		description: 'Removes administrator permissions from a user.',
 		usage: '[user]',
 		aliases: alias.admin.adminrem,
 		category: 'staff',

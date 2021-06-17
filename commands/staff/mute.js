@@ -10,8 +10,8 @@ const { MessageEmbed } = require('discord.js');
 module.exports = {
 	help: {
 		name: 'mute',
-		description: 'Mutes a member',
-		usage: '[user mention or ID] (time) [reason]',
+		description: 'Mutes a member.',
+		usage: '[mention or id] (time) [reason]',
 		aliases: alias.staff.mute,
 		category: 'staff',
 		cooldown: 5,

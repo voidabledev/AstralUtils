@@ -7,7 +7,7 @@ const log = require('../../functions/process-log');
 module.exports = {
 	help: {
 		name: 'nick',
-		description: 'Changes the nikcname of a member',
+		description: 'Changes the nikcname of a member.',
 		usage: '[user] [nick]',
 		aliases: alias.staff.nick,
 		category: 'staff',
