@@ -25,7 +25,7 @@ module.exports = {
 		const prefix = process.argv.length > 2 ? conf.betaPrefix : conf.prefix;
 		const categories = ['utilities', 'giveaways', 'staff', 'developers'];
 		const embed = new MessageEmbed()
-			.setDescription(`This server's prefix is \`${prefix}\``)
+			.setDescription(`This server's prefix is \`${prefix}\`.\nThe arguments with \`[]\` are required and with \`()\` are optional`)
 			.addField('The arguments with `[]` are required and with `()` are optional.')
 			.setColor('RANDOM');
 		if (!args[0]) {
