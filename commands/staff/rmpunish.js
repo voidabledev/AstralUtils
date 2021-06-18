@@ -9,7 +9,7 @@ module.exports = {
 	help: {
 		name: 'rmpunish',
 		description: 'Removes a punishment.',
-		usage: '[punishment ID] [reason]',
+		usage: '[punishment id] [reason]',
 		aliases: alias.staff.rmpunish,
 		category: 'staff',
 		cooldown: 15,

@@ -5,6 +5,7 @@ const log = require('./process-log');
 const punish = require('../models/punishschema');
 
 function checkExec(trig, message, client) {
+	if (!message.guild) return;
 	if (
 		(trig.type === 'exact' && trig.content.some((c => c === message.content))) ||
 		(trig.type === 'exact-anycase' && trig.content.some(c => c.toLowerCase() === message.content.toLowerCase())) ||
@@ -144,13 +145,10 @@ const exec = {
 			isActive: true,
 		}, client);
 		const embed = new MessageEmbed()
-			.setDescription(
-				`You got auto-muted in **${message.guild.name}** for \`${
-					args[0]
-				}\`. You will be unmuted in ${Math.floor(args[1] / 60000)} minutes.`,
-			)
-			.setFooter(`Punishment ID: ${punishment}`)
-			.setColor('RANDOM');
+			.setAuthor(client.user.username, client.user.displayAvatarURL())
+			.setTitle(`You've been muted in ${message.guild.name}`)
+			.addField('Reason', args[0])
+			.setFooter(`Punishment ID: ${punishment}`);
 		try {
 			message.author.send(embed);
 		}

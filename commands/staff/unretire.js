@@ -43,7 +43,7 @@ module.exports = {
 					.setTitle('Unretirement')
 					.setDescription(`From ${message.author.username}\nFor: \`${reason}\``)
 					.setFooter(`User ID: ${member.id}`);
-				channel.send(`<@${member.id}> <@&836295798852550686>`, embed);
+				channel.send(`<@${member.id}> <@&836583124283686943>`, embed);
 			});
 	},
 };
