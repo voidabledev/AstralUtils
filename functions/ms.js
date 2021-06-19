@@ -1,3 +1,8 @@
+/**
+ * Turns human readable time into milliseconds.
+ * @param {string} input The time in human readable format.
+ * @returns The amount of milliseconds, or -1 if the input was invalid.
+ */
 function ms(input) {
 	if (typeof input !== 'string') return -1;
 	if (isNaN(input.slice(0, -1))) return -1;

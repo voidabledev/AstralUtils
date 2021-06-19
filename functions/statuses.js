@@ -1,3 +1,8 @@
+/**
+ * Sets a new random status for the client user.
+ * @param {Object} client The discord.js client.
+ * @returns {void} Nothing.
+ */
 async function statuses(client) {
 	const rand = [
 		['with code', 'PLAYING', 'online'],

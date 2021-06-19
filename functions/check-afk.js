@@ -1,6 +1,11 @@
 const { MessageEmbed } = require('discord.js');
 const moment = require('moment');
 const afkSchema = require('../models/afkschema');
+/**
+ * Checks the afk status of the user and removes it if it exists.
+ * @param {Object} message The discord.js message object.
+ * @returns {void} Nothing.
+ */
 async function checkAFK(message) {
 	if (!message.guild) return;
 	const guildId = message.guild.id;

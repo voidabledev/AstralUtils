@@ -1,3 +1,8 @@
+/**
+ * Validates a set of permissions.
+ * @param {string[]} permissions The permissions to check for.
+ * @returns {void} Nothing.
+ */
 async function perms(permissions) {
 	const validPermissions = [
 		'CREATE_INSTANT_INVITE',

@@ -199,6 +199,12 @@ const exec = {
 		}
 	},
 };
+/**
+ * Checks the specified message for automod.
+ * @param message The message to check with the automod.
+ * @param client The discord.js client.
+ * @returns {void} Nothing.
+ */
 function automod(message, client) {
 	if (!message.guild) return;
 	const data = require('../json/automod.json');

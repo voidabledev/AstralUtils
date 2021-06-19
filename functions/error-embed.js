@@ -1,4 +1,9 @@
 const { MessageEmbed } = require('discord.js');
+/**
+ * Gives back an embed indicating an error in the code.
+ * @param {string} errText The error text.
+ * @returns {Object} The discord.js embed object.
+ */
 function errorEmbed(errText) {
 	return new MessageEmbed()
 		.setColor('RED')

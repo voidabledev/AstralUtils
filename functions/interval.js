@@ -1,5 +1,9 @@
 const punish = require('../models/punishschema');
 const blSchema = require('../models/blacklistschema');
+/**
+ * @param {Object} client The discord.js client.
+ * @returns {void} Nothing.
+ */
 async function interval(client) {
 	client.setInterval(() => {
 		punish.find({ caseType: 'Mute', isActive: true }, (err, mutes) => {
