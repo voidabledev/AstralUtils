@@ -10,7 +10,7 @@
     "actions": [
       {
         "name": "warn-mute",
-        "args": ["[Automod] Sending server invite links.", 900000],
+        "args": ["[Automod] Sending server invite links in %c.", 900000],
         "blacklist": {
           "roles": [],
           "channels": [
@@ -153,7 +153,7 @@
     "actions": [
       {
         "name": "ban",
-        "args": ["[Automod] Sending prohibited links."],
+        "args": ["[Automod] Sending prohibited links in %c."],
         "blacklist": {
           "roles": [],
           "channels": [],
@@ -212,7 +212,7 @@
     "actions": [
       {
         "name": "ban",
-        "args": ["[Automod] Racist language."],
+        "args": ["[Automod] Racist language in %c."],
         "blacklist": {
           "roles": [],
           "channels": [],
@@ -327,7 +327,7 @@
       },
 			{
         "name": "warn",
-        "args": ["[Automod] Sending explicit words."],
+        "args": ["[Automod] Sending explicit words in %c."],
         "blacklist": {
           "roles": [],
           "channels": [],

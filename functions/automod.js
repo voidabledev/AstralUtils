@@ -5,7 +5,6 @@ const log = require('./process-log');
 const punish = require('../models/punishschema');
 
 function checkExec(trig, message, client) {
-	if (!message.guild) return;
 	if (
 		(trig.type === 'exact' && trig.content.some((c => c === message.content))) ||
 		(trig.type === 'exact-anycase' && trig.content.some(c => c.toLowerCase() === message.content.toLowerCase())) ||
@@ -72,7 +71,9 @@ const exec = {
 	'delete': async (message) => message.delete(),
 	'message': async (message, args) => {
 		const m = message.channel.send(
-			args[0].replace('%u', `<@${message.author.id}>`),
+			args[0]
+				.replace('%u', `<@${message.author.id}>`)
+				.replace('%c', `<#${message.channel.id}>`),
 		);
 		if (args[1]) {
 			setTimeout(() => m.delete(), args[1]);
@@ -84,7 +85,10 @@ const exec = {
 			embed.setTitle(args[0]);
 		}
 		if (args[1]) {
-			embed.setDescription(args[1].replace('%u', `<@${message.author.id}>`));
+			embed.setDescription(args[1]
+				.replace('%u', `<@${message.author.id}>`)
+				.replace('%c', `<#${message.channel.id}>`),
+			);
 		}
 		if (args[2]) {
 			embed.setFooter(args[2]);
@@ -101,7 +105,7 @@ const exec = {
 		}
 	},
 	'warn': async (message, args, client) => {
-		const punishwarn = await log({
+		const punishment = await log({
 			guildID: message.guild.id,
 			userID: message.author.id,
 			staffID: client.user.id,
@@ -115,8 +119,8 @@ const exec = {
 			const embed = new MessageEmbed()
 				.setAuthor(client.user.username, client.user.displayAvatarURL())
 				.setTitle(`You've been warned in ${message.guild.name}`)
-				.addField('Reason', args[0])
-				.setFooter(`Punishment ID: ${punishwarn}`);
+				.addField('Reason', args[0].replace('%c', `<#${message.channel.id}>`))
+				.setFooter(`Punishment ID: ${punishment}`);
 			message.author.send(embed);
 		}
 		catch (e) {
@@ -138,7 +142,7 @@ const exec = {
 			guildID: message.guild.id,
 			userID: message.author.id,
 			staffID: client.user.id,
-			reason: args[0],
+			reason: args[0].replace('%c', `<#${message.channel.id}>`),
 			caseType: 'Mute',
 			timestamp: new Date().getTime(),
 			expires: Date.now() + args[1],
@@ -162,7 +166,7 @@ const exec = {
 			guildID: message.guild.id,
 			userID: message.author.id,
 			staffID: client.user.id,
-			reason: args[0],
+			reason: args[0].replace('%c', `<#${message.channel.id}>`),
 			caseType: 'Ban',
 			timestamp: new Date().getTime(),
 		}, client);
@@ -196,6 +200,7 @@ const exec = {
 	},
 };
 function automod(message, client) {
+	if (!message.guild) return;
 	const data = require('../json/automod.json');
 	data.settings.forEach(async (entry) => {
 		if (entry.triggers.some((v) => checkExec(v, message, client))) {
