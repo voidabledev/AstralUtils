@@ -41,7 +41,8 @@
     "warns": ["warnings", "ws"],
     "snipe": ["snp"],
     "unretire": ["unr", "babyimback"],
-    "lockserver": ["ls"]
+    "lockserver": ["ls"],
+    "unlockserver": ["unls"]
   },
   "admin": {
     "strike": ["warnstaff"],

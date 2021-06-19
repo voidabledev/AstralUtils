@@ -23,8 +23,8 @@ module.exports = {
 	},
 	async execute(message, args, client) {
 		const reason = args.join(' ');
+		let amount = 0;
 		const ignored = new Set([
-			// Categories
 			'831996492347736075',
 			'831996493161824267',
 			'831996494604140589',
@@ -39,24 +39,33 @@ module.exports = {
 			'844065597562421249',
 			'846735360050069506',
 			'831996506282131546',
+			// test server
+			'849345772318097440',
+			'849361460500758589',
 		]);
-		const testignored = new Set([
-			'849347615254118490',
-			'849361740164366336',
-		]);
-		const channels = message.guild.channels.cache.filter(ch => ch.type !== 'category');
-		message.channel.send('I\'m locking the server. Please wait...');
-		channels.forEach(channel => {
-			if (!testignored.has(channel.id)) {
-				channel.updateOverwrite(message.guild.roles.everyone, { SEND_MESSAGES: false }).then(g => {
-					console.log(`Updated channel ${g.name} (${g.id}).`);
-				}).catch(err => console.log(err));
-				channel.send(`<a:error:849037573912657932> The server is locked down for \`${reason}\`. Please refer to <#831996525864419348> for more information.`);
-			}
-			else {
-				console.log(`Skipping ${channel.name} (${channel.id}).`);
+		const channels = message.guild.channels.cache.filter(ch => ch.type === 'text' && !ignored.has(ch.parent ? ch.parent.id : ch.id) && !ignored.has(ch.id));
+		message.channel.send('<a:loading:855829253429264405> I\'m locking the server. Please wait...');
+		channels.forEach((channel) => {
+			if (channel.permissionsFor(message.guild.roles.everyone).has('SEND_MESSAGES')) {
+				channel.updateOverwrite(message.guild.roles.everyone, { SEND_MESSAGES: false });
+				amount++;
+				if (channel.id !== message.channel.id) {
+					channel.send(
+						channel.id === '831996525864419348' ?
+							`<a:error:849037573912657932> The server is locked down for \`${reason}\`. Please refer to <#831996525864419348> for more information.` :
+							`<a:error:849037573912657932> The server has been locked down for \`${reason}\`. Do NOT	DM Moderators about being muted, because you are NOT! More information will be posted in this channel.`,
+					);
+				}
 			}
 		});
-		message.channel.send(successEmbed('Successfully locked the server.'));
+		if (amount > 0 && message.channel.id !== '849037573912657932') {
+			message.channel.send(successEmbed(`Succesfully locked down \`${amount}\` channels.`));
+		}
+		else if (amount > 0) {
+			// dont send anything else
+		}
+		else {
+			message.channel.send(failureEmbed('The server is already locked.'));
+		}
 	},
 };

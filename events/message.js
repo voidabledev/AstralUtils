@@ -13,6 +13,9 @@ module.exports = {
 	once: false,
 	async execute(message, client) {
 		afk(message);
+		const spam = client.spam.get(message.author.id) || [];
+		spam.push(new Date().getTime());
+		client.spam.set(message.author.id, spam.filter((s) => s > new Date().getTime() - 3000));
 		automod(message, client);
 		const { cooldowns } = client;
 		const prefix = process.argv.length > 2 ? conf.betaPrefix : conf.prefix;

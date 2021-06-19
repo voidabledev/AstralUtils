@@ -15,7 +15,7 @@ const { MessageEmbed } = require('discord.js');
  * @param {number?} data.expires The time this modlog will expire.
  * @param {boolean?} data.isActive Whether the modlog is active. Should be set to true if the log expires.
  * @param {Object} client The discord.js client.
- * @returns The punishment ID.
+ * @returns {string} The punishment ID.
  */
 async function processLog(data, client) {
 	let punishID = id(10, 10);

@@ -31,6 +31,7 @@ for (const folder of commandFolders) {
 }
 console.log(`Loaded ${cmds} commands.`);
 client.cooldowns = new Discord.Collection();
+client.spam = new Discord.Collection();
 mongoose.connect(conf.db, {
 	useNewUrlParser: true,
 	useUnifiedTopology: true,

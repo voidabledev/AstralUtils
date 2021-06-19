@@ -17,11 +17,12 @@ module.exports = {
 		maxArgs: null,
 		userPerms: [],
 		botPerms: [],
-		requiredRoles: ['841804547000893490'],
+		requiredRoles: [],
 		delete: false,
 	},
 	// eslint-disable-next-line no-unused-vars
 	async execute(message, args, client) {
+		if (!conf.devs.includes(message.author.id)) return;
 		const silent = args[0].toLowerCase() === 'silent';
 		if (silent) args.shift();
 		let code = args.join(' ');
