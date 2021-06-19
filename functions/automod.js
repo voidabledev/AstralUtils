@@ -138,7 +138,7 @@ const exec = {
 		catch (e) {
 			return;
 		}
-		const punishment = await log({
+		const punishmute = await log({
 			guildID: message.guild.id,
 			userID: message.author.id,
 			staffID: client.user.id,
@@ -152,7 +152,7 @@ const exec = {
 			.setAuthor(client.user.username, client.user.displayAvatarURL())
 			.setTitle(`You've been muted in ${message.guild.name}`)
 			.addField('Reason', args[0])
-			.setFooter(`Punishment ID: ${punishment}`);
+			.setFooter(`Punishment ID: ${punishmute}`);
 		try {
 			message.author.send(embed);
 		}
@@ -162,7 +162,7 @@ const exec = {
 	},
 	'ban': async (message, args, client) => {
 		if (!message.member.bannable) return;
-		const punishment = await log({
+		const punishban = await log({
 			guildID: message.guild.id,
 			userID: message.author.id,
 			staffID: client.user.id,
@@ -171,11 +171,10 @@ const exec = {
 			timestamp: new Date().getTime(),
 		}, client);
 		const embed = new MessageEmbed()
-			.setDescription(
-				`You got auto-banned in **${message.guild.name}** for \`${args[0]}\`. If you think this was a mistake, you can appeal [here](https://forms.gle/SUynmsZQzWwjxwVn7)`,
-			)
-			.setFooter(`Punishment ID: ${punishment}`)
-			.setColor('RED');
+			.setAuthor(client.user.username, client.user.displayAvatarURL())
+			.setTitle(`You've been muted in ${message.guild.name}`)
+			.addField('Reason', args[0])
+			.setFooter(`Punishment ID: ${punishban}`);
 		try {
 			await message.author.send(embed).then(() => {
 				message.guild.members.ban(message.author.id);

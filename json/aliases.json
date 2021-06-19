@@ -40,7 +40,8 @@
     "role": ["rl"],
     "warns": ["warnings", "ws"],
     "snipe": ["snp"],
-    "unretire": ["unr", "babyimback"]
+    "unretire": ["unr", "babyimback"],
+    "lockserver": ["ls"]
   },
   "admin": {
     "strike": ["warnstaff"],
