@@ -7,7 +7,7 @@ module.exports = {
 		name: 'say',
 		description: 'Says something in an embed.',
 		usage: '[message]',
-		aliases: alias.admin.announce,
+		aliases: alias.staff.say,
 		category: 'staff',
 		cooldown: 5,
 	},
