@@ -210,6 +210,9 @@ const exec = {
  */
 function automod(message, client) {
 	if (!message.guild) return;
+	const spam = client.spam.get(message.author.id) || [];
+	spam.push(new Date().getTime());
+	client.spam.set(message.author.id, spam.filter((s) => s > new Date().getTime() - 3000));
 	const data = require('../json/automod.json');
 	data.settings.forEach(async (entry) => {
 		if (entry.triggers.some((v) => checkExec(v, message, client))) {
