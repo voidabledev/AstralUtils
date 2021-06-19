@@ -37,8 +37,8 @@ module.exports = {
 			}
 			const embed = new MessageEmbed()
 				.setAuthor(client.user.username, client.user.displayAvatarURL())
-				.setDescription(`All the punishments for <@${id}>`)
-				.setFooter(`Page ${page}/${maxPage}`)
+				.setDescription(`All the punishments for <@${id}>.`)
+				.setFooter(`Page ${page}/${maxPage}.`)
 				.setColor('RANDOM');
 			const thisPage = logs.filter((l, index) => index >= (page - 1) * 25 && index < page * 25);
 			thisPage.forEach((log) => {

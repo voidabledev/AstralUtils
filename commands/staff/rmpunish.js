@@ -29,6 +29,9 @@ module.exports = {
 		if (!data) return message.channel.send(fail('I couldn\'t find a punishment with this ID.'));
 		args.shift();
 		const reason = args.join(' ');
+		if (!reason) {
+			return message.channel.send(fail('You didn\'t provide a valid reason.'));
+		}
 		const embed = succ(`Deleted the punishment with ID \`${data.punishID}\` for \`${reason}\`.`)
 			.addField('Type', data.caseType)
 			.addField('Moderator', `<@${data.staffID}> (${data.staffID})`)

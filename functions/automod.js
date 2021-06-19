@@ -10,9 +10,6 @@ function checkExec(trig, message, client) {
 		(trig.type === 'exact-anycase' && trig.content.some(c => c.toLowerCase() === message.content.toLowerCase())) ||
 		(trig.type === 'wildcard' && trig.content.some(c => message.content.includes(c))) ||
 		(trig.type === 'wildcard-anycase' && trig.content.some(c => message.content.toLowerCase().includes(c.toLowerCase()))) ||
-		(trig.type === 'attachment' && message.attachments && message.attachments.find(
-			(a) => !trig.content.some(c => a.name.endsWith(c)),
-		)) ||
 		(trig.type === 'spam' && client.spam.get(message.author.id).length >= trig.content[0])
 	) return true;
 	return false;

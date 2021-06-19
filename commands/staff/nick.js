@@ -60,7 +60,7 @@ module.exports = {
 			guildID: message.guild.id,
 			userID: target.user.id,
 			staffID: message.author.id,
-			reason: 'No reason specified',
+			reason: 'None',
 			caseType: 'Changed Nickname',
 			timestamp: new Date().getTime(),
 		}, client);

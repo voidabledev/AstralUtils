@@ -8,7 +8,7 @@ module.exports = {
 	help: {
 		name: 'glimit',
 		description: 'Displays how many giveaways have been hosted in the last day, and when the next one is allowed to be hosted.',
-		usage: '',
+		usage: 'None',
 		aliases: alias.giveaways.glimit,
 		category: 'giveaways',
 		cooldown: 20,

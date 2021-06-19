@@ -10,7 +10,7 @@ module.exports = {
 		name: 'admingive',
 		description: 'Gives a user administrator permissions.',
 		usage: '[user]',
-		aliases: alias.admin.admingive,
+		aliases: alias.staff.admingive,
 		category: 'staff',
 		cooldown: 30,
 	},

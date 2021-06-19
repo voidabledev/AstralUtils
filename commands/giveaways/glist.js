@@ -8,7 +8,7 @@ module.exports = {
 	help: {
 		name: 'glist',
 		description: 'Lists all active giveaways.',
-		usage: '',
+		usage: 'None',
 		aliases: alias.giveaways.glist,
 		category: 'giveaways',
 		cooldown: 15,

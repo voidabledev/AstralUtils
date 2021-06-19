@@ -8,7 +8,7 @@ module.exports = {
 		description: 'Says something in an embed.',
 		usage: '[message]',
 		aliases: alias.admin.announce,
-		category: 'admin',
+		category: 'staff',
 		cooldown: 5,
 	},
 	data: {
@@ -24,7 +24,7 @@ module.exports = {
 		const embed = new MessageEmbed()
 			.setAuthor(message.author.username, message.author.avatarURL())
 			.setDescription(args.join(' '))
-			.setFooter('Announcement')
+			.setFooter(`Sent by: ${message.author.tag}`)
 			.setTimestamp();
 		message.channel.send(embed);
 	},

@@ -9,8 +9,8 @@ module.exports = {
 	help: {
 		name: 'rmstrike',
 		description: 'Removes a strike from a user.',
-		usage: '[Strike ID]',
-		aliases: alias.admin.rmstrike,
+		usage: '[strike id]',
+		aliases: alias.staff.rmstrike,
 		category: 'staff',
 		cooldown: 5,
 	},

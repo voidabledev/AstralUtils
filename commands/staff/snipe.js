@@ -8,7 +8,7 @@ module.exports = {
 	help: {
 		name: 'snipe',
 		description: 'Displays the last deleted message in the channel.',
-		usage: '',
+		usage: 'None',
 		aliases: alias.staff.snipe,
 		category: 'staff',
 		cooldown: 10,

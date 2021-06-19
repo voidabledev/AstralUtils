@@ -9,7 +9,7 @@ module.exports = {
 		name: 'adminrem',
 		description: 'Removes administrator permissions from a user.',
 		usage: '[user]',
-		aliases: alias.admin.adminrem,
+		aliases: alias.staff.adminrem,
 		category: 'staff',
 		cooldown: 30,
 	},

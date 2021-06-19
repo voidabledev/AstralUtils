@@ -7,7 +7,7 @@ module.exports = {
 	help: {
 		name: 'cas',
 		description: 'Calls all staff',
-		usage: '',
+		usage: 'None',
 		aliases: alias.utilities.cas,
 		category: 'utilities',
 		cooldown: 7200,

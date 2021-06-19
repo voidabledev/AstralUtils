@@ -8,7 +8,7 @@ module.exports = {
 	help: {
 		name: 'unretire',
 		description: 'Unretires you.',
-		usage: '',
+		usage: 'None',
 		aliases: alias.staff.unretire,
 		category: 'staff',
 		cooldown: 86400,

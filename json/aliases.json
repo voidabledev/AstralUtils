@@ -42,9 +42,7 @@
     "snipe": ["snp"],
     "unretire": ["unr", "babyimback"],
     "lockserver": ["ls"],
-    "unlockserver": ["unls"]
-  },
-  "admin": {
+    "unlockserver": ["unls"],
     "strike": ["warnstaff"],
     "rmstrike": ["rms","delstrike", "dels"],
     "say": ["s"],
