@@ -399,7 +399,7 @@
       },
 			{
         "name": "mute",
-        "args": ["Potentially malicious attachment in %c", 1200000],
+        "args": ["[Automod] Malicious attachment in %c", 1200000],
         "blacklist": {
           "roles": [],
           "channels": [],

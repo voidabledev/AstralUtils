@@ -39,9 +39,6 @@ module.exports = {
 			'844065597562421249',
 			'846735360050069506',
 			'831996506282131546',
-			// test server
-			'849345772318097440',
-			'849361460500758589',
 		]);
 		const channels = message.guild.channels.cache.filter(ch => ch.type === 'text' && !ignored.has(ch.parent ? ch.parent.id : ch.id) && !ignored.has(ch.id));
 		message.channel.send('<a:loading:855829253429264405> I\'m locking the server. Please wait...');

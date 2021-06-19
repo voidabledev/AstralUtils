@@ -25,7 +25,6 @@ module.exports = {
 		const reason = args.join(' ');
 		let amount = 0;
 		const ignored = new Set([
-			// Categories
 			'831996492347736075',
 			'831996493161824267',
 			'831996494604140589',
