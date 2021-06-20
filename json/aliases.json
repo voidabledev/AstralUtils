@@ -59,5 +59,16 @@
     "gdelete": ["gd"],
     "glimit": ["glm"],
     "gcreate": ["gc"]
-  }
+  },
+	"economy": {
+		"balance": ["bal", "money"],
+		"buy": ["gimme"],
+		"shop": ["market"],
+		"work": ["wk"],
+		"deposit": ["dep"],
+		"withdraw": ["with"],
+		"inventory": ["inv"],
+		"level": ["lvl"],
+		"setlevel": ["slvl"]
+	}
 }

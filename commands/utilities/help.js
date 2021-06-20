@@ -23,7 +23,7 @@ module.exports = {
 	},
 	async execute(message, args, client) {
 		const prefix = process.argv.length > 2 ? conf.betaPrefix : conf.prefix;
-		const categories = ['utilities', 'giveaways', 'staff', 'developers'];
+		const categories = ['utilities', 'giveaways', 'staff', 'developers', 'economy'];
 		const embed = new MessageEmbed()
 			.setDescription(`This server's prefix is \`${prefix}\`.\nThe arguments with \`[]\` are required and with \`()\` are optional`)
 			.setColor('RANDOM');
