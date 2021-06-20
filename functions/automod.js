@@ -10,6 +10,9 @@ function checkExec(trig, message, client) {
 		(trig.type === 'exact-anycase' && trig.content.some(c => c.toLowerCase() === message.content.toLowerCase())) ||
 		(trig.type === 'wildcard' && trig.content.some(c => message.content.includes(c))) ||
 		(trig.type === 'wildcard-anycase' && trig.content.some(c => message.content.toLowerCase().includes(c.toLowerCase()))) ||
+		(trig.type === 'attachment' && message.attachments && message.attachments.find(
+			(a) => !trig.content.some(c => a.name.endsWith(c)),
+		)) ||
 		(trig.type === 'spam' && client.spam.get(message.author.id).length >= trig.content[0])
 	) return true;
 	return false;
@@ -209,7 +212,7 @@ function automod(message, client) {
 	if (!message.guild) return;
 	const spam = client.spam.get(message.author.id) || [];
 	spam.push(new Date().getTime());
-	client.spam.set(message.author.id, spam.filter((s) => s > new Date().getTime() - 3000));
+	client.spam.set(message.author.id, spam.filter((s) => s > new Date().getTime() - 2000));
 	const data = require('../json/automod.json');
 	data.settings.forEach(async (entry) => {
 		if (entry.triggers.some((v) => checkExec(v, message, client))) {

@@ -355,12 +355,81 @@
     ]
   }
     ]
-  },
-  {
+  }, {
+    "triggers": [
+      {
+        "type": "attachment",
+        "content": [
+					".png",
+					".jpg", 
+					".jpeg", 
+					".webm", 
+					".mp4", 
+					".gif", 
+					".bmp", 
+					".pdf", 
+					".txt", 
+					".tif", 
+					".svg", 
+					".webp", 
+					".mp3", 
+					".flac", 
+					".wav"
+				]
+      }
+    ],
+    "actions": [
+      {
+        "name": "delete",
+        "args": [],
+        "blacklist": {
+          "roles": [],
+          "channels": [],
+          "categories": [],
+          "permissions": [],
+          "users": []
+        },
+        "whitelist": {
+          "roles": [],
+          "channels": [],
+          "categories": [],
+          "permissions": [],
+          "users": []
+        }
+      },
+			{
+        "name": "mute",
+        "args": ["Potentially malicious attachment in %c", 1200000],
+        "blacklist": {
+          "roles": [],
+          "channels": [],
+          "categories": [
+            "843532723262849035",
+            "831996499989889074",
+            "831996500816822333",
+            "831996501298511923",
+            "831996502553133204",
+            "839231003864072192",
+            "844065597562421249",
+            "831996506282131546"
+          ],
+          "permissions": ["MANAGE_MESSAGES"],
+          "users": []
+        },
+        "whitelist": {
+          "roles": [],
+          "channels": [],
+          "categories": [],
+          "permissions": [],
+          "users": []
+        }
+      }
+    ]
+  }, {
     "triggers": [
       {
         "type": "spam",
-        "content": [3]
+        "content": [4]
       }
     ],
     "actions": [
@@ -413,7 +482,7 @@
           "roles": [],
           "channels": [],
           "categories": [],
-          "permissions": ["MANAGE_MESSAGES"],
+          "permissions": [],
           "users": []
         }
       }

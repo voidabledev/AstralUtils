@@ -8,7 +8,7 @@ module.exports = {
 	help: {
 		name: 'membercount',
 		description: 'Displays the membercount',
-		usage: 'None',
+		usage: '',
 		aliases: alias.utilities.membercount,
 		category: 'utilities',
 		cooldown: 5,
