@@ -46,7 +46,7 @@ module.exports = {
 			.addField('User', `<@${data.userID}> (${data.userID})`)
 			.addField('Reason', data.reason)
 			.setColor('RANDOM')
-			.setFooter(`Deleted by: ${message.author.tag}`);
+			.setFooter(`Deleted by: ${message.author.tag} (${message.author.id})`);
 		const webhooks = await logChannel.fetchWebhooks();
 		const webhook = webhooks.size ? webhooks.first() : await logChannel.createWebhook(client.user.username, {
 			avatar: client.user.avatarURL(),

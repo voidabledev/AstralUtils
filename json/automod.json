@@ -464,7 +464,7 @@
         "args": ["[Automod] Spamming in %c.", 300000],
         "blacklist": {
           "roles": [],
-          "channels": [],
+          "channels": ["846446375759118336"],
           "categories": [
             "843532723262849035",
             "831996499989889074",

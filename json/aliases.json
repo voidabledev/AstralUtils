@@ -47,7 +47,8 @@
     "rmstrike": ["rms","delstrike", "dels"],
     "say": ["s"],
     "admingive": ["admadd", "admgive"],
-    "adminrem": ["admrem"]
+    "adminrem": ["admrem"],
+		"clearpunish": ["clr", "clear", "clrlogs", "wipe"]
   },
   "giveaways": {
     "gstart": ["gs"],

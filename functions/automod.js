@@ -155,7 +155,7 @@ const exec = {
 		const embed = new MessageEmbed()
 			.setAuthor(client.user.username, client.user.displayAvatarURL())
 			.setTitle(`You've been muted in ${message.guild.name}`)
-			.addField('Reason', args[0])
+			.addField('Reason', args[0].replace('%c', `<#${message.channel.id}>`))
 			.setFooter(`Punishment ID: ${punishmute}`);
 		try {
 			message.author.send(embed);
@@ -176,8 +176,8 @@ const exec = {
 		}, client);
 		const embed = new MessageEmbed()
 			.setAuthor(client.user.username, client.user.displayAvatarURL())
-			.setTitle(`You've been muted in ${message.guild.name}`)
-			.addField('Reason', args[0])
+			.setTitle(`You've been banned in ${message.guild.name}`)
+			.addField('Reason', args[0].replace('%c', `<#${message.channel.id}>`))
 			.setFooter(`Punishment ID: ${punishban}`);
 		try {
 			await message.author.send(embed).then(() => {
