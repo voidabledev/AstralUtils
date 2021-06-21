@@ -25,17 +25,19 @@ module.exports = {
 	},
 	async execute(message, args, client) {
 		const item = args[0];
-		const amount = parseInt(args[1]) || 1;
 		const shop = items.find((i) => i.name === item);
 		if (!shop) return message.channel.send(failureEmbed('That item doesn\'t exist.'));
 		const profile = await eco.findOne({ userID: message.author.id });
 		if (!profile) {
 			return message.channel.send(failureEmbed('You don\'t have this item!'));
 		}
+		const amount = !isNaN(args[1]) ? parseInt(args[1]) :
+			args[1] === 'all' ? profile.items[item] :
+				1;
 		if (!profile.items[shop.name]) {
 			return message.channel.send(failureEmbed('You don\'t have that item!'));
 		}
-		if (profile.items[shop.name] > amount) {
+		if (profile.items[shop.name] < amount) {
 			return message.channel.send(failureEmbed('You don\'t have that many, what are you doing!??'));
 		}
 		shop.execute(message, amount)

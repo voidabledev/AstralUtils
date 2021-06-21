@@ -16,7 +16,7 @@ module.exports = {
 		if(message.author.bot) return;
 		afk(message);
 		automod(message, client);
-		eco.execute(message);
+		eco(message);
 		const { cooldowns } = client;
 		const prefix = process.argv.length > 2 ? conf.betaPrefix : conf.prefix;
 		if (!message.content.startsWith(prefix) || message.author.bot) return;

@@ -34,7 +34,7 @@ module.exports = {
 				amount = logs.length;
 				if (!amount) throw new Error(`I couldn't find any punishments for <@${userID}>!`);
 				logs.forEach(async (log) => {
-					punish.deleteOne(log);
+					await punish.deleteOne(log);
 				});
 			});
 			message.channel.send(successEmbed(`Deleted \`${amount}\` punishments for <@${userID}>!`));

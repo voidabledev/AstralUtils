@@ -32,7 +32,7 @@ module.exports = {
 		if (!profile) {
 			return message.channel.send(failureEmbed('You don\'t have any money on your bank account dummy!'));
 		}
-		if (amount === 'all') amount = profile.bank.amount;
+		if (amount === 'all') amount = profile.bank.value;
 		if (amount > profile.bank.value) {
 			return message.channel.send(failureEmbed('You don\'t have enough money on your bank!'));
 		}

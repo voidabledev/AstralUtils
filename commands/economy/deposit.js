@@ -45,6 +45,6 @@ module.exports = {
 				'bank.value': amount,
 			},
 		});
-		message.channel.send(successEmbed(`Deposited ${amount} coins!`));
+		return message.channel.send(successEmbed(`Deposited ${amount} coins!`));
 	},
 };

@@ -8,10 +8,10 @@ const { items } = require('../../functions/eco-system');
 
 module.exports = {
 	help: {
-		name: 'buy',
-		description: 'Buy an item from the shop.',
+		name: 'sell',
+		description: 'Sells an item for 75% of its original price..',
 		usage: '[item name] (amount)',
-		aliases: alias.economy.buy,
+		aliases: alias.economy.sell,
 		category: 'economy',
 		cooldown: 10,
 	},
@@ -25,38 +25,39 @@ module.exports = {
 	},
 	async execute(message, args, client) {
 		const item = args[0];
-		const amount = parseInt(args[1]) || 1;
 		const shop = items.find((i) => i.name === item);
 		const profile = await eco.findOne({ userID: message.author.id });
+		const cost = Math.floor(shop.cost * amount * 0.75);
 		if (!shop) return message.channel.send(failureEmbed('That item doesn\'t exist.'));
 		if (!profile) {
-			return message.channel.send(failureEmbed('What are you gonna buy without any coins??'));
+			return message.channel.send(failureEmbed('You have no items, how would you sell any??'));
 		}
-		if (profile.wallet < shop.cost * amount) return message.channel.send(failureEmbed('You don\'t have enough coins to buy this!'));
-		if (shop.inv) {
+		const amount = !isNaN(args[1]) ? parseInt(args[1]) :
+			args[1] === 'all' ? profile.items[item] :
+				1;
+		if (profile.items[item] < amount) {
+			return message.channel.send(failureEmbed('You don\'t have that many!'));
+		}
+		if(profile.items[item] === amount) {
 			await eco.updateOne(profile, {
+				$unset: {
+					[`items.${item}`]: 0,
+				},
 				$inc: {
-					wallet: -(shop.cost * amount),
-					[`items.${shop.name}`]: amount,
+					wallet: cost,
 				},
 			});
-			message.channel.send(successEmbed(
-				`You have bought ${amount} ${shop.displayName}(s) for ${shop.cost * amount} coins!`,
-			));
 		}
 		else {
-			shop.execute(message, amount)
-				.then(async (r) => {
-					await eco.updateOne(profile, {
-						$inc: {
-							wallet: -amount * shop.cost,
-						},
-					});
-					message.channel.send(successEmbed(r));
-				})
-				.catch((e) => {
-					message.channel.send(failureEmbed(e.message));
-				});
+			await eco.updateOne(profile, {
+				$inc: {
+					[`items.${item}`]: -amount,
+					wallet: cost,
+				},
+			});
 		}
+		return message.channel.send(
+			successEmbed(`You sold ${amount} ${shop.displayName}(s) for ${cost} coins.`),
+		);
 	},
 };

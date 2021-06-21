@@ -63,12 +63,16 @@
 	"economy": {
 		"balance": ["bal", "money"],
 		"buy": ["gimme"],
+		"sell": ["sl"],
 		"shop": ["market"],
 		"work": ["wk"],
 		"deposit": ["dep"],
 		"withdraw": ["with"],
 		"inventory": ["inv"],
 		"level": ["lvl"],
-		"setlevel": ["slvl"]
+		"setlevel": ["slvl"],
+		"give": ["gv", "pay"],
+		"addmoney": ["am", "add"],
+		"gamble": ["bet"]
 	}
 }
