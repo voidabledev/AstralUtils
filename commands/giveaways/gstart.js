@@ -118,8 +118,8 @@ module.exports = {
 					this._giveawayEnded = value;
 				},
 				timeRemaining: '**Time remaining:** {duration}',
-				inviteToParticipate: 'Click the reaction to enter the giveaway!',
-				winMessage: '{winners} has won `{prize}`. Congratulations!\n\nTo claim, please DM the sponsor or the host.\n{messageURL}',
+				inviteToParticipate: '__**Click the reaction to enter the giveaway!**__',
+				winMessage: '{winners} have won `{prize}`. Congratulations!\n\nTo claim, please DM the sponsor or the host.\n{messageURL}',
 				embedFooter: 'Giveaways',
 				embedColor: '#00ff66',
 				noWinner: 'Giveaway cancelled, no valid participations.\n{messageURL}',
@@ -141,10 +141,9 @@ module.exports = {
 				this._messages = value;
 			},
 		});
-
 		message.channel.send(
 			successEmbed(
-				`Giveaway started in ${giveawayChannel}`,
+				`Giveaway started in ${giveawayChannel}.`,
 				`${withinaday.length + 1} giveaways hosted within the last 24 hours`,
 			),
 		);
