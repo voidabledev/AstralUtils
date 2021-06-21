@@ -92,8 +92,8 @@ const ecos = {
 	async execute(message) {
 		if (!await eco.findOne({ userID: message.author.id })) ecos.create(message);
 		await ecos.bank(message);
-		await ecos.addXP(message);
-		await ecos.levelup(message);
+		// await ecos.addXP(message);
+		// await ecos.levelup(message);
 	},
 };
 module.exports = ecos;
