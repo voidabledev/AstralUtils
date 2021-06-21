@@ -9,7 +9,7 @@ module.exports = {
 	help: {
 		name: 'work',
 		description: 'Work to get money.',
-		usage: '',
+		usage: 'None',
 		aliases: alias.economy.work,
 		category: 'economy',
 		cooldown: 7200,
@@ -31,7 +31,7 @@ module.exports = {
 					wallet: amount,
 				},
 			});
-			return message.channel.send(successEmbed(`You worked and gained ${amount} coins.`, 'yay'));
+			return message.channel.send(successEmbed(`You worked and gained ${amount} coins.`));
 		}
 	},
 };

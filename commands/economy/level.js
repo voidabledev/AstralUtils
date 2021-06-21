@@ -9,7 +9,7 @@ module.exports = {
 	help: {
 		name: 'level',
 		description: 'Display your or someone else\'s level.',
-		usage: '(User mention or ID)',
+		usage: '(mention or id)',
 		aliases: alias.economy.level,
 		category: 'economy',
 		cooldown: 10,
