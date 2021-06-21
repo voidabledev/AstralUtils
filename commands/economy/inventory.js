@@ -10,7 +10,7 @@ module.exports = {
 	help: {
 		name: 'inventory',
 		description: 'Check your inventory.',
-		usage: '(User mention or ID)',
+		usage: '(mention or id)',
 		aliases: alias.economy.inventory,
 		category: 'economy',
 		cooldown: 10,

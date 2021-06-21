@@ -9,7 +9,7 @@ module.exports = {
 	help: {
 		name: 'bal',
 		description: 'Shows the amount of money you have.',
-		usage: '(User ID)',
+		usage: '(user id)',
 		aliases: alias.economy.balance,
 		category: 'economy',
 		cooldown: 10,

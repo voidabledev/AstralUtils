@@ -9,7 +9,7 @@ module.exports = {
 	help: {
 		name: 'setlevel',
 		description: 'Sets the level of a user.',
-		usage: '[User mention or ID] [New level]',
+		usage: '[user mention or id] [new level]',
 		aliases: alias.economy.setlevel,
 		category: 'economy',
 		cooldown: 15,
