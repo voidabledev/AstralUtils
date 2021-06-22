@@ -33,6 +33,9 @@ module.exports = {
 		if (!amount) {
 			return message.channel.send(failureEmbed('Please specify a valid amount!'));
 		}
+		if (amount > 10 ** 6) {
+			return message.channel.send(failureEmbed('abooz pls demot'));
+		}
 		const profile = await eco.findOneAndUpdate({
 			userID: user.id,
 		}, {
