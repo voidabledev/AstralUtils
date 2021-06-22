@@ -10,7 +10,7 @@ module.exports = {
 	help: {
 		name: 'add-item',
 		description: 'Add an item to someone\'s inventory.',
-		usage: '[item name] (amount)',
+		usage: '[mention or id] [item name] (amount)',
 		aliases: alias.economy.additem,
 		category: 'economy',
 		cooldown: 10,
@@ -37,7 +37,7 @@ module.exports = {
 			return message.channel.send(failureEmbed('That item can\'t be added to the inventory!'));
 		}
 		await eco.updateOne(profile, {
-			$add: {
+			$inc: {
 				[`items.${item}`]: amount,
 			},
 		});
