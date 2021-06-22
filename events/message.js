@@ -18,7 +18,10 @@ module.exports = {
 		automod(message, client);
 		const { cooldowns } = client;
 		const prefix = process.argv.length > 2 ? conf.betaPrefix : conf.prefix;
-		if (!message.content.startsWith(prefix) || message.author.bot) return;
+		if (!message.content.startsWith(prefix) || message.author.bot) {
+			eco(message);
+			return;
+		}
 		if (await bl.findOne({ userID: message.author.id })) {
 			console.log(`User ${message.author.username} is blacklisted`);
 			return;

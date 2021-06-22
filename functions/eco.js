@@ -21,30 +21,27 @@ async function ecos(message) {
 				lastXP: 0,
 			});
 		/* Proceed with the rest only if the last counted message is more than 30 seconds in the past */
-	if (Date.now() - profile.lastXP < 30000) return;
+	if (Date.now() - profile.lastXP < 20000) return;
 	/* Increase bank capacity, chat money and exp. */
 	const bankAdd = 20 + Math.floor(Math.random() * 30);
 	const walletAdd = 10 + Math.floor(Math.random() * 30);
-	// const expAdd = 20 + Math.floor(Math.random() * 20);
+	// ! const expAdd = 20 + Math.floor(Math.random() * 20);
+	// ! const isLevelUp = 100 * (profile.level + 1) > profile.exp + expAdd;
 	await eco.updateOne(profile, {
 		$inc: {
 			'bank.capacity': bankAdd,
 			wallet: walletAdd,
-			// exp: expAdd,
+			// ! exp: expAdd - (isLevelUp ? 100 * (profile.level + 1) : 0),
+			// ! level: isLevelUp ? 1 : 0,
 		},
+		lastXP: Date.now(),
 	});
-	/* Level up, if applicable */
 	/*
-		if(100 * (profile.level + 1) > profile.exp + expAdd) return;
-		await eco.updateOne({ userID: message.author.id }, {
-			$inc: {
-				level: 1,
-				exp: -100 * (profile.level + 1),
-			},
-		});
+	if (isLevelUp) {
 		message.channel.send(
 			`⚡ Guess what, ${message.author}, you have reached level **${profile.level + 1}**!`,
 		);
-		*/
+	}
+	*/
 }
 module.exports = ecos;
