@@ -31,7 +31,7 @@ module.exports = {
 			!isNaN(args[0].slice(0, -1)) && args[0].slice(-1) === 'k' ? 1000 * parseInt(args[0].slice(0, -1)) :
 				args[0] === 'all' ? Math.min(profile.wallet, profile.bank.capacity - profile.bank.value) :
 					0;
-		if (!amount) {
+		if (!amount || amount < 0) {
 			return message.channel.send(failureEmbed('Please tell me how much to deposit, dummy.'));
 		}
 		if (amount > profile.wallet) {
