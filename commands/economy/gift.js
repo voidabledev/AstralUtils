@@ -10,7 +10,7 @@ module.exports = {
 	help: {
 		name: 'gift',
 		description: 'Give somebody an item.',
-		usage: '[item name] (amount)',
+		usage: '[user] [item name] (amount)',
 		aliases: alias.economy.gift,
 		category: 'economy',
 		cooldown: 10,
@@ -24,7 +24,7 @@ module.exports = {
 		delete: false,
 	},
 	async execute(message, args, client) {
-		const item = args[0];
+		const item = args[1];
 		const shop = items.find((i) => i.name === item);
 		const profile = await eco.findOne({ userID: message.author.id });
 		const user = message.mentions.users.first() || await client.users.fetch(args[0]);
@@ -36,8 +36,8 @@ module.exports = {
 		if (!profile) {
 			return message.channel.send(failureEmbed('You have no items, how would you give any away??'));
 		}
-		const amount = !isNaN(args[1]) ? parseInt(args[1]) :
-			args[1] === 'all' ? profile.items[item] :
+		const amount = !isNaN(args[1]) ? parseInt(args[2]) :
+			args[2] === 'all' ? profile.items[item] :
 				1;
 		if (profile.items[item] < amount) {
 			return message.channel.send(failureEmbed('You don\'t have that many!'));
