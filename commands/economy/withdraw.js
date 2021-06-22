@@ -23,16 +23,16 @@ module.exports = {
 		delete: false,
 	},
 	async execute(message, args, client) {
-		let amount = args[0] === 'all' ? 'all' :
-			parseInt(args[0]);
-		if(Number.isNaN(amount) || amount <= 0) {
-			return message.channel.send(failureEmbed('Please tell me how much to withdraw, dummy.'));
-		}
 		const profile = await eco.findOne({ userID: message.author.id });
 		if (!profile) {
 			return message.channel.send(failureEmbed('You don\'t have any money on your bank account dummy!'));
 		}
-		if (amount === 'all') amount = profile.bank.value;
+		const amount = !isNaN(args[1]) ? parseInt(args[1]) :
+			!isNaN(args[1].slice(0, -1)) && args[1].slice(-1) === 'k' ? 1000 * parseInt(args[1].slice(0, -1)) :
+				0;
+		if (!amount) {
+			return message.channel.send(failureEmbed('Try again, but this time tell me how much to withdraw.'));
+		}
 		if (amount > profile.bank.value) {
 			return message.channel.send(failureEmbed('You don\'t have enough money on your bank!'));
 		}

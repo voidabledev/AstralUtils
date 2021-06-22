@@ -1,4 +1,11 @@
 const eco = require('../models/ecoschema');
+/**
+ * Create an economy profile for the user if none exists yet.
+ * Add a random amount of chat coins and back storage.
+ * (Add EXP and level the user up if needed.)
+ * @param {Object} message The discord.js message object
+ * @returns {void} Nothing
+ */
 async function ecos(message) {
 	/* Fetch the profile, or create one if it doesn't exist yet */
 	const profile = await eco.findOne({ userID: message.author.id }) ||

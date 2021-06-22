@@ -8,10 +8,10 @@ const { items } = require('../../functions/eco-system');
 
 module.exports = {
 	help: {
-		name: 'sell',
-		description: 'Sells an item for 75% of its original price..',
+		name: 'gift',
+		description: 'Give somebody an item.',
 		usage: '[item name] (amount)',
-		aliases: alias.economy.sell,
+		aliases: alias.economy.gift,
 		category: 'economy',
 		cooldown: 10,
 	},
@@ -27,10 +27,14 @@ module.exports = {
 		const item = args[0];
 		const shop = items.find((i) => i.name === item);
 		const profile = await eco.findOne({ userID: message.author.id });
-		const cost = Math.floor(shop.cost * amount * 0.75);
+		const user = message.mentions.users.first() || await client.users.fetch(args[0]);
+		const userProfile = await eco.findOne({ userID: user.id });
+		if (!user) {
+			return message.channel.send(failureEmbed('Please specify a user mention or ID!'));
+		}
 		if (!shop) return message.channel.send(failureEmbed('That item doesn\'t exist.'));
 		if (!profile) {
-			return message.channel.send(failureEmbed('You have no items, how would you sell any??'));
+			return message.channel.send(failureEmbed('You have no items, how would you give any away??'));
 		}
 		const amount = !isNaN(args[1]) ? parseInt(args[1]) :
 			args[1] === 'all' ? profile.items[item] :
@@ -41,11 +45,15 @@ module.exports = {
 		await eco.updateOne(profile, {
 			$inc: {
 				[`items.${item}`]: -amount,
-				wallet: cost,
+			},
+		});
+		await eco.updateOne(userProfile, {
+			$inc: {
+				[`items.${item}`]: amount,
 			},
 		});
 		return message.channel.send(
-			successEmbed(`You sold ${amount} ${shop.displayName}(s) for ${cost} coins.`),
+			successEmbed(`You gave ${amount} ${shop.displayName}(s) to ${user}.`),
 		);
 	},
 };

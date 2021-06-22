@@ -73,6 +73,8 @@
 		"setlevel": ["slvl"],
 		"give": ["gv", "pay"],
 		"addmoney": ["am", "add"],
-		"gamble": ["bet"]
+		"gamble": ["bet"],
+		"additem": ["item", "ai"],
+		"gift": ["give-item"]
 	}
 }

@@ -9,7 +9,7 @@ module.exports = {
 	help: {
 		name: 'work',
 		description: 'Work to get money.',
-		usage: 'None',
+		usage: '',
 		aliases: alias.economy.work,
 		category: 'economy',
 		cooldown: 7200,

@@ -40,7 +40,7 @@ module.exports = {
 			totalItems += profile.items[i];
 			itemText += `${profile.items[i]} x ${shop.items.find(it => it.name === i).displayName}\n`;
 		}
-		if (!itemText.length) {
+		if (!totalItems) {
 			return message.channel.send(failureEmbed(`${user.id === message.author.id ? 'You have' : 'This person has'} no items.`));
 		}
 		embed

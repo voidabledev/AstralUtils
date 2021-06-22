@@ -61,13 +61,13 @@ module.exports = {
 		}
 		if (yourRoll > myRoll) {
 			embed
-				.setDescription(`**You win!** You won ${horseshoe ? amount * 1.5 : amount} coins${
+				.setDescription(`**You win!** You won ${horseshoe ? Math.floor(amount * 1.5) : amount} coins${
 					horseshoe ? ' (50% boost using a gambler\'s horseshoe).' : '.'
 				}`)
 				.setColor('GREEN');
 			await eco.updateOne(profile, {
 				$inc: {
-					wallet: horseshoe ? amount * 1.5 : amount,
+					wallet: horseshoe ? Math.floor(amount * 1.5) : amount,
 				},
 			});
 		}

@@ -1,6 +1,7 @@
 const punish = require('../models/punishschema');
 const blSchema = require('../models/blacklistschema');
 /**
+ * Create intervals for unmuting, and invalidating warns.
  * @param {Object} client The discord.js client.
  * @returns {void} Nothing.
  */

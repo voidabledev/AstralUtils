@@ -23,16 +23,16 @@ module.exports = {
 		delete: false,
 	},
 	async execute(message, args, client) {
-		let amount = args[0] === 'all' ? 'all' :
-			parseInt(args[0]);
-		if(Number.isNaN(amount) || amount <= 0) {
-			return message.channel.send(failureEmbed('Please tell me how much to deposit, dummy.'));
-		}
 		const profile = await eco.findOne({ userID: message.author.id });
 		if (!profile) {
 			return message.channel.send(failureEmbed('You don\'t have any money to deposit!'));
 		}
-		if (amount === 'all') amount = Math.min(profile.wallet, profile.bank.capacity - profile.bank.value);
+		const amount = !isNaN(args[1]) ? parseInt(args[1]) :
+			!isNaN(args[1].slice(0, -1)) && args[1].slice(-1) === 'k' ? 1000 * parseInt(args[1].slice(0, -1)) :
+				0;
+		if (!amount) {
+			return message.channel.send(failureEmbed('Please tell me how much to deposit, dummy.'));
+		}
 		if (amount > profile.wallet) {
 			return message.channel.send(failureEmbed('You don\'t have enough money to deposit that much!'));
 		}

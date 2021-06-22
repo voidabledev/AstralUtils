@@ -16,7 +16,6 @@ module.exports = {
 		if(message.author.bot) return;
 		afk(message);
 		automod(message, client);
-		eco(message);
 		const { cooldowns } = client;
 		const prefix = process.argv.length > 2 ? conf.betaPrefix : conf.prefix;
 		if (!message.content.startsWith(prefix) || message.author.bot) return;
@@ -30,7 +29,10 @@ module.exports = {
       client.commands.get(commandName) ||
       client.commands.find((cmd) => cmd.help.aliases && cmd.help.aliases.includes(commandName),
       );
-		if (!command) return;
+		if (!command) {
+			eco(message);
+			return;
+		}
 		perms(command.data.userPerms);
 		perms(command.data.botPerms);
 		if (command.data.userPerms.length && !command.data.userPerms.some((p) => message.member.hasPermission(p))) {

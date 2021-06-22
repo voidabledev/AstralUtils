@@ -40,17 +40,18 @@ module.exports = {
 		if (profile.items[shop.name] < amount) {
 			return message.channel.send(failureEmbed('You don\'t have that many, what are you doing!??'));
 		}
-		shop.execute(message, amount)
-			.then(async (r) => {
-				await eco.updateOne(profile, {
-					$inc: {
-						[`items.${shop.name}`]: -amount,
-					},
-				});
-				message.channel.send(successEmbed(r));
-			})
-			.catch((e) => {
-				message.channel.send(failureEmbed(e.message));
+		try {
+			await shop.allowed(message);
+			const response = await shop.execute(message, amount);
+			await eco.updateOne(profile, {
+				$inc: {
+					wallet: -amount * shop.cost,
+				},
 			});
+			message.channel.send(successEmbed(response));
+		}
+		catch (e) {
+			message.channel.send(failureEmbed(e.message));
+		}
 	},
 };
