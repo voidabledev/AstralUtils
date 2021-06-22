@@ -75,6 +75,7 @@
 		"addmoney": ["am", "add"],
 		"gamble": ["bet"],
 		"additem": ["item", "ai"],
-		"gift": ["give-item"]
+		"gift": ["give-item"],
+		"blackjack": ["bj"]
 	}
 }
