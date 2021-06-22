@@ -24,8 +24,8 @@ module.exports = {
 		delete: false,
 	},
 	async execute(message, args, client) {
-		const item = args[0];
-		const amount = parseInt(args[1]) || 1;
+		const item = args[1];
+		const amount = parseInt(args[2]) || 1;
 		const shop = items.find((i) => i.name === item);
 		const user = message.mentions.users.first() || await client.users.fetch(args[0]);
 		if (!user) {
