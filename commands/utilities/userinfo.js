@@ -1,7 +1,5 @@
 /* eslint-disable no-unused-vars */
 const alias = require('../../json/aliases.json');
-const successEmbed = require('../../functions/success-embed');
-const failureEmbed = require('../../functions/failure-embed');
 const { MessageEmbed } = require('discord.js');
 const moment = require('moment');
 
@@ -9,24 +7,21 @@ module.exports = {
 	help: {
 		name: 'userinfo',
 		description: 'Displays information of a user',
-		usage: '[mention]',
+		usage: '[mention or id]',
 		aliases: alias.utilities.userinfo,
 		category: 'utilities',
 		cooldown: 5,
 	},
 	data: {
 		minArgs: 0,
-		maxArgs: null,
+		maxArgs: 1,
 		userPerms: [],
 		botPerms: [],
 		requiredRoles: [],
 		delete: false,
 	},
 	async execute(message, args, client) {
-		let member = message.mentions.members.first() || await message.guild.members.fetch(args[0]);
-		if (!member) {
-			member = message.member;
-		}
+		const member = message.mentions.members.first() || await message.guild.members.fetch(args[0]);
 		const trimArray = (arr, maxLen = 10) => {
 			if (arr.length > maxLen) {
 				const len = arr.length - maxLen;
@@ -43,23 +38,17 @@ module.exports = {
 			.sort((a, b) => b.position - a.position)
 			.map(role => role.toString())
 			.slice(0, -1);
-		let userFlags;
-		if (member.user.flags === null) {
-			userFlags = '';
-		}
-		else {
-			userFlags = member.user.flags.toArray();
-		}
 		const embed = new MessageEmbed()
 			.setAuthor(`${member.user.tag}`, member.user.displayAvatarURL({ dynamic: true, size: 512 }))
 			.setThumbnail(member.user.displayAvatarURL({ dynamic: true, size: 512 }))
 			.addFields(
-				{ name: 'User ID:', value: `${member.user.id}`, inline: true },
-				{ name: 'Created At:', value: `${moment(member.user.createdTimestamp).format('DD MMM YYYY')}`, inline: true },
-				{ name: `Joined ${message.guild.name}:`, value: `${moment(member.joinedAt).format('DD MMM YYYY')}`, inline: true },
-				{ name: 'User Color:', value: `${upperCase(member.displayHexColor)}`, inline: true },
-				{ name: 'Highest Role:', value: `${member.roles.highest.id === message.guild.id ? 'None' : member.roles.highest}`, inline: true },
-				{ name: 'User Roles:', value: `${roles.length < 10 ? roles.join(', ') : roles.length > 10 ? trimArray(roles).join(', ') : 'None'}`, inline: false },
+				{ name: 'User ID', value: `${member.user.id}`, inline: true },
+				{ name: 'Joined Discord', value: `${moment(member.user.createdTimestamp).format('DD MMM YYYY')}`, inline: true },
+				{ name: 'Joined Server', value: `${moment(member.joinedAt).format('DD MMM YYYY')}`, inline: true },
+				{ name: 'User Color', value: `${upperCase(member.displayHexColor)}`, inline: true },
+				{ name: 'Bot', value: message.member.bot, inline: true },
+				{ name: 'Highest Role', value: `${member.roles.highest.id === message.guild.id ? 'None' : member.roles.highest}`, inline: true },
+				{ name: 'User Roles', value: `${roles.length < 10 ? roles.join(', ') : roles.length > 10 ? trimArray(roles).join(', ') : 'None'}`, inline: false },
 			)
 			.setColor(`${member.displayHexColor || 'RANDOM'}`)
 			.setFooter(message.guild.name)
