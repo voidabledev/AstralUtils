@@ -1,20 +1,13 @@
 /* eslint-disable no-unused-vars */
 const alias = require('../../json/aliases.json');
-const successEmbed = require('../../functions/success-embed');
-const failureEmbed = require('../../functions/failure-embed');
 const Discord = require('discord.js');
 const moment = require('moment');
 const verificationLevels = {
 	NONE: 'None',
 	LOW: 'Low',
 	MEDIUM: 'Medium',
-	HIGH: '(╯°□°）╯︵ ┻━┻',
-	VERY_HIGH: '┻━┻ ﾐヽ(ಠ益ಠ)ノ彡┻━┻',
-};
-const filterLevels = {
-	DISABLED: 'Off',
-	MEMBERS_WITHOUT_ROLES: 'No Role',
-	ALL_MEMBERS: 'Everyone',
+	HIGH: 'High',
+	VERY_HIGH: 'Very High',
 };
 const regions = {
 	brazil: 'Brazil',
@@ -31,7 +24,6 @@ const regions = {
 	'us-west': 'US West',
 	'us-south': 'US South',
 };
-
 
 module.exports = {
 	help: {
@@ -51,48 +43,26 @@ module.exports = {
 		delete: false,
 	},
 	async execute(message, args, client) {
-		const guild = message;
 		const roles = message.guild.roles.cache.sort((a, b) => b.position - a.position).map(role => role.toString());
 		const members = message.guild.members.cache;
 		const channels = message.guild.channels.cache;
-		const emojis = message.guild.emojis.cache;
-
-		const ServerInfoEmbed = new Discord.MessageEmbed()
+		const embed = new Discord.MessageEmbed()
 			.setThumbnail(message.guild.iconURL({ dynamic: true }))
-			.setAuthor(message.author.username, message.author.displayAvatarURL())
-			.setColor('BLUE')
-			.setDescription(`Shows the server info for \`${message.guild.name}\``)
-			.addField('General Info', [
-				`**ID:** ${message.guild.id}`,
-				`**Name:** ${message.guild.name}`,
-				'\u200b',
-			])
-			.addField('Boost Info', [
-				`**Boost Tier:** ${message.guild.premiumTier ? `Tier ${message.guild.premiumTier}` : 'None'}`,
-				`**Boost Count:** ${message.guild.premiumSubscriptionCount || '0'}`,
-				'\u200b',
-			])
-			.addField('Counters', [
-				`**Role Count:** ${roles.length}`,
-				`**Text Channels:** ${channels.filter(channel => channel.type === 'text').size}`,
-				`**Voice Channels:** ${channels.filter(channel => channel.type === 'voice').size}`,
-				`**Bots:** ${members.filter(member => member.user.bot).size}`,
-				`**Humans:** ${members.filter(member => !member.user.bot).size}`,
-				`**Animated Emoji Count:** ${emojis.filter(emoji => emoji.animated).size}`,
-				`**Emoji Count:** ${emojis.size}`,
-				`**Regular Emoji Count:** ${emojis.filter(emoji => !emoji.animated).size}`,
-				'\u200b',
-			])
-			.addField('Additional Info', [
-				`**Explicit Filter:** ${filterLevels[message.guild.explicitContentFilter]}`,
-				`**Verification Level:**  ${verificationLevels[message.guild.verificationLevel]}`,
-				`**Time Created:** ${moment(message.guild.createdTimestamp).format('LT')} (${moment(message.guild.createdTimestamp).format('LL')} ${moment(message.guild.createdTimestamp).fromNow()})`,
-				`**Region:** ${regions[message.guild.region]}`,
-				'\u200b',
-			])
-			.setTimestamp()
-			.setFooter(`Requested By: ${message.author.username}`);
-
-		message.channel.send(ServerInfoEmbed);
+			.setAuthor(message.guild.name, message.guild.displayIconURL())
+			.setColor('RANDOM')
+			.addFields(
+				{ name: 'Name', value: message.guild.name, inline: true },
+				{ name: 'ID', value: message.guild.id, inline: true },
+				{ name: 'Region', value: regions[message.guild.region], inline: true },
+				{ name: 'Total | Humans | Bots', value: `${message.guild.memberCount} | ${members.filter(member => !member.user.bot).size} | ${members.filter(member => member.user.bot).size}`, inline: true },
+				{ name: 'Verification Level', value: verificationLevels[message.guild.verificationLevel], inline: true },
+				{ name: 'Channels', value: channels[message.guild.channels], inline: true },
+				{ name: 'Roles', value: roles[message.guild.roles], inline: true },
+				{ name: 'Creation Date', value: `${moment(message.guild.createdTimestamp).format('LT')} (${moment(message.guild.createdTimestamp).format('LL')} ${moment(message.guild.createdTimestamp).fromNow()}`, inline: true },
+				{},
+			)
+			.setFooter(`Requested By: ${message.author.username}`)
+			.setTimestamp();
+		message.channel.send(embed);
 	},
 };

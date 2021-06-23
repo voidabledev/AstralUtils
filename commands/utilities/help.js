@@ -25,7 +25,7 @@ module.exports = {
 		const prefix = process.argv.length > 2 ? conf.betaPrefix : conf.prefix;
 		const categories = ['utilities', 'giveaways', 'economy', 'staff', 'developers'];
 		const embed = new MessageEmbed()
-			.setDescription(`This server's prefix is \`${prefix}\`.The arguments with \`[]\` are required and with \`()\` are optional`)
+			.setDescription(`The prefix is \`${prefix}\`.\nThe arguments with \`[]\` are required and with \`()\` are optional.`)
 			.setColor('RANDOM');
 		if (!args[0]) {
 			embed.setAuthor('Help Menu', client.user.avatarURL());

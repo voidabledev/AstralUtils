@@ -22,10 +22,12 @@ module.exports = {
 		delete: false,
 	},
 	async execute(message, args, client) {
+		const members = message.guild.members.cache;
 		const membercount = message.guild.memberCount;
 		message.channel.send(new MessageEmbed()
-			.setTitle('Members')
-			.setDescription(`Member Count: ${membercount}`),
+			.setDescription(`**Total Members:** \`${membercount}\`\n**Humans:** \`${members.filter(member => !member.user.bot).size}\`\n**Bots:** \`${members.filter(member => member.user.bot).size}\``)
+			.setFooter(`Requested By: ${message.author.tag}`)
+			.setTimestamp(),
 		);
 	},
 };

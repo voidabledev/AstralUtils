@@ -9,7 +9,7 @@ module.exports = {
 	help: {
 		name: 'add-money',
 		description: 'Adds money to a user\'s balance.',
-		usage: '[User mention or ID] [Amount]',
+		usage: '[mention or id] [amount]',
 		aliases: alias.economy.addmoney,
 		category: 'economy',
 		cooldown: 15,

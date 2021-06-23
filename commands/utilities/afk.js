@@ -18,9 +18,9 @@ module.exports = {
 		minArgs: 1,
 		maxArgs: null,
 		userPerms: [],
-		botPerms: ['MANAGE_MESSAGES'],
+		botPerms: ['MANAGE_MESSAGES', 'MANAGE_NICKNAMES'],
 		requiredRoles: [],
-		delete: false,
+		delete: true,
 	},
 	async execute(message, args, client) {
 		let afkMessage = args.join(' ');

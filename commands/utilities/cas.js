@@ -6,7 +6,7 @@ const failureEmbed = require('../../functions/failure-embed');
 module.exports = {
 	help: {
 		name: 'cas',
-		description: 'Calls all staff',
+		description: 'Pings all active staff members.',
 		usage: '',
 		aliases: alias.utilities.cas,
 		category: 'utilities',

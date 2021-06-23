@@ -3,13 +3,9 @@ const Discord = require('discord.js');
 const alias = require('../../json/aliases.json');
 
 module.exports = {
-	name: 'ping',
-	description: 'Get the latency of the bot',
-	aliases: alias.utilities.ping,
-	cooldown: 10,
 	help: {
 		name: 'ping',
-		description: 'Get the bot\'s latency',
+		description: 'Get the bot\'s ping.',
 		usage: '',
 		aliases: alias.utilities.ping,
 		category: 'utilities',
@@ -26,7 +22,8 @@ module.exports = {
 	async execute(message, args, client) {
 		const msg = await message.channel.send('Pinging...');
 		const em = new Discord.MessageEmbed()
-			.setDescription(`**Latency:** \`${Date.now() - message.createdTimestamp}\` ms\n**API Latency:** \`${Math.round(client.ws.ping)}\` ms`);
+			.setDescription(`**Latency:** \`${Date.now() - message.createdTimestamp}\` ms\n**API Latency:** \`${Math.round(client.ws.ping)}\` ms`)
+			.setColor('RANDOM');
 		msg.edit(em);
 	},
 };
