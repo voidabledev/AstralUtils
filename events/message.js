@@ -69,8 +69,11 @@ module.exports = {
 			const expirationTime = timestamps.get(message.author.id) + cooldownAmount;
 			if (now < expirationTime) {
 				const timeLeft = (expirationTime - now) / 1000;
+				const timeLeftString = expirationTime < 60 ? `${timeLeft.toFixed(1)} second(s)` :
+					expirationTime < 3600 ? `${Math.floor(timeLeft / 60)} minute(s) and ${(timeLeft % 60).toFixed(1)} second(s)` :
+						`${Math.floor(timeLeft / 3600)} hour(s), ${Math.floor((timeLeft % 3600) / 60)} minute(s) and ${(timeLeft % 60).toFixed(1)} second(s)`;
 				return message.channel.send(failureEmbed(
-					`Please wait ${timeLeft.toFixed(1)} more second(s) before reusing the \`${command.help.name}\` command.`,
+					`Please wait ${timeLeftString} before reusing the \`${command.help.name}\` command.`,
 				),
 				);
 			}

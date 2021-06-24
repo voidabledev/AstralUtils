@@ -25,7 +25,7 @@ module.exports = {
 	},
 	async execute(message, args, client) {
 		const profile = await eco.findOne({ userID: message.author.id });
-		const horseshoe = profile.items.gamble > 0;
+		const horseshoe = profile.items ? !!profile.items.gamble : false;
 		const amount = !isNaN(args[0]) ? Math.min(parseInt(args[0]), 50000) :
 			!isNaN(args[0].slice(0, -1)) && args[0].slice(-1) === 'k' ? Math.min(1000 * parseInt(args[0].slice(0, -1)), 50000) :
 				args[0] === 'all' ? Math.min(profile.wallet, 50000) :

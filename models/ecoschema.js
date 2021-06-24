@@ -7,7 +7,11 @@ const ecoSchema = mongoose.Schema({
 		value: Number,
 		capacity: Number,
 	},
-	items: {},
+	items: {
+		type: Object,
+		required: true,
+		default: {},
+	},
 	level: Number,
 	exp: Number,
 	lastXP: Number,
