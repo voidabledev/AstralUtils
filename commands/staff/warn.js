@@ -26,8 +26,8 @@ module.exports = {
 		const target = message.mentions.users.first() || await client.users.fetch(args[0]);
 		if (!target) return message.channel.send(failureEmbed('Please provide a valid user mention or ID!', 'what a noob'));
 		const reason = args.slice(1).join(' ');
-		if (target.id === message.author.id) message.channel.send(failureEmbed('You can\'t warn yourself, dummy.'));
-		if (target.id === client.user.id) message.channel.send(failureEmbed('You can\'t warn me!'));
+		if (target.id === message.author.id) return message.channel.send(failureEmbed('You can\'t warn yourself, dummy.'));
+		if (target.id === client.user.id) return message.channel.send(failureEmbed('You can\'t warn me!'));
 		const punish = await log({
 			guildID: message.guild.id,
 			userID: target.id,
