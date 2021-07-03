@@ -10,7 +10,7 @@
     "ping": ["pong", "latency", "getlatency"],
     "help": ["commands"],
     "userinfo": ["ui"],
-    "serverinfo": ["svi"],
+    "serverinfo": ["svi", "si"],
     "membercount": ["mbc"],
     "afk": ["brb"],
     "cas": ["emergency","call-all-staff"]
