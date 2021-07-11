@@ -30,20 +30,19 @@ module.exports = {
 		const amount = !isNaN(args[1]) ? parseInt(args[1]) :
 			!isNaN(args[1].slice(0, -1)) && args[1].slice(-1) === 'k' ? 1000 * parseInt(args[1].slice(0, -1)) :
 				0;
-		if (!amount) {
+		if (!amount || amount < 0) {
 			return message.channel.send(failureEmbed('Try again, but this time specifiy an actual amount...'));
 		}
 		const profile = await eco.findOne({ userID: message.author.id });
-		const userProfile = await eco.findOne({ userID: user.id });
-		if (amount > profile.amount) {
+		if (amount > profile.wallet) {
 			return message.channel.send(failureEmbed('You don\'t have that much!'));
 		}
-		await eco.updateOne(profile, {
+		await eco.updateOne({ userID: message.author.id }, {
 			$inc: {
 				wallet: -amount,
 			},
 		});
-		await eco.updateOne(userProfile, {
+		await eco.updateOne({ userID: user.id }, {
 			$inc: {
 				wallet: amount,
 			},
