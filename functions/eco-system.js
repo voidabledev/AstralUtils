@@ -16,7 +16,7 @@ const eco = {
 			},
 			async execute(message, amount) {
 				try {
-					await message.member.roles.add('831996404549419018');
+					await message.member.roles.add('831996439260430388');
 					return 'Take the role, you earned it.';
 				}
 				catch {
