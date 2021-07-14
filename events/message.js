@@ -13,7 +13,7 @@ module.exports = {
 	name: 'message',
 	once: false,
 	async execute(message, client) {
-		if(message.author.bot) return;
+		if(message.author.bot || message.guild?.id !== conf.mainGuild) return;
 		afk(message);
 		automod(message, client);
 		const { cooldowns } = client;
