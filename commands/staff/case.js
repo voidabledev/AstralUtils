@@ -35,8 +35,8 @@ module.exports = {
 			.addField('Moderator', `<@${foundCase.staffID}> (${foundCase.staffID})`)
 			.addField('User', `<@${foundCase.userID}> (${foundCase.userID})`)
 			.addField('Reason', foundCase.reason)
-			.addField('Time', new Date(foundCase.timestamp).toLocaleString())
-			.addField(foundCase.isActive !== false ? 'Expires' : 'Expired', foundCase.expires ? new Date(foundCase.expires).toLocaleString() : 'Not Applicable')
+			.addField('Time', `<t:${Math.floor(foundCase.timestamp / 1000)}:R> (<t:${Math.floor(foundCase.timestamp / 1000)}:f>)`)
+			.addField(foundCase.isActive !== false ? 'Expires' : 'Expired', foundCase.expires ? `<t:${Math.floor(foundCase.expires / 1000)}:R> (<t:${Math.floor(foundCase.expires / 1000)}:f>)` : 'Not Applicable')
 			.setFooter(`Punishment ID: ${foundCase.punishID}`)
 			.setColor('RANDOM');
 		message.channel.send(embed);
