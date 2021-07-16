@@ -27,9 +27,7 @@ module.exports = {
 	},
 	// eslint-disable-next-line no-unused-vars
 	async execute(message, args, client) {
-		let channel =
-    message.mentions.channels.first() ||
-    message.guild.channels.cache.get(args[0]);
+		let channel = (message.mentions.channels.first() && args[0].startsWith('<#') && args[0].endsWith('>')) ? message.mentions.channels.first() : message.guild.channels.cache.get(args[0]);
 		if (!channel) {
 			channel = message.channel;
 		}

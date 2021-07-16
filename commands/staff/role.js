@@ -33,13 +33,12 @@ module.exports = {
 		args.shift();
 		const mode = args.shift();
 		const roleName = args.join(' ');
-		const { guild } = message;
 		const role =
-		guild.roles.cache.find(
+		message.guild.roles.cache.find(
 			(r) =>
 				r.name.toLowerCase() === roleName.toLowerCase() ||
 				(r.name.startsWith('• ') && r.name.slice(2) === roleName),
-		) || guild.roles.cache.get(roleName);
+		) || message.guild.roles.cache.get(roleName);
 		if (!role) {
 			return message.channel.send(
 				failureEmbed('There is no role with that name.'),
@@ -58,7 +57,10 @@ module.exports = {
 				failureEmbed('I can\'t manage this role!'),
 			);
 		}
-		const member = guild.members.cache.get(targetUser.id);
+		const member = message.guild.members.cache.get(targetUser.id);
+		if (!member) {
+			return message.channel.send(failureEmbed('Please specify who to give the role to.'));
+		}
 		if (['+', 'add', 'give'].includes(mode)) {
 			if (member.roles.cache.get(role.id)) {
 				return message.channel.send(

@@ -29,7 +29,7 @@ async function processLog(data, client) {
 		.setTitle(`Case ID #${data.punishID}`)
 		.addField('Type', data.caseType)
 		.addField('User', `<@${data.userID}> (${data.userID})`);
-	channel.id === modlogs ? embed.addField('Moderator', `<@${data.staffID}> (${data.userID})`) : null;
+	channel.id === modlogs ? embed.addField('Moderator', `<@${data.staffID}> (${data.staffID})`) : null;
 	embed.addField('Reason', data.reason)
 		.setTimestamp(data.timestamp)
 		.setColor('RANDOM');
