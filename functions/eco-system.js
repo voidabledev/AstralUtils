@@ -15,12 +15,15 @@ const eco = {
 				return;
 			},
 			async execute(message, amount) {
+				if (message.member.roles.cache.has('831996439260430388')) {
+					throw new Error('You already have the role!');
+				}
 				try {
 					await message.member.roles.add('831996439260430388');
 					return 'Take the role, you earned it.';
 				}
 				catch {
-					throw new Error('You already have the role, or I\'m missing permissions.');
+					throw new Error('I was unable to give you the role!');
 				}
 			},
 		},
