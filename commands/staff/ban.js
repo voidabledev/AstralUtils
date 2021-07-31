@@ -25,15 +25,20 @@ module.exports = {
 	},
 	// eslint-disable-next-line no-unused-vars
 	async execute(message, args, client) {
-		const target = message.mentions.members.first() || (await message.guild.members.fetch(args[0]));
+		let target = message.mentions.members.first();
+		if (!target) {
+			try {
+				target = await message.guild.members.fetch(args[0]);
+			}
+			catch(e) {
+				target = null;
+			}
+		}
+		const id = target?.id ?? args[0];
 		args.shift();
 		const time = ms(args[0]);
 		if (time > 0) args.shift();
 		const reason = args.join(' ');
-		const id = target.id ? target.id : args[0];
-		if (!target) {
-			return message.channel.send(failureEmbed('You didn\'t provide a valid user mention or ID!'));
-		}
 		if (id === message.author.id) {
 			return message.channel.send(failureEmbed('You can\'t ban yourself!'));
 		}
@@ -46,23 +51,26 @@ module.exports = {
 			timestamp: new Date().getTime(),
 			expires: time > 0 ? Date.now() + time : null,
 		}, client);
-		const embed = new MessageEmbed()
-			.setAuthor(client.user.username, client.user.avatarURL())
-			.setTitle(`You've been banned in ${message.guild.name}`)
-			.addField('Reason', reason)
-			.addField('Expires', time > 0 ? new Date(Date.now() + time).toLocaleString() : 'Permanent')
-			.setFooter(`Punishment ID: ${punish}`);
-		try {
-			await target.send(embed);
-		}
-		catch (e) {
-			console.error(e);
+		if (target) {
+			const embed = new MessageEmbed()
+				.setAuthor(client.user.username, client.user.avatarURL())
+				.setTitle(`You've been banned in ${message.guild.name}`)
+				.addField('Reason', reason)
+				.addField('Expires', time > 0 ? new Date(Date.now() + time).toLocaleString() : 'Permanent')
+				.setFooter(`Punishment ID: ${punish}`);
+			try {
+				await target.send(embed);
+			}
+			catch (e) {
+				console.error(e);
+			}
 		}
 		message.guild.members
 			.ban(id)
 			.then(async () => {
-				message.channel.send(successEmbed(`${target} has been **banned** |  \`${punish}\`.`));
-			}).catch(() => {
+				message.channel.send(successEmbed(`<@${id}> has been **banned** |  \`${punish}\`.`));
+			}).catch((e) => {
+				console.error(e);
 				message.channel.send(failureEmbed('I can\'t ban that user!'));
 			});
 	},
