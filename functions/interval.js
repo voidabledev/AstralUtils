@@ -14,7 +14,7 @@ async function interval(client) {
 				await punish.updateOne(mute, { isActive: false });
 				const guild = client.guilds.cache.get(mute.guildID);
 				if (guild) {
-					const member = guild.members.cache.get(mute.userID);
+					const member = await guild.members.fetch(mute.userID);
 					const role = guild.roles.cache.find((r) => r.name.toLowerCase() === 'muted');
 					if (member && role) {
 						member.roles.remove(role);
