@@ -25,6 +25,7 @@ module.exports = {
 	async execute(message, args, client) {
 		const target = args[0] ? message.mentions.users.first() || await client.users.fetch(args[0]) : message.author;
 		const { id } = target;
+		const selfCheck = id === message.author.id && !message.member?.hasPermission('MANAGE_MESSAGES');
 		if (id !== message.author.id && !message.member?.hasPermission('MANAGE_MESSAGES')) return message.channel.send(failureEmbed('You can\'t check warnings for other members!'));
 		await punish.find({ userID: id, caseType: 'Warn', isActive: true }, (err, warns) => {
 			if (err) throw err;
@@ -38,8 +39,8 @@ module.exports = {
 				.setColor('RANDOM');
 			warns.forEach((log) => {
 				embed.addField(
-					`ID: ${log.punishID}`,
-					`<@${log.staffID}> - ${log.reason} - ${new Date(log.timestamp).toLocaleString()}`,
+					selfCheck ? `<t:${Math.floor(log.timestamp / 1000)}:R>` : `ID: ${log.punishID}`,
+					selfCheck ? log.reason : `<@${log.staffID}> - ${log.reason} - <t:${Math.floor(log.timestamp / 1000)}:R>`,
 				);
 			});
 			message.channel.send(embed);
