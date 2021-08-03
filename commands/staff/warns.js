@@ -8,40 +8,35 @@ const punish = require('../../models/punishschema');
 module.exports = {
 	help: {
 		name: 'warns',
-		description: 'Displays all active warnings of a member.',
-		usage: '[mention or id] (page)',
+		description: 'Displays all active warnings of a member, or yourself.',
+		usage: '(mention or id)',
 		aliases: alias.staff.warnings,
 		category: 'staff',
 		cooldown: 5,
 	},
 	data: {
-		minArgs: 1,
+		minArgs: 0,
 		maxArgs: null,
-		userPerms: ['MANAGE_MESSAGES'],
+		userPerms: [],
 		botPerms: [],
 		requiredRoles: [],
 		delete: false,
 	},
 	async execute(message, args, client) {
-		const target = message.mentions.members.first();
-		const id = target ? target.id : args[0];
-		const page = parseInt(args[1]) || 1;
+		const target = args[0] ? message.mentions.users.first() || await client.users.fetch(args[0]) : message.author;
+		const { id } = target;
+		if (id !== message.author.id && !message.member?.hasPermission('MANAGE_MESSAGES')) return message.channel.send(failureEmbed('You can\'t check warnings for other members!'));
 		await punish.find({ userID: id, caseType: 'Warn', isActive: true }, (err, warns) => {
 			if (err) throw err;
-			const maxPage = Math.floor(1 + warns.length / 25);
-			if (page > maxPage || page < 1) {
-				return message.channel.send(failureEmbed('This page does not exist.'));
-			}
 			if (!warns.length) {
-				return message.channel.send(failureEmbed('That user has no warnings, or you didn\'t provide a valid user.'));
+				return message.channel.send(failureEmbed(id === message.author.id ? 'You have no warnings.' : 'That user has no warnings, or you didn\'t provide a valid user.'));
 			}
 			const embed = new MessageEmbed()
 				.setAuthor(client.user.username, client.user.displayAvatarURL())
 				.setDescription(`All active warnings for <@${id}>`)
-				.setFooter(`Page ${page}/${maxPage}`)
+				.setFooter(`User ID: ${id}`)
 				.setColor('RANDOM');
-			const thisPage = warns.filter((l, index) => index >= (page - 1) * 25 && index < page * 25);
-			thisPage.forEach((log) => {
+			warns.forEach((log) => {
 				embed.addField(
 					`ID: ${log.punishID}`,
 					`<@${log.staffID}> - ${log.reason} - ${new Date(log.timestamp).toLocaleString()}`,
