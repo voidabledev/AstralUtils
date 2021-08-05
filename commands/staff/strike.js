@@ -41,11 +41,8 @@ module.exports = {
 			return message.channel.send(failureEmbed('You can\'t strike yourself.'));
 		}
 		const targetMember = await message.guild.members.fetch(target.id);
-		if (message.member.roles.highest.position < targetMember.roles.highest.position) {
-			return message.channel.send(failureEmbed('Who are you trying to strike, the owner? You can\'t strike people above you!'));
-		}
-		if (targetMember.roles.cache.get('836583124283686943') || targetMember.roles.cache.get('831996396684050443') || targetMember.roles.cache.get('718813416407564340')) {
-			return message.channel.send(failureEmbed('You can\'t strike a Manager or above.'));
+		if (message.member.roles.highest.position <= targetMember.roles.highest.position) {
+			return message.channel.send(failureEmbed('Who are you trying to strike, the owner? You can\'t strike people above or on the same rank you!'));
 		}
 		const strikeID = id(36, 8);
 		let messaged = '';
