@@ -1,6 +1,6 @@
 import { model, Document, Schema } from 'mongoose';
 
-interface Pattern extends Document {
+export interface Pattern extends Document {
   guildID: string,
 	userID: string,
 	punishID: string,
@@ -8,6 +8,18 @@ interface Pattern extends Document {
 	reason: string,
 	caseType: string,
 	timestamp: number,
+	expires?: number,
+	isActive?: boolean,
+}
+
+export interface UpdateOptions extends Document {
+	guildID?: string,
+	userID?: string,
+	punishID?: string,
+	staffID?: string,
+	reason?: string,
+	caseType?: string,
+	timestamp?: number,
 	expires?: number,
 	isActive?: boolean,
 }
@@ -45,4 +57,4 @@ const schema = new Schema({
 	isActive: Boolean,
 });
 
-export const economyModel = model<Pattern>('punishments', schema);
+export const modlogModel = model<Pattern>('punishments', schema);

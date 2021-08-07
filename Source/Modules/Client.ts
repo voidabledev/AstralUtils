@@ -4,14 +4,17 @@ import { Event } from '../Typings/Event';
 import { token } from '../config.json';
 import { search } from './Utils';
 import { EconomyManager } from '../Managers/EconomyManager';
+import { ModlogManager } from '../Managers/ModlogManager';
 
 export class Client extends DJSClient {
 	commands = new Collection<string, Command>();
 	aliases = new Collection<string, string>();
 	economy: EconomyManager;
+	modlogs: ModlogManager;
 	constructor(options: ClientOptions) {
 		super(options);
 		this.economy = new EconomyManager(this);
+		this.modlogs = new ModlogManager(this);
 	}
 
 	async start(): Promise<void> {
