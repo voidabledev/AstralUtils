@@ -2,15 +2,15 @@
   "name": "galaxyutils-v3",
   "version": "0.0.0-dev",
   "description": "Rewrite of Astral Utilities in TypeScript, with discord.js v13",
-  "main": "index.js",
+  "main": "./Dist/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "discord.js": "^13.0.0",
-    "glob": "^7.1.7",
+    "@discordjs/rest": "^0.1.0-canary.0",
+    "discord.js": "^13.0.1",
     "mongoose": "^5.13.5",
     "typescript": "^4.3.5"
   },
@@ -18,6 +18,7 @@
     "@types/glob": "^7.1.4",
     "@typescript-eslint/eslint-plugin": "^4.29.0",
     "@typescript-eslint/parser": "^4.29.0",
-    "eslint": "^7.32.0"
+    "eslint": "^7.32.0",
+    "glob": "^7.1.7"
   }
 }

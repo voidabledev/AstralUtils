@@ -1,4 +1,4 @@
-import { model, Document, Schema } from "mongoose";
+import { model, Document, Schema } from 'mongoose';
 
 export interface EconomyProfile {
   userId: string;
@@ -11,11 +11,11 @@ interface Pattern extends Document {
 }
 
 const schema = new Schema({
-  userId: String,
-  coins: {
-    type: Number,
-    default: 0
-  }
+	userId: String,
+	coins: {
+		type: Number,
+		default: 0,
+	},
 });
 
-export const economyModel = model("C");
+export const economyModel = model<Pattern>('economy', schema);

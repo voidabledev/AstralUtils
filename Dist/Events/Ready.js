@@ -7,7 +7,7 @@ exports.event = void 0;
 const mongoose_1 = require("mongoose");
 const config_json_1 = __importDefault(require("../config.json"));
 exports.event = {
-    event: "ready",
+    event: 'ready',
     once: true,
     async run(client) {
         console.log(`Ready! Logged in as ${client.user?.tag}!`);
@@ -15,7 +15,7 @@ exports.event = {
             useNewUrlParser: true,
             useUnifiedTopology: true,
             useFindAndModify: false,
-            keepAlive: true
+            keepAlive: true,
         });
-    }
+    },
 };

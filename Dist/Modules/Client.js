@@ -25,10 +25,11 @@ const config_json_1 = require("../config.json");
 const Utils_1 = require("./Utils");
 const EconomyManager_1 = require("../Managers/EconomyManager");
 class Client extends discord_js_1.Client {
+    commands = new discord_js_1.Collection();
+    aliases = new discord_js_1.Collection();
+    economy;
     constructor(options) {
         super(options);
-        this.commands = new discord_js_1.Collection();
-        this.aliases = new discord_js_1.Collection();
         this.economy = new EconomyManager_1.EconomyManager(this);
     }
     async start() {

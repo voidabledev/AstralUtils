@@ -6,7 +6,7 @@ const schema = new mongoose_1.Schema({
     userId: String,
     coins: {
         type: Number,
-        default: 0
-    }
+        default: 0,
+    },
 });
-exports.economyModel = mongoose_1.model("C");
+exports.economyModel = mongoose_1.model('economy', schema);

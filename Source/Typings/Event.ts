@@ -1,5 +1,5 @@
-import { ClientEvents } from "discord.js";
-import { Client } from "../Modules/Client";
+import { ClientEvents } from 'discord.js';
+import { Client } from '../Modules/Client';
 
 export interface Event {
   event: keyof ClientEvents;
