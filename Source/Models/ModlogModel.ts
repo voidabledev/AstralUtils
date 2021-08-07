@@ -24,6 +24,18 @@ export interface UpdateOptions extends Document {
 	isActive?: boolean,
 }
 
+export interface CreateOptions {
+	guildID: string,
+	userID: string,
+	punishID?: string,
+	staffID: string,
+	reason: string,
+	caseType: string,
+	timestamp?: number,
+	expires?: number,
+	isActive?: boolean
+}
+
 const schema = new Schema({
 	guildID: {
 		type: String,

@@ -1,5 +1,5 @@
 import { Client } from '../Modules/Client';
-import { modlogModel, Pattern as Modlog, UpdateOptions } from '../Models/ModlogModel';
+import { modlogModel, Pattern as Modlog, UpdateOptions, CreateOptions } from '../Models/ModlogModel';
 import { Snowflake, MessageEmbed, TextChannel } from 'discord.js';
 import { id } from '../Modules/Utils';
 export class ModlogManager {
@@ -19,12 +19,6 @@ export class ModlogManager {
 		}) ?? undefined;
 	}
 
-	private async _set(data: Modlog): Promise<Modlog> {
-		data.punishID = id(10, 10);
-		while(await modlogModel.findOne({ punishID: data.punishID })) data.punishID = id(10, 10);
-		return await modlogModel.create(data);
-	}
-
 	async delete(punishID: string): Promise<Modlog | undefined> {
 		return await modlogModel.findOneAndDelete({ punishID }) ?? undefined;
 	}
@@ -33,8 +27,11 @@ export class ModlogManager {
 		return await modlogModel.findOneAndUpdate({ punishID }, data) ?? undefined;
 	}
 
-	async create(data: Modlog): Promise<Modlog> {
-		const log = await this._set(data);
+	async set(data: CreateOptions): Promise<Modlog> {
+		data.punishID = id(10, 10);
+		data.timestamp = new Date().getTime();
+		while(await modlogModel.findOne({ punishID: data.punishID })) data.punishID = id(10, 10);
+		const log = await modlogModel.create(data);
 		const automod = this._client.user?.id === log.staffID;
 		const channel: TextChannel = (automod ?
 			this._client.channels.cache.get('831996576778944612') :

@@ -20,20 +20,18 @@ class ModlogManager {
             punishID,
         }) ?? undefined;
     }
-    async _set(data) {
-        data.punishID = Utils_1.id(10, 10);
-        while (await ModlogModel_1.modlogModel.findOne({ punishID: data.punishID }))
-            data.punishID = Utils_1.id(10, 10);
-        return await ModlogModel_1.modlogModel.create(data);
-    }
     async delete(punishID) {
         return await ModlogModel_1.modlogModel.findOneAndDelete({ punishID }) ?? undefined;
     }
     async update(punishID, data) {
         return await ModlogModel_1.modlogModel.findOneAndUpdate({ punishID }, data) ?? undefined;
     }
-    async create(data) {
-        const log = await this._set(data);
+    async set(data) {
+        data.punishID = Utils_1.id(10, 10);
+        data.timestamp = new Date().getTime();
+        while (await ModlogModel_1.modlogModel.findOne({ punishID: data.punishID }))
+            data.punishID = Utils_1.id(10, 10);
+        const log = await ModlogModel_1.modlogModel.create(data);
         const automod = this._client.user?.id === log.staffID;
         const channel = (automod ?
             this._client.channels.cache.get('831996576778944612') :
