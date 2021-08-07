@@ -26,13 +26,11 @@ const Utils_1 = require("./Utils");
 const EconomyManager_1 = require("../Managers/EconomyManager");
 const ModlogManager_1 = require("../Managers/ModlogManager");
 class Client extends discord_js_1.Client {
-    commands = new discord_js_1.Collection();
-    aliases = new discord_js_1.Collection();
-    economy;
-    modlogs;
     constructor(options) {
         super(options);
-        this.economy = new EconomyManager_1.EconomyManager(this);
+        this.commands = new discord_js_1.Collection();
+        this.aliases = new discord_js_1.Collection();
+        this.economy = new EconomyManager_1.EconomyManager();
         this.modlogs = new ModlogManager_1.ModlogManager(this);
     }
     async start() {
