@@ -6,8 +6,8 @@ const schema = new mongoose_1.Schema({
     userId: String,
     coins: {
         type: Number,
-        default: 0
+        default: 0,
     },
-    itemIds: [String]
+    itemIds: [String],
 });
-exports.economyModel = mongoose_1.model("economy", schema);
+exports.economyModel = mongoose_1.model('economy', schema);

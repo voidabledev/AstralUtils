@@ -1,6 +1,6 @@
 {
   "name": "galaxyutils-v3",
-  "version": "0.0.0-dev",
+  "version": "3.0.0-dev",
   "description": "Rewrite of Astral Utilities in TypeScript, with discord.js v13",
   "main": "./Dist/index.js",
   "scripts": {

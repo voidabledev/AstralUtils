@@ -5,6 +5,7 @@ const ModlogModel_1 = require("../Models/ModlogModel");
 const discord_js_1 = require("discord.js");
 const Utils_1 = require("../Modules/Utils");
 class ModlogManager {
+    _client;
     constructor(_client) {
         this._client = _client;
         this._client = _client;

@@ -3,19 +3,18 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.command = void 0;
 const config_json_1 = require("../config.json");
 const discord_js_1 = require("discord.js");
-const v9_1 = require("discord-api-types/v9");
 exports.command = {
     name: 'eval',
     description: 'Executes code [Developers only]',
     options: [
         {
-            type: v9_1.ApplicationCommandOptionType.String,
+            type: 3 /* String */,
             name: 'code',
             description: 'The code to execute.',
             required: true,
         },
         {
-            type: v9_1.ApplicationCommandOptionType.Boolean,
+            type: 5 /* Boolean */,
             name: 'ephemeral',
             description: '"Only you can see this."',
         },

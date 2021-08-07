@@ -2,13 +2,12 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.command = void 0;
 const config_json_1 = require("../config.json");
-const v9_1 = require("discord-api-types/v9");
 exports.command = {
     name: 'activity',
     description: 'Sets the bot\'s status.',
     options: [
         {
-            type: v9_1.ApplicationCommandOptionType.String,
+            type: 3 /* String */,
             name: 'status',
             description: 'The bot\'s status.',
             choices: [
@@ -19,7 +18,7 @@ exports.command = {
             ],
         },
         {
-            type: v9_1.ApplicationCommandOptionType.String,
+            type: 3 /* String */,
             name: 'type',
             description: 'Type of the activity.',
             choices: [
@@ -31,12 +30,12 @@ exports.command = {
             ],
         },
         {
-            type: v9_1.ApplicationCommandOptionType.String,
+            type: 3 /* String */,
             name: 'name',
             description: 'Name of the activity.',
         },
         {
-            type: v9_1.ApplicationCommandOptionType.String,
+            type: 3 /* String */,
             name: 'url',
             description: 'Stream URL',
         },
