@@ -1,40 +1,68 @@
-import { EconomyProfile } from '../Models/EconomyModel';
-import { Collection, Snowflake } from 'discord.js';
-import { Client } from '../Modules/Client';
+import { economyModel, EconomyProfile } from "../Models/EconomyModel";
+import { Collection, Snowflake } from "discord.js";
+import { Client } from "../Modules/Client";
+import { Item } from "../Typings/Item";
 
 export class EconomyManager {
-	private _cache = new Collection<Snowflake, EconomyProfile>();
-	constructor(private _client: Client) {
-		// shut
-	}
+  private _cache = new Collection<Snowflake, EconomyProfile>();
+  private _items = new Collection<string, Item>();
+  constructor() {
+    const items: Item[] = [
+      {
+        name: "Fishing Rod",
+        id: "fishrod",
+        price: 10_000,
+        sellable: true,
+        abilities: ["fish"]
+      }
+    ];
+    items.forEach(item => this._items.set(item.id, item));
+  }
 
-	async cache(): Promise<void> {
-		/* stfu */
-	}
+  async cache(): Promise<void> {
+    const profiles = await economyModel.find();
+    profiles.forEach(profile => this._cache.set(profile.userId, profile));
+  }
 
-	getProfile(userId: Snowflake): EconomyProfile | undefined {
-		return this._cache.get(userId);
-	}
+  getProfile(userId: Snowflake): EconomyProfile {
+    return {
+      userId,
+      coins: 0,
+      itemIds: [],
+      ...this._cache.get(userId)
+    };
+  }
 
-	createProfile(userId: Snowflake): EconomyProfile {
-		return {
-			userId,
-			coins: 0,
-		};
-	}
+  async addCoins(userId: Snowflake, coins: number) {
+    await economyModel.updateOne({ userId }, { userId, $inc: { coins } }, { upsert: true });
 
-	async addCoins() {
-		// shut
-	}
+    const profile = this.getProfile(userId);
+    profile.coins += coins;
+    this._cache.set(profile.userId, profile);
+  }
 
-	async removeCoins() {
-		// shut
-	}
+  async removeCoins(userId: Snowflake, coins: number) {
+    await economyModel.updateOne({ userId }, { userId, $inc: { coins } }, { upsert: true });
 
-	async addItem() {
-		// shut
-	}
-	async removeItem() {
-		// shut
-	}
+    const profile = this.getProfile(userId);
+    profile.coins -= coins;
+    this._cache.set(profile.userId, profile);
+  }
+
+  async addItem(userId: Snowflake, itemId: string) {
+    await economyModel.updateOne({ userId }, { userId, $push: { itemIds: itemId } }, { upsert: true });
+
+    const profile = this.getProfile(userId);
+    profile.itemIds.push(itemId);
+    this._cache.set(profile.userId, profile);
+  }
+  async removeItem(userId: Snowflake, itemId: string) {
+    await economyModel.updateOne({ userId }, { userId, $pusll: { itemIds: itemId } }, { upsert: true });
+
+    const profile = this.getProfile(userId);
+    profile.itemIds.map(id => {
+      if (id !== itemId) return id;
+    });
+    this._cache.set(profile.userId, profile);
+  }
 }
