@@ -18,6 +18,21 @@ export const command: Command = {
 			description: 'The reason for this ban',
 			required: true,
 		},
+		{
+			type: Options.Integer,
+			name: 'time',
+			description: 'The time after which this ban expires, if any.',
+		},
+		{
+			type: Options.Integer,
+			name: 'time-unit',
+			description: 'The time unit to specify the expiration time in',
+			choices: [
+				{ name: 'Minute(s)', value: 1000 * 60 },
+				{ name: 'Hour(s)', value: 1000 * 60 * 60 },
+				{ name: 'Day(s)', value: 1000 * 60 * 24 },
+			],
+		},
 	],
 	async allowed(interaction, client) {
 		return (interaction.guild && (interaction.member?.permissions as Readonly<Permissions>)?.has?.('BAN_MEMBERS')) ?? false;
@@ -59,7 +74,7 @@ export const command: Command = {
 			cancelCollector?.stop();
 		});
 
-		cancelCollector?.on('end', async () => {
+		cancelCollector?.on('end', async (collected) => {
 			if (!confirmed) {
 				interaction.editReply({
 					content: 'Cancelled.',
