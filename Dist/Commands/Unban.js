@@ -42,19 +42,23 @@ exports.command = {
         const cancelFilter = (i) => i.customId === 'cancel-unban' && i.user.id === interaction.user.id;
         const confirmCollector = interaction.channel?.createMessageComponentCollector({ filter: confirmFilter, time: 15000 });
         const cancelCollector = interaction.channel?.createMessageComponentCollector({ filter: cancelFilter, time: 15000 });
-        cancelCollector?.on('collect', async (i) => {
-            confirmCollector?.dispose(i);
+        let confirmed = false;
+        cancelCollector?.on('collect', async () => {
+            confirmCollector?.stop();
             cancelCollector?.stop();
         });
         cancelCollector?.on('end', async () => {
-            interaction.editReply({
-                content: 'Cancelled.',
-                components: [],
-            });
+            if (!confirmed) {
+                interaction.editReply({
+                    content: 'Cancelled.',
+                    components: [],
+                });
+            }
         });
-        confirmCollector?.on('collect', async (i) => {
-            cancelCollector?.dispose(i);
-            confirmCollector?.dispose(i);
+        confirmCollector?.on('collect', async () => {
+            confirmed = true;
+            cancelCollector?.stop();
+            confirmCollector?.stop();
             await interaction.guild?.members.unban(user, reason);
             const log = await client.modlogs.set({
                 guildID: interaction.guild.id,

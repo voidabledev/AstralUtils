@@ -52,22 +52,26 @@ export const command: Command = {
 		const cancelFilter = (i: ButtonInteraction) => i.customId === 'cancel-ban' && i.user.id === interaction.user.id;
 		const confirmCollector = interaction.channel?.createMessageComponentCollector({ filter: confirmFilter, time: 15000 });
 		const cancelCollector = interaction.channel?.createMessageComponentCollector({ filter: cancelFilter, time: 15000 });
+		let confirmed = false;
 
-		cancelCollector?.on('collect', async (i: ButtonInteraction) => {
-			confirmCollector?.dispose(i);
+		cancelCollector?.on('collect', async () => {
+			confirmCollector?.stop();
 			cancelCollector?.stop();
 		});
 
 		cancelCollector?.on('end', async () => {
-			interaction.editReply({
-				content: 'Cancelled.',
-				components: [],
-			});
+			if (!confirmed) {
+				interaction.editReply({
+					content: 'Cancelled.',
+					components: [],
+				});
+			}
 		});
 
-		confirmCollector?.on('collect', async (i) => {
-			cancelCollector?.dispose(i);
-			confirmCollector?.dispose(i);
+		confirmCollector?.on('collect', async () => {
+			confirmed = true;
+			cancelCollector?.stop();
+			confirmCollector?.stop();
 			const userEmbed = new MessageEmbed()
 				.setTitle(`You've been banned in **${interaction.guild?.name}**`)
 				.addField('Reason', reason)
