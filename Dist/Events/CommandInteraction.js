@@ -20,7 +20,7 @@ exports.event = {
             await command.run(interaction, interaction.options, client);
         }
         catch (err) {
-            await interaction.reply({
+            await interaction[interaction.replied || interaction.deferred ? 'followUp' : 'reply']({
                 ephemeral: true,
                 content: `Failed with error:\n${err}`,
             });

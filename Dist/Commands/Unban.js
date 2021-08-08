@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.command = void 0;
-const discord_js_1 = require("discord.js");
+const Embeds_1 = require("../Modules/Embeds");
 exports.command = {
     name: 'unban',
     description: 'Unans a user.',
@@ -31,34 +31,8 @@ exports.command = {
                 ephemeral: true,
             });
         }
-        const row = new discord_js_1.MessageActionRow()
-            .addComponents(new discord_js_1.MessageButton().setLabel('Confirm').setStyle('SUCCESS').setCustomId('confirm-unban'), new discord_js_1.MessageButton().setLabel('Cancel').setStyle('DANGER').setCustomId('cancel-unban'));
-        await interaction.reply({
-            content: `Do you want to unban ${user.tag} for \`${reason}\`?`,
-            components: [row],
-            ephemeral: true,
-        });
-        const confirmFilter = (i) => i.customId === 'confirm-unban' && i.user.id === interaction.user.id;
-        const cancelFilter = (i) => i.customId === 'cancel-unban' && i.user.id === interaction.user.id;
-        const confirmCollector = interaction.channel?.createMessageComponentCollector({ filter: confirmFilter, time: 15000 });
-        const cancelCollector = interaction.channel?.createMessageComponentCollector({ filter: cancelFilter, time: 15000 });
-        let confirmed = false;
-        cancelCollector?.on('collect', async () => {
-            confirmCollector?.stop();
-            cancelCollector?.stop();
-        });
-        cancelCollector?.on('end', async () => {
-            if (!confirmed) {
-                interaction.editReply({
-                    content: 'Cancelled.',
-                    components: [],
-                });
-            }
-        });
-        confirmCollector?.on('collect', async () => {
-            confirmed = true;
-            cancelCollector?.stop();
-            confirmCollector?.stop();
+        await Embeds_1.confirm(interaction, `Are you sure you want to unban ${user.tag}?`)
+            .then(async () => {
             await interaction.guild?.members.unban(user, reason);
             const log = await client.modlogs.set({
                 guildID: interaction.guild.id,
@@ -68,7 +42,13 @@ exports.command = {
                 caseType: 'Unban',
             });
             await interaction.editReply({
-                content: `${user.tag} has been **unbanned** | \`${log.punishID}\``,
+                embeds: [Embeds_1.success(`${user.tag} has been **unbanned** | \`${log.punishID}\``)],
+                components: [],
+            });
+        })
+            .catch(() => {
+            interaction.editReply({
+                embeds: [Embeds_1.fail('Cancelled.')],
                 components: [],
             });
         });

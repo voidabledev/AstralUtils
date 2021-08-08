@@ -28,6 +28,7 @@ const ModlogManager_1 = require("../Managers/ModlogManager");
 class Client extends discord_js_1.Client {
     commands = new discord_js_1.Collection();
     aliases = new discord_js_1.Collection();
+    globalCooldowns = new discord_js_1.Collection();
     economy;
     modlogs;
     constructor(options) {

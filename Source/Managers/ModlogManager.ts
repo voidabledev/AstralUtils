@@ -1,16 +1,56 @@
 import { Client } from '../Modules/Client';
 import { modlogModel, Pattern as Modlog, UpdateOptions, CreateOptions } from '../Models/ModlogModel';
-import { Snowflake, MessageEmbed, TextChannel } from 'discord.js';
+import { Snowflake, MessageEmbed, TextChannel, Role, GuildMember } from 'discord.js';
 import { id } from '../Modules/Utils';
 export class ModlogManager {
 	constructor(private _client: Client) {
 		this._client = _client;
+		this._interval(30000);
 	}
 
 	async getUser(userID: Snowflake): Promise<(Modlog | undefined)[]> {
 		return await modlogModel.find({
 			userID,
 		}) ?? undefined;
+	}
+
+	async fetch(filter: UpdateOptions = {}): Promise<Modlog[]> {
+		return await modlogModel.find(filter);
+	}
+
+	private async _interval(timeout: number): Promise<void> {
+		setInterval(async () => {
+			const logs = await this.fetch();
+			logs.filter((l) => l.caseType === 'Mute' && l.isActive).forEach(async (l) => {
+				const guild = this._client.guilds.cache.get(l.guildID);
+				const member = await guild?.members.fetch(l.userID).catch(() => { /* no member found */ });
+				const role = guild?.roles.cache.find((r) => r.name === 'Muted');
+				if (member instanceof GuildMember && typeof role !== 'undefined' && !member.roles.cache.get(role.id)) {
+					member.roles.add(role.id);
+				}
+			});
+			logs.filter((l) => l.caseType === 'Mute' && l.isActive && l.expires !== undefined && (l?.expires as number) < new Date().getTime()).forEach(async (l) => {
+				const guild = this._client.guilds.cache.get(l.guildID);
+				const mRole = guild?.roles.cache.find((r) => r.name === 'Muted');
+				const quarantine = guild?.roles.cache.find((r) => r.name === 'Quarantine');
+				const member = await guild?.members.fetch(l.userID).catch(() => { /* doesn't exist */});
+				if (!([guild, mRole, member].includes(undefined)) && !member?.roles.cache.has(quarantine?.id ?? '')) {
+					member?.roles.remove(mRole as Role)
+						.then(() => this.update(l.punishID, { isActive: false }))
+						.catch(() => { /* ok then */ });
+				}
+			});
+			logs.filter((l) => l.caseType === 'Warn' && l.isActive && (l.expires as number) < new Date().getTime()).forEach(async (l) => {
+				this.update(l.punishID, { isActive: false });
+			});
+			logs.filter((l) => l.caseType === 'Ban' && l.isActive && l.expires !== undefined && (l?.expires as number) < new Date().getTime()).forEach(async (l) => {
+				const guild = this._client.guilds.cache.get(l.guildID);
+				if (await guild?.bans.fetch(l.userID)) {
+					guild?.members.unban(l.userID);
+					this.update(l.punishID, { isActive: false });
+				}
+			});
+		}, timeout);
 	}
 
 	async get(punishID: string): Promise<Modlog | undefined> {
@@ -25,6 +65,10 @@ export class ModlogManager {
 
 	async update(punishID: string, data: UpdateOptions): Promise<Modlog | undefined> {
 		return await modlogModel.findOneAndUpdate({ punishID }, data) ?? undefined;
+	}
+
+	async updateOne(inputData:UpdateOptions, updateData: UpdateOptions): Promise<Modlog | undefined> {
+		return await modlogModel.findOneAndUpdate(inputData, updateData) ?? undefined;
 	}
 
 	async set(data: CreateOptions): Promise<Modlog> {

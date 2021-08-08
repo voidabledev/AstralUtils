@@ -9,6 +9,7 @@ import { ModlogManager } from '../Managers/ModlogManager';
 export class Client extends DJSClient {
 	commands = new Collection<string, Command>();
 	aliases = new Collection<string, string>();
+	globalCooldowns = new Collection<string, Date>();
 	economy: EconomyManager;
 	modlogs: ModlogManager;
 	constructor(options: ClientOptions) {

@@ -1,6 +1,8 @@
 import { Command } from '../Typings/Command';
-import { MessageEmbed, Permissions, Guild, MessageButton, MessageActionRow, ButtonInteraction } from 'discord.js';
+import { MessageEmbed, Permissions, Guild, GuildMemberRoleManager } from 'discord.js';
+import { success, fail, confirm } from '../Modules/Embeds';
 import { ApplicationCommandOptionType as Options } from 'discord-api-types/v9';
+// eslint-disable-next-line @typescript-eslint/no-empty-function
 
 export const command: Command = {
 	name: 'ban',
@@ -47,70 +49,48 @@ export const command: Command = {
 
 		if (member?.bannable === false) {
 			return interaction.reply({
-				content: 'I can\'t ban this user!',
-				ephemeral: true,
+				embeds: [fail('I can\'t ban this user!')],
 			});
 		}
 
-		const row = new MessageActionRow()
-			.addComponents(
-				new MessageButton().setLabel('Confirm').setStyle('SUCCESS').setCustomId('confirm-ban'),
-				new MessageButton().setLabel('Cancel').setStyle('DANGER').setCustomId('cancel-ban'),
-			);
-		await interaction.reply({
-			content: `Do you want to ban ${user} for \`${reason}\`?`,
-			components: [row],
-			ephemeral: true,
-		});
+		if ((member?.roles?.highest?.position ?? 0) >= (interaction.member?.roles as GuildMemberRoleManager).highest.position) {
+			return interaction.reply({
+				embeds: [fail('You can\'t ban a user above you!')],
+			});
+		}
 
-		const confirmFilter = (i: ButtonInteraction) => i.customId === 'confirm-ban' && i.user.id === interaction.user.id;
-		const cancelFilter = (i: ButtonInteraction) => i.customId === 'cancel-ban' && i.user.id === interaction.user.id;
-		const confirmCollector = interaction.channel?.createMessageComponentCollector({ filter: confirmFilter, time: 15000 });
-		const cancelCollector = interaction.channel?.createMessageComponentCollector({ filter: cancelFilter, time: 15000 });
-		let confirmed = false;
-
-		cancelCollector?.on('collect', async () => {
-			confirmCollector?.stop();
-			cancelCollector?.stop();
-		});
-
-		cancelCollector?.on('end', async (collected) => {
-			if (!confirmed) {
-				interaction.editReply({
-					content: 'Cancelled.',
+		await confirm(interaction, `Are you sure you want to ban ${user}?`)
+			.then(async () => {
+				const userEmbed = new MessageEmbed()
+					.setTitle(`You've been banned in **${interaction.guild?.name}**`)
+					.addField('Reason', reason)
+					.addField('Expires', time ? `<t:${Math.floor((new Date().getTime() + time * timeUnit) / 1000)}:R>` : 'Permanent')
+					.setColor('RED');
+				await user.send({
+					embeds: [userEmbed],
+				}).catch(() => { /* cannot send messages to this user */});
+				await interaction.guild?.members.ban(user, {
+					reason,
+				});
+				const log = await client.modlogs.set({
+					guildID: (interaction.guild as Guild).id,
+					userID: user.id,
+					staffID: interaction.user.id,
+					reason,
+					caseType: 'Ban',
+					expires: time ? new Date().getTime() + time * timeUnit : undefined,
+					isActive: true,
+				});
+				await interaction.editReply({
+					embeds: [success(`${user} has been **banned** | \`${log.punishID}\``)],
 					components: [],
 				});
-			}
-		});
-
-		confirmCollector?.on('collect', async () => {
-			confirmed = true;
-			cancelCollector?.stop();
-			confirmCollector?.stop();
-			const userEmbed = new MessageEmbed()
-				.setTitle(`You've been banned in **${interaction.guild?.name}**`)
-				.addField('Reason', reason)
-				.addField('Expires', time ? `<t:${Math.floor((new Date().getTime() + time * timeUnit) / 1000)}:R>` : 'Permanent')
-				.setColor('RED');
-			await user.send({
-				embeds: [userEmbed],
-			}).catch(() => { /* cannot send messages to this user */ });
-			await interaction.guild?.members.ban(user, {
-				reason,
+			})
+			.catch(() => {
+				interaction.editReply({
+					embeds: [fail('Cancelled.')],
+					components:[],
+				});
 			});
-			const log = await client.modlogs.set({
-				guildID: (interaction.guild as Guild).id,
-				userID: user.id,
-				staffID: interaction.user.id,
-				reason,
-				caseType: 'Ban',
-				expires: time ? new Date().getTime() + time * timeUnit : undefined,
-				isActive: true,
-			});
-			await interaction.editReply({
-				content: `${user} has been **banned** | \`${log.punishID}\``,
-				components: [],
-			});
-		});
 	},
 };

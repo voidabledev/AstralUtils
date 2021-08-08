@@ -3,6 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.command = void 0;
 const config_json_1 = require("../config.json");
 const discord_js_1 = require("discord.js");
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 exports.command = {
     name: 'eval',
     description: 'Executes code [Developers only]',

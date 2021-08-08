@@ -2,6 +2,8 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.command = void 0;
 const discord_js_1 = require("discord.js");
+const Embeds_1 = require("../Modules/Embeds");
+// eslint-disable-next-line @typescript-eslint/no-empty-function
 exports.command = {
     name: 'ban',
     description: 'Bans a user.',
@@ -18,6 +20,21 @@ exports.command = {
             description: 'The reason for this ban',
             required: true,
         },
+        {
+            type: 4 /* Integer */,
+            name: 'time',
+            description: 'The time after which this ban expires, if any.',
+        },
+        {
+            type: 4 /* Integer */,
+            name: 'time-unit',
+            description: 'The time unit to specify the expiration time in',
+            choices: [
+                { name: 'Minute(s)', value: 1000 * 60 },
+                { name: 'Hour(s)', value: 1000 * 60 * 60 },
+                { name: 'Day(s)', value: 1000 * 60 * 24 },
+            ],
+        },
     ],
     async allowed(interaction, client) {
         return (interaction.guild && interaction.member?.permissions?.has?.('BAN_MEMBERS')) ?? false;
@@ -30,38 +47,16 @@ exports.command = {
         const member = await interaction.guild?.members.fetch(user.id);
         if (member?.bannable === false) {
             return interaction.reply({
-                content: 'I can\'t ban this user!',
-                ephemeral: true,
+                embeds: [Embeds_1.fail('I can\'t ban this user!')],
             });
         }
-        const row = new discord_js_1.MessageActionRow()
-            .addComponents(new discord_js_1.MessageButton().setLabel('Confirm').setStyle('SUCCESS').setCustomId('confirm-ban'), new discord_js_1.MessageButton().setLabel('Cancel').setStyle('DANGER').setCustomId('cancel-ban'));
-        await interaction.reply({
-            content: `Do you want to ban ${user} for \`${reason}\`?`,
-            components: [row],
-            ephemeral: true,
-        });
-        const confirmFilter = (i) => i.customId === 'confirm-ban' && i.user.id === interaction.user.id;
-        const cancelFilter = (i) => i.customId === 'cancel-ban' && i.user.id === interaction.user.id;
-        const confirmCollector = interaction.channel?.createMessageComponentCollector({ filter: confirmFilter, time: 15000 });
-        const cancelCollector = interaction.channel?.createMessageComponentCollector({ filter: cancelFilter, time: 15000 });
-        let confirmed = false;
-        cancelCollector?.on('collect', async () => {
-            confirmCollector?.stop();
-            cancelCollector?.stop();
-        });
-        cancelCollector?.on('end', async () => {
-            if (!confirmed) {
-                interaction.editReply({
-                    content: 'Cancelled.',
-                    components: [],
-                });
-            }
-        });
-        confirmCollector?.on('collect', async () => {
-            confirmed = true;
-            cancelCollector?.stop();
-            confirmCollector?.stop();
+        if ((member?.roles?.highest?.position ?? 0) >= interaction.member?.roles.highest.position) {
+            return interaction.reply({
+                embeds: [Embeds_1.fail('You can\'t ban a user above you!')],
+            });
+        }
+        await Embeds_1.confirm(interaction, `Are you sure you want to ban ${user}?`)
+            .then(async () => {
             const userEmbed = new discord_js_1.MessageEmbed()
                 .setTitle(`You've been banned in **${interaction.guild?.name}**`)
                 .addField('Reason', reason)
@@ -83,7 +78,13 @@ exports.command = {
                 isActive: true,
             });
             await interaction.editReply({
-                content: `${user} has been **banned** | \`${log.punishID}\``,
+                embeds: [Embeds_1.success(`${user} has been **banned** | \`${log.punishID}\``)],
+                components: [],
+            });
+        })
+            .catch(() => {
+            interaction.editReply({
+                embeds: [Embeds_1.fail('Cancelled.')],
                 components: [],
             });
         });

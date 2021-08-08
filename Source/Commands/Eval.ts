@@ -2,6 +2,7 @@ import { Command } from '../Typings/Command';
 import { devs } from '../config.json';
 import { MessageEmbed } from 'discord.js';
 import { ApplicationCommandOptionType as Options } from 'discord-api-types/v9';
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 
 export const command: Command = {
 	name: 'eval',

@@ -12,7 +12,7 @@ export interface Pattern extends Document {
 	isActive?: boolean,
 }
 
-export interface UpdateOptions extends Document {
+export interface UpdateOptions {
 	guildID?: string,
 	userID?: string,
 	punishID?: string,
