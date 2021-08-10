@@ -12,6 +12,7 @@ export interface Pattern extends Document {
 	ended: boolean;
 	host: string;
 	sponsor?: string;
+	requirement?: string;
 }
 
 export interface GiveawayData {
@@ -89,4 +90,4 @@ const schema = new Schema({
 	requirement: String,
 });
 
-export const giveawayModel = model<Pattern>('giveaways', schema);
+export const giveawayModel = model<Pattern>('new-giveaways', schema);

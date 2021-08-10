@@ -5,6 +5,7 @@ import { token } from '../config.json';
 import { search } from './Utils';
 import { EconomyManager } from '../Managers/EconomyManager';
 import { ModlogManager } from '../Managers/ModlogManager';
+import { GiveawayManager } from '../Managers/GiveawayManager';
 
 export class Client extends DJSClient {
 	commands = new Collection<string, Command>();
@@ -12,10 +13,12 @@ export class Client extends DJSClient {
 	globalCooldowns = new Collection<string, Date>();
 	economy: EconomyManager;
 	modlogs: ModlogManager;
+	giveaways: GiveawayManager;
 	constructor(options: ClientOptions) {
 		super(options);
 		this.economy = new EconomyManager();
 		this.modlogs = new ModlogManager(this);
+		this.giveaways = new GiveawayManager(this, 5000);
 	}
 
 	async start(): Promise<void> {

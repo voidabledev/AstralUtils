@@ -1,11 +1,19 @@
 import { Client } from '../Modules/Client';
 import { Pattern as Giveaway, giveawayModel, GiveawayData, CreateData } from '../Models/GiveawayModel';
-import { CommandInteraction, MessageEmbed, TextBasedChannels, MessageActionRow, MessageButton, Message, ButtonInteraction, GuildMemberRoleManager, Permissions } from 'discord.js';
+import { CommandInteraction, MessageEmbed, TextBasedChannels, MessageActionRow, MessageButton, ButtonInteraction, GuildMemberRoleManager, Permissions } from 'discord.js';
 import { fail } from '../Modules/Embeds';
 export class GiveawayManager {
 
 	constructor(private _client: Client, interval: number) {
 		this._client = _client;
+		this._check(interval);
+	}
+
+	private async _check(interval: number): Promise<void> {
+		setInterval(async () => {
+			const giveaways = await giveawayModel.find();
+			giveaways.filter((g) => !g.ended && g.end < Date.now()).forEach((g) => this.end(g.messageId));
+		}, interval);
 	}
 
 	async create(data: CreateData, text: string, interaction: CommandInteraction): Promise<Giveaway> {
@@ -13,7 +21,7 @@ export class GiveawayManager {
 		await interaction.reply({
 			content: text,
 		});
-		const message = await interaction.fetchReply() as Message;
+		const message = await interaction.fetchReply();
 
 		const embed = new MessageEmbed()
 			.setTitle(`<:bluedot:842408037502550106> **${data.prize}** <:bluedot:842408037502550106>`)
@@ -24,13 +32,14 @@ export class GiveawayManager {
 					data.requirement ? `**Requirement:** ${data.requirement}\n` : ''
 				}`,
 			)
-			.setFooter(`Message ID: ${message.id} | Winners: ${data.winnerCount}`);
+			.setFooter(`Message ID: ${message.id} | Winners: ${data.winnerCount}`)
+			.setColor('ORANGE');
 		const row = new MessageActionRow().addComponents(
 			new MessageButton().setStyle('SUCCESS').setLabel('Enter').setCustomId(`enter-giveaway-${message.id}`),
 			new MessageButton().setStyle('DANGER').setLabel('Control').setCustomId(`control-giveaway-${message.id}`),
 		);
 
-		await message.edit({
+		await interaction.editReply({
 			content: text,
 			embeds: [embed],
 			components: [row],
@@ -65,7 +74,8 @@ export class GiveawayManager {
 					data.requirement ? `**Requirement:** ${data.requirement}\n` : ''
 				}`,
 			)
-			.setFooter(`Message ID: ${message.id} | Winners: ${data.winnerCount}`);
+			.setFooter(`Message ID: ${message.id} | Winners: ${data.winnerCount}`)
+			.setColor('ORANGE');
 
 		await message.edit({
 			content: text ?? message.content,
@@ -75,8 +85,16 @@ export class GiveawayManager {
 		return giveaway;
 	}
 
-	async enter(messageId: string, userId: string): Promise<Giveaway> {
+	async enter(messageId: string, userId: string): Promise<string> {
 		const giveaway = await giveawayModel.findOneAndUpdate({
+			messageId,
+		});
+
+		if (!giveaway) throw new Error('GiveawayError: Unknown giveaway');
+
+		if (giveaway.entries.includes(userId)) return 'You have already entered this giveaway!';
+
+		await giveawayModel.updateOne({
 			messageId,
 		}, {
 			$push: {
@@ -84,25 +102,75 @@ export class GiveawayManager {
 			},
 		});
 
-		if (!giveaway) throw new Error('GiveawayError: Unknown giveaway');
-
 		giveaway.entries.push(userId);
-		return giveaway;
+		return 'Entered!';
 	}
 
 	async end(messageId: string): Promise<Giveaway> {
-		const giveaway = await giveawayModel.findOneAndUpdate({ messageId }, { ended: true });
+		const giveaway = await giveawayModel.findOneAndUpdate({ messageId }, { ended: true, end: Date.now() });
 		if (!giveaway) throw new Error('GiveawayError: Unknown giveaway');
+		const guild = this._client.guilds.cache.get(giveaway.guildId);
+		if (!guild) throw new Error('GiveawayError: Unknown guild');
+		const channel = guild.channels.cache.get(giveaway.channelId);
+		if (!channel || !channel.isText()) throw new Error('GiveawayError: Unknown channel');
+		const message = await channel.messages.fetch(giveaway.messageId);
+		if (!message) throw new Error('GiveawayError: Unknown message');
+
+		const winners: string[] = [];
+
+		for(let i = 0; i < Math.min(giveaway.winnerCount, giveaway.entries.length); i++) {
+			winners.push(giveaway.entries.splice(Math.random() * giveaway.entries.length, 1)[0]);
+		}
+
+		const embed = new MessageEmbed()
+			.setTitle(`<:bluedot:842408037502550106> **${giveaway.prize}** <:bluedot:842408037502550106>`)
+			.setDescription(
+				`**Hosted by:** <@${giveaway.host}>\n${
+					giveaway.sponsor ? `**Sponsored by:** <@${giveaway.sponsor}>\n` : ''
+				}**Ended:** <t:${Math.floor(giveaway.end / 1000)}:R>\n${
+					giveaway.requirement ? `**Requirement:** ${giveaway.requirement}\n` : ''
+				}\n **Winners:** ${winners.map((w) => `<@${w}>`).join(', ')}`,
+			)
+			.setFooter(`Message ID: ${message.id} | Winners: ${giveaway.winnerCount}`)
+			.setColor('RED');
+
+		const initialRow = message.components[0];
+		initialRow?.components[0].setDisabled(true);
+
+		await message.edit({
+			content: ':tada: **This giveaway has ended** :tada:',
+			embeds: [embed],
+			components: [initialRow],
+		});
+
+		const row = new MessageActionRow().addComponents(
+			new MessageButton().setStyle('DANGER').setLabel('Control').setCustomId(`control-giveaway-${giveaway.messageId}`),
+			new MessageButton().setStyle('LINK').setURL(message.url).setLabel(`${giveaway.entries.length + winners.length} entries`),
+		);
+
+		await channel.send({
+			content: `Congratulations ${winners.map((w) => `<@${w}>`).join(', ')}, you have won **${giveaway.prize}**!`,
+			components: [row],
+		});
 
 		giveaway.ended = true;
-		// ! edit og message and send a follow-up
+		return giveaway;
+	}
+
+	async delete(messageId: string): Promise<Giveaway | undefined> {
+		const giveaway = await giveawayModel.findOneAndDelete({ messageId });
+		if (!giveaway) return undefined;
+
+		const message = await (this._client.guilds.cache.get(giveaway.guildId)?.channels.cache.get(giveaway.channelId) as TextBasedChannels | undefined)?.messages.fetch(messageId);
+		if (message) message.delete();
+
 		return giveaway;
 	}
 
 	async displayControl(interaction: ButtonInteraction): Promise<void> {
 		if (!interaction.customId.startsWith('control-giveaway-')) throw new Error('GiveawayError: couldn\'t find a giveaway associated to this interaction.');
 
-		if (!(interaction.member?.roles as GuildMemberRoleManager).cache.find((r) => r.name.endsWith('Giveaways')) && !(interaction.member?.permissions as Readonly<Permissions>).has('MANAGE_MESSAGES')) {
+		if (!(interaction.member?.roles as GuildMemberRoleManager).cache.find((r) => r.name.endsWith('Giveaways')) && !((interaction.member?.permissions as Readonly<Permissions>).has('MANAGE_MESSAGES'))) {
 			return interaction.reply({
 				embeds: [fail('You don\'t have permission to view the control panel for this giveaway!')],
 				ephemeral: true,
@@ -120,8 +188,9 @@ export class GiveawayManager {
 			.setTitle('Giveaway control panel')
 			.setDescription('Use the buttons below to the giveaway.');
 		const row = new MessageActionRow().addComponents(
-			new MessageButton().setStyle('PRIMARY').setLabel('End').setCustomId(`giveaway-end-${messageId}`).setDisabled(giveaway.ended),
-			new MessageButton().setStyle('PRIMARY').setLabel('Reroll').setCustomId(`giveaway-reroll-${messageId}`).setDisabled(!giveaway.ended),
+			new MessageButton().setStyle('PRIMARY').setLabel('End').setCustomId(`end-giveaway-${messageId}`).setDisabled(giveaway.ended),
+			new MessageButton().setStyle('PRIMARY').setLabel('Reroll').setCustomId(`reroll-giveaway-${messageId}`).setDisabled(!giveaway.ended),
+			new MessageButton().setStyle('PRIMARY').setLabel('Delete').setCustomId(`delete-giveaway-${messageId}`),
 			new MessageButton().setStyle('LINK').setLabel(`${giveaway.entries.length} entries`).setURL(message.url),
 		);
 		await interaction.reply({

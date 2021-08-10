@@ -25,16 +25,19 @@ const config_json_1 = require("../config.json");
 const Utils_1 = require("./Utils");
 const EconomyManager_1 = require("../Managers/EconomyManager");
 const ModlogManager_1 = require("../Managers/ModlogManager");
+const GiveawayManager_1 = require("../Managers/GiveawayManager");
 class Client extends discord_js_1.Client {
     commands = new discord_js_1.Collection();
     aliases = new discord_js_1.Collection();
     globalCooldowns = new discord_js_1.Collection();
     economy;
     modlogs;
+    giveaways;
     constructor(options) {
         super(options);
         this.economy = new EconomyManager_1.EconomyManager();
         this.modlogs = new ModlogManager_1.ModlogManager(this);
+        this.giveaways = new GiveawayManager_1.GiveawayManager(this, 5000);
     }
     async start() {
         this.login(config_json_1.token);
