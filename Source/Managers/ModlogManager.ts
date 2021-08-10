@@ -8,10 +8,10 @@ export class ModlogManager {
 		this._interval(30000);
 	}
 
-	async getUser(userID: Snowflake): Promise<(Modlog | undefined)[]> {
+	async getUser(userID: Snowflake): Promise<Modlog[]> {
 		return await modlogModel.find({
 			userID,
-		}) ?? undefined;
+		});
 	}
 
 	async fetch(filter: UpdateOptions = {}): Promise<Modlog[]> {

@@ -14,7 +14,7 @@ class ModlogManager {
     async getUser(userID) {
         return await ModlogModel_1.modlogModel.find({
             userID,
-        }) ?? undefined;
+        });
     }
     async fetch(filter = {}) {
         return await ModlogModel_1.modlogModel.find(filter);

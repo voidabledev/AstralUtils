@@ -74,10 +74,11 @@ export async function pageMenu(interaction: CommandInteraction, pages: MessageEm
 	let page = 0;
 	const row = new MessageActionRow()
 		.addComponents(
-			new MessageButton().setStyle('SECONDARY').setEmoji('⏪').setCustomId(`first-${id}`).setDisabled(true),
-			new MessageButton().setStyle('SECONDARY').setEmoji('◀').setCustomId(`back-${id}`).setDisabled(true),
-			new MessageButton().setStyle('SECONDARY').setEmoji('▶').setCustomId(`next-${id}`),
-			new MessageButton().setStyle('SECONDARY').setEmoji('⏩').setCustomId(`last-${id}`),
+			new MessageButton().setStyle('PRIMARY').setEmoji('874288086048206899').setCustomId(`first-${id}`).setDisabled(page === 0),
+			new MessageButton().setStyle('PRIMARY').setEmoji('874288033002840125').setCustomId(`back-${id}`).setDisabled(page === 0),
+			new MessageButton().setStyle('PRIMARY').setEmoji('874287989746966588').setCustomId(`next-${id}`).setDisabled(page === pages.length - 1),
+			new MessageButton().setStyle('PRIMARY').setEmoji('874288058877480981').setCustomId(`last-${id}`).setDisabled(page === pages.length - 1),
+			new MessageButton().setStyle('DANGER').setEmoji('836302929781981265').setCustomId(`end-${id}`),
 		);
 	await interaction[replyFn]({
 		embeds: [pages[page]],
@@ -93,10 +94,10 @@ export async function pageMenu(interaction: CommandInteraction, pages: MessageEm
 		collectors.push(collector);
 	});
 	async function updateButtons() {
-		row.components[0].setDisabled(page !== 0);
-		row.components[1].setDisabled(page !== 0);
-		row.components[2].setDisabled(page !== pages.length - 1);
-		row.components[3].setDisabled(page !== pages.length - 1);
+		row.components[0].setDisabled(page === 0);
+		row.components[1].setDisabled(page === 0);
+		row.components[2].setDisabled(page === pages.length - 1);
+		row.components[3].setDisabled(page === pages.length - 1);
 		await interaction.editReply({
 			embeds: [pages[page]],
 			components: [row],
@@ -122,17 +123,29 @@ export async function pageMenu(interaction: CommandInteraction, pages: MessageEm
 		page = pages.length - 1;
 		await updateButtons();
 	});
+	collectors[4].on('collect', async (i) => {
+		await i.deferUpdate();
+		collectors.forEach((c) => c.stop());
+	});
+	return new Promise<void>((resolve) => {
+		collectors[0].on('end', async () => {
+			await interaction.editReply({
+				components: [],
+			});
+			resolve();
+		});
+	});
 }
 
-export function parsePages(fields: { name: string, value: string }[], options: MessageEmbedOptions): MessageEmbed[] {
-	function page(index: number): number {
-		return Math.floor(index / 25);
+export function parsePages(fields: { name: string, value: string }[], options: MessageEmbed): MessageEmbed[] {
+	const maxPage = Math.floor((fields.length - 1) / 10);
+	const pages = new Array<MessageEmbed>(maxPage + 1);
+	let i = 0;
+	while (i <= maxPage) {
+		pages[i] = new MessageEmbed(options);
+		pages[i].setFooter(`Page ${i + 1}/${maxPage + 1}`)
+			.spliceFields(0, pages[i].fields.length, fields.slice(10 * i, 10 * (i + 1)));
+		i++;
 	}
-	const embeds: MessageEmbed[] = [];
-	embeds.fill(new MessageEmbed(options), 0, page(fields.length));
-	embeds.forEach((e, i) => {
-		e.setFooter(`Page ${i + 1}/${page(fields.length)}`);
-		e.addFields(fields.filter((_, j) => page(j) === i));
-	});
-	return embeds;
+	return pages;
 }
