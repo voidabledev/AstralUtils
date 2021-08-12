@@ -1,9 +1,6 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.command = void 0;
-const Embeds_1 = require("../Modules/Embeds");
-const discord_js_1 = require("discord.js");
-exports.command = {
+import { fail } from '../Modules/Embeds';
+import { MessageEmbed } from 'discord.js';
+export const command = {
     name: 'case',
     description: 'View information on a moderation case.',
     options: [
@@ -22,10 +19,10 @@ exports.command = {
         const log = await client.modlogs.get(punishID);
         if (!log) {
             return interaction.reply({
-                embeds: [Embeds_1.fail('I couldn\'t find a punishment with this ID!')],
+                embeds: [fail('I couldn\'t find a punishment with this ID!')],
             });
         }
-        const embed = new discord_js_1.MessageEmbed()
+        const embed = new MessageEmbed()
             .setAuthor(interaction.user.tag, interaction.user.avatarURL({ dynamic: true }) ?? undefined)
             .setTitle('Case Information')
             .addField('Type', log.caseType)

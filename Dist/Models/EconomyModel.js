@@ -1,8 +1,5 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.economyModel = void 0;
-const mongoose_1 = require("mongoose");
-const schema = new mongoose_1.Schema({
+import { model, Schema } from 'mongoose';
+const schema = new Schema({
     userId: String,
     coins: {
         type: Number,
@@ -10,4 +7,4 @@ const schema = new mongoose_1.Schema({
     },
     itemIds: [String],
 });
-exports.economyModel = mongoose_1.model('economy', schema);
+export const economyModel = model('economy', schema);

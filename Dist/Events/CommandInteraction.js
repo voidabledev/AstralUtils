@@ -1,7 +1,4 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.event = void 0;
-exports.event = {
+export const event = {
     event: 'interactionCreate',
     async run(client, interaction) {
         if (!interaction.isCommand())

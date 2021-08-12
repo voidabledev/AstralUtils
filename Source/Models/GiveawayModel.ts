@@ -13,6 +13,7 @@ export interface Pattern extends Document {
 	host: string;
 	sponsor?: string;
 	requirement?: string;
+	winners?: string[];
 }
 
 export interface GiveawayData {
@@ -28,6 +29,7 @@ export interface GiveawayData {
 	host: string;
 	sponsor?: string;
 	requirement?: string;
+	winners?: string[];
 }
 
 export interface CreateData {
@@ -43,6 +45,23 @@ export interface CreateData {
 	ended?: boolean;
 	entries?: string[];
 	requirement?: string;
+	winners?: string[];
+}
+
+export interface UpdateData {
+	channelId?: string;
+	guildId?: string;
+	prize?: string;
+	start?: number;
+	end?: number;
+	winnerCount?: number;
+	host?: string;
+	sponsor?: string;
+	messageId?: string;
+	ended?: boolean;
+	entries?: string[];
+	requirement?: string;
+	winners?: string[];
 }
 
 const schema = new Schema({
@@ -88,6 +107,7 @@ const schema = new Schema({
 	},
 	sponsor: String,
 	requirement: String,
+	winners: [String],
 });
 
 export const giveawayModel = model<Pattern>('new-giveaways', schema);

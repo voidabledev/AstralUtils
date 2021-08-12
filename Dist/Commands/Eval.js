@@ -1,10 +1,7 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.command = void 0;
-const config_json_1 = require("../config.json");
-const discord_js_1 = require("discord.js");
+import { devs } from '../config.json';
+import { MessageEmbed } from 'discord.js';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-exports.command = {
+export const command = {
     name: 'eval',
     description: 'Executes code [Developers only]',
     options: [
@@ -21,13 +18,13 @@ exports.command = {
         },
     ],
     async allowed(interaction, client) {
-        return config_json_1.devs.includes(interaction.user.id);
+        return devs.includes(interaction.user.id);
     },
     async run(interaction, options, client) {
         const ephemeral = options.getBoolean('ephemeral') ?? true;
         const code = options.getString('code', true);
         await interaction.deferReply({ ephemeral });
-        const embed = new discord_js_1.MessageEmbed()
+        const embed = new MessageEmbed()
             .setTitle('Eval result')
             .addField('Input', '```js\n' + code + '\n```');
         try {

@@ -1,8 +1,5 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.command = void 0;
-const Embeds_1 = require("../Modules/Embeds");
-exports.command = {
+import { success, fail, confirm } from '../Modules/Embeds';
+export const command = {
     name: 'unban',
     description: 'Unans a user.',
     options: [
@@ -31,7 +28,7 @@ exports.command = {
                 ephemeral: true,
             });
         }
-        await Embeds_1.confirm(interaction, `Are you sure you want to unban ${user.tag}?`)
+        await confirm(interaction, `Are you sure you want to unban ${user.tag}?`)
             .then(async () => {
             await interaction.guild?.members.unban(user, reason);
             const log = await client.modlogs.set({
@@ -42,13 +39,13 @@ exports.command = {
                 caseType: 'Unban',
             });
             await interaction.editReply({
-                embeds: [Embeds_1.success(`${user.tag} has been **unbanned** | \`${log.punishID}\``)],
+                embeds: [success(`${user.tag} has been **unbanned** | \`${log.punishID}\``)],
                 components: [],
             });
         })
             .catch(() => {
             interaction.editReply({
-                embeds: [Embeds_1.fail('Cancelled.')],
+                embeds: [fail('Cancelled.')],
                 components: [],
             });
         });

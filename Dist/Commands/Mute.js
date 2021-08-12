@@ -1,10 +1,7 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.command = void 0;
-const discord_js_1 = require("discord.js");
-const Embeds_1 = require("../Modules/Embeds");
+import { MessageEmbed } from 'discord.js';
+import { success, fail, confirm } from '../Modules/Embeds';
 // eslint-disable-next-line @typescript-eslint/no-empty-function
-exports.command = {
+export const command = {
     name: 'mute',
     description: 'Mutes a user.',
     options: [
@@ -46,27 +43,27 @@ exports.command = {
         const timeUnit = options.getInteger('time-unit') ?? 60000;
         if (typeof member === 'undefined') {
             return interaction.reply({
-                embeds: [Embeds_1.fail('I can\'t mute someone not in the server.')],
+                embeds: [fail('I can\'t mute someone not in the server.')],
             });
         }
         if (member.permissions.has('MANAGE_MESSAGES')) {
             return interaction.reply({
-                embeds: [Embeds_1.fail('You can\'t mute a moderator/admin!')],
+                embeds: [fail('You can\'t mute a moderator/admin!')],
             });
         }
         let role = interaction.guild?.roles.cache.find((r) => r.name === 'Muted');
         const createRole = typeof role === 'undefined';
         if (!member?.manageable) {
             return interaction.reply({
-                embeds: [Embeds_1.fail('I can\'t mute this user!')],
+                embeds: [fail('I can\'t mute this user!')],
             });
         }
         if (role && member.roles.cache.has(role.id)) {
             return interaction.reply({
-                embeds: [Embeds_1.fail(`${member} is already muted!`)],
+                embeds: [fail(`${member} is already muted!`)],
             });
         }
-        await Embeds_1.confirm(interaction, `Are you sure you want to mute ${member}? ${createRole ? 'A "Muted" role will be created' : ''}`)
+        await confirm(interaction, `Are you sure you want to mute ${member}? ${createRole ? 'A "Muted" role will be created' : ''}`)
             .then(async () => {
             if (createRole) {
                 role = await interaction.guild.roles.create({
@@ -95,7 +92,7 @@ exports.command = {
                     }
                 });
             }
-            const userEmbed = new discord_js_1.MessageEmbed()
+            const userEmbed = new MessageEmbed()
                 .setTitle(`You've been muted in **${interaction.guild?.name}**`)
                 .addField('Reason', reason)
                 .addField('Expires', time ? `<t:${Math.floor((new Date().getTime() + time * timeUnit) / 1000)}:R>` : 'Permanent')
@@ -114,13 +111,13 @@ exports.command = {
                 isActive: true,
             });
             await interaction.editReply({
-                embeds: [Embeds_1.success(`${member} has been **muted** | \`${log.punishID}\``)],
+                embeds: [success(`${member} has been **muted** | \`${log.punishID}\``)],
                 components: [],
             });
         })
             .catch(() => {
             interaction.editReply({
-                embeds: [Embeds_1.fail('Cancelled.')],
+                embeds: [fail('Cancelled.')],
                 components: [],
             });
         });

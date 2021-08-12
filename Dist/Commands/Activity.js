@@ -1,8 +1,5 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.command = void 0;
-const config_json_1 = require("../config.json");
-exports.command = {
+import { devs } from '../config.json';
+export const command = {
     name: 'activity',
     description: 'Sets the bot\'s status.',
     options: [
@@ -41,7 +38,7 @@ exports.command = {
         },
     ],
     async allowed(interaction, client) {
-        return config_json_1.devs.includes(interaction.user.id);
+        return devs.includes(interaction.user.id);
     },
     async run(interaction, options, client) {
         const status = options.getString('status') ?? undefined;

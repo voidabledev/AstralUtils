@@ -18,8 +18,9 @@ export const event: Event = {
 		}
 
 		if (interaction.customId.startsWith('reroll-giveaway-')) {
-			client.giveaways.end(interaction.customId.replace('reroll-giveaway-', ''));
-			return await interaction.reply({ embeds: [success('Giveaway rerolled!')], ephemeral: true });
+			client.giveaways.reroll(interaction.customId.replace('reroll-giveaway-', ''), interaction)
+				.then(() => interaction.editReply({ embeds: [success('Giveaway rerolled!')], components: [] }))
+				.catch(() => interaction.editReply({ embeds: [fail('Cancelled.')], components: [] }));
 		}
 
 		if (interaction.customId.startsWith('end-giveaway-')) {

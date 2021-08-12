@@ -1,9 +1,6 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.command = void 0;
-const Embeds_1 = require("../Modules/Embeds");
-const discord_js_1 = require("discord.js");
-exports.command = {
+import { fail, pageMenu, parsePages } from '../Modules/Embeds';
+import { MessageEmbed } from 'discord.js';
+export const command = {
     name: 'search',
     description: 'Search all punishments a user has.',
     options: [
@@ -65,7 +62,7 @@ exports.command = {
         });
         if (!logs.length) {
             return interaction.reply({
-                embeds: [Embeds_1.fail('I couldn\'t find any punshments matching your search.')],
+                embeds: [fail('I couldn\'t find any punshments matching your search.')],
             });
         }
         const fields = logs.map((l) => {
@@ -77,10 +74,10 @@ exports.command = {
                     ''}`,
             };
         });
-        const embeds = Embeds_1.parsePages(fields, new discord_js_1.MessageEmbed()
+        const embeds = parsePages(fields, new MessageEmbed()
             .setTitle(`Punishment search for ${user.tag}`)
             .setDescription(`Found ${fields.length} results for ${user}.`)
             .setColor('GREEN'));
-        await Embeds_1.pageMenu(interaction, embeds);
+        await pageMenu(interaction, embeds);
     },
 };

@@ -1,10 +1,7 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.ModlogManager = void 0;
-const ModlogModel_1 = require("../Models/ModlogModel");
-const discord_js_1 = require("discord.js");
-const Utils_1 = require("../Modules/Utils");
-class ModlogManager {
+import { modlogModel } from '../Models/ModlogModel';
+import { MessageEmbed, GuildMember } from 'discord.js';
+import { id } from '../Modules/Utils';
+export class ModlogManager {
     _client;
     constructor(_client) {
         this._client = _client;
@@ -12,12 +9,12 @@ class ModlogManager {
         this._interval(30000);
     }
     async getUser(userID) {
-        return await ModlogModel_1.modlogModel.find({
+        return await modlogModel.find({
             userID,
         });
     }
     async fetch(filter = {}) {
-        return await ModlogModel_1.modlogModel.find(filter);
+        return await modlogModel.find(filter);
     }
     async _interval(timeout) {
         setInterval(async () => {
@@ -26,7 +23,7 @@ class ModlogManager {
                 const guild = this._client.guilds.cache.get(l.guildID);
                 const member = await guild?.members.fetch(l.userID).catch(() => { });
                 const role = guild?.roles.cache.find((r) => r.name === 'Muted');
-                if (member instanceof discord_js_1.GuildMember && typeof role !== 'undefined' && !member.roles.cache.get(role.id)) {
+                if (member instanceof GuildMember && typeof role !== 'undefined' && !member.roles.cache.get(role.id)) {
                     member.roles.add(role.id);
                 }
             });
@@ -54,30 +51,30 @@ class ModlogManager {
         }, timeout);
     }
     async get(punishID) {
-        return await ModlogModel_1.modlogModel.findOne({
+        return await modlogModel.findOne({
             punishID,
         }) ?? undefined;
     }
     async delete(punishID) {
-        return await ModlogModel_1.modlogModel.findOneAndDelete({ punishID }) ?? undefined;
+        return await modlogModel.findOneAndDelete({ punishID }) ?? undefined;
     }
     async update(punishID, data) {
-        return await ModlogModel_1.modlogModel.findOneAndUpdate({ punishID }, data) ?? undefined;
+        return await modlogModel.findOneAndUpdate({ punishID }, data) ?? undefined;
     }
     async updateOne(inputData, updateData) {
-        return await ModlogModel_1.modlogModel.findOneAndUpdate(inputData, updateData) ?? undefined;
+        return await modlogModel.findOneAndUpdate(inputData, updateData) ?? undefined;
     }
     async set(data) {
-        data.punishID = Utils_1.id(10, 10);
+        data.punishID = id(10, 10);
         data.timestamp = new Date().getTime();
-        while (await ModlogModel_1.modlogModel.findOne({ punishID: data.punishID }))
-            data.punishID = Utils_1.id(10, 10);
-        const log = await ModlogModel_1.modlogModel.create(data);
+        while (await modlogModel.findOne({ punishID: data.punishID }))
+            data.punishID = id(10, 10);
+        const log = await modlogModel.create(data);
         const automod = this._client.user?.id === log.staffID;
         const channel = (automod ?
             this._client.channels.cache.get('831996576778944612') :
             this._client.channels.cache.get('831996577690288188'));
-        const embed = new discord_js_1.MessageEmbed()
+        const embed = new MessageEmbed()
             .setTitle(`Case ID #${data.punishID}`)
             .addField('Type', data.caseType)
             .addField('User', `<@${data.userID}> (${data.userID})`);
@@ -97,5 +94,7 @@ class ModlogManager {
         });
         return log;
     }
+    async deleteMany(punishIDs) {
+        await modlogModel.deleteMany({ punishID: { $in: punishIDs } });
+    }
 }
-exports.ModlogManager = ModlogManager;

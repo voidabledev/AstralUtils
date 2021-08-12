@@ -7,6 +7,7 @@ const client = new Client({
 		Intents.FLAGS.GUILD_MESSAGES,
 		Intents.FLAGS.GUILD_BANS,
 		Intents.FLAGS.DIRECT_MESSAGES,
+		Intents.FLAGS.GUILD_MEMBERS,
 	],
 });
 

@@ -102,4 +102,7 @@ export class ModlogManager {
 		});
 		return log;
 	}
+	async deleteMany(punishIDs: string[]): Promise<void> {
+		await modlogModel.deleteMany({ punishID: { $in: punishIDs } });
+	}
 }

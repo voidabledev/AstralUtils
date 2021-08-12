@@ -1,7 +1,4 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.command = void 0;
-exports.command = {
+export const command = {
     name: 'balance',
     description: 'Shows your balance',
     async run(interaction, options, client) {
