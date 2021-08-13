@@ -27,6 +27,24 @@ export const event: Event = {
 			}
 		}
 
+		if (message.content === '>deploy rm' && devs.includes(message.author.id)) {
+			if (!client.user || !message.guild) return;
+
+			const rest = new REST({ version: '9' }).setToken(token);
+			try {
+				await rest.put(
+					Routes.applicationGuildCommands(client.user?.id, message.guild.id),
+					{ body: [] },
+				);
+				await message.channel.send('Removed slash commands from this server.');
+			}
+			catch (e) {
+				await message.channel.send(
+					`Failed to remove slash commands: \`${e.message}\``,
+				);
+			}
+		}
+
 		if (message.member && client.afk.get(message.author.id)) {
 			await client.afk.unset(message.member);
 			const embed = new MessageEmbed()

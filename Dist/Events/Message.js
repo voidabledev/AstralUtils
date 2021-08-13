@@ -23,6 +23,18 @@ exports.event = {
                 await msg.edit(`Failed to refresh commands:\n${e.message}`);
             }
         }
+        if (message.content === '>deploy rm' && config_json_1.devs.includes(message.author.id)) {
+            if (!client.user || !message.guild)
+                return;
+            const rest = new rest_1.REST({ version: '9' }).setToken(config_json_1.token);
+            try {
+                await rest.put(v9_1.Routes.applicationGuildCommands(client.user?.id, message.guild.id), { body: [] });
+                await message.channel.send('Removed slash commands from this server.');
+            }
+            catch (e) {
+                await message.channel.send(`Failed to remove slash commands: \`${e.message}\``);
+            }
+        }
         if (message.member && client.afk.get(message.author.id)) {
             await client.afk.unset(message.member);
             const embed = new discord_js_1.MessageEmbed()
