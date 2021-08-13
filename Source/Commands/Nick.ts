@@ -54,6 +54,5 @@ export const command: Command = {
 				await interaction.reply({ embeds: [success(`Changed ${member}'s nickname to \`${newNick}\` | \`${log.punishID}\``)] });
 			})
 			.catch((e) => interaction.reply({ embeds: [fail(`I was unable to change ${member}'s nickname: ${e.message}`)] }));
-
 	},
 };
