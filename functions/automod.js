@@ -74,7 +74,7 @@ function checkAccess(message, action) {
 const exec = {
 	'delete': async (message) => message.delete(),
 	'message': async (message, args) => {
-		const m = message.channel.send(
+		const m = await message.channel.send(
 			args[0]
 				.replace('%u', `<@${message.author.id}>`)
 				.replace('%c', `<#${message.channel.id}>`),
