@@ -1,5 +1,8 @@
-import { MessageEmbed } from 'discord.js';
-export const command = {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.command = void 0;
+const discord_js_1 = require("discord.js");
+exports.command = {
     name: 'searchstaff',
     description: 'Search all punishments a staff member has.',
     options: [
@@ -16,11 +19,11 @@ export const command = {
         const user = options.getUser('user') ?? interaction.user;
         const logs = await client.modlogs.fetch({ staffID: user.id });
         const day = 1000 * 60 * 60 * 24;
-        const embed1 = new MessageEmbed()
+        const embed1 = new discord_js_1.MessageEmbed()
             .setAuthor(user.tag, user.displayAvatarURL())
             .setDescription(`Punishment overview for ${user}`)
             .setColor('GREEN');
-        const embed2 = new MessageEmbed()
+        const embed2 = new discord_js_1.MessageEmbed()
             .setFooter(`User ID: ${user.id}`)
             .setColor('GREEN');
         const embeds = [embed1, embed2];

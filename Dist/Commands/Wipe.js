@@ -1,7 +1,10 @@
-import { MessageEmbed } from 'discord.js';
-import { success, fail, confirm } from '../Modules/Embeds';
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.command = void 0;
+const discord_js_1 = require("discord.js");
+const Embeds_1 = require("../Modules/Embeds");
 // eslint-disable-next-line @typescript-eslint/no-empty-function
-export const command = {
+exports.command = {
     name: 'wipe',
     description: 'Removes all punishments a user has.',
     options: [
@@ -27,20 +30,20 @@ export const command = {
         const logs = await client.modlogs.getUser(user.id);
         if (!logs.length) {
             return interaction.reply({
-                embeds: [fail('I found no punishments to remove!')],
+                embeds: [Embeds_1.fail('I found no punishments to remove!')],
             });
         }
-        await confirm(interaction, `Are you sure you want to delete all \`${logs.length}\` punishments for ${user}?`)
+        await Embeds_1.confirm(interaction, `Are you sure you want to delete all \`${logs.length}\` punishments for ${user}?`)
             .then(async () => {
             await client.modlogs.deleteMany(logs.map((l) => l.punishID));
             await interaction.editReply({
-                embeds: [success(`Removed \`${logs.length}\` punishments for \`${reason}\`.`)],
+                embeds: [Embeds_1.success(`Removed \`${logs.length}\` punishments for \`${reason}\`.`)],
                 components: [],
             });
             if (!client.user)
                 return;
             const logChannel = client.channels.cache.get('851883465364078632');
-            const logEmbed = new MessageEmbed()
+            const logEmbed = new discord_js_1.MessageEmbed()
                 .setTitle('Punishments Removed')
                 .addField('Removed for', reason)
                 .addField('Removed amount', `${logs.length}`)
@@ -59,7 +62,7 @@ export const command = {
         })
             .catch(async () => {
             await interaction.editReply({
-                embeds: [fail('Cancelled.')],
+                embeds: [Embeds_1.fail('Cancelled.')],
                 components: [],
             });
         });

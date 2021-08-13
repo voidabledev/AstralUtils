@@ -1,7 +1,10 @@
-import { success, fail } from '../Modules/Embeds';
-import { id } from '../Modules/Utils';
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.command = void 0;
+const Embeds_1 = require("../Modules/Embeds");
+const Utils_1 = require("../Modules/Utils");
 // eslint-disable-next-line @typescript-eslint/no-empty-function
-export const command = {
+exports.command = {
     name: 'moderate',
     description: 'Moderates a user\'s nickname.',
     options: [
@@ -17,15 +20,20 @@ export const command = {
     },
     async run(interaction, options, client) {
         const member = options.getMember('user');
-        const newNick = `Moderated Nickname ${id(36, 6)}`;
+        const newNick = `Moderated Nickname ${Utils_1.id(36, 6)}`;
         if (typeof member === 'undefined') {
             return interaction.reply({
-                embeds: [fail('The user you specified isn\'t in this server, I can\'t change their nickname.')],
+                embeds: [Embeds_1.fail('The user you specified isn\'t in this server, I can\'t change their nickname.')],
             });
         }
         if (member.roles.highest.position >= interaction.member?.roles.highest.position) {
             return interaction.reply({
-                embeds: [fail('You can\'t change the nickname of somebody above you!')],
+                embeds: [Embeds_1.fail('You can\'t change the nickname of somebody above you!')],
+            });
+        }
+        if (member.displayName.startsWith('Moderated Nickname')) {
+            return interaction.reply({
+                embeds: [Embeds_1.fail('That user\'s nickname is already moderated!')],
             });
         }
         member.setNickname(newNick)
@@ -37,8 +45,8 @@ export const command = {
                 reason: 'Rule 10',
                 caseType: 'Moderated Nickname',
             });
-            await interaction.reply({ embeds: [success(`Moderated ${member}'s nickname | \`${log.punishID}\``)] });
+            await interaction.reply({ embeds: [Embeds_1.success(`Moderated ${member}'s nickname | \`${log.punishID}\``)] });
         })
-            .catch((e) => interaction.reply({ embeds: [fail(`I was unable to change ${member}'s nickname: ${e.message}`)] }));
+            .catch((e) => interaction.reply({ embeds: [Embeds_1.fail(`I was unable to change ${member}'s nickname: ${e.message}`)] }));
     },
 };

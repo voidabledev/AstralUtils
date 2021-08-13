@@ -6,6 +6,7 @@ import { search } from './Utils';
 import { EconomyManager } from '../Managers/EconomyManager';
 import { ModlogManager } from '../Managers/ModlogManager';
 import { GiveawayManager } from '../Managers/GiveawayManager';
+import { AfkManager } from '../Managers/AfkManager';
 
 export class Client extends DJSClient {
 	commands = new Collection<string, Command>();
@@ -14,11 +15,13 @@ export class Client extends DJSClient {
 	economy: EconomyManager;
 	modlogs: ModlogManager;
 	giveaways: GiveawayManager;
+	afk: AfkManager;
 	constructor(options: ClientOptions) {
 		super(options);
 		this.economy = new EconomyManager();
 		this.modlogs = new ModlogManager(this);
 		this.giveaways = new GiveawayManager(this, 5000);
+		this.afk = new AfkManager();
 	}
 
 	async start(): Promise<void> {

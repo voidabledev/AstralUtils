@@ -1,5 +1,8 @@
-import { model, Schema } from 'mongoose';
-const schema = new Schema({
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.giveawayModel = void 0;
+const mongoose_1 = require("mongoose");
+const schema = new mongoose_1.Schema({
     messageId: {
         type: String,
         required: true,
@@ -44,4 +47,4 @@ const schema = new Schema({
     requirement: String,
     winners: [String],
 });
-export const giveawayModel = model('new-giveaways', schema);
+exports.giveawayModel = mongoose_1.model('new-giveaways', schema);

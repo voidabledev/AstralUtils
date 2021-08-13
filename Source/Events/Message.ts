@@ -1,4 +1,4 @@
-import { Message } from 'discord.js';
+import { Message, MessageEmbed } from 'discord.js';
 import { Event } from '../Typings/Event';
 import { devs, token } from '../config.json';
 import { REST } from '@discordjs/rest';
@@ -18,11 +18,40 @@ export const event: Event = {
 					Routes.applicationGuildCommands(client.user.id, message.guild.id),
 					{ body: commands },
 				);
-				await msg.edit(`Refreshed ${commands.length} commands in ${Date.now() - start}ms.`);
+				await msg.edit(
+					`Refreshed ${commands.length} commands in ${Date.now() - start}ms.`,
+				);
 			}
-			catch(e) {
+			catch (e) {
 				await msg.edit(`Failed to refresh commands:\n${e.message}`);
 			}
+		}
+
+		if (message.member && client.afk.get(message.author.id)) {
+			await client.afk.unset(message.member);
+			const embed = new MessageEmbed()
+				.setDescription(`Welcome back ${message.member}, I removed your AFK.`)
+				.setColor('GREEN');
+			message
+				.reply({
+					embeds: [embed],
+					allowedMentions: { repliedUser: false },
+				})
+				.then((m) => setTimeout(() => m.delete(), 5000));
+		}
+
+		const afk = client.afk.get(message.mentions.members?.first()?.id ?? '');
+
+		if (afk) {
+			const embed = new MessageEmbed()
+				.setDescription(`<@${afk.userId}> is AFK: \`${afk.message}\``)
+				.setColor('RED');
+			message
+				.reply({
+					embeds: [embed],
+					allowedMentions: { repliedUser: false },
+				})
+				.then((m) => setTimeout(() => m.delete(), 5000));
 		}
 	},
 };

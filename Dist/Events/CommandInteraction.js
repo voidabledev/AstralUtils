@@ -1,4 +1,8 @@
-export const event = {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.event = void 0;
+const Embeds_1 = require("../Modules/Embeds");
+exports.event = {
     event: 'interactionCreate',
     async run(client, interaction) {
         if (!interaction.isCommand())
@@ -6,10 +10,10 @@ export const event = {
         const command = client.commands.get(interaction.commandName);
         if (!command)
             return;
-        const allowed = await command.allowed?.(interaction, client) ?? true;
+        const allowed = (await command.allowed?.(interaction, client)) ?? true;
         if (!allowed) {
             return interaction.reply({
-                content: 'You don\'t have permission to use this command!',
+                embeds: [Embeds_1.fail('You don\'t have permission to use this command!')],
                 ephemeral: true,
             });
         }

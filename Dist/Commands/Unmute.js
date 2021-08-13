@@ -1,7 +1,10 @@
-import { MessageEmbed } from 'discord.js';
-import { success, fail, confirm } from '../Modules/Embeds';
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.command = void 0;
+const discord_js_1 = require("discord.js");
+const Embeds_1 = require("../Modules/Embeds");
 // eslint-disable-next-line @typescript-eslint/no-empty-function
-export const command = {
+exports.command = {
     name: 'unmute',
     description: 'Unmutes a user.',
     options: [
@@ -26,28 +29,28 @@ export const command = {
         const reason = options.getString('reason', true);
         if (typeof member === 'undefined') {
             return interaction.reply({
-                embeds: [fail('I can\'t unmute someone not in the server.')],
+                embeds: [Embeds_1.fail('I can\'t unmute someone not in the server.')],
             });
         }
         const role = interaction.guild?.roles.cache.find((r) => r.name === 'Muted');
         if (typeof role === 'undefined') {
             return interaction.reply({
-                embeds: [fail('I was unable to find a "Muted" role.')],
+                embeds: [Embeds_1.fail('I was unable to find a "Muted" role.')],
             });
         }
         if (!member?.manageable) {
             return interaction.reply({
-                embeds: [fail('I can\'t manage this user!')],
+                embeds: [Embeds_1.fail('I can\'t manage this user!')],
             });
         }
         if (!member.roles.cache.has(role.id)) {
             return interaction.reply({
-                embeds: [fail(`${member} isn't muted!`)],
+                embeds: [Embeds_1.fail(`${member} isn't muted!`)],
             });
         }
-        await confirm(interaction, `Are you sure you want to unmute ${member}?`)
+        await Embeds_1.confirm(interaction, `Are you sure you want to unmute ${member}?`)
             .then(async () => {
-            const userEmbed = new MessageEmbed()
+            const userEmbed = new discord_js_1.MessageEmbed()
                 .setTitle(`You've been unmuted in **${interaction.guild?.name}**`)
                 .addField('Reason', reason)
                 .setColor('GREEN');
@@ -63,14 +66,14 @@ export const command = {
                 caseType: 'Mute',
             });
             await interaction.editReply({
-                embeds: [success(`${member} has been **unmuted** | \`${log.punishID}\``)],
+                embeds: [Embeds_1.success(`${member} has been **unmuted** | \`${log.punishID}\``)],
                 components: [],
             });
             await client.modlogs.updateOne({ caseType: 'Mute', userID: member.id, isActive: true }, { isActive: false });
         })
             .catch(() => {
             interaction.editReply({
-                embeds: [fail('Cancelled.')],
+                embeds: [Embeds_1.fail('Cancelled.')],
                 components: [],
             });
         });

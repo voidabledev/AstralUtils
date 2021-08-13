@@ -1,5 +1,8 @@
-import { model, Schema } from 'mongoose';
-const schema = new Schema({
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.modlogModel = void 0;
+const mongoose_1 = require("mongoose");
+const schema = new mongoose_1.Schema({
     guildID: {
         type: String,
         required: true,
@@ -31,4 +34,4 @@ const schema = new Schema({
     expires: Number,
     isActive: Boolean,
 });
-export const modlogModel = model('punishments', schema);
+exports.modlogModel = mongoose_1.model('punishments', schema);

@@ -1,6 +1,9 @@
-import { success, fail } from '../Modules/Embeds';
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.command = void 0;
+const Embeds_1 = require("../Modules/Embeds");
 // eslint-disable-next-line @typescript-eslint/no-empty-function
-export const command = {
+exports.command = {
     name: 'nick',
     description: 'Changes a user\'s nickname.',
     options: [
@@ -26,12 +29,12 @@ export const command = {
         const oldNick = member?.displayName;
         if (typeof member === 'undefined') {
             return interaction.reply({
-                embeds: [fail('The user you specified isn\'t in this server, I can\'t change their nickname.')],
+                embeds: [Embeds_1.fail('The user you specified isn\'t in this server, I can\'t change their nickname.')],
             });
         }
         if (member.roles.highest.position >= interaction.member?.roles.highest.position) {
             return interaction.reply({
-                embeds: [fail('You can\'t change the nickname of somebody above you!')],
+                embeds: [Embeds_1.fail('You can\'t change the nickname of somebody above you!')],
             });
         }
         member.setNickname(newNick)
@@ -43,8 +46,8 @@ export const command = {
                 reason: `${oldNick} -> ${newNick}`,
                 caseType: 'Changed Nickname',
             });
-            await interaction.reply({ embeds: [success(`Changed ${member}'s nickname to \`${newNick}\` | \`${log.punishID}\``)] });
+            await interaction.reply({ embeds: [Embeds_1.success(`Changed ${member}'s nickname to \`${newNick}\` | \`${log.punishID}\``)] });
         })
-            .catch((e) => interaction.reply({ embeds: [fail(`I was unable to change ${member}'s nickname: ${e.message}`)] }));
+            .catch((e) => interaction.reply({ embeds: [Embeds_1.fail(`I was unable to change ${member}'s nickname: ${e.message}`)] }));
     },
 };

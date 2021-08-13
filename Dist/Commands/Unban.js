@@ -1,5 +1,8 @@
-import { success, fail, confirm } from '../Modules/Embeds';
-export const command = {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.command = void 0;
+const Embeds_1 = require("../Modules/Embeds");
+exports.command = {
     name: 'unban',
     description: 'Unans a user.',
     options: [
@@ -28,7 +31,7 @@ export const command = {
                 ephemeral: true,
             });
         }
-        await confirm(interaction, `Are you sure you want to unban ${user.tag}?`)
+        await Embeds_1.confirm(interaction, `Are you sure you want to unban ${user.tag}?`)
             .then(async () => {
             await interaction.guild?.members.unban(user, reason);
             const log = await client.modlogs.set({
@@ -39,13 +42,13 @@ export const command = {
                 caseType: 'Unban',
             });
             await interaction.editReply({
-                embeds: [success(`${user.tag} has been **unbanned** | \`${log.punishID}\``)],
+                embeds: [Embeds_1.success(`${user.tag} has been **unbanned** | \`${log.punishID}\``)],
                 components: [],
             });
         })
             .catch(() => {
             interaction.editReply({
-                embeds: [fail('Cancelled.')],
+                embeds: [Embeds_1.fail('Cancelled.')],
                 components: [],
             });
         });

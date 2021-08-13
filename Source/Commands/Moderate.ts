@@ -36,6 +36,12 @@ export const command: Command = {
 			});
 		}
 
+		if (member.displayName.startsWith('Moderated Nickname')) {
+			return interaction.reply({
+				embeds: [fail('That user\'s nickname is already moderated!')],
+			});
+		}
+
 		member.setNickname(newNick)
 			.then(async () => {
 				const log = await client.modlogs.set({

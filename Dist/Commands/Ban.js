@@ -1,7 +1,10 @@
-import { MessageEmbed } from 'discord.js';
-import { success, fail, confirm } from '../Modules/Embeds';
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.command = void 0;
+const discord_js_1 = require("discord.js");
+const Embeds_1 = require("../Modules/Embeds");
 // eslint-disable-next-line @typescript-eslint/no-empty-function
-export const command = {
+exports.command = {
     name: 'ban',
     description: 'Bans a user.',
     options: [
@@ -44,17 +47,17 @@ export const command = {
         const member = await interaction.guild?.members.fetch(user.id);
         if (member?.bannable === false) {
             return interaction.reply({
-                embeds: [fail('I can\'t ban this user!')],
+                embeds: [Embeds_1.fail('I can\'t ban this user!')],
             });
         }
         if ((member?.roles?.highest?.position ?? 0) >= interaction.member?.roles.highest.position) {
             return interaction.reply({
-                embeds: [fail('You can\'t ban a user above you!')],
+                embeds: [Embeds_1.fail('You can\'t ban a user above you!')],
             });
         }
-        await confirm(interaction, `Are you sure you want to ban ${user}?`)
+        await Embeds_1.confirm(interaction, `Are you sure you want to ban ${user}?`)
             .then(async () => {
-            const userEmbed = new MessageEmbed()
+            const userEmbed = new discord_js_1.MessageEmbed()
                 .setTitle(`You've been banned in **${interaction.guild?.name}**`)
                 .addField('Reason', reason)
                 .addField('Expires', time ? `<t:${Math.floor((new Date().getTime() + time * timeUnit) / 1000)}:R>` : 'Permanent')
@@ -75,13 +78,13 @@ export const command = {
                 isActive: true,
             });
             await interaction.editReply({
-                embeds: [success(`${user} has been **banned** | \`${log.punishID}\``)],
+                embeds: [Embeds_1.success(`${user} has been **banned** | \`${log.punishID}\``)],
                 components: [],
             });
         })
             .catch(() => {
             interaction.editReply({
-                embeds: [fail('Cancelled.')],
+                embeds: [Embeds_1.fail('Cancelled.')],
                 components: [],
             });
         });

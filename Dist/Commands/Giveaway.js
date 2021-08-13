@@ -1,5 +1,8 @@
-import { success, fail } from '../Modules/Embeds';
-export const command = {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.command = void 0;
+const Embeds_1 = require("../Modules/Embeds");
+exports.command = {
     name: 'giveaway',
     description: 'Creates a giveaway.',
     options: [
@@ -123,7 +126,7 @@ export const command = {
             const requirement = options.getString('requirement') ?? undefined;
             const ping = options.getString('ping') ?? '';
             if (winnerCount < 1 || winnerCount > 5)
-                return interaction.reply({ embeds: [fail('Giveaways have to have between 1 and 5 winners!')] });
+                return interaction.reply({ embeds: [Embeds_1.fail('Giveaways have to have between 1 and 5 winners!')] });
             await client.giveaways.create({
                 channelId: interaction.channel.id,
                 guildId: interaction.guild.id,
@@ -146,15 +149,15 @@ export const command = {
             const requirement = options.getString('requirement') ?? undefined;
             const end = duration ? Date.now() + duration * durationUnit : undefined;
             if (winnerCount && (winnerCount < 1 || winnerCount > 5))
-                return interaction.reply({ embeds: [fail('Giveaways have to have between 1 and 5 winners!')] });
+                return interaction.reply({ embeds: [Embeds_1.fail('Giveaways have to have between 1 and 5 winners!')] });
             await client.giveaways.update(messageId, {
                 prize,
                 end,
                 winnerCount,
                 sponsor,
                 requirement,
-            }).then(() => interaction.reply({ embeds: [success('Giveaway edited!')] }))
-                .catch((e) => interaction.reply({ embeds: [fail(e.message)] }));
+            }).then(() => interaction.reply({ embeds: [Embeds_1.success('Giveaway edited!')] }))
+                .catch((e) => interaction.reply({ embeds: [Embeds_1.fail(e.message)] }));
         }
     },
 };

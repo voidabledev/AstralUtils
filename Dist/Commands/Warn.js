@@ -1,7 +1,10 @@
-import { MessageEmbed } from 'discord.js';
-import { success, fail, confirm } from '../Modules/Embeds';
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.command = void 0;
+const discord_js_1 = require("discord.js");
+const Embeds_1 = require("../Modules/Embeds");
 // eslint-disable-next-line @typescript-eslint/no-empty-function
-export const command = {
+exports.command = {
     name: 'warn',
     description: 'Warns a user.',
     options: [
@@ -26,17 +29,17 @@ export const command = {
         const reason = options.getString('reason', true);
         if (typeof member === 'undefined') {
             return interaction.reply({
-                embeds: [fail('I can\'t warn someone not in the server.')],
+                embeds: [Embeds_1.fail('I can\'t warn someone not in the server.')],
             });
         }
         if (member.permissions.has('MANAGE_MESSAGES')) {
             return interaction.reply({
-                embeds: [fail('You can\'t warn a moderator/admin!')],
+                embeds: [Embeds_1.fail('You can\'t warn a moderator/admin!')],
             });
         }
-        await confirm(interaction, `Are you sure you want to warn ${member}?`)
+        await Embeds_1.confirm(interaction, `Are you sure you want to warn ${member}?`)
             .then(async () => {
-            const userEmbed = new MessageEmbed()
+            const userEmbed = new discord_js_1.MessageEmbed()
                 .setTitle(`You've been warned in **${interaction.guild?.name}**`)
                 .addField('Reason', reason)
                 .setColor('RED');
@@ -53,13 +56,13 @@ export const command = {
                 isActive: true,
             });
             await interaction.editReply({
-                embeds: [success(`${member} has been **warned** | \`${log.punishID}\``)],
+                embeds: [Embeds_1.success(`${member} has been **warned** | \`${log.punishID}\``)],
                 components: [],
             });
         })
             .catch(() => {
             interaction.editReply({
-                embeds: [fail('Cancelled.')],
+                embeds: [Embeds_1.fail('Cancelled.')],
                 components: [],
             });
         });
