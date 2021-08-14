@@ -15,7 +15,13 @@ export const command: Command = {
 		},
 	],
 	async allowed(interaction, client) {
-		return (interaction.guild && (interaction.member?.permissions as Readonly<Permissions>)?.has?.('MANAGE_MESSAGES')) ?? false;
+		return (
+			(interaction.guild &&
+				(interaction.member?.permissions as Readonly<Permissions>)?.has?.(
+					'MANAGE_MESSAGES',
+				)) ??
+			false
+		);
 	},
 	async run(interaction, options, client) {
 		const user = options.getUser('user') ?? interaction.user;
@@ -28,9 +34,7 @@ export const command: Command = {
 		const embed2 = new MessageEmbed()
 			.setFooter(`User ID: ${user.id}`)
 			.setColor('GREEN');
-
 		const embeds = [embed1, embed2];
-
 		const pages = [
 			{
 				Warnings: logs.filter((r) => r.caseType === 'Warn'),
@@ -39,9 +43,7 @@ export const command: Command = {
 				Bans: logs.filter((r) => r.caseType === 'Ban'),
 				Unbans: logs.filter((r) => r.caseType === 'Unban'),
 				Subtotal: logs.filter((r) =>
-					['Warn', 'Mute', 'Unmute', 'Ban', 'Unban'].includes(
-						r.caseType,
-					),
+					['Warn', 'Mute', 'Unmute', 'Ban', 'Unban'].includes(r.caseType),
 				),
 			},
 			{
@@ -50,27 +52,36 @@ export const command: Command = {
 				'Moderated Nicknames': logs.filter(
 					(r) => r.caseType === 'Moderated Nickname',
 				),
-				'Changed Nicknames': logs.filter((r) => r.caseType === 'Changed Nickname'),
+				'Changed Nicknames': logs.filter(
+					(r) => r.caseType === 'Changed Nickname',
+				),
 				Total: logs,
 			},
 		];
 		pages.forEach((page, i) => {
 			let v: keyof typeof page;
-			for(v in page) {
-				embeds[i].addFields({
-					name: `${v}\n(last 7 days)`,
-					value: (page[v] as Modlog[]).filter((l) => Date.now() - l.timestamp < 7 * day).length.toString(),
-					inline: true,
-				},
-				{
-					name: `${v}\n(last 30 days)`,
-					value: (page[v] as Modlog[]).filter((l) => Date.now() - l.timestamp < 30 * day).length.toString(),
-					inline: true,
-				}, {
-					name: `${v}\n(all time)`,
-					value: (page[v] as Modlog[]).length.toString(),
-					inline: true,
-				});
+			for (v in page) {
+				embeds[i].addFields(
+					{
+						name: `${v}\n(last 7 days)`,
+						value: (page[v] as Modlog[])
+							.filter((l) => Date.now() - l.timestamp < 7 * day)
+							.length.toString(),
+						inline: true,
+					},
+					{
+						name: `${v}\n(last 30 days)`,
+						value: (page[v] as Modlog[])
+							.filter((l) => Date.now() - l.timestamp < 30 * day)
+							.length.toString(),
+						inline: true,
+					},
+					{
+						name: `${v}\n(all time)`,
+						value: (page[v] as Modlog[]).length.toString(),
+						inline: true,
+					},
+				);
 			}
 		});
 		interaction.reply({ embeds });

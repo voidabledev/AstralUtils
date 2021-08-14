@@ -1,5 +1,11 @@
 import { Command } from '../typings/command';
-import { MessageEmbed, Permissions, Guild, GuildMember, Role } from 'discord.js';
+import {
+	MessageEmbed,
+	Permissions,
+	Guild,
+	GuildMember,
+	Role,
+} from 'discord.js';
 import { success, fail, confirm } from '../modules/embeds';
 import { ApplicationCommandOptionType as Options } from 'discord-api-types/v9';
 // eslint-disable-next-line @typescript-eslint/no-empty-function
@@ -37,27 +43,29 @@ export const command: Command = {
 		},
 	],
 	async allowed(interaction, client) {
-		return (interaction.guild && (interaction.member?.permissions as Readonly<Permissions>)?.has?.('MANAGE_MESSAGES')) ?? false;
+		return (
+			(interaction.guild &&
+				(interaction.member?.permissions as Readonly<Permissions>)?.has?.(
+					'MANAGE_MESSAGES',
+				)) ??
+			false
+		);
 	},
 	async run(interaction, options, client) {
-
-		const member = (options.getMember('user') as GuildMember | undefined);
+		const member = options.getMember('user') as GuildMember | undefined;
 		const reason = options.getString('reason', true);
 		const time = options.getInteger('time');
 		const timeUnit = options.getInteger('time-unit') ?? 60000;
-
 		if (typeof member === 'undefined') {
 			return interaction.reply({
 				embeds: [fail('I can\'t mute someone not in the server.')],
 			});
 		}
-
 		if (member.permissions.has('MANAGE_MESSAGES')) {
 			return interaction.reply({
 				embeds: [fail('You can\'t mute a moderator/admin!')],
 			});
 		}
-
 		let role = interaction.guild?.roles.cache.find((r) => r.name === 'Muted');
 		const createRole = typeof role === 'undefined';
 		if (!member?.manageable) {
@@ -65,14 +73,17 @@ export const command: Command = {
 				embeds: [fail('I can\'t mute this user!')],
 			});
 		}
-
 		if (role && member.roles.cache.has(role.id)) {
 			return interaction.reply({
 				embeds: [fail(`${member} is already muted!`)],
 			});
 		}
-
-		await confirm(interaction, `Are you sure you want to mute ${member}? ${createRole ? 'A "Muted" role will be created' : ''}`)
+		await confirm(
+			interaction,
+			`Are you sure you want to mute ${member}? ${
+				createRole ? 'A "Muted" role will be created' : ''
+			}`,
+		)
 			.then(async () => {
 				if (createRole) {
 					role = await (interaction.guild as Guild).roles.create({
@@ -86,7 +97,7 @@ export const command: Command = {
 							c.type === 'GUILD_CATEGORY' ||
 							c.type === 'GUILD_NEWS'
 						) {
-							c.permissionOverwrites.create((role as Role), {
+							c.permissionOverwrites.create(role as Role, {
 								VIEW_CHANNEL: false,
 								SEND_MESSAGES: false,
 								READ_MESSAGE_HISTORY: false,
@@ -96,7 +107,7 @@ export const command: Command = {
 							});
 						}
 						if (c.type === 'GUILD_VOICE' || c.type === 'GUILD_STAGE_VOICE') {
-							c.permissionOverwrites.create((role as Role), {
+							c.permissionOverwrites.create(role as Role, {
 								CONNECT: false,
 								SPEAK: false,
 							});
@@ -106,11 +117,22 @@ export const command: Command = {
 				const userEmbed = new MessageEmbed()
 					.setTitle(`You've been muted in **${interaction.guild?.name}**`)
 					.addField('Reason', reason)
-					.addField('Expires', time ? `<t:${Math.floor((new Date().getTime() + time * timeUnit) / 1000)}:R>` : 'Permanent')
+					.addField(
+						'Expires',
+						time
+							? `<t:${Math.floor(
+								(new Date().getTime() + time * timeUnit) / 1000,
+							  )}:R>`
+							: 'Permanent',
+					)
 					.setColor('RED');
-				await member.user.send({
-					embeds: [userEmbed],
-				}).catch(() => { /* cannot send messages to this user */});
+				await member.user
+					.send({
+						embeds: [userEmbed],
+					})
+					.catch(() => {
+						/* cannot send messages to this user */
+					});
 				await member.roles.add(role as Role);
 				const log = await client.modlogs.set({
 					guildID: (interaction.guild as Guild).id,
@@ -122,14 +144,16 @@ export const command: Command = {
 					isActive: true,
 				});
 				await interaction.editReply({
-					embeds: [success(`${member} has been **muted** | \`${log.punishID}\``)],
+					embeds: [
+						success(`${member} has been **muted** | \`${log.punishID}\``),
+					],
 					components: [],
 				});
 			})
 			.catch(() => {
 				interaction.editReply({
 					embeds: [fail('Cancelled.')],
-					components:[],
+					components: [],
 				});
 			});
 	},

@@ -17,11 +17,8 @@ export const command: Command = {
 	],
 	async run(interaction, options, client) {
 		const message = options.getString('message', true);
-
 		if (!interaction.member) return;
-
 		client.afk.set(interaction.member as GuildMember, message);
-
 		return interaction.reply({
 			embeds: [success(`Your AFK message has been set: \`${message}\``)],
 		});

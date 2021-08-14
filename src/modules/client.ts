@@ -27,21 +27,27 @@ export class Client extends DJSClient {
 	async start(): Promise<void> {
 		this.login(token);
 
-		const commandNames: string[] = await search(`${__dirname}/../commands/**/*{.js,.ts}`);
-		commandNames.forEach(async name => {
+		const commandNames: string[] = await search(
+			`${__dirname}/../commands/**/*{.js,.ts}`,
+		);
+		commandNames.forEach(async (name) => {
 			const file: Command = (await import(name)).command;
 
 			this.commands.set(file.name, file);
 		});
 
-		const eventNames: string[] = await search(`${__dirname}/../events/**/*{.js,.ts}`);
-		eventNames.forEach(async name => {
+		const eventNames: string[] = await search(
+			`${__dirname}/../events/**/*{.js,.ts}`,
+		);
+		eventNames.forEach(async (name) => {
 			const file: Event = (await import(name)).event;
 
 			if (file.once) this.once(file.event, file.run.bind(null, this));
 			else this.on(file.event, file.run.bind(null, this));
 		});
 
-		console.log(`Loaded ${commandNames.length} commands and ${eventNames.length} events.`);
+		console.log(
+			`Loaded ${commandNames.length} commands and ${eventNames.length} events.`,
+		);
 	}
 }

@@ -22,42 +22,56 @@ export const command: Command = {
 		},
 	],
 	async allowed(interaction, client) {
-		return (interaction.guild && (interaction.member?.permissions as Readonly<Permissions>)?.has?.('MANAGE_ROLES')) ?? false;
+		return (
+			(interaction.guild &&
+				(interaction.member?.permissions as Readonly<Permissions>)?.has?.(
+					'MANAGE_ROLES',
+				)) ??
+			false
+		);
 	},
 	async run(interaction, options, client) {
-
 		const user = options.getUser('user', true);
 		const reason = options.getString('reason', true);
 		const logs = await client.modlogs.getUser(user.id);
-
 		if (!logs.length) {
 			return interaction.reply({
 				embeds: [fail('I found no punishments to remove!')],
 			});
 		}
-
-		await confirm(interaction, `Are you sure you want to delete all \`${logs.length}\` punishments for ${user}?`)
+		await confirm(
+			interaction,
+			`Are you sure you want to delete all \`${logs.length}\` punishments for ${user}?`,
+		)
 			.then(async () => {
 				await client.modlogs.deleteMany(logs.map((l) => l.punishID));
 				await interaction.editReply({
-					embeds: [success(`Removed \`${logs.length}\` punishments for \`${reason}\`.`)],
+					embeds: [
+						success(
+							`Removed \`${logs.length}\` punishments for \`${reason}\`.`,
+						),
+					],
 					components: [],
 				});
-
 				if (!client.user) return;
-
-				const logChannel: TextChannel = client.channels.cache.get('851883465364078632') as TextChannel;
+				const logChannel: TextChannel = client.channels.cache.get(
+					'851883465364078632',
+				) as TextChannel;
 				const logEmbed = new MessageEmbed()
 					.setTitle('Punishments Removed')
 					.addField('Removed for', reason)
 					.addField('Removed amount', `${logs.length}`)
 					.addField('User', `<@${user.id}> (${user.id})`)
 					.setColor('RANDOM')
-					.setFooter(`Deleted by: ${interaction.user.tag} (${interaction.user.id})`);
+					.setFooter(
+						`Deleted by: ${interaction.user.tag} (${interaction.user.id})`,
+					);
 				const webhooks = await logChannel.fetchWebhooks();
-				const webhook = webhooks.size ? webhooks.first() : await logChannel.createWebhook(client.user.username, {
-					avatar: client.user.avatarURL() ?? undefined,
-				});
+				const webhook = webhooks.size
+					? webhooks.first()
+					: await logChannel.createWebhook(client.user.username, {
+						avatar: client.user.avatarURL() ?? undefined,
+					  });
 				webhook?.send({
 					username: client.user.username,
 					avatarURL: client.user.avatarURL() ?? undefined,

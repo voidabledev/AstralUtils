@@ -27,25 +27,33 @@ export const command: Command = {
 	async run(interaction, options, client) {
 		const ephemeral = options.getBoolean('ephemeral') ?? true;
 		const code = options.getString('code', true);
-
 		await interaction.deferReply({ ephemeral });
-
 		const embed = new MessageEmbed()
 			.setTitle('Shell Execution')
 			.addField('Input', '```sh\n' + code + '\n```')
 			.setFooter('Status: Success')
 			.setColor('ORANGE');
-
 		exec(code, async (err, stdout, stderr) => {
 			if (stdout.length) {
 				embed
-					.addField('Output', '```\n' + stdout.slice(0, 1000) + (stdout.length > 1000 ? '...' : '') + '\n```')
+					.addField(
+						'Output',
+						'```\n' +
+							stdout.slice(0, 1000) +
+							(stdout.length > 1000 ? '...' : '') +
+							'\n```',
+					)
 					.setColor('GREEN');
 			}
-
 			if (stderr.length) {
 				embed
-					.addField('Error', '```\n' + stderr.slice(0, 1000) + (stderr.length > 1000 ? '...' : '') + '\n```')
+					.addField(
+						'Error',
+						'```\n' +
+							stderr.slice(0, 1000) +
+							(stderr.length > 1000 ? '...' : '') +
+							'\n```',
+					)
 					.setFooter('Status: Failed')
 					.setColor('RED');
 			}

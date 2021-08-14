@@ -6,10 +6,8 @@ export const event: Event = {
 	event: 'interactionCreate',
 	async run(client, interaction: Interaction) {
 		if (!interaction.isCommand()) return;
-
 		const command = client.commands.get(interaction.commandName);
 		if (!command) return;
-
 		const allowed = (await command.allowed?.(interaction, client)) ?? true;
 		if (!allowed) {
 			return interaction.reply({
@@ -17,7 +15,6 @@ export const event: Event = {
 				ephemeral: true,
 			});
 		}
-
 		try {
 			await command.run(interaction, interaction.options, client);
 		}

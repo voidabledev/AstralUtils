@@ -1,39 +1,39 @@
 import { model, Document, Schema } from 'mongoose';
 
 export interface Pattern extends Document {
-  guildID: string,
-	userID: string,
-	punishID: string,
-	staffID: string,
-	reason: string,
-	caseType: string,
-	timestamp: number,
-	expires?: number,
-	isActive?: boolean,
+	guildID: string;
+	userID: string;
+	punishID: string;
+	staffID: string;
+	reason: string;
+	caseType: string;
+	timestamp: number;
+	expires?: number;
+	isActive?: boolean;
 }
 
 export interface UpdateOptions {
-	guildID?: string,
-	userID?: string,
-	punishID?: string,
-	staffID?: string,
-	reason?: string,
-	caseType?: string,
-	timestamp?: number,
-	expires?: number,
-	isActive?: boolean,
+	guildID?: string;
+	userID?: string;
+	punishID?: string;
+	staffID?: string;
+	reason?: string;
+	caseType?: string;
+	timestamp?: number;
+	expires?: number;
+	isActive?: boolean;
 }
 
 export interface CreateOptions {
-	guildID: string,
-	userID: string,
-	punishID?: string,
-	staffID: string,
-	reason: string,
-	caseType: string,
-	timestamp?: number,
-	expires?: number,
-	isActive?: boolean
+	guildID: string;
+	userID: string;
+	punishID?: string;
+	staffID: string;
+	reason: string;
+	caseType: string;
+	timestamp?: number;
+	expires?: number;
+	isActive?: boolean;
 }
 
 const schema = new Schema({

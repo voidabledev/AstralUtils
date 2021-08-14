@@ -45,27 +45,30 @@ export const command: Command = {
 		return devs.includes(interaction.user.id);
 	},
 	async run(interaction, options, client) {
-		const status = (options.getString('status') as PresenceStatusData) ?? undefined;
+		const status =
+			(options.getString('status') as PresenceStatusData) ?? undefined;
 		const type = (options.getString('type') as ActivityType) ?? undefined;
 		const name = options.getString('name') ?? undefined;
 		const url = options.getString('url') ?? undefined;
 		try {
 			client.user?.setPresence({
 				status,
-				activities: [{
-					type,
-					name,
-					url,
-				}],
+				activities: [
+					{
+						type,
+						name,
+						url,
+					},
+				],
 			});
 			interaction.reply({
 				content: 'Status has been set!',
 				ephemeral: true,
 			});
 		}
-		catch(e) {
+		catch (e) {
 			interaction.reply({
-				content: `Failed to set status:\n${e.message}`,
+				content: `Failed to set status:\n${e}`,
 				ephemeral: true,
 			});
 		}

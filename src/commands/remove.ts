@@ -22,35 +22,39 @@ export const command: Command = {
 		},
 	],
 	async allowed(interaction, client) {
-		return (interaction.guild && (interaction.member?.permissions as Readonly<Permissions>)?.has?.('MANAGE_ROLES')) ?? false;
+		return (
+			(interaction.guild &&
+				(interaction.member?.permissions as Readonly<Permissions>)?.has?.(
+					'MANAGE_ROLES',
+				)) ??
+			false
+		);
 	},
 	async run(interaction, options, client) {
-
 		const punishID = options.getString('punish-id', true);
 		const reason = options.getString('reason', true);
 		const log = await client.modlogs.get(punishID);
-
 		if (!log) {
 			return interaction.reply({
 				embeds: [fail('I couldn\'t find a punishment with this ID!')],
 			});
 		}
-
-		await confirm(interaction, `Are you sure you want to remove this punishment?\n\n**Type:** ${
-			log.caseType
-		}\n**Moderator:** <@${log.staffID}> (${log.staffID})\n**User:** <@${log.userID}> (${
-			log.userID
-		})\n**Reason:** ${log.reason}`)
+		await confirm(
+			interaction,
+			`Are you sure you want to remove this punishment?\n\n**Type:** ${log.caseType}\n**Moderator:** <@${log.staffID}> (${log.staffID})\n**User:** <@${log.userID}> (${log.userID})\n**Reason:** ${log.reason}`,
+		)
 			.then(async () => {
 				await client.modlogs.delete(punishID);
 				await interaction.editReply({
-					embeds: [success(`Removed punishment \`${punishID}\` for \`${reason}\`.`)],
+					embeds: [
+						success(`Removed punishment \`${punishID}\` for \`${reason}\`.`),
+					],
 					components: [],
 				});
-
 				if (!client.user) return;
-
-				const logChannel: TextChannel = client.channels.cache.get('851883465364078632') as TextChannel;
+				const logChannel: TextChannel = client.channels.cache.get(
+					'851883465364078632',
+				) as TextChannel;
 				const logEmbed = new MessageEmbed()
 					.setTitle('Punishment Removed')
 					.addField('Removed For', reason)
@@ -59,11 +63,15 @@ export const command: Command = {
 					.addField('User', `<@${log.userID}> (${log.userID})`)
 					.addField('Reason', log.reason)
 					.setColor('RANDOM')
-					.setFooter(`Deleted by: ${interaction.user.tag} (${interaction.user.id})`);
+					.setFooter(
+						`Deleted by: ${interaction.user.tag} (${interaction.user.id})`,
+					);
 				const webhooks = await logChannel.fetchWebhooks();
-				const webhook = webhooks.size ? webhooks.first() : await logChannel.createWebhook(client.user.username, {
-					avatar: client.user.avatarURL() ?? undefined,
-				});
+				const webhook = webhooks.size
+					? webhooks.first()
+					: await logChannel.createWebhook(client.user.username, {
+						avatar: client.user.avatarURL() ?? undefined,
+					  });
 				webhook?.send({
 					username: client.user.username,
 					avatarURL: client.user.avatarURL() ?? undefined,

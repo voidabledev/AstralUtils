@@ -17,17 +17,15 @@ export const command: Command = {
 		const user = options.getUser('user') ?? interaction.user;
 		const member: GuildMember | undefined =
 			user.id === interaction.user.id
-				? (interaction.member as GuildMember | null ?? undefined)
+				? (interaction.member as GuildMember | null) ?? undefined
 				: (options.getMember('user') as GuildMember | undefined);
 		if (!interaction.guild) return;
-
 		const roles = member
 			? member.roles.cache
 				.sort((a, b) => b.position - a.position)
 				.map((role) => role.toString())
 				.slice(0, -1)
 			: [];
-
 		const embed = new MessageEmbed()
 			.setAuthor(user.tag, user.displayAvatarURL({ dynamic: true, size: 512 }))
 			.setThumbnail(user.displayAvatarURL({ dynamic: true, size: 512 }))
@@ -66,7 +64,7 @@ export const command: Command = {
 						roles.length > 10
 							? `${roles.slice(0, 10).join(', ')} and ${
 								roles.length - 10
-							} more role${roles.length === 11 ? '' : 's'}...`
+							  } more role${roles.length === 11 ? '' : 's'}...`
 							: roles.length > 0
 								? roles.join(', ')
 								: 'None'
@@ -77,7 +75,6 @@ export const command: Command = {
 			.setColor(`${member?.displayHexColor || 'RANDOM'}`)
 			.setFooter(interaction.guild.name)
 			.setTimestamp();
-
 		await interaction.reply({ embeds: [embed] });
 	},
 };

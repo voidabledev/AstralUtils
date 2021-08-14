@@ -34,9 +34,16 @@ export const command: Command = {
 			.addField('Input', '```ts\n' + ts + '\n```');
 
 		try {
-			const transpiled = transpileModule(ts, { reportDiagnostics: true, compilerOptions: { noEmitOnError: true, target: ScriptTarget.ESNext } });
-			if(transpiled.diagnostics?.length) {
-				throw new Error(transpiled.diagnostics.map((d) => `${d.start}: ${d.messageText}`).join('\n'));
+			const transpiled = transpileModule(ts, {
+				reportDiagnostics: true,
+				compilerOptions: { noEmitOnError: true, target: ScriptTarget.ESNext },
+			});
+			if (transpiled.diagnostics?.length) {
+				throw new Error(
+					transpiled.diagnostics
+						.map((d) => `${d.start}: ${d.messageText}`)
+						.join('\n'),
+				);
 			}
 			const js = transpiled.outputText;
 			embed.addField('Transpiled input', '```js\n' + js + '\n```');
@@ -55,7 +62,7 @@ export const command: Command = {
 		}
 		catch (e) {
 			embed
-				.addField('Error', '```js\n' + e.message + '\n```')
+				.addField('Error', '```js\n' + e + '\n```')
 				.setFooter('Status: Failed')
 				.setColor('RED');
 		}

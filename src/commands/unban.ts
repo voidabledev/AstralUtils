@@ -21,20 +21,27 @@ export const command: Command = {
 		},
 	],
 	async allowed(interaction, client) {
-		return (interaction.guild && (interaction.member?.permissions as Readonly<Permissions>)?.has?.('BAN_MEMBERS')) ?? false;
+		return (
+			(interaction.guild &&
+				(interaction.member?.permissions as Readonly<Permissions>)?.has?.(
+					'BAN_MEMBERS',
+				)) ??
+			false
+		);
 	},
 	async run(interaction, options, client) {
-
 		const user = options.getUser('user', true);
 		const reason = options.getString('reason', true);
-
-		if (!(await interaction.guild?.bans.fetch())?.find((b) => b.user.id === user.id)) {
+		if (
+			!(await interaction.guild?.bans.fetch())?.find(
+				(b) => b.user.id === user.id,
+			)
+		) {
 			return interaction.reply({
 				content: 'That user isn\'t banned!',
 				ephemeral: true,
 			});
 		}
-
 		await confirm(interaction, `Are you sure you want to unban ${user.tag}?`)
 			.then(async () => {
 				await interaction.guild?.members.unban(user, reason);
@@ -46,7 +53,9 @@ export const command: Command = {
 					caseType: 'Unban',
 				});
 				await interaction.editReply({
-					embeds: [success(`${user.tag} has been **unbanned** | \`${log.punishID}\``)],
+					embeds: [
+						success(`${user.tag} has been **unbanned** | \`${log.punishID}\``),
+					],
 					components: [],
 				});
 			})

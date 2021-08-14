@@ -22,21 +22,29 @@ export const command: Command = {
 		},
 	],
 	async allowed(interaction, client) {
-		return (interaction.guild && (interaction.member?.permissions as Readonly<Permissions>)?.has?.('MANAGE_ROLES')) ?? false;
+		return (
+			(interaction.guild &&
+				(interaction.member?.permissions as Readonly<Permissions>)?.has?.(
+					'MANAGE_ROLES',
+				)) ??
+			false
+		);
 	},
 	async run(interaction, options, client) {
-
 		const punishID = options.getString('punish-id', true);
 		const reason = options.getString('reason', true);
 		const log = await client.modlogs.update(punishID, { reason });
-
 		if (!log) {
 			return interaction.reply({
 				embeds: [fail('I couldn\'t find a punishment with this ID!')],
 			});
 		}
 		await interaction.reply({
-			embeds: [success(`Changed the reason of punishment \`${punishID}\` from \`${log.reason}\` to \`${reason}\`.`)],
+			embeds: [
+				success(
+					`Changed the reason of punishment \`${punishID}\` from \`${log.reason}\` to \`${reason}\`.`,
+				),
+			],
 		});
 	},
 };

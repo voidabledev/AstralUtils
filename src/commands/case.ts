@@ -15,7 +15,13 @@ export const command: Command = {
 		},
 	],
 	async allowed(interaction, client) {
-		return (interaction.guild && (interaction.member?.permissions as Readonly<Permissions>)?.has?.('MANAGE_MESSAGES')) ?? false;
+		return (
+			(interaction.guild &&
+				(interaction.member?.permissions as Readonly<Permissions>)?.has?.(
+					'MANAGE_MESSAGES',
+				)) ??
+			false
+		);
 	},
 	async run(interaction, options, client) {
 		const punishID = options.getInteger('punish-id', true).toString();
@@ -27,14 +33,29 @@ export const command: Command = {
 		}
 
 		const embed = new MessageEmbed()
-			.setAuthor(interaction.user.tag, interaction.user.avatarURL({ dynamic: true }) ?? undefined)
+			.setAuthor(
+				interaction.user.tag,
+				interaction.user.avatarURL({ dynamic: true }) ?? undefined,
+			)
 			.setTitle('Case Information')
 			.addField('Type', log.caseType)
 			.addField('Moderator', `<@${log.staffID}> (${log.staffID})`)
 			.addField('User', `<@${log.userID}> (${log.userID})`)
 			.addField('Reason', log.reason)
-			.addField('Time', `<t:${Math.floor(log.timestamp / 1000)}:R> (<t:${Math.floor(log.timestamp / 1000)}:f>)`)
-			.addField(log.isActive !== false ? 'Expires' : 'Expired', log.expires ? `<t:${Math.floor(log.expires / 1000)}:R> (<t:${Math.floor(log.expires / 1000)}:f>)` : 'Not Applicable')
+			.addField(
+				'Time',
+				`<t:${Math.floor(log.timestamp / 1000)}:R> (<t:${Math.floor(
+					log.timestamp / 1000,
+				)}:f>)`,
+			)
+			.addField(
+				log.isActive !== false ? 'Expires' : 'Expired',
+				log.expires
+					? `<t:${Math.floor(log.expires / 1000)}:R> (<t:${Math.floor(
+						log.expires / 1000,
+					  )}:f>)`
+					: 'Not Applicable',
+			)
 			.setFooter(`Punishment ID: ${punishID}`)
 			.setColor('RANDOM');
 		interaction.reply({

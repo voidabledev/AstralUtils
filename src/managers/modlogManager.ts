@@ -18,17 +18,14 @@ export class ModlogManager {
 		this._client = _client;
 		this._interval(30000);
 	}
-
 	async getUser(userID: Snowflake): Promise<Modlog[]> {
 		return await modlogModel.find({
 			userID,
 		});
 	}
-
 	async fetch(filter: UpdateOptions = {}): Promise<Modlog[]> {
 		return await modlogModel.find(filter);
 	}
-
 	private async _interval(timeout: number): Promise<void> {
 		setInterval(async () => {
 			const logs = await this.fetch();
@@ -104,7 +101,6 @@ export class ModlogManager {
 				});
 		}, timeout);
 	}
-
 	async get(punishID: string): Promise<Modlog | undefined> {
 		return (
 			(await modlogModel.findOne({
@@ -112,11 +108,9 @@ export class ModlogManager {
 			})) ?? undefined
 		);
 	}
-
 	async delete(punishID: string): Promise<Modlog | undefined> {
 		return (await modlogModel.findOneAndDelete({ punishID })) ?? undefined;
 	}
-
 	async update(
 		punishID: string,
 		data: UpdateOptions,
@@ -125,7 +119,6 @@ export class ModlogManager {
 			(await modlogModel.findOneAndUpdate({ punishID }, data)) ?? undefined
 		);
 	}
-
 	async updateOne(
 		inputData: UpdateOptions,
 		updateData: UpdateOptions,
@@ -134,7 +127,6 @@ export class ModlogManager {
 			(await modlogModel.findOneAndUpdate(inputData, updateData)) ?? undefined
 		);
 	}
-
 	async set(data: CreateOptions): Promise<Modlog> {
 		data.punishID = id(10, 10);
 		data.timestamp = new Date().getTime();
@@ -148,7 +140,6 @@ export class ModlogManager {
 				? this._client.channels.cache.get('831996576778944612')
 				: this._client.channels.cache.get('831996577690288188')
 		) as TextChannel;
-
 		const embed = new MessageEmbed()
 			.setTitle(`Case ID #${data.punishID}`)
 			.addField('Type', data.caseType)
@@ -160,13 +151,12 @@ export class ModlogManager {
 			.addField('Reason', data.reason)
 			.setTimestamp(data.timestamp)
 			.setColor('RANDOM');
-
 		const webhooks = await channel.fetchWebhooks();
 		const webhook = webhooks.size
 			? webhooks.first()
 			: await channel.createWebhook(this._client.user?.username ?? '', {
 				avatar: this._client.user?.avatarURL() ?? undefined,
-			});
+			  });
 		await webhook?.send({
 			username: this._client.user?.username ?? undefined,
 			avatarURL: this._client.user?.avatarURL() ?? undefined,

@@ -97,7 +97,6 @@ export const command: Command = {
 		) {
 			return;
 		}
-
 		const amount = Math.min(options.getInteger('amount', true), 100);
 		const user = options.getUser('user');
 		const not = options.getString('not');
@@ -109,7 +108,6 @@ export const command: Command = {
 		const images = !!options.getInteger('images');
 		const embeds = !!options.getInteger('images');
 		const bots = options.getInteger('bots') ?? 0;
-
 		const messages = (
 			(await interaction.channel.messages.fetch({
 				limit: amount,
@@ -126,16 +124,13 @@ export const command: Command = {
 			.filter((m) => (embeds ? m.embeds.length > 0 : true))
 			.filter((m) => (bots === 1 ? m.author.bot : true))
 			.filter((m) => (bots === 2 ? !m.author.bot : true));
-
 		if (!messages.size) {
 			return interaction.reply({
 				embeds: [fail('Found no messages matching your filter.')],
 				ephemeral: true,
 			});
 		}
-
 		await interaction.channel.bulkDelete(messages);
-
 		return interaction.reply({
 			embeds: [success(`Deleted ${messages.size} messages.`)],
 			ephemeral: true,

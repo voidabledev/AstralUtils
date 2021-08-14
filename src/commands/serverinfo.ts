@@ -15,7 +15,6 @@ export const command: Command = {
 		const verificationLevel = interaction.guild.verificationLevel
 			.replace('_', ' ')
 			.toLowerCase();
-
 		const embed = new MessageEmbed()
 			.setThumbnail(interaction.guild.iconURL({ dynamic: true }) ?? '')
 			.setAuthor(
@@ -57,7 +56,6 @@ export const command: Command = {
 				{ name: 'Channels', value: `${channels.size}`, inline: true },
 			)
 			.setTimestamp();
-
 		await interaction.reply({ embeds: [embed] });
 	},
 };

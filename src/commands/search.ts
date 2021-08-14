@@ -42,12 +42,19 @@ export const command: Command = {
 		},
 		{
 			name: 'active',
-			description: 'Only include active/already expired punishments. Excludes punishments that lack this indicator.',
+			description:
+				'Only include active/already expired punishments. Excludes punishments that lack this indicator.',
 			type: Options.Boolean,
 		},
 	],
 	async allowed(interaction, client) {
-		return (interaction.guild && (interaction.member?.permissions as Readonly<Permissions>)?.has?.('MANAGE_MESSAGES')) ?? false;
+		return (
+			(interaction.guild &&
+				(interaction.member?.permissions as Readonly<Permissions>)?.has?.(
+					'MANAGE_MESSAGES',
+				)) ??
+			false
+		);
 	},
 	async run(interaction, options, client) {
 		const user = options.getUser('user', true);
@@ -59,11 +66,12 @@ export const command: Command = {
 			return [
 				type ? l.caseType === type : undefined,
 				staff ? l.staffID === staff.id : undefined,
-				reason ? l.reason.toLowerCase().includes(reason.toLowerCase()) : undefined,
+				reason
+					? l.reason.toLowerCase().includes(reason.toLowerCase())
+					: undefined,
 				active ? l.isActive === active : undefined,
 			].every((option) => option !== false);
 		});
-
 		if (!logs.length) {
 			return interaction.reply({
 				embeds: [fail('I couldn\'t find any punshments matching your search.')],
@@ -72,16 +80,26 @@ export const command: Command = {
 		const fields = logs.map((l) => {
 			return {
 				name: `Punishment ID: ${l.punishID} (${l.caseType})`,
-				value: `- **Reason:** ${l.reason}\n- **Punished by:** <@${l.staffID}> (${l.staffID})\n- **Created:** <t:${Math.floor(l.timestamp / 1000)}:R> (<t:${Math.floor(l.timestamp / 1000)}:f>)\n${l.expires ?
-					((l.isActive !== false) ? '- **Expires:**' : '- **Expired:**') +
-					`<t:${Math.floor(l.expires / 1000)}:R> (<t:${Math.floor(l.expires / 1000)}:f>)` :
-					''}`,
+				value: `- **Reason:** ${l.reason}\n- **Punished by:** <@${
+					l.staffID
+				}> (${l.staffID})\n- **Created:** <t:${Math.floor(
+					l.timestamp / 1000,
+				)}:R> (<t:${Math.floor(l.timestamp / 1000)}:f>)\n${
+					l.expires
+						? (l.isActive !== false ? '- **Expires:**' : '- **Expired:**') +
+						  `<t:${Math.floor(l.expires / 1000)}:R> (<t:${Math.floor(
+						  	l.expires / 1000,
+						  )}:f>)`
+						: ''
+				}`,
 			};
 		});
-		const embeds = parsePages(fields, new MessageEmbed()
-			.setTitle(`Punishment search for ${user.tag}`)
-			.setDescription(`Found ${fields.length} results for ${user}.`)
-			.setColor('GREEN'),
+		const embeds = parsePages(
+			fields,
+			new MessageEmbed()
+				.setTitle(`Punishment search for ${user.tag}`)
+				.setDescription(`Found ${fields.length} results for ${user}.`)
+				.setColor('GREEN'),
 		);
 		await pageMenu(interaction, embeds);
 	},

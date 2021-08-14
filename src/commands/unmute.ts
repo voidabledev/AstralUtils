@@ -22,19 +22,22 @@ export const command: Command = {
 		},
 	],
 	async allowed(interaction, client) {
-		return (interaction.guild && (interaction.member?.permissions as Readonly<Permissions>)?.has?.('MANAGE_MESSAGES')) ?? false;
+		return (
+			(interaction.guild &&
+				(interaction.member?.permissions as Readonly<Permissions>)?.has?.(
+					'MANAGE_MESSAGES',
+				)) ??
+			false
+		);
 	},
 	async run(interaction, options, client) {
-
-		const member = (options.getMember('user') as GuildMember | undefined);
+		const member = options.getMember('user') as GuildMember | undefined;
 		const reason = options.getString('reason', true);
-
 		if (typeof member === 'undefined') {
 			return interaction.reply({
 				embeds: [fail('I can\'t unmute someone not in the server.')],
 			});
 		}
-
 		const role = interaction.guild?.roles.cache.find((r) => r.name === 'Muted');
 		if (typeof role === 'undefined') {
 			return interaction.reply({
@@ -46,22 +49,24 @@ export const command: Command = {
 				embeds: [fail('I can\'t manage this user!')],
 			});
 		}
-
 		if (!member.roles.cache.has(role.id)) {
 			return interaction.reply({
 				embeds: [fail(`${member} isn't muted!`)],
 			});
 		}
-
 		await confirm(interaction, `Are you sure you want to unmute ${member}?`)
 			.then(async () => {
 				const userEmbed = new MessageEmbed()
 					.setTitle(`You've been unmuted in **${interaction.guild?.name}**`)
 					.addField('Reason', reason)
 					.setColor('GREEN');
-				await member.user.send({
-					embeds: [userEmbed],
-				}).catch(() => { /* cannot send messages to this user */});
+				await member.user
+					.send({
+						embeds: [userEmbed],
+					})
+					.catch(() => {
+						/* cannot send messages to this user */
+					});
 				await member.roles.remove(role);
 				const log = await client.modlogs.set({
 					guildID: (interaction.guild as Guild).id,
@@ -71,7 +76,9 @@ export const command: Command = {
 					caseType: 'Mute',
 				});
 				await interaction.editReply({
-					embeds: [success(`${member} has been **unmuted** | \`${log.punishID}\``)],
+					embeds: [
+						success(`${member} has been **unmuted** | \`${log.punishID}\``),
+					],
 					components: [],
 				});
 				await client.modlogs.updateOne(
@@ -82,7 +89,7 @@ export const command: Command = {
 			.catch(() => {
 				interaction.editReply({
 					embeds: [fail('Cancelled.')],
-					components:[],
+					components: [],
 				});
 			});
 	},

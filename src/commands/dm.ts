@@ -1,5 +1,11 @@
 import { Command } from '../typings/command';
-import { MessageEmbed, Permissions, Guild, GuildMember, GuildMemberRoleManager } from 'discord.js';
+import {
+	MessageEmbed,
+	Permissions,
+	Guild,
+	GuildMember,
+	GuildMemberRoleManager,
+} from 'discord.js';
 import { success, fail, confirm } from '../modules/embeds';
 import { ApplicationCommandOptionType as Options } from 'discord-api-types/v9';
 // eslint-disable-next-line @typescript-eslint/no-empty-function
@@ -27,25 +33,36 @@ export const command: Command = {
 		},
 	],
 	async allowed(interaction, client) {
-		return (interaction.guild && (interaction.member?.permissions as Readonly<Permissions>)?.has?.('ADMINISTRATOR')) ?? false;
+		return (
+			(interaction.guild &&
+				(interaction.member?.permissions as Readonly<Permissions>)?.has?.(
+					'ADMINISTRATOR',
+				)) ??
+			false
+		);
 	},
 	async run(interaction, options, client) {
-
 		const user = options.getUser('user', true);
 		const message = options.getString('message', true);
 		const anon = options.getBoolean('anonymous') ?? false;
 		const embed = new MessageEmbed()
 			.setTitle('Direct Message')
 			.setDescription(`From **${interaction.guild?.name}**\n${message}`)
-			.setFooter(`You were messaged by ${
-				anon ? 'the Astral Galaxy Management Team' : interaction.user.tag
-			}`);
+			.setFooter(
+				`You were messaged by ${
+					anon ? 'the Astral Galaxy Management Team' : interaction.user.tag
+				}`,
+			);
 		try {
 			await user.send({ embeds: [embed] });
-			await interaction.reply({ embeds: [success(`I've sent the message to ${user}!`)] });
+			await interaction.reply({
+				embeds: [success(`I've sent the message to ${user}!`)],
+			});
 		}
 		catch (e) {
-			await interaction.reply({ embeds: [fail(`I was unable to DM ${user}.`)] });
+			await interaction.reply({
+				embeds: [fail(`I was unable to DM ${user}.`)],
+			});
 		}
 	},
 };

@@ -31,12 +31,18 @@ export const command: Command = {
 		},
 	],
 	async allowed(interaction, client) {
-		return (interaction.guild && (interaction.member?.permissions as Readonly<Permissions>)?.has?.('MANAGE_ROLES')) ?? false;
+		return (
+			(interaction.guild &&
+				(interaction.member?.permissions as Readonly<Permissions>)?.has?.(
+					'MANAGE_ROLES',
+				)) ??
+			false
+		);
 	},
 	async run(interaction, options, client) {
-
 		const punishID = options.getString('punish-id', true);
-		const expires = new Date().getTime() +
+		const expires =
+			new Date().getTime() +
 			options.getInteger('time', true) * options.getInteger('time-unit', true);
 		const log = await client.modlogs.update(punishID, { expires });
 
@@ -46,7 +52,13 @@ export const command: Command = {
 			});
 		}
 		await interaction.reply({
-			embeds: [success(`The punishment with ID \`${punishID}\` now expires <t:${Math.floor(expires / 1000)}:R>.`)],
+			embeds: [
+				success(
+					`The punishment with ID \`${punishID}\` now expires <t:${Math.floor(
+						expires / 1000,
+					)}:R>.`,
+				),
+			],
 		});
 	},
 };

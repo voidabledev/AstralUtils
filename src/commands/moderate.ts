@@ -1,5 +1,11 @@
 import { Command } from '../typings/command';
-import { MessageEmbed, Permissions, Guild, GuildMember, GuildMemberRoleManager } from 'discord.js';
+import {
+	MessageEmbed,
+	Permissions,
+	Guild,
+	GuildMember,
+	GuildMemberRoleManager,
+} from 'discord.js';
 import { success, fail, confirm } from '../modules/embeds';
 import { id } from '../modules/utils';
 import { ApplicationCommandOptionType as Options } from 'discord-api-types/v9';
@@ -17,32 +23,41 @@ export const command: Command = {
 		},
 	],
 	async allowed(interaction, client) {
-		return (interaction.guild && (interaction.member?.permissions as Readonly<Permissions>)?.has?.('MANAGE_MESSAGES')) ?? false;
+		return (
+			(interaction.guild &&
+				(interaction.member?.permissions as Readonly<Permissions>)?.has?.(
+					'MANAGE_MESSAGES',
+				)) ??
+			false
+		);
 	},
 	async run(interaction, options, client) {
-
-		const member = (options.getMember('user') as GuildMember | undefined);
+		const member = options.getMember('user') as GuildMember | undefined;
 		const newNick = `Moderated Nickname ${id(36, 6)}`;
-
 		if (typeof member === 'undefined') {
 			return interaction.reply({
-				embeds: [fail('The user you specified isn\'t in this server, I can\'t change their nickname.')],
+				embeds: [
+					fail(
+						'The user you specified isn\'t in this server, I can\'t change their nickname.',
+					),
+				],
 			});
 		}
-
-		if (member.roles.highest.position >= (interaction.member?.roles as GuildMemberRoleManager).highest.position) {
+		if (
+			member.roles.highest.position >=
+			(interaction.member?.roles as GuildMemberRoleManager).highest.position
+		) {
 			return interaction.reply({
 				embeds: [fail('You can\'t change the nickname of somebody above you!')],
 			});
 		}
-
 		if (member.displayName.startsWith('Moderated Nickname')) {
 			return interaction.reply({
 				embeds: [fail('That user\'s nickname is already moderated!')],
 			});
 		}
-
-		member.setNickname(newNick)
+		member
+			.setNickname(newNick)
 			.then(async () => {
 				const log = await client.modlogs.set({
 					userID: member.id,
@@ -51,9 +66,18 @@ export const command: Command = {
 					reason: 'Rule 10',
 					caseType: 'Moderated Nickname',
 				});
-				await interaction.reply({ embeds: [success(`Moderated ${member}'s nickname | \`${log.punishID}\``)] });
+				await interaction.reply({
+					embeds: [
+						success(`Moderated ${member}'s nickname | \`${log.punishID}\``),
+					],
+				});
 			})
-			.catch((e) => interaction.reply({ embeds: [fail(`I was unable to change ${member}'s nickname: ${e.message}`)] }));
-
+			.catch((e) =>
+				interaction.reply({
+					embeds: [
+						fail(`I was unable to change ${member}'s nickname: ${e.message}`),
+					],
+				}),
+			);
 	},
 };

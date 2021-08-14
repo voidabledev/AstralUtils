@@ -1,5 +1,10 @@
 import { Command } from '../typings/command';
-import { MessageEmbed, Permissions, Guild, GuildMemberRoleManager } from 'discord.js';
+import {
+	MessageEmbed,
+	Permissions,
+	Guild,
+	GuildMemberRoleManager,
+} from 'discord.js';
 import { success, fail, confirm } from '../modules/embeds';
 import { ApplicationCommandOptionType as Options } from 'discord-api-types/v9';
 // eslint-disable-next-line @typescript-eslint/no-empty-function
@@ -37,10 +42,15 @@ export const command: Command = {
 		},
 	],
 	async allowed(interaction, client) {
-		return (interaction.guild && (interaction.member?.permissions as Readonly<Permissions>)?.has?.('BAN_MEMBERS')) ?? false;
+		return (
+			(interaction.guild &&
+				(interaction.member?.permissions as Readonly<Permissions>)?.has?.(
+					'BAN_MEMBERS',
+				)) ??
+			false
+		);
 	},
 	async run(interaction, options, client) {
-
 		const user = options.getUser('user', true);
 		const reason = options.getString('reason', true);
 		const time = options.getInteger('time');
@@ -53,7 +63,10 @@ export const command: Command = {
 			});
 		}
 
-		if ((member?.roles?.highest?.position ?? 0) >= (interaction.member?.roles as GuildMemberRoleManager).highest.position) {
+		if (
+			(member?.roles?.highest?.position ?? 0) >=
+			(interaction.member?.roles as GuildMemberRoleManager).highest.position
+		) {
 			return interaction.reply({
 				embeds: [fail('You can\'t ban a user above you!')],
 			});
@@ -64,11 +77,22 @@ export const command: Command = {
 				const userEmbed = new MessageEmbed()
 					.setTitle(`You've been banned in **${interaction.guild?.name}**`)
 					.addField('Reason', reason)
-					.addField('Expires', time ? `<t:${Math.floor((new Date().getTime() + time * timeUnit) / 1000)}:R>` : 'Permanent')
+					.addField(
+						'Expires',
+						time
+							? `<t:${Math.floor(
+								(new Date().getTime() + time * timeUnit) / 1000,
+							  )}:R>`
+							: 'Permanent',
+					)
 					.setColor('RED');
-				await user.send({
-					embeds: [userEmbed],
-				}).catch(() => { /* cannot send messages to this user */});
+				await user
+					.send({
+						embeds: [userEmbed],
+					})
+					.catch(() => {
+						/* cannot send messages to this user */
+					});
 				await interaction.guild?.members.ban(user, {
 					reason,
 				});
@@ -82,14 +106,16 @@ export const command: Command = {
 					isActive: true,
 				});
 				await interaction.editReply({
-					embeds: [success(`${user} has been **banned** | \`${log.punishID}\``)],
+					embeds: [
+						success(`${user} has been **banned** | \`${log.punishID}\``),
+					],
 					components: [],
 				});
 			})
 			.catch(() => {
 				interaction.editReply({
 					embeds: [fail('Cancelled.')],
-					components:[],
+					components: [],
 				});
 			});
 	},

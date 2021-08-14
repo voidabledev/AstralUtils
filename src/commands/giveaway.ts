@@ -1,6 +1,9 @@
 import { Command } from '../typings/command';
 import { Permissions, GuildMemberRoleManager } from 'discord.js';
-import { ApplicationCommandOptionType as Options, APIApplicationCommandOption } from 'discord-api-types/v9';
+import {
+	ApplicationCommandOptionType as Options,
+	APIApplicationCommandOption,
+} from 'discord-api-types/v9';
 import { success, fail } from '../modules/embeds';
 
 export const command: Command = {
@@ -113,7 +116,14 @@ export const command: Command = {
 		},
 	],
 	async allowed(interaction, client) {
-		return ((interaction.member?.roles as GuildMemberRoleManager).cache.find((r) => r.name.endsWith('Giveaways')) !== undefined) || (interaction.member?.permissions as Readonly<Permissions>).has('MANAGE_MESSAGES');
+		return (
+			(interaction.member?.roles as GuildMemberRoleManager).cache.find((r) =>
+				r.name.endsWith('Giveaways'),
+			) !== undefined ||
+			(interaction.member?.permissions as Readonly<Permissions>).has(
+				'MANAGE_MESSAGES',
+			)
+		);
 	},
 	async run(interaction, options, client) {
 		if (!interaction.channel || !interaction.guild) return;
@@ -121,25 +131,35 @@ export const command: Command = {
 		const subcommand = options.getSubcommand(true);
 		if (subcommand === 'create') {
 			const prize = options.getString('prize', true);
-			const duration = options.getNumber('duration', true) * options.getInteger('duration-unit', true);
+			const duration =
+				options.getNumber('duration', true) *
+				options.getInteger('duration-unit', true);
 			const winnerCount = options.getInteger('winners', true);
 			const sponsor = options.getUser('sponsor') ?? undefined;
 			const requirement = options.getString('requirement') ?? undefined;
 			const ping = options.getString('ping') ?? '';
 
-			if (winnerCount < 1 || winnerCount > 5) return interaction.reply({ embeds: [fail('Giveaways have to have between 1 and 5 winners!')] });
+			if (winnerCount < 1 || winnerCount > 5) {
+				return interaction.reply({
+					embeds: [fail('Giveaways have to have between 1 and 5 winners!')],
+				});
+			}
 
-			await client.giveaways.create({
-				channelId: interaction.channel.id,
-				guildId: interaction.guild.id,
-				prize,
-				start: Date.now(),
-				end: Date.now() + duration,
-				winnerCount,
-				host: interaction.user.id,
-				sponsor: sponsor?.id,
-				requirement,
-			}, `${ping}:tada: **GIVEAWAY** :tada:`, interaction);
+			await client.giveaways.create(
+				{
+					channelId: interaction.channel.id,
+					guildId: interaction.guild.id,
+					prize,
+					start: Date.now(),
+					end: Date.now() + duration,
+					winnerCount,
+					host: interaction.user.id,
+					sponsor: sponsor?.id,
+					requirement,
+				},
+				`${ping}:tada: **GIVEAWAY** :tada:`,
+				interaction,
+			);
 		}
 		if (subcommand === 'edit') {
 			const messageId = options.getString('message-id', true);
@@ -151,15 +171,23 @@ export const command: Command = {
 			const requirement = options.getString('requirement') ?? undefined;
 			const end = duration ? Date.now() + duration * durationUnit : undefined;
 
-			if (winnerCount && (winnerCount < 1 || winnerCount > 5)) return interaction.reply({ embeds: [fail('Giveaways have to have between 1 and 5 winners!')] });
+			if (winnerCount && (winnerCount < 1 || winnerCount > 5)) {
+				return interaction.reply({
+					embeds: [fail('Giveaways have to have between 1 and 5 winners!')],
+				});
+			}
 
-			await client.giveaways.update(messageId, {
-				prize,
-				end,
-				winnerCount,
-				sponsor,
-				requirement,
-			}).then(() => interaction.reply({ embeds: [success('Giveaway edited!')] }))
+			await client.giveaways
+				.update(messageId, {
+					prize,
+					end,
+					winnerCount,
+					sponsor,
+					requirement,
+				})
+				.then(() =>
+					interaction.reply({ embeds: [success('Giveaway edited!')] }),
+				)
 				.catch((e) => interaction.reply({ embeds: [fail(e.message)] }));
 		}
 	},

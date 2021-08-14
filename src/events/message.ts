@@ -12,7 +12,6 @@ export const event: Event = {
 			const rest = new REST({ version: '9' }).setToken(token);
 			const start = Date.now();
 			const msg = await message.channel.send('Refreshing slash commands...');
-
 			try {
 				await rest.put(
 					Routes.applicationGuildCommands(client.user.id, message.guild.id),
@@ -23,13 +22,11 @@ export const event: Event = {
 				);
 			}
 			catch (e) {
-				await msg.edit(`Failed to refresh commands:\n${e.message}`);
+				await msg.edit(`Failed to refresh commands:\n${e}`);
 			}
 		}
-
 		if (message.content === '>deploy rm' && devs.includes(message.author.id)) {
 			if (!client.user || !message.guild) return;
-
 			const rest = new REST({ version: '9' }).setToken(token);
 			try {
 				await rest.put(
@@ -39,12 +36,9 @@ export const event: Event = {
 				await message.channel.send('Removed slash commands from this server.');
 			}
 			catch (e) {
-				await message.channel.send(
-					`Failed to remove slash commands: \`${e.message}\``,
-				);
+				await message.channel.send(`Failed to remove slash commands: \`${e}\``);
 			}
 		}
-
 		if (message.member && client.afk.get(message.author.id)) {
 			await client.afk.unset(message.member);
 			const embed = new MessageEmbed()
@@ -57,9 +51,7 @@ export const event: Event = {
 				})
 				.then((m) => setTimeout(() => m.delete(), 5000));
 		}
-
 		const afk = client.afk.get(message.mentions.members?.first()?.id ?? '');
-
 		if (afk) {
 			const embed = new MessageEmbed()
 				.setDescription(`<@${afk.userId}> is AFK: \`${afk.message}\``)
