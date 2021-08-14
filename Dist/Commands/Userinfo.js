@@ -2,13 +2,12 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.command = void 0;
 const discord_js_1 = require("discord.js");
-// eslint-disable-next-line @typescript-eslint/no-empty-function
 exports.command = {
     name: 'userinfo',
     description: 'Get information on a user.',
     options: [
         {
-            type: 6 /* User */,
+            type: 6,
             name: 'user',
             description: 'The user to view information of.',
         },

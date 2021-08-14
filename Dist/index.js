@@ -1,8 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const Client_1 = require("./Modules/Client");
+const client_1 = require("./modules/client");
 const discord_js_1 = require("discord.js");
-const client = new Client_1.Client({
+const client = new client_1.Client({
     intents: [
         discord_js_1.Intents.FLAGS.GUILDS,
         discord_js_1.Intents.FLAGS.GUILD_MESSAGES,

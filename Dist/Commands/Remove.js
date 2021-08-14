@@ -2,20 +2,19 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.command = void 0;
 const discord_js_1 = require("discord.js");
-const Embeds_1 = require("../Modules/Embeds");
-// eslint-disable-next-line @typescript-eslint/no-empty-function
+const embeds_1 = require("../modules/embeds");
 exports.command = {
     name: 'remove',
     description: 'Removes a punishment.',
     options: [
         {
-            type: 3 /* String */,
+            type: 3,
             name: 'punish-id',
             description: 'The punishment\'s ID',
             required: true,
         },
         {
-            type: 3 /* String */,
+            type: 3,
             name: 'reason',
             description: 'The reason for removing this punishment.',
             required: true,
@@ -30,14 +29,14 @@ exports.command = {
         const log = await client.modlogs.get(punishID);
         if (!log) {
             return interaction.reply({
-                embeds: [Embeds_1.fail('I couldn\'t find a punishment with this ID!')],
+                embeds: [embeds_1.fail('I couldn\'t find a punishment with this ID!')],
             });
         }
-        await Embeds_1.confirm(interaction, `Are you sure you want to remove this punishment?\n\n**Type:** ${log.caseType}\n**Moderator:** <@${log.staffID}> (${log.staffID})\n**User:** <@${log.userID}> (${log.userID})\n**Reason:** ${log.reason}`)
+        await embeds_1.confirm(interaction, `Are you sure you want to remove this punishment?\n\n**Type:** ${log.caseType}\n**Moderator:** <@${log.staffID}> (${log.staffID})\n**User:** <@${log.userID}> (${log.userID})\n**Reason:** ${log.reason}`)
             .then(async () => {
             await client.modlogs.delete(punishID);
             await interaction.editReply({
-                embeds: [Embeds_1.success(`Removed punishment \`${punishID}\` for \`${reason}\`.`)],
+                embeds: [embeds_1.success(`Removed punishment \`${punishID}\` for \`${reason}\`.`)],
                 components: [],
             });
             if (!client.user)
@@ -64,7 +63,7 @@ exports.command = {
         })
             .catch(async () => {
             await interaction.editReply({
-                embeds: [Embeds_1.fail('Cancelled.')],
+                embeds: [embeds_1.fail('Cancelled.')],
                 components: [],
             });
         });

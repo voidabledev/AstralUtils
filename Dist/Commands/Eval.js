@@ -4,19 +4,18 @@ exports.command = void 0;
 const config_json_1 = require("../config.json");
 const discord_js_1 = require("discord.js");
 const typescript_1 = require("typescript");
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 exports.command = {
     name: 'eval',
     description: 'Evaluates TS code [Developers only]',
     options: [
         {
-            type: 3 /* String */,
+            type: 3,
             name: 'code',
             description: 'The code to evaluate.',
             required: true,
         },
         {
-            type: 5 /* Boolean */,
+            type: 5,
             name: 'ephemeral',
             description: '"Only you can see this."',
         },

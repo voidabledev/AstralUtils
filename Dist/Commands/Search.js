@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.command = void 0;
-const Embeds_1 = require("../Modules/Embeds");
+const embeds_1 = require("../modules/embeds");
 const discord_js_1 = require("discord.js");
 exports.command = {
     name: 'search',
@@ -10,13 +10,13 @@ exports.command = {
         {
             name: 'user',
             description: 'The user to search punishments for.',
-            type: 6 /* User */,
+            type: 6,
             required: true,
         },
         {
             name: 'type',
             description: 'Filter punishments by type.',
-            type: 3 /* String */,
+            type: 3,
             choices: [
                 { name: 'Warn', value: 'Warn' },
                 { name: 'Mute', value: 'Mute' },
@@ -33,17 +33,17 @@ exports.command = {
         {
             name: 'staff',
             description: 'Only show punishments by a specific moderator.',
-            type: 6 /* User */,
+            type: 6,
         },
         {
             name: 'reason',
             description: 'Search for a string inside the punishments\'s reason.',
-            type: 3 /* String */,
+            type: 3,
         },
         {
             name: 'active',
             description: 'Only include active/already expired punishments. Excludes punishments that lack this indicator.',
-            type: 5 /* Boolean */,
+            type: 5,
         },
     ],
     async allowed(interaction, client) {
@@ -65,7 +65,7 @@ exports.command = {
         });
         if (!logs.length) {
             return interaction.reply({
-                embeds: [Embeds_1.fail('I couldn\'t find any punshments matching your search.')],
+                embeds: [embeds_1.fail('I couldn\'t find any punshments matching your search.')],
             });
         }
         const fields = logs.map((l) => {
@@ -77,10 +77,10 @@ exports.command = {
                     ''}`,
             };
         });
-        const embeds = Embeds_1.parsePages(fields, new discord_js_1.MessageEmbed()
+        const embeds = embeds_1.parsePages(fields, new discord_js_1.MessageEmbed()
             .setTitle(`Punishment search for ${user.tag}`)
             .setDescription(`Found ${fields.length} results for ${user}.`)
             .setColor('GREEN'));
-        await Embeds_1.pageMenu(interaction, embeds);
+        await embeds_1.pageMenu(interaction, embeds);
     },
 };

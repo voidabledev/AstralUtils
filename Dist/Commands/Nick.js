@@ -1,20 +1,19 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.command = void 0;
-const Embeds_1 = require("../Modules/Embeds");
-// eslint-disable-next-line @typescript-eslint/no-empty-function
+const embeds_1 = require("../modules/embeds");
 exports.command = {
     name: 'nick',
     description: 'Changes a user\'s nickname.',
     options: [
         {
-            type: 6 /* User */,
+            type: 6,
             name: 'user',
             description: 'The user to change the nickname of.',
             required: true,
         },
         {
-            type: 3 /* String */,
+            type: 3,
             name: 'new-nick',
             description: 'The new nickname.',
             required: true,
@@ -29,12 +28,12 @@ exports.command = {
         const oldNick = member?.displayName;
         if (typeof member === 'undefined') {
             return interaction.reply({
-                embeds: [Embeds_1.fail('The user you specified isn\'t in this server, I can\'t change their nickname.')],
+                embeds: [embeds_1.fail('The user you specified isn\'t in this server, I can\'t change their nickname.')],
             });
         }
         if (member.roles.highest.position >= interaction.member?.roles.highest.position) {
             return interaction.reply({
-                embeds: [Embeds_1.fail('You can\'t change the nickname of somebody above you!')],
+                embeds: [embeds_1.fail('You can\'t change the nickname of somebody above you!')],
             });
         }
         member.setNickname(newNick)
@@ -46,8 +45,8 @@ exports.command = {
                 reason: `${oldNick} -> ${newNick}`,
                 caseType: 'Changed Nickname',
             });
-            await interaction.reply({ embeds: [Embeds_1.success(`Changed ${member}'s nickname to \`${newNick}\` | \`${log.punishID}\``)] });
+            await interaction.reply({ embeds: [embeds_1.success(`Changed ${member}'s nickname to \`${newNick}\` | \`${log.punishID}\``)] });
         })
-            .catch((e) => interaction.reply({ embeds: [Embeds_1.fail(`I was unable to change ${member}'s nickname: ${e.message}`)] }));
+            .catch((e) => interaction.reply({ embeds: [embeds_1.fail(`I was unable to change ${member}'s nickname: ${e.message}`)] }));
     },
 };

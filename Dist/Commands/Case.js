@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.command = void 0;
-const Embeds_1 = require("../Modules/Embeds");
+const embeds_1 = require("../modules/embeds");
 const discord_js_1 = require("discord.js");
 exports.command = {
     name: 'case',
@@ -10,7 +10,7 @@ exports.command = {
         {
             name: 'punish-id',
             description: 'The 10-digit punishment ID.',
-            type: 4 /* Integer */,
+            type: 4,
             required: true,
         },
     ],
@@ -22,7 +22,7 @@ exports.command = {
         const log = await client.modlogs.get(punishID);
         if (!log) {
             return interaction.reply({
-                embeds: [Embeds_1.fail('I couldn\'t find a punishment with this ID!')],
+                embeds: [embeds_1.fail('I couldn\'t find a punishment with this ID!')],
             });
         }
         const embed = new discord_js_1.MessageEmbed()

@@ -22,11 +22,11 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.Client = void 0;
 const discord_js_1 = require("discord.js");
 const config_json_1 = require("../config.json");
-const Utils_1 = require("./Utils");
-const EconomyManager_1 = require("../Managers/EconomyManager");
-const ModlogManager_1 = require("../Managers/ModlogManager");
-const GiveawayManager_1 = require("../Managers/GiveawayManager");
-const AfkManager_1 = require("../Managers/AfkManager");
+const utils_1 = require("./utils");
+const economyManager_1 = require("../managers/economyManager");
+const modlogManager_1 = require("../managers/modlogManager");
+const giveawayManager_1 = require("../managers/giveawayManager");
+const afkManager_1 = require("../managers/afkManager");
 class Client extends discord_js_1.Client {
     commands = new discord_js_1.Collection();
     aliases = new discord_js_1.Collection();
@@ -37,19 +37,19 @@ class Client extends discord_js_1.Client {
     afk;
     constructor(options) {
         super(options);
-        this.economy = new EconomyManager_1.EconomyManager();
-        this.modlogs = new ModlogManager_1.ModlogManager(this);
-        this.giveaways = new GiveawayManager_1.GiveawayManager(this, 5000);
-        this.afk = new AfkManager_1.AfkManager();
+        this.economy = new economyManager_1.EconomyManager();
+        this.modlogs = new modlogManager_1.ModlogManager(this);
+        this.giveaways = new giveawayManager_1.GiveawayManager(this, 5000);
+        this.afk = new afkManager_1.AfkManager();
     }
     async start() {
         this.login(config_json_1.token);
-        const commandNames = await Utils_1.search(`${__dirname}/../Commands/**/*{.js,.ts}`);
+        const commandNames = await utils_1.search(`${__dirname}/../commands/**/*{.js,.ts}`);
         commandNames.forEach(async (name) => {
             const file = (await Promise.resolve().then(() => __importStar(require(name)))).command;
             this.commands.set(file.name, file);
         });
-        const eventNames = await Utils_1.search(`${__dirname}/../Events/**/*{.js,.ts}`);
+        const eventNames = await utils_1.search(`${__dirname}/../events/**/*{.js,.ts}`);
         eventNames.forEach(async (name) => {
             const file = (await Promise.resolve().then(() => __importStar(require(name)))).event;
             if (file.once)

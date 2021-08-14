@@ -1,19 +1,19 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.command = void 0;
-const Embeds_1 = require("../Modules/Embeds");
+const embeds_1 = require("../modules/embeds");
 exports.command = {
     name: 'unban',
     description: 'Unans a user.',
     options: [
         {
-            type: 6 /* User */,
+            type: 6,
             name: 'user',
             description: 'The user to ban.',
             required: true,
         },
         {
-            type: 3 /* String */,
+            type: 3,
             name: 'reason',
             description: 'The reason for this unban',
             required: true,
@@ -31,7 +31,7 @@ exports.command = {
                 ephemeral: true,
             });
         }
-        await Embeds_1.confirm(interaction, `Are you sure you want to unban ${user.tag}?`)
+        await embeds_1.confirm(interaction, `Are you sure you want to unban ${user.tag}?`)
             .then(async () => {
             await interaction.guild?.members.unban(user, reason);
             const log = await client.modlogs.set({
@@ -42,13 +42,13 @@ exports.command = {
                 caseType: 'Unban',
             });
             await interaction.editReply({
-                embeds: [Embeds_1.success(`${user.tag} has been **unbanned** | \`${log.punishID}\``)],
+                embeds: [embeds_1.success(`${user.tag} has been **unbanned** | \`${log.punishID}\``)],
                 components: [],
             });
         })
             .catch(() => {
             interaction.editReply({
-                embeds: [Embeds_1.fail('Cancelled.')],
+                embeds: [embeds_1.fail('Cancelled.')],
                 components: [],
             });
         });

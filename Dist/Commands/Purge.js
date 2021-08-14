@@ -1,69 +1,68 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.command = void 0;
-const Embeds_1 = require("../Modules/Embeds");
-// eslint-disable-next-line @typescript-eslint/no-empty-function
+const embeds_1 = require("../modules/embeds");
 exports.command = {
     name: 'purge',
     description: 'Bulk deletes messages in the current channel.',
     options: [
         {
-            type: 4 /* Integer */,
+            type: 4,
             name: 'amount',
             description: 'Sets a limit on how many messages will be deleted',
             required: true,
         },
         {
-            type: 6 /* User */,
+            type: 6,
             name: 'user',
             description: 'Only include messages by a certain user.',
         },
         {
-            type: 3 /* String */,
+            type: 3,
             name: 'match',
             description: 'Only include messages that include some text.',
         },
         {
-            type: 3 /* String */,
+            type: 3,
             name: 'not',
             description: 'Only include messages that don\'t include some text.',
         },
         {
-            type: 3 /* String */,
+            type: 3,
             name: 'start',
             description: 'Only include messages that start with some text.',
         },
         {
-            type: 3 /* String */,
+            type: 3,
             name: 'end',
             description: 'Only include messages that end with some text.',
         },
         {
-            type: 4 /* Integer */,
+            type: 4,
             name: 'links',
             description: 'Only include messages that include links.',
             choices: [{ name: 'Enable', value: 1 }],
         },
         {
-            type: 4 /* Integer */,
+            type: 4,
             name: 'invites',
             description: 'Only include messages that include invite links.',
             choices: [{ name: 'Enable', value: 1 }],
         },
         {
-            type: 4 /* Integer */,
+            type: 4,
             name: 'images',
             description: 'Only include messages that have images attached.',
             choices: [{ name: 'Enable', value: 1 }],
         },
         {
-            type: 4 /* Integer */,
+            type: 4,
             name: 'embeds',
             description: 'Only include messages that have embeds attached.',
             choices: [{ name: 'Enable', value: 1 }],
         },
         {
-            type: 4 /* Integer */,
+            type: 4,
             name: 'bots',
             description: 'Only include messages sent by bots/humans.',
             choices: [
@@ -108,9 +107,15 @@ exports.command = {
             .filter((m) => (embeds ? m.embeds.length > 0 : true))
             .filter((m) => (bots === 1 ? m.author.bot : true))
             .filter((m) => (bots === 2 ? !m.author.bot : true));
+        if (!messages.size) {
+            return interaction.reply({
+                embeds: [embeds_1.fail('Found no messages matching your filter.')],
+                ephemeral: true,
+            });
+        }
         await interaction.channel.bulkDelete(messages);
         return interaction.reply({
-            embeds: [Embeds_1.success(`Deleted ${messages.size} messages.`)],
+            embeds: [embeds_1.success(`Deleted ${messages.size} messages.`)],
             ephemeral: true,
         });
     },

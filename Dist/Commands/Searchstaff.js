@@ -9,7 +9,7 @@ exports.command = {
         {
             name: 'user',
             description: 'The staff member to search punishments for.',
-            type: 6 /* User */,
+            type: 6,
         },
     ],
     async allowed(interaction, client) {

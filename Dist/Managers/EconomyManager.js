@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.EconomyManager = void 0;
-const EconomyModel_1 = require("../Models/EconomyModel");
+const economyModel_1 = require("../models/economyModel");
 const discord_js_1 = require("discord.js");
 class EconomyManager {
     _cache = new discord_js_1.Collection();
@@ -19,7 +19,7 @@ class EconomyManager {
         items.forEach(item => this._items.set(item.id, item));
     }
     async cache() {
-        const profiles = await EconomyModel_1.economyModel.find();
+        const profiles = await economyModel_1.economyModel.find();
         profiles.forEach(profile => this._cache.set(profile.userId, profile));
     }
     getProfile(userId) {
@@ -31,28 +31,28 @@ class EconomyManager {
         };
     }
     async addCoins(userId, coins) {
-        await EconomyModel_1.economyModel.updateOne({ userId }, { userId, $inc: { coins } }, { upsert: true });
+        await economyModel_1.economyModel.updateOne({ userId }, { userId, $inc: { coins } }, { upsert: true });
         const profile = this.getProfile(userId);
         profile.coins += coins;
         this._cache.set(profile.userId, profile);
         return profile;
     }
     async removeCoins(userId, coins) {
-        await EconomyModel_1.economyModel.updateOne({ userId }, { userId, $inc: { coins } }, { upsert: true });
+        await economyModel_1.economyModel.updateOne({ userId }, { userId, $inc: { coins } }, { upsert: true });
         const profile = this.getProfile(userId);
         profile.coins -= coins;
         this._cache.set(profile.userId, profile);
         return profile;
     }
     async addItem(userId, itemId) {
-        await EconomyModel_1.economyModel.updateOne({ userId }, { userId, $push: { itemIds: itemId } }, { upsert: true });
+        await economyModel_1.economyModel.updateOne({ userId }, { userId, $push: { itemIds: itemId } }, { upsert: true });
         const profile = this.getProfile(userId);
         profile.itemIds.push(itemId);
         this._cache.set(profile.userId, profile);
         return profile;
     }
     async removeItem(userId, itemId) {
-        await EconomyModel_1.economyModel.updateOne({ userId }, { userId, $pusll: { itemIds: itemId } }, { upsert: true });
+        await economyModel_1.economyModel.updateOne({ userId }, { userId, $pusll: { itemIds: itemId } }, { upsert: true });
         const profile = this.getProfile(userId);
         profile.itemIds.map(id => {
             if (id !== itemId)

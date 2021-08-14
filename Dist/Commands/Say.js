@@ -2,19 +2,18 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.command = void 0;
 const discord_js_1 = require("discord.js");
-// eslint-disable-next-line @typescript-eslint/no-empty-function
 exports.command = {
     name: 'say',
     description: 'Announce something.',
     options: [
         {
-            type: 3 /* String */,
+            type: 3,
             name: 'message',
             description: 'The message to announce.',
             required: true,
         },
         {
-            type: 5 /* Boolean */,
+            type: 5,
             name: 'anonymous',
             description: 'Whether or not to hide your username.',
         },

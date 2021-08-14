@@ -2,7 +2,6 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.parsePages = exports.pageMenu = exports.confirm = exports.fail = exports.success = void 0;
 const discord_js_1 = require("discord.js");
-// TODO: Implement these embeds into commands
 function success(message, footer) {
     const embed = new discord_js_1.MessageEmbed()
         .setDescription(`<a:yes:836302807485251674> ${message}`)

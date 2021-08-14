@@ -2,31 +2,30 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.command = void 0;
 const discord_js_1 = require("discord.js");
-const Embeds_1 = require("../Modules/Embeds");
-// eslint-disable-next-line @typescript-eslint/no-empty-function
+const embeds_1 = require("../modules/embeds");
 exports.command = {
     name: 'ban',
     description: 'Bans a user.',
     options: [
         {
-            type: 6 /* User */,
+            type: 6,
             name: 'user',
             description: 'The user to ban.',
             required: true,
         },
         {
-            type: 3 /* String */,
+            type: 3,
             name: 'reason',
             description: 'The reason for this ban',
             required: true,
         },
         {
-            type: 4 /* Integer */,
+            type: 4,
             name: 'time',
             description: 'The time after which this ban expires, if any.',
         },
         {
-            type: 4 /* Integer */,
+            type: 4,
             name: 'time-unit',
             description: 'The time unit to specify the expiration time in',
             choices: [
@@ -47,15 +46,15 @@ exports.command = {
         const member = await interaction.guild?.members.fetch(user.id);
         if (member?.bannable === false) {
             return interaction.reply({
-                embeds: [Embeds_1.fail('I can\'t ban this user!')],
+                embeds: [embeds_1.fail('I can\'t ban this user!')],
             });
         }
         if ((member?.roles?.highest?.position ?? 0) >= interaction.member?.roles.highest.position) {
             return interaction.reply({
-                embeds: [Embeds_1.fail('You can\'t ban a user above you!')],
+                embeds: [embeds_1.fail('You can\'t ban a user above you!')],
             });
         }
-        await Embeds_1.confirm(interaction, `Are you sure you want to ban ${user}?`)
+        await embeds_1.confirm(interaction, `Are you sure you want to ban ${user}?`)
             .then(async () => {
             const userEmbed = new discord_js_1.MessageEmbed()
                 .setTitle(`You've been banned in **${interaction.guild?.name}**`)
@@ -78,13 +77,13 @@ exports.command = {
                 isActive: true,
             });
             await interaction.editReply({
-                embeds: [Embeds_1.success(`${user} has been **banned** | \`${log.punishID}\``)],
+                embeds: [embeds_1.success(`${user} has been **banned** | \`${log.punishID}\``)],
                 components: [],
             });
         })
             .catch(() => {
             interaction.editReply({
-                embeds: [Embeds_1.fail('Cancelled.')],
+                embeds: [embeds_1.fail('Cancelled.')],
                 components: [],
             });
         });

@@ -1,20 +1,19 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.command = void 0;
-const Embeds_1 = require("../Modules/Embeds");
-// eslint-disable-next-line @typescript-eslint/no-empty-function
+const embeds_1 = require("../modules/embeds");
 exports.command = {
     name: 'reason',
     description: 'Change a punishment\'s reason.',
     options: [
         {
-            type: 3 /* String */,
+            type: 3,
             name: 'punish-id',
             description: 'The punishment\'s ID',
             required: true,
         },
         {
-            type: 3 /* String */,
+            type: 3,
             name: 'reason',
             description: 'The new reason for this punishment.',
             required: true,
@@ -29,11 +28,11 @@ exports.command = {
         const log = await client.modlogs.update(punishID, { reason });
         if (!log) {
             return interaction.reply({
-                embeds: [Embeds_1.fail('I couldn\'t find a punishment with this ID!')],
+                embeds: [embeds_1.fail('I couldn\'t find a punishment with this ID!')],
             });
         }
         await interaction.reply({
-            embeds: [Embeds_1.success(`Changed the reason of punishment \`${punishID}\` from \`${log.reason}\` to \`${reason}\`.`)],
+            embeds: [embeds_1.success(`Changed the reason of punishment \`${punishID}\` from \`${log.reason}\` to \`${reason}\`.`)],
         });
     },
 };

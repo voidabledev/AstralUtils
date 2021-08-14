@@ -7,7 +7,7 @@ exports.command = {
     description: 'Sets the bot\'s status.',
     options: [
         {
-            type: 3 /* String */,
+            type: 3,
             name: 'status',
             description: 'The bot\'s status.',
             choices: [
@@ -18,7 +18,7 @@ exports.command = {
             ],
         },
         {
-            type: 3 /* String */,
+            type: 3,
             name: 'type',
             description: 'Type of the activity.',
             choices: [
@@ -30,12 +30,12 @@ exports.command = {
             ],
         },
         {
-            type: 3 /* String */,
+            type: 3,
             name: 'name',
             description: 'Name of the activity.',
         },
         {
-            type: 3 /* String */,
+            type: 3,
             name: 'url',
             description: 'Stream URL',
         },

@@ -2,26 +2,25 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.command = void 0;
 const discord_js_1 = require("discord.js");
-const Embeds_1 = require("../Modules/Embeds");
-// eslint-disable-next-line @typescript-eslint/no-empty-function
+const embeds_1 = require("../modules/embeds");
 exports.command = {
     name: 'dm',
     description: 'Notify a user in DMs.',
     options: [
         {
-            type: 6 /* User */,
+            type: 6,
             name: 'user',
             description: 'The user to send the message to.',
             required: true,
         },
         {
-            type: 3 /* String */,
+            type: 3,
             name: 'message',
             description: 'The message to send.',
             required: true,
         },
         {
-            type: 5 /* Boolean */,
+            type: 5,
             name: 'anonymous',
             description: 'Whether or not to hide your username.',
         },
@@ -39,10 +38,10 @@ exports.command = {
             .setFooter(`You were messaged by ${anon ? 'the Astral Galaxy Management Team' : interaction.user.tag}`);
         try {
             await user.send({ embeds: [embed] });
-            await interaction.reply({ embeds: [Embeds_1.success(`I've sent the message to ${user}!`)] });
+            await interaction.reply({ embeds: [embeds_1.success(`I've sent the message to ${user}!`)] });
         }
         catch (e) {
-            await interaction.reply({ embeds: [Embeds_1.fail(`I was unable to DM ${user}.`)] });
+            await interaction.reply({ embeds: [embeds_1.fail(`I was unable to DM ${user}.`)] });
         }
     },
 };

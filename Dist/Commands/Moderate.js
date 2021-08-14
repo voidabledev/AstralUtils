@@ -1,15 +1,14 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.command = void 0;
-const Embeds_1 = require("../Modules/Embeds");
-const Utils_1 = require("../Modules/Utils");
-// eslint-disable-next-line @typescript-eslint/no-empty-function
+const embeds_1 = require("../modules/embeds");
+const utils_1 = require("../modules/utils");
 exports.command = {
     name: 'moderate',
     description: 'Moderates a user\'s nickname.',
     options: [
         {
-            type: 6 /* User */,
+            type: 6,
             name: 'user',
             description: 'The user to moderate the nickname of.',
             required: true,
@@ -20,20 +19,20 @@ exports.command = {
     },
     async run(interaction, options, client) {
         const member = options.getMember('user');
-        const newNick = `Moderated Nickname ${Utils_1.id(36, 6)}`;
+        const newNick = `Moderated Nickname ${utils_1.id(36, 6)}`;
         if (typeof member === 'undefined') {
             return interaction.reply({
-                embeds: [Embeds_1.fail('The user you specified isn\'t in this server, I can\'t change their nickname.')],
+                embeds: [embeds_1.fail('The user you specified isn\'t in this server, I can\'t change their nickname.')],
             });
         }
         if (member.roles.highest.position >= interaction.member?.roles.highest.position) {
             return interaction.reply({
-                embeds: [Embeds_1.fail('You can\'t change the nickname of somebody above you!')],
+                embeds: [embeds_1.fail('You can\'t change the nickname of somebody above you!')],
             });
         }
         if (member.displayName.startsWith('Moderated Nickname')) {
             return interaction.reply({
-                embeds: [Embeds_1.fail('That user\'s nickname is already moderated!')],
+                embeds: [embeds_1.fail('That user\'s nickname is already moderated!')],
             });
         }
         member.setNickname(newNick)
@@ -45,8 +44,8 @@ exports.command = {
                 reason: 'Rule 10',
                 caseType: 'Moderated Nickname',
             });
-            await interaction.reply({ embeds: [Embeds_1.success(`Moderated ${member}'s nickname | \`${log.punishID}\``)] });
+            await interaction.reply({ embeds: [embeds_1.success(`Moderated ${member}'s nickname | \`${log.punishID}\``)] });
         })
-            .catch((e) => interaction.reply({ embeds: [Embeds_1.fail(`I was unable to change ${member}'s nickname: ${e.message}`)] }));
+            .catch((e) => interaction.reply({ embeds: [embeds_1.fail(`I was unable to change ${member}'s nickname: ${e.message}`)] }));
     },
 };
