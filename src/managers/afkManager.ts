@@ -1,5 +1,6 @@
 import { afkModel, AFK } from '../models/afkModel';
 import { GuildMember, Collection } from 'discord.js';
+
 export class AfkManager {
 	private _cache = new Collection<string, AFK>();
 	constructor() {

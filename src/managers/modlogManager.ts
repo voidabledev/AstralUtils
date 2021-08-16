@@ -13,6 +13,7 @@ import {
 	GuildMember,
 } from 'discord.js';
 import { id } from '../modules/utils';
+
 export class ModlogManager {
 	constructor(private _client: Client) {
 		this._client = _client;
