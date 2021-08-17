@@ -7,7 +7,6 @@ export class AutomodManager {
 	constructor(private _client: Client) {
 		this._client = _client;
 	}
-
 	/** This is called on every message to check if any automod action is taken. */
 	async run(message: Message): Promise<void> {
 		// dont run this in main server yet
@@ -27,7 +26,6 @@ export class AutomodManager {
 			}
 		});
 	}
-
 	/** All the things the automod responds to */
 	private _data: Automod[] = [
 		{
@@ -49,14 +47,10 @@ export class AutomodManager {
 			},
 		},
 	];
-
 	/* Moderation methods */
-
 	private async _warn(message: Message, reason: string): Promise<void> {
-
 		if (!this._client.user) throw new Error('Client user not found.');
 		if (!message.guild) throw new Error('Cannot use automod outside of guilds');
-
 		reason = `[Automod] ${reason}`;
 		const embed = new MessageEmbed()
 			.setTitle(`You've been warned in **${message.guild.name}**`)
@@ -77,17 +71,12 @@ export class AutomodManager {
 			isActive: true,
 		});
 	}
-
 	private async _mute(message: Message, reason: string, time: number): Promise<void> {
-
 		if (!this._client.user) throw new Error('Client user not found.');
 		if (!message.guild || !message.member) throw new Error('Cannot use automod outside of guilds');
-
 		const role = message.guild.roles.cache.find((r) => r.name === 'Muted');
 		if (!role) throw new Error('No "Muted" role found.');
-
 		reason = `[Automod] ${reason}`;
-
 		const embed = new MessageEmbed()
 			.setTitle(`You've been muted in **${message.guild.name}**`)
 			.addField('Reason', reason)
@@ -112,13 +101,10 @@ export class AutomodManager {
 			isActive: true,
 		});
 	}
-
 	private async _ban(message: Message, reason: string) {
 		if (!this._client.user) throw new Error('Client user not found.');
 		if (!message.guild || !message.member) throw new Error('Cannot use automod outside of guilds');
-
 		reason = `[Automod] ${reason}`;
-
 		const embed = new MessageEmbed()
 			.setTitle(`You've been banned in **${message.guild.name}**`)
 			.addField('Reason', reason)
