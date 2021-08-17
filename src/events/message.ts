@@ -6,7 +6,7 @@ import { Routes } from 'discord-api-types/v9';
 export const event: Event = {
 	event: 'messageCreate',
 	async run(client, message: Message) {
-		if (message.content === '>deploy' && devs.includes(message.author.id)) {
+		if (message.content === '=deploy' && devs.includes(message.author.id)) {
 			if (!client.user || !message.guild) return;
 			const commands = client.commands.map(({ run, allowed, ...data }) => data);
 			const rest = new REST({ version: '9' }).setToken(token);
@@ -25,7 +25,7 @@ export const event: Event = {
 				await msg.edit(`Failed to refresh commands:\n${e}`);
 			}
 		}
-		if (message.content === '>deploy rm' && devs.includes(message.author.id)) {
+		if (message.content === '=deploy rm' && devs.includes(message.author.id)) {
 			if (!client.user || !message.guild) return;
 			const rest = new REST({ version: '9' }).setToken(token);
 			try {
@@ -42,7 +42,7 @@ export const event: Event = {
 		if (message.member && client.afk.get(message.author.id)) {
 			await client.afk.unset(message.member);
 			const embed = new MessageEmbed()
-				.setDescription(`Welcome back ${message.member}, I removed your AFK.`)
+				.setDescription(`Welcome back ${message.member}!  I removed your AFK.`)
 				.setColor('GREEN');
 			message
 				.reply({
