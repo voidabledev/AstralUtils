@@ -1,12 +1,14 @@
 import { Client as DJSClient, ClientOptions, Collection } from 'discord.js';
 import { Command } from '../typings/command';
 import { Event } from '../typings/event';
-import { token } from '../config.json';
+import { token, db } from '../config.json';
 import { search } from './utils';
 import { EconomyManager } from '../managers/economyManager';
 import { ModlogManager } from '../managers/modlogManager';
 import { GiveawayManager } from '../managers/giveawayManager';
 import { AfkManager } from '../managers/afkManager';
+import { AutomodManager } from '../managers/automodManager';
+import { connect, connection } from 'mongoose';
 
 export class Client extends DJSClient {
 	commands = new Collection<string, Command>();
@@ -16,15 +18,26 @@ export class Client extends DJSClient {
 	modlogs: ModlogManager;
 	giveaways: GiveawayManager;
 	afk: AfkManager;
+	automod: AutomodManager;
 	constructor(options: ClientOptions) {
 		super(options);
 		this.economy = new EconomyManager();
 		this.modlogs = new ModlogManager(this);
 		this.giveaways = new GiveawayManager(this, 5000);
 		this.afk = new AfkManager();
+		this.automod = new AutomodManager(this);
 	}
 
 	async start(): Promise<void> {
+		await connect(db, {
+			useNewUrlParser: true,
+			useUnifiedTopology: true,
+			useFindAndModify: false,
+			keepAlive: true,
+		});
+		connection.on('connected', () => console.log('Connected to mongoose!'));
+		connection.on('disconnected', () => console.log('Lost connection to mongoose.'));
+
 		this.login(token);
 
 		const commandNames: string[] = await search(

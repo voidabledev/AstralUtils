@@ -6,6 +6,8 @@ import { Routes } from 'discord-api-types/v9';
 export const event: Event = {
 	event: 'messageCreate',
 	async run(client, message: Message) {
+		if (message.author.bot) return;
+		await client.automod.run(message);
 		if (message.content === '=deploy' && devs.includes(message.author.id)) {
 			if (!client.user || !message.guild) return;
 			const commands = client.commands.map(({ run, allowed, ...data }) => data);
@@ -39,10 +41,12 @@ export const event: Event = {
 				await message.channel.send(`Failed to remove slash commands: \`${e}\``);
 			}
 		}
+		// ! remove this line later
+		if (message.guild?.id !== '849344562891063356') return;
 		if (message.member && client.afk.get(message.author.id)) {
 			await client.afk.unset(message.member);
 			const embed = new MessageEmbed()
-				.setDescription(`Welcome back ${message.member}!  I removed your AFK.`)
+				.setDescription(`Welcome back ${message.member}, I removed your AFK.`)
 				.setColor('GREEN');
 			message
 				.reply({

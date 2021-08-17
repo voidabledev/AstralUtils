@@ -42,7 +42,7 @@ export class GiveawayManager {
 		});
 		const message = await interaction.fetchReply();
 		const embed = new MessageEmbed()
-			.setAuthor(`**${data.prize}**`)
+			.setAuthor(`<:bluedot:842408037502550106> ${data.prize} <:bluedot:842408037502550106>`)
 			.setDescription(
 				`This giveaway ends <t:${Math.floor(data.end / 1000)}:R>.`,
 			)
@@ -56,7 +56,7 @@ export class GiveawayManager {
 				},
 				{
 					name: 'Requirement Info',
-					value: `${data.requirement}`,
+					value: `${data.requirement ?? 'None'}`,
 				},
 			)
 			.setFooter(`Message ID: ${message.id}`)
@@ -102,7 +102,7 @@ export class GiveawayManager {
 		)?.messages.fetch(messageId);
 		if (!message) throw new Error('GiveawayError: Unknown message');
 		const embed = new MessageEmbed()
-			.setAuthor(`**${data.prize}**`)
+			.setAuthor(`<:bluedot:842408037502550106> ${data.prize} <:bluedot:842408037502550106>`)
 			.setDescription(
 				`This giveaway ends <t:${Math.floor(giveaway.end / 1000)}:R>.`,
 			)
@@ -116,7 +116,7 @@ export class GiveawayManager {
 				},
 				{
 					name: 'Requirement Info',
-					value: `${giveaway.requirement}`,
+					value: `${giveaway.requirement ?? 'None'}`,
 				},
 			)
 			.setFooter(`Message ID: ${message.id}`)
@@ -176,7 +176,7 @@ export class GiveawayManager {
 			{ ended: true, end: Date.now(), winners },
 		);
 		const embed = new MessageEmbed()
-			.setAuthor(`**${giveaway.prize}**`)
+			.setAuthor(`<:bluedot:842408037502550106> ${giveaway.prize} <:bluedot:842408037502550106>`)
 			.setDescription('This giveaway has **ended**.')
 			.addFields({
 				name: 'Giveaway Info',
@@ -185,6 +185,9 @@ export class GiveawayManager {
 				}**Ended:** <t:${Math.floor(
 					Date.now() / 1000,
 				)}:R>\n **Winners:** ${winners.map((w) => `<@${w}>`).join(', ')}`,
+			}, {
+				name: 'Requirement Info',
+				value: `${giveaway.requirement ?? 'None'}`,
 			})
 			.setFooter(`Message ID: ${message.id} | Winners: ${giveaway.winnerCount}`)
 			.setColor('RED');
@@ -388,7 +391,7 @@ export class GiveawayManager {
 					mentions.push(`<@${entry}>`);
 				}
 				const gEmbed = new MessageEmbed()
-					.setAuthor(`**${giveaway.prize}**`)
+					.setAuthor(`<:bluedot:842408037502550106> ${giveaway.prize} <:bluedot:842408037502550106>`)
 					.setDescription('This giveaway has **ended**.')
 					.addFields({
 						name: 'Giveaway Info',
@@ -399,6 +402,9 @@ export class GiveawayManager {
 						}**Ended:** <t:${Math.floor(
 							Date.now() / 1000,
 						)}:R>\n **Winners:** ${winners.map((w) => `<@${w}>`).join(', ')}`,
+					}, {
+						name: 'Requirement Info',
+						value: `${giveaway.requirement ?? 'None'}`,
 					})
 					.setFooter(
 						`Message ID: ${message.id} | Winners: ${giveaway.winnerCount}`,

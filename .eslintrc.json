@@ -30,7 +30,8 @@
 			{
 				"FunctionDeclaration": { "body": 1 },
 				"FunctionExpression": { "body": 1 },
-				"ignoreComments": true
+				"ignoreComments": true,
+				"SwitchCase": 1
 			}
 		],
 		"max-nested-callbacks": [

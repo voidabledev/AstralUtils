@@ -7,7 +7,7 @@ export class AfkManager {
 		this.cache();
 	}
 	async cache(): Promise<void> {
-		const entries = await afkModel.find();
+		const entries = await afkModel.find({});
 		entries.forEach((e) => this._cache.set(e.userId, e));
 	}
 	get(userId: string): AFK | undefined {
