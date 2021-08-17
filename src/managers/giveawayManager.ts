@@ -20,11 +20,11 @@ import {
 import { fail } from '../modules/embeds';
 
 export class GiveawayManager {
-	constructor(private client: Client, interval: number) {
-		this.client = client;
-		this.check(interval);
+	constructor(private _client: Client, interval: number) {
+		this._client = _client;
+		this._check(interval);
 	}
-	private async check(interval: number): Promise<void> {
+	private async _check(interval: number): Promise<void> {
 		setInterval(async () => {
 			const giveaways = await giveawayModel.find({ ended: false });
 			giveaways
@@ -94,7 +94,7 @@ export class GiveawayManager {
 		const giveaway = await giveawayModel.findOne({ messageId });
 		if (!giveaway) throw new Error('GiveawayError: Giveaway not found');
 		const message = await (
-			this.client.guilds.cache
+			this._client.guilds.cache
 				.get(giveaway.guildId)
 				?.channels.cache.get(giveaway.channelId) as
 				| TextBasedChannels
@@ -150,7 +150,7 @@ export class GiveawayManager {
 	async end(messageId: string): Promise<Giveaway> {
 		const giveaway = await giveawayModel.findOne({ messageId });
 		if (!giveaway) throw new Error('GiveawayError: Unknown giveaway');
-		const guild = this.client.guilds.cache.get(giveaway.guildId);
+		const guild = this._client.guilds.cache.get(giveaway.guildId);
 		if (!guild) throw new Error('GiveawayError: Unknown guild');
 		const channel = guild.channels.cache.get(giveaway.channelId);
 		if (!channel || !channel.isText()) {
@@ -218,7 +218,7 @@ export class GiveawayManager {
 		const giveaway = await giveawayModel.findOneAndDelete({ messageId });
 		if (!giveaway) return undefined;
 		const message = await (
-			this.client.guilds.cache
+			this._client.guilds.cache
 				.get(giveaway.guildId)
 				?.channels.cache.get(giveaway.channelId) as
 				| TextBasedChannels
@@ -296,7 +296,7 @@ export class GiveawayManager {
 		if (!giveaway.ended || !giveaway.winners?.length) {
 			throw new Error('GiveawayError: Giveaway is not ended');
 		}
-		const guild = this.client.guilds.cache.get(giveaway.guildId);
+		const guild = this._client.guilds.cache.get(giveaway.guildId);
 		if (!guild) throw new Error('GiveawayError: Unknown guild');
 		const channel = guild.channels.cache.get(giveaway.channelId);
 		if (!channel || !channel.isText()) {
@@ -319,7 +319,7 @@ export class GiveawayManager {
 			.setDescription('Select/Unselect the members to reroll below.')
 			.setColor('GREEN');
 		for (const w of giveaway.winners) {
-			const user = await this.client.users.fetch(w);
+			const user = await this._client.users.fetch(w);
 			row.addComponents(
 				new MessageButton()
 					.setStyle('PRIMARY')
