@@ -2,8 +2,8 @@ import { Command } from '../typings/command';
 import { MessageEmbed } from 'discord.js';
 
 export const command: Command = {
-	name: 'serverinfo',
-	description: 'View information about this server.',
+	name: 'membercount',
+	description: 'View the server\'s member count.',
 	async run(interaction, options, client) {
 		if (!interaction.guild) return;
 		await interaction.guild.members.fetch();

@@ -55,18 +55,20 @@ export async function confirm(
 		ephemeral,
 	});
 
-	const message = (await interaction.fetchReply()) as Message;
+	const message = ephemeral ? null : (await interaction.fetchReply()) as Message;
 
 	const confirmFilter = (i: ButtonInteraction) =>
 		i.user.id === interaction.user.id && i.customId === `confirm-${id}`;
 	const cancelFilter = (i: ButtonInteraction) =>
 		i.user.id === interaction.user.id && i.customId === `cancel-${id}`;
 
-	const confirmCollector = message.createMessageComponentCollector({
+	// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+	const confirmCollector = (message ?? interaction.channel!).createMessageComponentCollector({
 		filter: confirmFilter,
 		time: 15000,
 	});
-	const cancelCollector = message.createMessageComponentCollector({
+	// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+	const cancelCollector = (message ?? interaction.channel!).createMessageComponentCollector({
 		filter: cancelFilter,
 		time: 15000,
 	});

@@ -122,7 +122,7 @@ export const command: Command = {
 						time
 							? `<t:${Math.floor(
 								(new Date().getTime() + time * timeUnit) / 1000,
-							  )}:R>`
+							)}:R>`
 							: 'Permanent',
 					)
 					.setColor('RED');

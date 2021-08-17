@@ -53,7 +53,7 @@ export const command: Command = {
 				log.expires
 					? `<t:${Math.floor(log.expires / 1000)}:R> (<t:${Math.floor(
 						log.expires / 1000,
-					  )}:f>)`
+					)}:f>)`
 					: 'Not Applicable',
 			)
 			.setFooter(`Punishment ID: ${punishID}`)
