@@ -209,7 +209,7 @@ const exec = {
  * @returns {void} Nothing.
  */
 function automod(message, client) {
-	if (!message.guild) return;
+	if (!message.guild || message.guild.id === '849344562891063356') return;
 	const spam = client.spam.get(message.author.id) || [];
 	spam.push(new Date().getTime());
 	client.spam.set(message.author.id, spam.filter((s) => s > new Date().getTime() - 2000));
