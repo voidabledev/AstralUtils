@@ -35,7 +35,8 @@ export class Client extends DJSClient {
 			useFindAndModify: false,
 			keepAlive: true,
 		});
-		connection.on('connected', () => console.log('Connected to mongoose!'));
+		console.log('Connected to mongoose!');
+		connection.on('connected', () => console.log('Reconnected to mongoose!'));
 		connection.on('disconnected', () => console.log('Lost connection to mongoose.'));
 
 		this.login(token);
