@@ -157,7 +157,7 @@ export class ModlogManager {
 			? webhooks.first()
 			: await channel.createWebhook(this._client.user?.username ?? '', {
 				avatar: this._client.user?.avatarURL() ?? undefined,
-			});
+			  });
 		await webhook?.send({
 			username: this._client.user?.username ?? undefined,
 			avatarURL: this._client.user?.avatarURL() ?? undefined,

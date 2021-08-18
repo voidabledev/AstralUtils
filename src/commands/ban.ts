@@ -53,16 +53,14 @@ export const command: Command = {
 	async run(interaction, options, client) {
 		const user = options.getUser('user', true);
 		const reason = options.getString('reason', true);
-		const time = options.getInteger('time');
+		const time = options.getInteger('time') ?? 60000;
 		const timeUnit = options.getInteger('time-unit') ?? 60000;
 		const member = await interaction.guild?.members.fetch(user.id);
-
 		if (member?.bannable === false) {
 			return interaction.reply({
 				embeds: [fail('I can\'t ban this user!')],
 			});
 		}
-
 		if (
 			(member?.roles?.highest?.position ?? 0) >=
 			(interaction.member?.roles as GuildMemberRoleManager).highest.position
@@ -71,20 +69,23 @@ export const command: Command = {
 				embeds: [fail('You can\'t ban a user above you!')],
 			});
 		}
-
 		await confirm(interaction, `Are you sure you want to ban ${user}?`)
 			.then(async () => {
 				const userEmbed = new MessageEmbed()
-					.setTitle(`You've been banned in **${interaction.guild?.name}**`)
-					.addField('Reason', reason)
+					.setTitle('User Muted')
+					.addField('User', `${member} (${member?.user.id})`, true)
 					.addField(
-						'Expires',
-						time
-							? `<t:${Math.floor(
-								(new Date().getTime() + time * timeUnit) / 1000,
-							)}:R>`
-							: 'Permanent',
+						'Staff',
+						`${interaction.user} (${interaction.user.id})`,
+						true,
 					)
+					.addField(
+						'Time',
+						`<t:${Math.floor(
+							(new Date().getTime() + time * timeUnit) / 1000,
+						)}:R>`,
+					)
+					.addField('Reason', reason)
 					.setColor('RED');
 				await user
 					.send({
