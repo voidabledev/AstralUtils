@@ -16,7 +16,7 @@ module.exports = {
 	data: {
 		minArgs: 2,
 		maxArgs: null,
-		userPerms: ['MANAGE_MESSAGES'],
+		userPerms: ['ADMINISTRATOR'],
 		botPerms: [],
 		requiredRoles: [],
 		delete: true,
