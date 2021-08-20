@@ -42,7 +42,7 @@ export class GiveawayManager {
 		});
 		const message = await interaction.fetchReply();
 		const embed = new MessageEmbed()
-			.setAuthor(`<:bluedot:842408037502550106> ${data.prize} <:bluedot:842408037502550106>`)
+			.setAuthor(`${data.prize}`)
 			.setDescription(
 				`This giveaway ends <t:${Math.floor(data.end / 1000)}:R>.`,
 			)
@@ -102,7 +102,7 @@ export class GiveawayManager {
 		)?.messages.fetch(messageId);
 		if (!message) throw new Error('GiveawayError: Unknown message');
 		const embed = new MessageEmbed()
-			.setAuthor(`<:bluedot:842408037502550106> ${data.prize} <:bluedot:842408037502550106>`)
+			.setAuthor(`${data.prize}`)
 			.setDescription(
 				`This giveaway ends <t:${Math.floor(giveaway.end / 1000)}:R>.`,
 			)
@@ -176,19 +176,22 @@ export class GiveawayManager {
 			{ ended: true, end: Date.now(), winners },
 		);
 		const embed = new MessageEmbed()
-			.setAuthor(`<:bluedot:842408037502550106> ${giveaway.prize} <:bluedot:842408037502550106>`)
+			.setAuthor(`${giveaway.prize}`)
 			.setDescription('This giveaway has **ended**.')
-			.addFields({
-				name: 'Giveaway Info',
-				value: `**Hosted by:** <@${giveaway.host}>\n${
-					giveaway.sponsor ? `**Sponsored by:** <@${giveaway.sponsor}>\n` : ''
-				}**Ended:** <t:${Math.floor(
-					Date.now() / 1000,
-				)}:R>\n **Winners:** ${winners.map((w) => `<@${w}>`).join(', ')}`,
-			}, {
-				name: 'Requirement Info',
-				value: `${giveaway.requirement ?? 'None'}`,
-			})
+			.addFields(
+				{
+					name: 'Giveaway Info',
+					value: `**Hosted by:** <@${giveaway.host}>\n${
+						giveaway.sponsor ? `**Sponsored by:** <@${giveaway.sponsor}>\n` : ''
+					}**Ended:** <t:${Math.floor(
+						Date.now() / 1000,
+					)}:R>\n **Winners:** ${winners.map((w) => `<@${w}>`).join(', ')}`,
+				},
+				{
+					name: 'Requirement Info',
+					value: `${giveaway.requirement ?? 'None'}`,
+				},
+			)
 			.setFooter(`Message ID: ${message.id} | Winners: ${giveaway.winnerCount}`)
 			.setColor('RED');
 		const initialRow = message.components[0];
@@ -263,7 +266,7 @@ export class GiveawayManager {
 		if (!message) throw new Error('GiveawayError: Unknown message.');
 		const embed = new MessageEmbed()
 			.setTitle('Giveaway Control Panel')
-			.setDescription('Use the buttons below to the giveaway.');
+			.setDescription('Use the buttons below to control the giveaway.');
 		const row = new MessageActionRow().addComponents(
 			new MessageButton()
 				.setStyle('PRIMARY')
@@ -391,21 +394,24 @@ export class GiveawayManager {
 					mentions.push(`<@${entry}>`);
 				}
 				const gEmbed = new MessageEmbed()
-					.setAuthor(`<:bluedot:842408037502550106> ${giveaway.prize} <:bluedot:842408037502550106>`)
+					.setAuthor(`${giveaway.prize}`)
 					.setDescription('This giveaway has **ended**.')
-					.addFields({
-						name: 'Giveaway Info',
-						value: `**Hosted by:** <@${giveaway.host}>\n${
-							giveaway.sponsor
-								? `**Sponsored by:** <@${giveaway.sponsor}>\n`
-								: ''
-						}**Ended:** <t:${Math.floor(
-							Date.now() / 1000,
-						)}:R>\n **Winners:** ${winners.map((w) => `<@${w}>`).join(', ')}`,
-					}, {
-						name: 'Requirement Info',
-						value: `${giveaway.requirement ?? 'None'}`,
-					})
+					.addFields(
+						{
+							name: 'Giveaway Info',
+							value: `**Hosted by:** <@${giveaway.host}>\n${
+								giveaway.sponsor
+									? `**Sponsored by:** <@${giveaway.sponsor}>\n`
+									: ''
+							}**Ended:** <t:${Math.floor(
+								Date.now() / 1000,
+							)}:R>\n **Winners:** ${winners.map((w) => `<@${w}>`).join(', ')}`,
+						},
+						{
+							name: 'Requirement Info',
+							value: `${giveaway.requirement ?? 'None'}`,
+						},
+					)
 					.setFooter(
 						`Message ID: ${message.id} | Winners: ${giveaway.winnerCount}`,
 					)

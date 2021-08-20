@@ -10,7 +10,6 @@ export class AutomodManager {
 	constructor(private _client: Client) {
 		this._client = _client;
 	}
-
 	/** This is called on every message to check if any automod action is taken. */
 	async run(message: Message): Promise<void> {
 		// dont run this in main server yet
@@ -66,7 +65,6 @@ export class AutomodManager {
 			}
 		}
 	}
-
 	/** All the things the automod responds to */
 	private _data: Automod[] = [
 		{
@@ -297,16 +295,20 @@ export class AutomodManager {
 			},
 		},
 	];
-
 	/* Moderation methods */
-
 	private async _warn(message: Message, reason: string): Promise<void> {
+		if (message.member?.permissions.has('MANAGE_MESSAGES')) return; // Do not punish staff members
 		if (!this._client.user) throw new Error('Client user not found.');
 		if (!message.guild) throw new Error('Cannot use automod outside of guilds');
-
 		reason = `[Automod] ${reason}`;
 		const embed = new MessageEmbed()
-			.setTitle(`You've been warned in **${message.guild.name}**`)
+			.setAuthor(
+				message.author.displayAvatarURL({ dynamic: true, size: 512 }),
+				`${message.author.tag} (${message.author.id})`,
+			)
+			.setTitle('User Warned')
+			.addField('User', `${message.author} (${message.author.id})`, true)
+			.addField('Staff', `${this._client.user} (${this._client.user.id})`, true)
 			.addField('Reason', reason)
 			.setColor('RED');
 		await message.author
@@ -324,29 +326,32 @@ export class AutomodManager {
 			isActive: true,
 		});
 	}
-
 	private async _mute(
 		message: Message,
 		reason: string,
 		time: number,
 	): Promise<void> {
+		if (message.member?.permissions.has('MANAGE_MESSAGES')) return; // Do not punish staff members
 		if (!this._client.user) throw new Error('Client user not found.');
 		if (!message.guild || !message.member) {
 			throw new Error('Cannot use automod outside of guilds');
 		}
-
 		const role = message.guild.roles.cache.find((r) => r.name === 'Muted');
 		if (!role) throw new Error('No "Muted" role found.');
-
 		reason = `[Automod] ${reason}`;
-
 		const embed = new MessageEmbed()
-			.setTitle(`You've been muted in **${message.guild.name}**`)
-			.addField('Reason', reason)
+			.setAuthor(
+				message.author.displayAvatarURL({ dynamic: true, size: 512 }),
+				`${message.author.tag} (${message.author.id})`,
+			)
+			.setTitle('User Muted')
+			.addField('User', `${message.author} (${message.author.id})`, true)
+			.addField('Staff', `${this._client.user} (${this._client.user.id})`, true)
 			.addField(
-				'Expires',
+				'Time',
 				`<t:${Math.floor((new Date().getTime() + time) / 1000)}:R>`,
 			)
+			.addField('Reason', reason)
 			.setColor('RED');
 		await message.author
 			.send({
@@ -364,17 +369,22 @@ export class AutomodManager {
 			isActive: true,
 		});
 	}
-
 	private async _ban(message: Message, reason: string) {
+		if (message.member?.permissions.has('MANAGE_MESSAGES')) return; // Do not punish staff members
 		if (!this._client.user) throw new Error('Client user not found.');
 		if (!message.guild || !message.member) {
 			throw new Error('Cannot use automod outside of guilds');
 		}
-
 		reason = `[Automod] ${reason}`;
-
 		const embed = new MessageEmbed()
-			.setTitle(`You've been banned in **${message.guild.name}**`)
+			.setAuthor(
+				message.author.displayAvatarURL({ dynamic: true, size: 512 }),
+				`${message.author.tag} (${message.author.id})`,
+			)
+			.setTitle('User Muted')
+			.addField('User', `${message.author} (${message.author.id})`, true)
+			.addField('Staff', `${this._client.user} (${this._client.user.id})`, true)
+			.addField('Time', 'Permanent')
 			.addField('Reason', reason)
 			.setColor('RED');
 		await message.author

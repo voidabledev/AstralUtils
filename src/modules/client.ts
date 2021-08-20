@@ -29,15 +29,15 @@ export class Client extends DJSClient {
 	}
 
 	async start(): Promise<void> {
+
+		connection.on('connected', () => console.log('Connected to mongoose!'));
+		connection.on('disconnected', () => console.log('Lost connection to mongoose.'));
 		await connect(db, {
 			useNewUrlParser: true,
 			useUnifiedTopology: true,
 			useFindAndModify: false,
 			keepAlive: true,
 		});
-		console.log('Connected to mongoose!');
-		connection.on('connected', () => console.log('Reconnected to mongoose!'));
-		connection.on('disconnected', () => console.log('Lost connection to mongoose.'));
 
 		this.login(token);
 
