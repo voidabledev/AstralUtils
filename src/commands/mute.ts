@@ -115,16 +115,19 @@ export const command: Command = {
 					});
 				}
 				const userEmbed = new MessageEmbed()
-					.setAuthor(interaction.user.tag, member.user.displayAvatarURL({ dynamic: true, size: 512 }))
+					.setAuthor(
+						member.user.tag,
+						member.user.displayAvatarURL({ dynamic: true, size: 512 }),
+					)
 					.setTitle(`You were muted in **${interaction.guild?.name}**`)
 					.addField(
 						'Expires',
 						time
 							? `<t:${Math.floor(
 								(new Date().getTime() + time * timeUnit) / 1000,
-							)}:f> (<t:${Math.floor(
+							  )}:f> (<t:${Math.floor(
 								(new Date().getTime() + time * timeUnit) / 1000,
-							)}:R>)`
+							  )}:R>)`
 							: 'Permanent',
 					)
 					.addField('Reason', reason)

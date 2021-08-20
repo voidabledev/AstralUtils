@@ -72,7 +72,10 @@ export const command: Command = {
 		await confirm(interaction, `Are you sure you want to ban ${user}?`)
 			.then(async () => {
 				const userEmbed = new MessageEmbed()
-					.setAuthor(interaction.user.tag, user.displayAvatarURL({ dynamic: true, size: 512 }))
+					.setAuthor(
+						user.tag,
+						user.displayAvatarURL({ dynamic: true, size: 512 }),
+					)
 					.setTitle(`You were banned in ${interaction.guild?.name}`)
 					.addField(
 						'Time',

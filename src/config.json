@@ -7,5 +7,7 @@
 		"393664841086140417"
 	],
 	"db": "mongodb+srv://aurora:Sjfwse8Qbw1tYH9E@aurora.k0if4.mongodb.net/aurora?retryWrites=true&w=majority",
-	"prefix": ">"
+	"prefix": ">",
+	"modlog": "831996577690288188",
+	"automod": "831996576778944612"
 }

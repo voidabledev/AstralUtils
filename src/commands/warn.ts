@@ -1,11 +1,5 @@
 import { Command } from '../typings/command';
-import {
-	MessageEmbed,
-	Permissions,
-	Guild,
-	GuildMember,
-	Role,
-} from 'discord.js';
+import { MessageEmbed, Permissions, Guild, GuildMember } from 'discord.js';
 import { success, fail, confirm } from '../modules/embeds';
 import { ApplicationCommandOptionType as Options } from 'discord-api-types/v9';
 // eslint-disable-next-line @typescript-eslint/no-empty-function
@@ -52,7 +46,10 @@ export const command: Command = {
 		await confirm(interaction, `Are you sure you want to warn ${member}?`)
 			.then(async () => {
 				const userEmbed = new MessageEmbed()
-					.setAuthor(interaction.user.tag, member.user.displayAvatarURL({ dynamic: true, size: 512 }))
+					.setAuthor(
+						member.user.tag,
+						member.user.displayAvatarURL({ dynamic: true, size: 512 }),
+					)
 					.setTitle(`You were warned in ${interaction.guild?.name}`)
 					.addField('Reason', reason)
 					.setColor('YELLOW');

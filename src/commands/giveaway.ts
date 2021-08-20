@@ -127,7 +127,6 @@ export const command: Command = {
 	},
 	async run(interaction, options, client) {
 		if (!interaction.channel || !interaction.guild) return;
-
 		const subcommand = options.getSubcommand(true);
 		if (subcommand === 'create') {
 			const prize = options.getString('prize', true);
@@ -138,13 +137,11 @@ export const command: Command = {
 			const sponsor = options.getUser('sponsor') ?? undefined;
 			const requirement = options.getString('requirement') ?? undefined;
 			const ping = options.getString('ping') ?? '';
-
 			if (winnerCount < 1 || winnerCount > 5) {
 				return interaction.reply({
 					embeds: [fail('Giveaways have to have between 1 and 5 winners!')],
 				});
 			}
-
 			await client.giveaways.create(
 				{
 					channelId: interaction.channel.id,
@@ -170,13 +167,11 @@ export const command: Command = {
 			const sponsor = options.getUser('sponsor')?.id ?? undefined;
 			const requirement = options.getString('requirement') ?? undefined;
 			const end = duration ? Date.now() + duration * durationUnit : undefined;
-
 			if (winnerCount && (winnerCount < 1 || winnerCount > 5)) {
 				return interaction.reply({
 					embeds: [fail('Giveaways have to have between 1 and 5 winners!')],
 				});
 			}
-
 			await client.giveaways
 				.update(messageId, {
 					prize,
