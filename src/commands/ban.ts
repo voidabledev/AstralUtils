@@ -72,18 +72,15 @@ export const command: Command = {
 		await confirm(interaction, `Are you sure you want to ban ${user}?`)
 			.then(async () => {
 				const userEmbed = new MessageEmbed()
-					.setTitle('User Muted')
-					.addField('User', `${member} (${member?.user.id})`, true)
-					.addField(
-						'Staff',
-						`${interaction.user} (${interaction.user.id})`,
-						true,
-					)
+					.setAuthor(interaction.user.tag, user.displayAvatarURL({ dynamic: true, size: 512 }))
+					.setTitle(`You were banned in ${interaction.guild?.name}`)
 					.addField(
 						'Time',
 						`<t:${Math.floor(
 							(new Date().getTime() + time * timeUnit) / 1000,
-						)}:R>`,
+						)}:f> (<t:${Math.floor(
+							(new Date().getTime() + time * timeUnit) / 1000,
+						)}:R>)`,
 					)
 					.addField('Reason', reason)
 					.setColor('RED');
@@ -91,9 +88,7 @@ export const command: Command = {
 					.send({
 						embeds: [userEmbed],
 					})
-					.catch(() => {
-						/* cannot send messages to this user */
-					});
+					.catch(() => null);
 				await interaction.guild?.members.ban(user, {
 					reason,
 				});

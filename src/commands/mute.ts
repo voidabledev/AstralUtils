@@ -115,24 +115,25 @@ export const command: Command = {
 					});
 				}
 				const userEmbed = new MessageEmbed()
-					.setTitle(`You've been muted in **${interaction.guild?.name}**`)
-					.addField('Reason', reason)
+					.setAuthor(interaction.user.tag, member.user.displayAvatarURL({ dynamic: true, size: 512 }))
+					.setTitle(`You were muted in **${interaction.guild?.name}**`)
 					.addField(
 						'Expires',
 						time
 							? `<t:${Math.floor(
 								(new Date().getTime() + time * timeUnit) / 1000,
-							)}:R>`
+							)}:f> (<t:${Math.floor(
+								(new Date().getTime() + time * timeUnit) / 1000,
+							)}:R>)`
 							: 'Permanent',
 					)
-					.setColor('RED');
+					.addField('Reason', reason)
+					.setColor('ORANGE');
 				await member.user
 					.send({
 						embeds: [userEmbed],
 					})
-					.catch(() => {
-						/* cannot send messages to this user */
-					});
+					.catch(() => null);
 				await member.roles.add(role as Role);
 				const log = await client.modlogs.set({
 					guildID: (interaction.guild as Guild).id,

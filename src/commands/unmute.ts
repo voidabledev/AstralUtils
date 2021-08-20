@@ -57,23 +57,22 @@ export const command: Command = {
 		await confirm(interaction, `Are you sure you want to unmute ${member}?`)
 			.then(async () => {
 				const userEmbed = new MessageEmbed()
-					.setTitle(`You've been unmuted in **${interaction.guild?.name}**`)
+					.setAuthor(interaction.user.tag, member.user.displayAvatarURL({ dynamic: true, size: 512 }))
+					.setTitle(`You were unmuted in **${interaction.guild?.name}**`)
 					.addField('Reason', reason)
 					.setColor('GREEN');
 				await member.user
 					.send({
 						embeds: [userEmbed],
 					})
-					.catch(() => {
-						/* cannot send messages to this user */
-					});
+					.catch(() => null);
 				await member.roles.remove(role);
 				const log = await client.modlogs.set({
 					guildID: (interaction.guild as Guild).id,
 					userID: member.id,
 					staffID: interaction.user.id,
 					reason,
-					caseType: 'Mute',
+					caseType: 'Unmute',
 				});
 				await interaction.editReply({
 					embeds: [

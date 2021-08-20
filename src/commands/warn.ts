@@ -52,16 +52,15 @@ export const command: Command = {
 		await confirm(interaction, `Are you sure you want to warn ${member}?`)
 			.then(async () => {
 				const userEmbed = new MessageEmbed()
-					.setTitle(`You've been warned in **${interaction.guild?.name}**`)
+					.setAuthor(interaction.user.tag, member.user.displayAvatarURL({ dynamic: true, size: 512 }))
+					.setTitle(`You were warned in ${interaction.guild?.name}`)
 					.addField('Reason', reason)
-					.setColor('RED');
+					.setColor('YELLOW');
 				await member.user
 					.send({
 						embeds: [userEmbed],
 					})
-					.catch(() => {
-						/* cannot send messages to this user */
-					});
+					.catch(() => null);
 				const log = await client.modlogs.set({
 					guildID: (interaction.guild as Guild).id,
 					userID: member.id,

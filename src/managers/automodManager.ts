@@ -57,7 +57,7 @@ export class AutomodManager {
 					}) &&
 					(await data.allowed(message))
 				) {
-					data.execute(message).catch(console.error);
+					data.execute(message).catch((e) => console.warn(`An error was encountered during execution of automod: ${e.message}`));
 				}
 			}
 			catch {
@@ -67,6 +67,33 @@ export class AutomodManager {
 	}
 	/** All the things the automod responds to */
 	private _data: Automod[] = [
+		{
+			triggers: [
+				{
+					name: '5',
+					type: 'spam',
+				},
+			],
+			allowed: async (message) => {
+				return true;
+			},
+			execute: async (message) => {
+				if (message.channel.type === 'DM') return;
+				message.channel.bulkDelete(this._spam.get(message.author.id) ?? []);
+				this._spam.delete(message.author.id);
+
+				const m = await message.channel.send(
+					`<a:animebonk:854351542252601404> ${message.author} don't send messages so quickly!`,
+				);
+				await this._mute(
+					message,
+					`Spamming in ${message.channel}`,
+					60_000 * 2,
+				);
+				await wait(5000);
+				m.delete();
+			},
+		},
 		{
 			triggers: [
 				{
@@ -98,7 +125,7 @@ export class AutomodManager {
 					`Sending invite links in ${message.channel}`,
 					60_000 * 15,
 				);
-				message.delete();
+				if (!message.deleted) message.delete();
 				await wait(5000);
 				m.delete();
 			},
@@ -157,11 +184,11 @@ export class AutomodManager {
 				const m = await message.channel.send(
 					`<a:error:849037573912657932> ${message.author} you can't send malicious links here!`,
 				);
+				if (!message.deleted) message.delete();
 				await this._ban(
 					message,
 					`Sending prohibited links in ${message.channel}`,
 				);
-				message.delete();
 				await wait(5000);
 				m.delete();
 			},
@@ -180,8 +207,8 @@ export class AutomodManager {
 				const m = await message.channel.send(
 					`<a:error:849037573912657932> ${message.author} racist language is not allowed here!`,
 				);
+				if (!message.deleted) message.delete();
 				await this._ban(message, `Racist language in ${message.channel}`);
-				message.delete();
 				await wait(5000);
 				m.delete();
 			},
@@ -217,8 +244,8 @@ export class AutomodManager {
 				const m = await message.channel.send(
 					`<a:animebonk:854351542252601404> ${message.author} we are a friendly server. Please watch your language!`,
 				);
+				if (!message.deleted) message.delete();
 				await this._warn(message, `Explicit language in ${message.channel}`);
-				message.delete();
 				await wait(5000);
 				m.delete();
 			},
@@ -262,34 +289,7 @@ export class AutomodManager {
 					`Potentially malicious attachment in ${message.channel}`,
 					60_000 * 15,
 				);
-				message.delete();
-				await wait(5000);
-				m.delete();
-			},
-		},
-		{
-			triggers: [
-				{
-					name: '5',
-					type: 'spam',
-				},
-			],
-			allowed: async (message) => {
-				return true;
-			},
-			execute: async (message) => {
-				if (message.channel.type === 'DM') return;
-				message.channel.bulkDelete(this._spam.get(message.author.id) ?? []);
-				this._spam.delete(message.author.id);
-
-				const m = await message.channel.send(
-					`<a:animebonk:854351542252601404> ${message.author} don't send messages so quickly!`,
-				);
-				await this._mute(
-					message,
-					`Spamming in ${message.channel}`,
-					60_000 * 2,
-				);
+				if (!message.deleted) message.delete();
 				await wait(5000);
 				m.delete();
 			},
@@ -297,20 +297,20 @@ export class AutomodManager {
 	];
 	/* Moderation methods */
 	private async _warn(message: Message, reason: string): Promise<void> {
-		if (message.member?.permissions.has('MANAGE_MESSAGES')) return; // Do not punish staff members
+		if (message.member?.permissions.has('MANAGE_MESSAGES')) {
+			return; // Do not punish staff members
+		}
 		if (!this._client.user) throw new Error('Client user not found.');
 		if (!message.guild) throw new Error('Cannot use automod outside of guilds');
 		reason = `[Automod] ${reason}`;
 		const embed = new MessageEmbed()
 			.setAuthor(
+				message.author.tag,
 				message.author.displayAvatarURL({ dynamic: true, size: 512 }),
-				`${message.author.tag} (${message.author.id})`,
 			)
-			.setTitle('User Warned')
-			.addField('User', `${message.author} (${message.author.id})`, true)
-			.addField('Staff', `${this._client.user} (${this._client.user.id})`, true)
+			.setTitle(`You were warned in ${message.guild.name}!`)
 			.addField('Reason', reason)
-			.setColor('RED');
+			.setColor('YELLOW');
 		await message.author
 			.send({
 				embeds: [embed],
@@ -341,18 +341,16 @@ export class AutomodManager {
 		reason = `[Automod] ${reason}`;
 		const embed = new MessageEmbed()
 			.setAuthor(
+				message.author.tag,
 				message.author.displayAvatarURL({ dynamic: true, size: 512 }),
-				`${message.author.tag} (${message.author.id})`,
 			)
-			.setTitle('User Muted')
-			.addField('User', `${message.author} (${message.author.id})`, true)
-			.addField('Staff', `${this._client.user} (${this._client.user.id})`, true)
+			.setTitle(`You were muted in ${message.guild.name}!`)
 			.addField(
-				'Time',
-				`<t:${Math.floor((new Date().getTime() + time) / 1000)}:R>`,
+				'Expires',
+				`<t:${Math.floor((new Date().getTime() + time) / 1000)}:f> (<t:${Math.floor((new Date().getTime() + time) / 1000)}:R>)`,
 			)
 			.addField('Reason', reason)
-			.setColor('RED');
+			.setColor('ORANGE');
 		await message.author
 			.send({
 				embeds: [embed],
@@ -378,13 +376,11 @@ export class AutomodManager {
 		reason = `[Automod] ${reason}`;
 		const embed = new MessageEmbed()
 			.setAuthor(
+				message.author.tag,
 				message.author.displayAvatarURL({ dynamic: true, size: 512 }),
-				`${message.author.tag} (${message.author.id})`,
 			)
-			.setTitle('User Muted')
-			.addField('User', `${message.author} (${message.author.id})`, true)
-			.addField('Staff', `${this._client.user} (${this._client.user.id})`, true)
-			.addField('Time', 'Permanent')
+			.setTitle(`You were banned from ${message.guild.name}!`)
+			.addField('Expires', 'Permanent')
 			.addField('Reason', reason)
 			.setColor('RED');
 		await message.author
