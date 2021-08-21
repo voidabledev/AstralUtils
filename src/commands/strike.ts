@@ -56,20 +56,20 @@ export const command: Command = {
 		);
 	},
 	async run(interaction, options, client) {
-		const subcommand = options.getSubcommand();
+		const subcommand = options.getSubcommand(true);
 		if (subcommand === 'create') {
 			const user = options.getUser('user', true);
 			const member = options.getMember('user');
 			const reason = options.getString('reason', true);
 			const strikeID = id(36, 8);
-
 			if (!member || !(member instanceof GuildMember)) {
 				return interaction.reply({
-					embeds: [fail('The person you\'re trying to strike isn\'t in this server!')],
+					embeds: [
+						fail('The person you\'re trying to strike isn\'t in this server!'),
+					],
 					ephemeral: true,
 				});
 			}
-
 			if (user.id === interaction.user.id) {
 				return interaction.reply({
 					embeds: [fail('You can\'t strike yourself.')],
@@ -77,11 +77,13 @@ export const command: Command = {
 				});
 			}
 			if (
-				(interaction.member?.roles as GuildMemberRoleManager).highest.position <=
-				member.roles.highest.position
+				(interaction.member?.roles as GuildMemberRoleManager).highest
+					.position <= member.roles.highest.position
 			) {
 				return interaction.reply({
-					embeds: [fail('You can\'t strike people above or the same rank as you.')],
+					embeds: [
+						fail('You can\'t strike people above or the same rank as you.'),
+					],
 					ephemeral: true,
 				});
 			}
@@ -91,10 +93,11 @@ export const command: Command = {
 					ephemeral: true,
 				});
 			}
-
-
 			try {
-				await confirm(interaction, `Are you sure you want to strike ${user} for **\`${reason}\`**?`);
+				await confirm(
+					interaction,
+					`Are you sure you want to strike ${user} for **\`${reason}\`**?`,
+				);
 			}
 			catch (e) {
 				return interaction.editReply({
@@ -109,7 +112,10 @@ export const command: Command = {
 			});
 			let messaged = '';
 			const embed = new MessageEmbed()
-				.setAuthor(user.tag, user.displayAvatarURL({ dynamic: true, size: 512 }))
+				.setAuthor(
+					user.tag,
+					user.displayAvatarURL({ dynamic: true, size: 512 }),
+				)
 				.setTitle(`You were striked on ${interaction.guild?.name}`)
 				.addField('Reason', reason)
 				.addField('Strike ID', `\`${strikeID}\``)
@@ -124,40 +130,48 @@ export const command: Command = {
 					interaction.user.displayAvatarURL({ dynamic: true, size: 512 }),
 				)
 				.setTitle('New Strike')
-				.setColor('GREY')
+				.setColor('RED')
 				.addField('User', `${user}`)
 				.addField('Reason', reason)
 				.addField('Strike ID', `\`${strikeID}\``)
 				.setTimestamp();
 			const channel = client.channels.cache.get('831996554763829338');
 			(channel as TextChannel)?.send({ embeds: [logEmbed] });
-
 			await interaction.editReply({
-				embeds: [success(`${user} has been **striked** | \`${strikeID}\`. ${messaged}`)],
+				embeds: [
+					success(
+						`${user} has been **striked** | \`${strikeID}\`. ${messaged}`,
+					),
+				],
 				components: [],
 			});
-
 		}
-
 		if (subcommand === 'remove') {
 			const strikeID = options.getString('strike-id', true);
 			const strike = await strikeModel.findOne({ strikeID });
-
 			if (!strike) {
 				return interaction.reply({
 					embeds: [fail(`I couldn't find a strike with ID \`${strikeID}\`!`)],
 					ephemeral: true,
 				});
 			}
-
 			const channel = client.channels.cache.get('831996554763829338');
-			const message = (await (channel as TextChannel).messages.fetch({ limit: 100 }))
-				.filter((msg) => (msg.embeds[0]?.fields[2]?.value === `\`${strikeID}\`` || msg.embeds[0]?.description?.endsWith(`\`${strikeID}\`.`)) ?? false).first();
-
+			const message = (
+				await (channel as TextChannel).messages.fetch({ limit: 100 })
+			)
+				.filter(
+					(msg) =>
+						(msg.embeds[0]?.fields[2]?.value === `\`${strikeID}\`` ||
+							msg.embeds[0]?.description?.endsWith(`\`${strikeID}\`.`)) ??
+						false,
+				)
+				.first();
 			try {
 				await confirm(
 					interaction,
-					`Are you sure you want to remove [this strike](${message?.url ?? 'Message not found'})?`,
+					`Are you sure you want to remove [this strike](${
+						message?.url ?? 'Message not found'
+					})?`,
 				);
 			}
 			catch (e) {
@@ -166,7 +180,6 @@ export const command: Command = {
 					components: [],
 				});
 			}
-
 			await strikeModel.deleteOne({ strikeID });
 			if (message) await message.delete();
 			await interaction.editReply({
