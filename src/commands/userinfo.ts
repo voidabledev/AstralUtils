@@ -1,7 +1,7 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Command } from '../typings/command';
 import { MessageEmbed, GuildMember } from 'discord.js';
 import { ApplicationCommandOptionType as Options } from 'discord-api-types/v9';
-// eslint-disable-next-line @typescript-eslint/no-empty-function
 
 export const command: Command = {
 	name: 'userinfo',
@@ -64,7 +64,7 @@ export const command: Command = {
 						roles.length > 10
 							? `${roles.slice(0, 10).join(', ')} and ${
 								roles.length - 10
-							  } more role${roles.length === 11 ? '' : 's'}...`
+							} more role${roles.length === 11 ? '' : 's'}...`
 							: roles.length > 0
 								? roles.join(', ')
 								: 'None'

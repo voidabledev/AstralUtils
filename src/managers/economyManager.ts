@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { economyModel, EconomyProfile } from '../models/economyModel';
 import { Collection, Snowflake } from 'discord.js';
 import { Client } from '../modules/client';

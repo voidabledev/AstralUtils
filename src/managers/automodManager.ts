@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Client } from '../modules/client';
 import { Automod } from '../typings/automod';
 import { Message, MessageEmbed, Collection } from 'discord.js';
@@ -14,11 +15,9 @@ export class AutomodManager {
 	async run(message: Message): Promise<void> {
 		// dont run this in main server yet
 		if (message.guild?.id !== '849344562891063356') return;
-
 		const spam = this._spam.get(message.author.id) ?? [];
 		spam.push(message);
 		this._spam.set(message.author.id, spam.filter((m) => m.createdTimestamp + 5000 > Date.now()));
-
 		for (const data of this._data) {
 			try {
 				if (

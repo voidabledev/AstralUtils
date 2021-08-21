@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Command } from '../typings/command';
 import { MessageEmbed } from 'discord.js';
 
@@ -6,9 +7,7 @@ export const command: Command = {
 	description: 'View information about this server.',
 	async run(interaction, options, client) {
 		if (!interaction.guild) return;
-
 		await interaction.guild.members.fetch();
-
 		const { cache: members } = interaction.guild.members;
 		const { cache: channels } = interaction.guild.channels;
 		const { cache: roles } = interaction.guild.roles;

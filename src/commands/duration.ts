@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Command } from '../typings/command';
 import { Permissions } from 'discord.js';
 import { success, fail } from '../modules/embeds';

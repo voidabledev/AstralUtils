@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Command } from '../typings/command';
 import { ApplicationCommandOptionType as Options } from 'discord-api-types/v9';
 import { fail } from '../modules/embeds';

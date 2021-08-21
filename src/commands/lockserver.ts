@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Command } from '../typings/command';
 import { MessageEmbed, Permissions, GuildChannel, Collection } from 'discord.js';
 import { success, fail, confirm } from '../modules/embeds';

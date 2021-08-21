@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { id } from '../modules/utils';
 import { Command } from '../typings/command';
 import { confirm, success, fail } from '../modules/embeds';

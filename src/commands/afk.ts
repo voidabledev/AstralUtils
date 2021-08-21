@@ -1,8 +1,8 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Command } from '../typings/command';
 import { success } from '../modules/embeds';
 import { ApplicationCommandOptionType as Options } from 'discord-api-types/v9';
 import { GuildMember } from 'discord.js';
-// eslint-disable-next-line @typescript-eslint/no-empty-function
 
 export const command: Command = {
 	name: 'afk',

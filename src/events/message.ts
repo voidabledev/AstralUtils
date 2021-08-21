@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Message, MessageEmbed } from 'discord.js';
 import { Event } from '../typings/event';
 import { devs, token } from '../config.json';

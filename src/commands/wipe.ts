@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Command } from '../typings/command';
 import { MessageEmbed, Permissions, TextChannel } from 'discord.js';
 import { success, fail, confirm } from '../modules/embeds';
@@ -71,7 +72,7 @@ export const command: Command = {
 					? webhooks.first()
 					: await logChannel.createWebhook(client.user.username, {
 						avatar: client.user.avatarURL() ?? undefined,
-					  });
+					});
 				webhook?.send({
 					username: client.user.username,
 					avatarURL: client.user.avatarURL() ?? undefined,

@@ -1,8 +1,9 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Command } from '../typings/command';
 import { devs } from '../config.json';
-import { MessageEmbed, PresenceStatusData, ActivityType } from 'discord.js';
+import { MessageEmbed, PresenceStatusData, ActivityType, Interaction } from 'discord.js';
 import { ApplicationCommandOptionType as Options } from 'discord-api-types/v9';
-
+import * as Client from '../modules/client';
 export const command: Command = {
 	name: 'activity',
 	description: 'Sets the bot\'s status.',
@@ -41,9 +42,18 @@ export const command: Command = {
 			description: 'Stream URL',
 		},
 	],
+	/**
+	 * @param {Interaction} interaction
+	 * @param {Client} client
+	 */
 	async allowed(interaction, client) {
 		return devs.includes(interaction.user.id);
 	},
+	/**
+	 * @param {Interaction} interaction
+	 * @param {Client} client
+	 * @param {*}
+	 */
 	async run(interaction, options, client) {
 		const status =
 			(options.getString('status') as PresenceStatusData) ?? undefined;

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Command } from '../typings/command';
 import { ApplicationCommandOptionType as Options } from 'discord-api-types/v9';
 import { fail, pageMenu, parsePages } from '../modules/embeds';
@@ -87,9 +88,9 @@ export const command: Command = {
 				)}:R> (<t:${Math.floor(l.timestamp / 1000)}:f>)\n${
 					l.expires
 						? (l.isActive !== false ? '- **Expires:**' : '- **Expired:**') +
-						  `<t:${Math.floor(l.expires / 1000)}:R> (<t:${Math.floor(
-						  	l.expires / 1000,
-						  )}:f>)`
+						`<t:${Math.floor(l.expires / 1000)}:R> (<t:${Math.floor(
+							l.expires / 1000,
+						)}:f>)`
 						: ''
 				}`,
 			};

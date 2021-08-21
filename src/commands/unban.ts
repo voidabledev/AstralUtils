@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Command } from '../typings/command';
 import { Permissions, Guild } from 'discord.js';
 import { ApplicationCommandOptionType as Options } from 'discord-api-types/v9';
