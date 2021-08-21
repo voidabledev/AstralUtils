@@ -53,7 +53,7 @@ export const command: Command = {
 	async run(interaction, options, client) {
 		const user = options.getUser('user', true);
 		const reason = options.getString('reason', true);
-		const time = options.getInteger('time') ?? 60000;
+		const time = options.getInteger('time');
 		const timeUnit = options.getInteger('time-unit') ?? 60000;
 		const member = await interaction.guild?.members.fetch(user.id);
 		if (member?.bannable === false) {
@@ -78,12 +78,12 @@ export const command: Command = {
 					)
 					.setTitle(`You were banned in ${interaction.guild?.name}`)
 					.addField(
-						'Time',
-						`<t:${Math.floor(
+						'Expires',
+						time ? `<t:${Math.floor(
 							(new Date().getTime() + time * timeUnit) / 1000,
 						)}:f> (<t:${Math.floor(
 							(new Date().getTime() + time * timeUnit) / 1000,
-						)}:R>)`,
+						)}:R>)` : 'Permanent', // idiot we dont want a default expiration time for bans
 					)
 					.addField('Reason', reason)
 					.setColor('RED');

@@ -7,24 +7,32 @@ import {
 	Permissions,
 	GuildMemberRoleManager,
 	TextChannel,
+	GuildMember,
 } from 'discord.js';
 import { ApplicationCommandOptionType as Options } from 'discord-api-types/v9';
 
 export const command: Command = {
 	name: 'strike',
-	description: 'Strikes a staff member.',
+	description: 'Manage strikes.',
 	options: [
 		{
-			type: Options.User,
-			name: 'user',
-			description: 'The user getting striked.',
-			required: true,
-		},
-		{
-			type: Options.String,
-			name: 'reason',
-			description: 'The reasoning for the strike.',
-			required: true,
+			type: Options.Subcommand,
+			name: 'create',
+			description: 'Strike a staff member.',
+			options: [
+				{
+					type: Options.User,
+					name: 'user',
+					description: 'The user getting striked.',
+					required: true,
+				},
+				{
+					type: Options.String,
+					name: 'reason',
+					description: 'The reasoning for the strike.',
+					required: true,
+				},
+			],
 		},
 		{
 			type: Options.Subcommand,
@@ -48,53 +56,123 @@ export const command: Command = {
 		);
 	},
 	async run(interaction, options, client) {
-		const user = options.getUser('user', true);
-		const member = interaction.guild?.members.fetch(user.id);
-		const reason = options.getString('reason', true);
 		const subcommand = options.getSubcommand();
-		const strikeID = id(36, 8);
-		if (reason.length > 5) {
-			return interaction.reply({
-				embeds: [fail('Please provide a more specific reason.')],
-				ephemeral: true,
+		if (subcommand === 'create') {
+			const user = options.getUser('user', true);
+			const member = options.getMember('user');
+			const reason = options.getString('reason', true);
+			const strikeID = id(36, 8);
+
+			if (!member || !(member instanceof GuildMember)) {
+				return interaction.reply({
+					embeds: [fail('The person you\'re trying to strike isn\'t in this server!')],
+					ephemeral: true,
+				});
+			}
+
+			if (user.id === interaction.user.id) {
+				return interaction.reply({
+					embeds: [fail('You can\'t strike yourself.')],
+					ephemeral: true,
+				});
+			}
+			if (
+				(interaction.member?.roles as GuildMemberRoleManager).highest.position <=
+				member.roles.highest.position
+			) {
+				return interaction.reply({
+					embeds: [fail('You can\'t strike people above or the same rank as you.')],
+					ephemeral: true,
+				});
+			}
+			if (reason.length < 5) {
+				return interaction.reply({
+					embeds: [fail('Please provide a more specific reason!')],
+					ephemeral: true,
+				});
+			}
+
+
+			try {
+				await confirm(interaction, `Are you sure you want to strike ${user} for **\`${reason}\`**?`);
+			}
+			catch (e) {
+				return interaction.editReply({
+					embeds: [fail('Cancelled.')],
+					components: [],
+				});
+			}
+			await strikeModel.create({
+				userID: user.id,
+				managerID: interaction.user.id,
+				strikeID,
+			});
+			let messaged = '';
+			const embed = new MessageEmbed()
+				.setAuthor(user.tag, user.displayAvatarURL({ dynamic: true, size: 512 }))
+				.setTitle(`You were striked on ${interaction.guild?.name}`)
+				.addField('Reason', reason)
+				.addField('Strike ID', `\`${strikeID}\``)
+				.setColor('GREY')
+				.setTimestamp();
+			user
+				.send({ embeds: [embed] })
+				.catch(() => (messaged = 'I was unable to DM this user.'));
+			const logEmbed = new MessageEmbed()
+				.setAuthor(
+					interaction.user.tag,
+					interaction.user.displayAvatarURL({ dynamic: true, size: 512 }),
+				)
+				.setTitle('New Strike')
+				.setColor('GREY')
+				.addField('User', `${user}`)
+				.addField('Reason', reason)
+				.addField('Strike ID', `\`${strikeID}\``)
+				.setTimestamp();
+			const channel = client.channels.cache.get('831996554763829338');
+			(channel as TextChannel)?.send({ embeds: [logEmbed] });
+
+			await interaction.editReply({
+				embeds: [success(`${user} has been **striked** | \`${strikeID}\`. ${messaged}`)],
+				components: [],
+			});
+
+		}
+
+		if (subcommand === 'remove') {
+			const strikeID = options.getString('strike-id', true);
+			const strike = await strikeModel.findOne({ strikeID });
+
+			if (!strike) {
+				return interaction.reply({
+					embeds: [fail(`I couldn't find a strike with ID \`${strikeID}\`!`)],
+					ephemeral: true,
+				});
+			}
+
+			const channel = client.channels.cache.get('831996554763829338');
+			const message = (await (channel as TextChannel).messages.fetch({ limit: 100 }))
+				.filter((msg) => (msg.embeds[0]?.fields[2]?.value === `\`${strikeID}\`` || msg.embeds[0]?.description?.endsWith(`\`${strikeID}\`.`)) ?? false).first();
+
+			try {
+				await confirm(
+					interaction,
+					`Are you sure you want to remove [this strike](${message?.url ?? 'Message not found'})?`,
+				);
+			}
+			catch (e) {
+				return interaction.editReply({
+					embeds: [fail('Cancelled.')],
+					components: [],
+				});
+			}
+
+			await strikeModel.deleteOne({ strikeID });
+			if (message) await message.delete();
+			await interaction.editReply({
+				embeds: [success(`Removed the strike with ID **\`${strikeID}\`**`)],
+				components: [],
 			});
 		}
-		if (user.id === interaction.user.id) {
-			return interaction.reply({
-				embeds: [fail('You can\'t strike yourself.')],
-				ephemeral: true,
-			});
-		}
-		if (
-			(interaction.member?.roles as GuildMemberRoleManager).highest.position <
-			((await member)?.roles as GuildMemberRoleManager).highest.position
-		) {
-			return interaction.reply({
-				embeds: [fail('You can\'t strike people above you.')],
-				ephemeral: true,
-			});
-		}
-		let messaged: string;
-		const embed = new MessageEmbed()
-			.setAuthor(user.tag, user.displayAvatarURL({ dynamic: true, size: 512 }))
-			.setTitle(`You were striked on ${interaction.guild?.name}`)
-			.addField('Reason', reason)
-			.addField('Strike ID', `\`${strikeID}\``)
-			.setTimestamp();
-		user
-			.send({ embeds: [embed] })
-			.catch(() => (messaged = 'I was unable to DM this user.'));
-		const logEmbed = new MessageEmbed()
-			.setAuthor(
-				interaction.user.tag,
-				interaction.user.displayAvatarURL({ dynamic: true, size: 512 }),
-			)
-			.setTitle('New Strike')
-			.addField('Reason', reason)
-			.addField('Strike ID', `\`${strikeID}\``)
-			.setTimestamp();
-		const channel = client.channels.fetch('831996554763829338');
-		(channel as TextChannel)?.send({ embeds: [logEmbed] });
-		// TODO: finish this
 	},
 };

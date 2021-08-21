@@ -34,6 +34,8 @@ export class Client extends DJSClient {
 		);
 		await connect(db, {
 			useFindAndModify: false,
+			useNewUrlParser: true,
+			useUnifiedTopology: true,
 		});
 		this.login(token);
 		const commandNames: string[] = await search(

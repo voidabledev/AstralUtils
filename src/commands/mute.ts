@@ -125,9 +125,9 @@ export const command: Command = {
 						time
 							? `<t:${Math.floor(
 								(new Date().getTime() + time * timeUnit) / 1000,
-							  )}:f> (<t:${Math.floor(
+							)}:f> (<t:${Math.floor(
 								(new Date().getTime() + time * timeUnit) / 1000,
-							  )}:R>)`
+							)}:R>)`
 							: 'Permanent',
 					)
 					.addField('Reason', reason)
