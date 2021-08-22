@@ -42,7 +42,7 @@ export class Client extends DJSClient {
 		});
 		this.login(token);
 		const commandNames: string[] = await search(
-			`${__dirname}/../commands/**/*{.js,.ts}`,
+			`${__dirname}/../commands/**/**/*{.js,.ts}`,
 		);
 		commandNames.forEach(async (name) => {
 			const file: Command = (await import(name)).command;

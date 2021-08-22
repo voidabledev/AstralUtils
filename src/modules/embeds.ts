@@ -7,9 +7,8 @@ import {
 	InteractionCollector,
 	Message,
 	MessageComponentInteraction,
-	MessageEmbedOptions,
 } from 'discord.js';
-// TODO: Implement these embeds into commands
+
 export function success(message: string, footer?: string): MessageEmbed {
 	const embed = new MessageEmbed()
 		.setDescription(`<a:yes:836302807485251674> ${message}`)
