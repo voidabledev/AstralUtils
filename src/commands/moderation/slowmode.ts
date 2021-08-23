@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Command } from '../../typings/command';
 import { Permissions, TextChannel, GuildMemberRoleManager } from 'discord.js';
 import { success, fail, confirm } from '../../modules/embeds';
@@ -48,6 +49,14 @@ export const command: Command = {
 		if (pos.length && slowmode > max) {
 			await confirm(interaction, `As a ${pos}, you're restricted to \`${max}\`, are you sure you want to set the slowmode to ${slowmode}?`);
 		}
-		// TODO: finish this
+		(interaction.channel as TextChannel)?.setRateLimitPerUser(slowmode);
+		if (slowmode === 0) {
+			return interaction.reply({
+				content: 'Slowmode has been turned off. Go crazy!',
+			});
+		}
+		interaction.editReply({
+			content: `Slowmode has been changed to \`${slowmode}\`.`,
+		});
 	},
 };

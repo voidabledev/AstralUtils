@@ -1,16 +1,13 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { Command } from '../../typings/command';
 import {
-	MessageEmbed,
 	Permissions,
-	Guild,
 	GuildMember,
 	GuildMemberRoleManager,
 } from 'discord.js';
 import { success, fail, confirm } from '../../modules/embeds';
 import { id } from '../../modules/utils';
 import { ApplicationCommandOptionType as Options } from 'discord-api-types/v9';
-// eslint-disable-next-line @typescript-eslint/no-empty-function
 
 export const command: Command = {
 	name: 'moderate',

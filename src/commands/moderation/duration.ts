@@ -3,7 +3,6 @@ import { Command } from '../../typings/command';
 import { Permissions } from 'discord.js';
 import { success, fail } from '../../modules/embeds';
 import { ApplicationCommandOptionType as Options } from 'discord-api-types/v9';
-// eslint-disable-next-line @typescript-eslint/no-empty-function
 
 export const command: Command = {
 	name: 'duration',
