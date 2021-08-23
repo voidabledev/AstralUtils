@@ -4,6 +4,7 @@ import { devs } from '../../config.json';
 import { MessageEmbed, PresenceStatusData, ActivityType, Interaction } from 'discord.js';
 import { ApplicationCommandOptionType as Options } from 'discord-api-types/v9';
 import * as Client from '../../modules/client';
+
 export const command: Command = {
 	name: 'activity',
 	description: 'Sets the bot\'s status.',

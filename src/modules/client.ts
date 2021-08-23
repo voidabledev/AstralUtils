@@ -28,7 +28,7 @@ export class Client extends DJSClient {
 		this.giveaways = new GiveawayManager(this, 5000);
 		this.afk = new AfkManager();
 		this.automod = new AutomodManager(this);
-		this.modmail = new ModmailManager(this)
+		this.modmail = new ModmailManager(this);
 	}
 	async start(): Promise<void> {
 		connection.on('connected', () => console.log('Connected to mongoose!'));

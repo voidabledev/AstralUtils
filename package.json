@@ -11,19 +11,18 @@
 	"dependencies": {
 		"@discordjs/rest": "^0.1.0-canary.0",
 		"child_process": "^1.0.2",
+		"discord-api-types": "^0.22.0",
 		"discord.js": "^13.1.0",
-		"mongoose": "^5.13.5",
-		"ts-node": "^10.2.0",
+		"mongoose": "^5.13.8",
+		"ts-node": "^10.2.1",
 		"ts-node-dev": "^1.1.8",
 		"typescript": "^4.3.5"
 	},
 	"devDependencies": {
 		"@types/glob": "^7.1.4",
-		"@typescript-eslint/eslint-plugin": "^4.29.0",
-		"@typescript-eslint/parser": "^4.29.2",
+		"@typescript-eslint/eslint-plugin": "^4.29.3",
+		"@typescript-eslint/parser": "^4.29.3",
 		"eslint": "^7.32.0",
-		"glob": "^7.1.7",
-		"prettier": "^2.3.2",
-		"prettier-eslint": "^13.0.0"
+		"glob": "^7.1.7"
 	}
 }

@@ -23,35 +23,35 @@ export class AutomodManager {
 				if (
 					data.triggers.some((t) => {
 						switch (t.type) {
-							case 'includes':
-								return message.content.toLowerCase().trim().includes(t.name);
-							case 'except includes':
-								if (message.content.toLowerCase().trim().includes(t.name)) {
-									throw null;
-								}
-								return false;
-							case 'equals':
-								return message.content.toLowerCase().trim() === t.name;
-							case 'except equals':
-								if (message.content.toLowerCase().trim() === t.name) throw null;
-								return false;
-							case 'attachment':
-								return message.attachments.some(
+						case 'includes':
+							return message.content.toLowerCase().trim().includes(t.name);
+						case 'except includes':
+							if (message.content.toLowerCase().trim().includes(t.name)) {
+								throw null;
+							}
+							return false;
+						case 'equals':
+							return message.content.toLowerCase().trim() === t.name;
+						case 'except equals':
+							if (message.content.toLowerCase().trim() === t.name) throw null;
+							return false;
+						case 'attachment':
+							return message.attachments.some(
+								(a) => a.name?.toLowerCase()?.endsWith(t.name) ?? false,
+							);
+						case 'except attachment':
+							if (
+								message.attachments.some(
 									(a) => a.name?.toLowerCase()?.endsWith(t.name) ?? false,
-								);
-							case 'except attachment':
-								if (
-									message.attachments.some(
-										(a) => a.name?.toLowerCase()?.endsWith(t.name) ?? false,
-									)
-								) {
-									throw null;
-								}
-								return false;
-							case 'spam':
-								return (this._spam.get(message.author.id)?.length ?? 0) >= (+t.name || -1);
-							default:
-								return false;
+								)
+							) {
+								throw null;
+							}
+							return false;
+						case 'spam':
+							return (this._spam.get(message.author.id)?.length ?? 0) >= (+t.name || -1);
+						default:
+							return false;
 						}
 					}) &&
 					(await data.allowed(message))

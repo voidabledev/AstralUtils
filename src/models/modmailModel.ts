@@ -17,16 +17,16 @@ interface Pattern extends Document {
 }
 
 const reqString = {
-  type: String,
-  required: true
-}
+	type: String,
+	required: true,
+};
 
 const schema = new Schema({
-  userId: reqString,
-  message: reqString,
-  categoryId: reqString,
-  channelIds: reqString,
-  staffId: reqString,
+	userId: reqString,
+	message: reqString,
+	categoryId: reqString,
+	channelIds: reqString,
+	staffId: reqString,
 });
 
 export const modmailModel = model<Pattern>('modmails', schema);
