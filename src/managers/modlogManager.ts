@@ -65,9 +65,9 @@ export class ModlogManager {
 					});
 					if (
 						![guild, mRole, member].includes(undefined) &&
-						!member?.roles.cache.has(quarantine?.id ?? '')
+						!(member as GuildMember)?.roles.cache.has(quarantine?.id ?? '')
 					) {
-						member?.roles
+						(member as GuildMember)?.roles
 							.remove(mRole as Role)
 							.then(() => this.update(l.punishID, { isActive: false }))
 							.catch(() => {

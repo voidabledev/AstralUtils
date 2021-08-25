@@ -7,21 +7,21 @@ export class ModmailManager {
   private _cache = new Collection<string, Modmail>()
   constructor(private _client: Client) {}
   async loadModmails(): Promise<void> {
-  	const entries = await modmailModel.find({});
-  	entries.forEach(e => this._cache.set(e.userId, e));
+    const entries = await modmailModel.find({});
+    entries.forEach(e => this._cache.set(e.userId, e));
   }
   getThreadFromAuthor(authorId: Snowflake): Modmail | undefined {
-  	return this._cache.get(authorId);
+    return this._cache.get(authorId);
   }
   getThreadFromChannel(channelId: Snowflake): Modmail | undefined {
-  	return this._cache.find(modmail => modmail.channelIds.includes(channelId));
+    return this._cache.find(modmail => modmail.channelIds.includes(channelId));
   }
-  async createThread(modmail: Modmail) {
-  	await new modmailModel(modmail).save();
-  	this._cache.set(modmail.userId, modmail);
+  async createThread(modmail: Modmail): Promise<void> {
+    await new modmailModel(modmail).save();
+    this._cache.set(modmail.userId, modmail);
   }
-  async deleteThread(userId: string) {
-  	await modmailModel.deleteOne({ userId });
-  	this._cache.delete(userId);
+  async deleteThread(userId: string): Promise<void> {
+    await modmailModel.deleteOne({ userId });
+    this._cache.delete(userId);
   }
 }
