@@ -72,7 +72,7 @@ export const command: Command = {
 					inline: false,
 				},
 			)
-			.setColor(`${member?.displayHexColor || 'RANDOM'}`)
+			.setColor(member?.displayHexColor || 'RANDOM')
 			.setFooter(interaction.guild.name)
 			.setTimestamp();
 		await interaction.reply({ embeds: [embed] });

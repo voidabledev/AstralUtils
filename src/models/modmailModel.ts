@@ -1,14 +1,6 @@
-import { model, Document, Schema } from 'mongoose';
+import { model, Schema } from 'mongoose';
 
 export interface Modmail {
-  userId: string;
-  message: string|string[];
-  categoryId: string;
-  channelIds: string[];
-  staffId: string;
-}
-
-interface Pattern extends Document {
   userId: string;
   message: string|string[];
   categoryId: string;
@@ -29,4 +21,4 @@ const schema = new Schema({
 	staffId: reqString,
 });
 
-export const modmailModel = model<Pattern>('modmails', schema);
+export const modmailModel = model<Modmail>('modmails', schema);

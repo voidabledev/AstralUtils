@@ -1,13 +1,8 @@
-import { model, Document, Schema } from 'mongoose';
+import { model, Schema } from 'mongoose';
 
 export interface AFK {
-	userId: string;
-	message: string;
-}
-
-interface Pattern extends Document {
-	userId: string;
-	message: string;
+  userId: string;
+  message: string;
 }
 
 const schema = new Schema({
@@ -15,4 +10,4 @@ const schema = new Schema({
 	message: String,
 });
 
-export const afkModel = model<Pattern>('afk', schema);
+export const afkModel = model<AFK>('afk', schema);

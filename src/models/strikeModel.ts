@@ -1,12 +1,5 @@
 import { model, Document, Schema } from 'mongoose';
-
-interface Pattern extends Document {
-	userID: string;
-	managerID: string;
-	strikeID: string;
-}
-
-export interface strike extends Document {
+export interface Strike extends Document {
 	userID: string;
 	managerID: string;
 	strikeID: string;
@@ -27,4 +20,4 @@ const schema = new Schema({
 	},
 });
 
-export const strikeModel = model<Pattern>('strikes', schema);
+export const strikeModel = model<Strike>('strikes', schema);

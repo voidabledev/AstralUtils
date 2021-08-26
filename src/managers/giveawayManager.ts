@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { Client } from '../modules/client';
 import {
-	Pattern as Giveaway,
+	GiveawayData as Giveaway,
 	giveawayModel,
 	UpdateData,
 	CreateData,

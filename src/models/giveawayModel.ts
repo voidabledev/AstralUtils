@@ -1,67 +1,51 @@
-import { model, Document, Schema } from 'mongoose';
-
-export interface Pattern extends Document {
-	messageId: string;
-	channelId: string;
-	guildId: string;
-	entries: string[];
-	prize: string;
-	start: number;
-	end: number;
-	winnerCount: number;
-	ended: boolean;
-	host: string;
-	sponsor?: string;
-	requirement?: string;
-	winners?: string[];
-}
+import { model, Schema } from 'mongoose';
 
 export interface GiveawayData {
-	messageId: string;
-	channelId: string;
-	guildId: string;
-	entries: string[];
-	prize: string;
-	start: number;
-	end: number;
-	winnerCount: number;
-	ended: boolean;
-	host: string;
-	sponsor?: string;
-	requirement?: string;
-	winners?: string[];
+  messageId: string;
+  channelId: string;
+  guildId: string;
+  entries: string[];
+  prize: string;
+  start: number;
+  end: number;
+  winnerCount: number;
+  ended: boolean;
+  host: string;
+  sponsor?: string;
+  requirement?: string;
+  winners?: string[];
 }
 
 export interface CreateData {
-	channelId: string;
-	guildId: string;
-	prize: string;
-	start: number;
-	end: number;
-	winnerCount: number;
-	host: string;
-	sponsor?: string;
-	messageId?: string;
-	ended?: boolean;
-	entries?: string[];
-	requirement?: string;
-	winners?: string[];
+  messageId?: string;
+  channelId: string;
+  guildId: string;
+  prize: string;
+  start: number;
+  end: number;
+  winnerCount: number;
+  host: string;
+  sponsor?: string;
+  ended?: boolean;
+  entries?: string[];
+  requirement?: string;
+  winners?: string[];
 }
 
 export interface UpdateData {
-	channelId?: string;
-	guildId?: string;
-	prize?: string;
-	start?: number;
-	end?: number;
-	winnerCount?: number;
-	host?: string;
-	sponsor?: string;
-	messageId?: string;
-	ended?: boolean;
-	entries?: string[];
-	requirement?: string;
-	winners?: string[];
+  messageId?: string;
+  channelId?: string;
+  guildId?: string;
+  prize?: string;
+  start?: number;
+  end?: number;
+  winnerCount?: number;
+  host?: string;
+  sponsor?: string;
+  ended?: boolean;
+  entries?: string[];
+  requirement?: string;
+  winners?: string[];
 }
 
 const schema = new Schema({
@@ -110,4 +94,4 @@ const schema = new Schema({
 	winners: [String],
 });
 
-export const giveawayModel = model<Pattern>('new-giveaways', schema);
+export const giveawayModel = model<GiveawayData>('new-giveaways', schema);
