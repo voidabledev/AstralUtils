@@ -16,7 +16,7 @@
         "@typescript-eslint"
     ],
     "rules": {
-        "no-mixed-spaces-and-tabs": "off",
+      "no-mixed-spaces-and-tabs": "off",
         "brace-style": [
 			"error",
 			"stroustrup",
@@ -44,8 +44,6 @@
 			"error",
 			"tab",
 			{
-				"FunctionDeclaration": { "body": 1 },
-				"FunctionExpression": { "body": 1 },
 				"ignoreComments": true
 			}
 		],
