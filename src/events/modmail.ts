@@ -5,8 +5,6 @@ export const event: Event = {
 	event: 'messageCreate',
 	async run(client, message: Message) {
 		if (message.guild) return;
-		if (client.modmail) {
-      // es
-		}
+		// TODO: finish this
 	},
 };
