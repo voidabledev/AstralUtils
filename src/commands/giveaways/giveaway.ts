@@ -1,10 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { Command } from '../../typings/command';
 import { Permissions, GuildMemberRoleManager } from 'discord.js';
-import {
-	ApplicationCommandOptionType as Options,
-	APIApplicationCommandOption,
-} from 'discord-api-types/v9';
+import { ApplicationCommandOptionType as Options } from 'discord-api-types/v9';
 import { success, fail } from '../../modules/embeds';
 
 export const command: Command = {
