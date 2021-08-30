@@ -102,7 +102,7 @@
         }
       }
     ]
-  }, 
+  },
 	{
     "triggers": [
 			{
@@ -177,7 +177,7 @@
           "permissions": [],
           "users": []
         }
-      }, 
+      },
 			{
         "name": "delete",
         "args": [],
@@ -227,7 +227,7 @@
           "permissions": [],
           "users": []
         }
-      }, 
+      },
 			{
         "name": "delete",
         "args": [],
@@ -361,22 +361,23 @@
         "type": "attachment",
         "content": [
 					".png",
-					".jpg", 
-					".jpeg", 
-					".webm", 
+					".jpg",
+					".jpeg",
+					".webm",
 					".mp4",
-					".m4v", 
+					".m4v",
 					".mov",
-					".gif", 
-					".bmp", 
-					".pdf", 
-					".txt", 
-					".tif", 
-					".svg", 
-					".webp", 
-					".mp3", 
-					".flac", 
-					".wav"
+					".gif",
+					".bmp",
+					".pdf",
+					".txt",
+					".tif",
+					".svg",
+					".webp",
+					".mp3",
+					".flac",
+					".wav",
+					".m4a"
 				]
       }
     ],
