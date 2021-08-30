@@ -5,23 +5,45 @@ import { Client } from '../modules/client';
 // TODO: finish modmail
 export class ModmailManager {
   private _cache = new Collection<string, Modmail>()
-  constructor(private _client: Client) {}
-  async loadModmails(): Promise<void> {
+  constructor(private _client: Client) {
+  	this.cache();
+  }
+  async cache(): Promise<void> {
   	const entries = await modmailModel.find({});
-  	entries.forEach(e => this._cache.set(e.userId, e));
+  	entries.forEach(e => this._cache.set(e.channelId, e));
   }
-  getThreadFromAuthor(authorId: Snowflake): Modmail | undefined {
-  	return this._cache.get(authorId);
+  getPrevious(userId: Snowflake): Collection<Snowflake, Modmail> {
+  	return this._cache.filter((modmail) => modmail.userId === userId);
   }
-  getThreadFromChannel(channelId: Snowflake): Modmail | undefined {
-  	return this._cache.find(modmail => modmail.channelIds.includes(channelId));
+  getByUser(userId: Snowflake): Modmail | undefined {
+  	return this._cache.find((modmail) => !modmail.closed && modmail.userId === userId) ?? undefined;
   }
-  async createThread(modmail: Modmail): Promise<void> {
+  getByChannel(channelId: Snowflake): Modmail | undefined {
+  	return this._cache.get(channelId) ?? undefined;
+  }
+  async create(modmail: Modmail): Promise<Modmail> {
   	await new modmailModel(modmail).save();
-  	this._cache.set(modmail.userId, modmail);
+ 		this._cache.set(modmail.channelId, modmail);
+  	return modmail;
   }
-  async deleteThread(userId: string): Promise<void> {
-  	await modmailModel.deleteOne({ userId });
-  	this._cache.delete(userId);
+  async close(channelId: string): Promise<Modmail | undefined> {
+  	const modmail = await modmailModel.findOneAndUpdate({ channelId }, { closed: true });
+  	modmail.closed = true;
+  	this._cache.set(modmail.channelId, modmail);
+  	return modmail;
+  }
+  async addMessage(channelId: string, content: string, messageIds: [string, string], author: string): Promise<Modmail> {
+  	const modmail = await modmailModel.findOneAndUpdate({ channelId }, {
+  		$push: {
+  			messages: {
+  				content,
+  				messageIds,
+  				author,
+  			},
+  		},
+  	});
+  	modmail.messages.push({ content, messageIds, author });
+  	this._cache.set(channelId, modmail);
+  	return modmail;
   }
 }

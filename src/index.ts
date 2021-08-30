@@ -9,6 +9,10 @@ const client = new Client({
 		Intents.FLAGS.DIRECT_MESSAGES,
 		Intents.FLAGS.GUILD_MEMBERS,
 	],
+	partials: [
+		'CHANNEL',
+		'MESSAGE',
+	],
 });
 
 client.start();
