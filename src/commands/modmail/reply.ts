@@ -42,6 +42,11 @@ export const command: Command = {
 				ephemeral: true,
 			});
 		}
+		if (modmail.staffId && modmail.staffId !== interaction.user.id) {
+			return interaction.reply({
+				embeds: [fail(`This thread is claimed by <@${modmail.staffId}>! You can't reply to it unless you claim it for yourself!`)],
+			});
+		}
 		const user = await client.users.fetch(modmail.userId);
 		let m1;
 		try {
@@ -58,7 +63,7 @@ export const command: Command = {
 						.setColor('GREEN'),
 				],
 			} : {
-				content: anon ? `**Support Team:** ${content}` : `**${interaction.user.tag}:** ${content}`,
+				content: anon ? `*Support Team:*\n${content}` : `*${interaction.user.tag}:*\n${content}`,
 			});
 		}
 		catch (e) {

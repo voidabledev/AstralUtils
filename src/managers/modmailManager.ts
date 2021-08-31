@@ -46,4 +46,10 @@ export class ModmailManager {
   	this._cache.set(channelId, modmail);
   	return modmail;
   }
+  async claim(channelId: string, staffId: string | undefined): Promise<Modmail | undefined> {
+  	const modmail = await modmailModel.findOneAndUpdate({ channelId }, { staffId });
+  	modmail.staffId = staffId;
+  	this._cache.set(channelId, modmail);
+  	return modmail;
+  }
 }

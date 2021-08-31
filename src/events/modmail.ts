@@ -12,12 +12,12 @@ export const categories = [
 		emoji: '<:AstralCoin:877583618770370582>',
 	},
 	{
-		name: 'Testing, too',
-		description: 'A modmail sent to the testing server, for testing purposes only. Second one of the kind.',
-		guildId: '849344562891063356',
-		categoryId: '881930804056457216',
+		name: 'General questions',
+		description: 'For any general questions you may have towards our staff team',
+		guildId: '831995980097388604',
+		categoryId: '839231003864072192',
 		ping: '@here',
-		emoji: '<:AstralCoin:877583618770370582>',
+		emoji: '❓',
 	},
 ];
 
