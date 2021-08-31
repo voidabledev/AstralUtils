@@ -19,6 +19,14 @@ export const categories = [
 		ping: '@here',
 		emoji: '❓',
 	},
+	{
+		name: 'Partnership',
+		description: 'Choose this option if you want to partner our server with yours.',
+		guildId: '831995980097388604',
+		categoryId: '839231003864072192',
+		ping: '<@&841744062884347943> get ponged noobs',
+		emoji: '🤝',
+	},
 ];
 
 export const event: Event = {

@@ -52,4 +52,12 @@ export class ModmailManager {
   	this._cache.set(channelId, modmail);
   	return modmail;
   }
+  find(callback: (modmail: Modmail) => boolean): Modmail | undefined {
+  	return this._cache.find(callback);
+  }
+  async edit(channelId: string, edited: Modmail): Promise<Modmail> {
+  	await modmailModel.updateOne({ channelId }, edited);
+  	this._cache.set(channelId, edited);
+  	return edited;
+  }
 }
