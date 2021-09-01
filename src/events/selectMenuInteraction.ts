@@ -48,7 +48,7 @@ export const event: Event = {
 				embeds: [embed],
 			});
 			const m1 = await channel.send({
-				embeds: [new MessageEmbed().setAuthor(interaction.user.tag, interaction.user.displayAvatarURL({ dynamic: true })).setDescription(message.content).setColor('ORANGE')],
+				embeds: [new MessageEmbed().setAuthor(interaction.user.tag, interaction.user.displayAvatarURL({ dynamic: true })).setDescription(message.content).setColor('ORANGE').setFooter('Thread Creation').setTimestamp()],
 			});
 			await client.modmail.create({
 				userId: interaction.user.id,

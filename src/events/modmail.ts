@@ -24,7 +24,7 @@ export const categories = [
 		description: 'Choose this option if you want to partner our server with yours.',
 		guildId: '831995980097388604',
 		categoryId: '839231003864072192',
-		ping: '<@&841744062884347943> get ponged noobs',
+		ping: '<@&831996436794310657>',
 		emoji: '🤝',
 	},
 ];
@@ -41,7 +41,7 @@ export const event: Event = {
 		if (modmail) {
 			const channel = <TextBasedChannels>(await client.channels.fetch(modmail.channelId));
 			const m1 = await channel.send({
-				embeds: [new MessageEmbed().setAuthor(message.author.tag, message.author.displayAvatarURL({ dynamic: true })).setDescription(message.content).setColor('ORANGE')],
+				embeds: [new MessageEmbed().setAuthor(message.author.tag, message.author.displayAvatarURL({ dynamic: true })).setDescription(message.content).setColor('ORANGE').setFooter('Message').setTimestamp()],
 			});
 			await client.modmail.addMessage(channel.id, message.content, [message.id, m1.id], message.author.id);
 			await message.react('<a:yes:836302807485251674>');

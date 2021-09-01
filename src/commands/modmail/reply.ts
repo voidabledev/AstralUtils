@@ -73,7 +73,7 @@ export const command: Command = {
 		}
 
 		const m2 = await interaction.reply({
-			embeds: [new MessageEmbed().setAuthor(interaction.user.tag, interaction.user.displayAvatarURL({ dynamic: true })).setDescription(content).setColor('GREEN').setFooter(`${plain ? 'Plain ' : ''}${anon ? 'Anonymous ' : ''}Reply`)],
+			embeds: [new MessageEmbed().setAuthor(interaction.user.tag, interaction.user.displayAvatarURL({ dynamic: true })).setDescription(content).setColor('GREEN').setFooter(`${plain ? 'Plain ' : ''}${anon ? 'Anonymous ' : ''}Reply`).setTimestamp()],
 			fetchReply: true,
 		});
 		await client.modmail.addMessage(modmail.channelId, content, [m1.id, m2.id], interaction.user.id);

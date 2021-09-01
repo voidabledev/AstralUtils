@@ -119,6 +119,7 @@ export const command: Command = {
 					.setAuthor(interaction.user.tag, interaction.user.displayAvatarURL({ dynamic: true }))
 					.setDescription(value)
 					.setColor('GREEN')
+					.setTimestamp()
 					.setFooter(`${plain ? 'Plain ' : ''}${anon ? 'Anonymous ' : ''}Reply`);
 			});
 			const user = await client.users.fetch(modmail.userId);
