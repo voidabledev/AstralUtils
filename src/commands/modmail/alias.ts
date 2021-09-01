@@ -10,24 +10,28 @@ import { wait } from '../../modules/utils';
 
 const aliases = [
 	{
-		name: 'assist',
+		name: 'Assist',
 		values: ['How can we assist you today?'],
 	},
 	{
-		name: 'trolling',
+		name: 'Trolling',
 		values: ['Please note that trolling is strictly forbidden. If you are caught doing this again, you will be bot blocked.', 'With that being said, are there any more questions, comments, or concerns you have for today?'],
 	},
 	{
-		name: 'custom role',
+		name: 'Custom Role',
 		values: ['Please provide the name of the role and the hex code.'],
 	},
 	{
-		name: 'giveaway format',
+		name: 'Giveaway Format',
 		values: ['**Prize:**\n**Duration:**\n**Requirement:**\n**Claim Time:**\n**Message from Host:**', 'Please fill this out.'],
 	},
 	{
-		name: 'partner requirements',
+		name: 'Partner Requirements',
 		values: ['**__Partnership Requirements__**\n➥ Your server must follow the Discord TOS and Guidelines.\n\n➥ You must have a visible Partners channel.\n➥ We won\'t ping or mention anyone. @everyone and @here will be removed.\n➥ Your server should not be NSFW or contain any NSFW content.\n➥ Your server shouldn\'t be completely inactive.\n➥ If you have less than 100 members, you need to ping @everyone.', 'Do you meet these requirements?'],
+	},
+	{
+		name: 'Our Ad',
+		values: ['```\n▬▬▬▬▬▬▬ **__Astral Galaxy__** ▬▬▬▬▬▬▬\n> A simple & chill community server.\n> We welcome everyone from everywhere\n▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬\n\n**__Here you can find:__**\n> `🎉` • Frequent giveaways, including **Nitro**!\n> `💫` • Weekly **fun events**, with various prizes\n> `⭐` • **Rewards** for supporting the server\n> `🔮` • **Amazing** and **supportive** staff team\n> `🌈` • **A growing** and **active** community\n\n▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬\n> 🔗 **__Invite Link:__** https://discord.gg/8HnfNaXP9m\n> 🔗 **__Line:__** https://imgur.com/rkr2smr\n> 🔗 **__Banner:__** https://cdn.discordapp.com/attachments/821100521392701460/875414426306625596/standard_11.gif\n▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬\n```', 'Please send our ad and post a screenshot.'],
 	},
 ];
 

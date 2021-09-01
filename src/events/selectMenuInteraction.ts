@@ -40,7 +40,7 @@ export const event: Event = {
 				}:R>, joined the server <t:${
 					Math.floor(member.joinedTimestamp / 1000)
 				}:R>, with **${client.modmail.getPrevious(interaction.user.id).size}** past threads.`)
-				.addField('Roles', member.roles.cache.filter((r) => r.id !== guild.id).map(role => role.toString()).join(', '))
+				.addField('Roles', member.roles.cache.filter((r) => r.id !== guild.id).sort((a, b) => b.position - a.position).map(role => role.toString()).join(', '))
 				.setFooter(`User ID: ${interaction.user.id}`)
 				.setTimestamp();
 			await channel.send({
