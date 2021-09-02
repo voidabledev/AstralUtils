@@ -2,7 +2,6 @@
 import { Command } from '../../typings/command';
 import { MessageEmbed, Permissions } from 'discord.js';
 import { ApplicationCommandOptionType as Options } from 'discord-api-types/v9';
-
 const rules = [
 	['Respect', 'Treat everyone in the server with respect, both the staff and the members. Treat everybody how you would want to be treated.'],
 	['No Spamming', 'No spamming or flooding text channels. This includes excessive characters or emojis in one message and spamming messages containing the same or similar content. This also includes spam pinging a user.'],
@@ -34,7 +33,7 @@ export const command: Command = {
 			required: true,
 			choices: rules.map((rule, i) => {
 				return {
-					name: `${i < 14 ? '' : 'Voice Chat '}Rule ${i < 14 ? i + 1 : i - 13}: ${rule[0]}`,
+					name: `${i < 14 ? '' : 'Voice Chat '}Rule #${i < 14 ? i + 1 : i - 13}: ${rule[0]}`,
 					value: i,
 				};
 			}),
@@ -52,7 +51,7 @@ export const command: Command = {
 	async run(interaction, options, client) {
 		const rule = options.getInteger('rule', true);
 		const embed = new MessageEmbed()
-			.setAuthor(`${rule < 14 ? '' : 'Voice Chat '}Rule ${rule < 14 ? rule + 1 : rule - 13}: ${rules[rule][0]}`, interaction.user.displayAvatarURL({ dynamic: true, size: 512 }))
+			.setAuthor(`${rule < 14 ? '' : 'Voice Chat '}Rule #${rule < 14 ? rule + 1 : rule - 13}: ${rules[rule][0]}`, interaction.user.displayAvatarURL({ dynamic: true, size: 512 }))
 			.setDescription(rules[rule][1])
 			.setColor('RANDOM')
 			.setFooter(`Requested By: ${interaction.user.tag}`);
