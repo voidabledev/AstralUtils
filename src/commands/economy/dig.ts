@@ -55,7 +55,7 @@ const outcomes: { display: string; chance: number; run: (client: Client, userId:
 export const command: Command = {
 	name: 'dig',
 	description: 'Use your shovel to dig for items inside the ground.',
-	cooldown: 3000,
+	cooldown: 30000,
 	async run(interaction, options, client) {
 		const profile = client.economy.getProfile(interaction.user.id);
 		if (!client.economy.hasAbility(Object.keys(profile.itemIds), 'dig')) {

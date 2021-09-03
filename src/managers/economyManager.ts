@@ -296,7 +296,7 @@ export class EconomyManager {
 		};
 	}
 	getItem(itemId: string): Item | undefined {
-		return this._items.get(itemId);
+		return this._items.get(itemId) ?? this._items.find((i) => i.id.includes(itemId));
 	}
 	allItems(): Item[] {
 		return this._items.map((i) => i);

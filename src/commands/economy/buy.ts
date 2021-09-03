@@ -38,7 +38,7 @@ export const command: Command = {
 		await client.economy.removeCoins(interaction.user.id, item.price * amount);
 		await client.economy.addItem(interaction.user.id, itemId, amount);
 		await interaction.reply({
-			embeds: [success(`You have bought ${amount} ${item.name}${amount > 1 ? item.name.endsWith('s') || item.name.endsWith('x') ? 'es' : 's' : ''} for <:AstralCoin:877583618770370582>${amount * item.price}.`)],
+			embeds: [success(`You have bought ${amount} ${item.name}${amount > 1 ? item.name.endsWith('s') || item.name.endsWith('x') || item.name.endsWith('sh') ? 'es' : 's' : ''} for <:AstralCoin:877583618770370582>${amount * item.price}.`)],
 		});
 	},
 };

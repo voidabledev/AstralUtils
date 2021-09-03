@@ -50,7 +50,7 @@ const outcomes: { display: string; chance: number; run: (client: Client, userId:
 export const command: Command = {
 	name: 'hunt',
 	description: 'Hunt animals in the forest.',
-	cooldown: 3000,
+	cooldown: 30000,
 	async run(interaction, options, client) {
 		const profile = client.economy.getProfile(interaction.user.id);
 		if (!client.economy.hasAbility(Object.keys(profile.itemIds), 'hunt')) {

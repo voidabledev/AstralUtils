@@ -37,7 +37,7 @@ export const command: Command = {
 		}
 		if ((profile.itemIds[itemId] ?? 0) < amount) {
 			return interaction.reply({
-				embeds: [fail(`You don't have enough ${item.name}${item.name.endsWith('s') || item.name.endsWith('x') ? 'es' : 's' } to use that many!`)],
+				embeds: [fail(`You don't have enough ${item.name}${item.name.endsWith('s') || item.name.endsWith('x') || item.name.endsWith('sh') ? 'es' : 's' } to use that many!`)],
 			});
 		}
 		try {

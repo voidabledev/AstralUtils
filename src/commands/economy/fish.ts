@@ -55,7 +55,7 @@ const outcomes: { display: string; chance: number; run: (client: Client, userId:
 export const command: Command = {
 	name: 'fish',
 	description: 'Use your fishing rod to find fish in the sea.',
-	cooldown: 3000,
+	cooldown: 30000,
 	async run(interaction, options, client) {
 		const profile = client.economy.getProfile(interaction.user.id);
 		if (!client.economy.hasAbility(Object.keys(profile.itemIds), 'fish')) {

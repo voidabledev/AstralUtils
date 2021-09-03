@@ -37,14 +37,14 @@ export const command: Command = {
 		}
 		if ((profile.itemIds[itemId] ?? 0) < amount) {
 			return interaction.reply({
-				embeds: [fail(`You don't have enough ${item.name}${item.name.endsWith('s') || item.name.endsWith('x') ? 'es' : 's' } to sell that many!`)],
+				embeds: [fail(`You don't have enough ${item.name}${item.name.endsWith('s') || item.name.endsWith('x') || item.name.endsWith('sh') ? 'es' : 's' } to sell that many!`)],
 			});
 		}
 		const sellAmount = Math.floor(item.price * amount * 0.75);
 		await client.economy.addCoins(interaction.user.id, sellAmount);
 		await client.economy.removeItem(interaction.user.id, itemId, amount);
 		await interaction.reply({
-			embeds: [success(`You have sold ${amount} ${item.name}${amount > 1 ? item.name.endsWith('s') || item.name.endsWith('x') ? 'es' : 's' : ''} for <:AstralCoin:877583618770370582>${sellAmount}.`)],
+			embeds: [success(`You have sold ${amount} ${item.name}${amount > 1 ? item.name.endsWith('s') || item.name.endsWith('x') || item.name.endsWith('sh') ? 'es' : 's' : ''} for <:AstralCoin:877583618770370582>${sellAmount}.`)],
 		});
 	},
 };
