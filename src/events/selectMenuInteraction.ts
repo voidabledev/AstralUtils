@@ -1,6 +1,6 @@
 import { Interaction, MessageEmbed, MessageSelectMenu } from 'discord.js';
 import { Event } from '../typings/event';
-import { success, fail } from '../modules/embeds';
+import { success, fail } from '../structures/embeds';
 import { categories } from './modmail';
 
 export const event: Event = {

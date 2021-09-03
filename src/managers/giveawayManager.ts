@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { Client } from '../modules/client';
+import { Client } from '../structures/client';
 import {
 	GiveawayData as Giveaway,
 	giveawayModel,
@@ -18,7 +18,7 @@ import {
 	InteractionCollector,
 	MessageComponentInteraction,
 } from 'discord.js';
-import { fail } from '../modules/embeds';
+import { fail } from '../structures/embeds';
 
 export class GiveawayManager {
 	constructor(private _client: Client, interval: number) {

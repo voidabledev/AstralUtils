@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { Client } from '../modules/client';
+import { Client } from '../structures/client';
 import { Automod } from '../typings/automod';
 import { Message, MessageEmbed, Collection } from 'discord.js';
-import { wait } from '../modules/utils';
+import { wait } from '../structures/utils';
 
 export class AutomodManager {
 

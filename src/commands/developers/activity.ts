@@ -3,7 +3,7 @@ import { Command } from '../../typings/command';
 import { devs } from '../../config.json';
 import { MessageEmbed, PresenceStatusData, ActivityType, Interaction } from 'discord.js';
 import { ApplicationCommandOptionType as Options } from 'discord-api-types/v9';
-import * as Client from '../../modules/client';
+import * as Client from '../../structures/client';
 
 export const command: Command = {
 	name: 'activity',

@@ -2,7 +2,7 @@
 import { Command } from '../../typings/command';
 import { Permissions, GuildMemberRoleManager } from 'discord.js';
 import { ApplicationCommandOptionType as Options } from 'discord-api-types/v9';
-import { success, fail } from '../../modules/embeds';
+import { success, fail } from '../../structures/embeds';
 
 export const command: Command = {
 	name: 'giveaway',

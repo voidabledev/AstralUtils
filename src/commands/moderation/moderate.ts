@@ -5,8 +5,8 @@ import {
 	GuildMember,
 	GuildMemberRoleManager,
 } from 'discord.js';
-import { success, fail, confirm } from '../../modules/embeds';
-import { id } from '../../modules/utils';
+import { success, fail, confirm } from '../../structures/embeds';
+import { id } from '../../structures/utils';
 import { ApplicationCommandOptionType as Options } from 'discord-api-types/v9';
 
 export const command: Command = {

@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { id } from '../../modules/utils';
+import { id } from '../../structures/utils';
 import { Command } from '../../typings/command';
-import { confirm, success, fail } from '../../modules/embeds';
+import { confirm, success, fail } from '../../structures/embeds';
 import { strikeModel } from '../../models/strikeModel';
 import {
 	MessageEmbed,

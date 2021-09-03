@@ -1,5 +1,5 @@
 import { ClientEvents } from 'discord.js';
-import { Client } from '../modules/client';
+import { Client } from '../structures/client';
 
 export interface Event {
 	event: keyof ClientEvents;

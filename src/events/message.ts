@@ -11,7 +11,7 @@ export const event: Event = {
 		await client.automod.run(message);
 		if (message.content === '=deploy' && devs.includes(message.author.id)) {
 			if (!client.user || !message.guild) return;
-			const commands = client.commands.map(({ run, allowed, ...data }) => data);
+			const commands = client.commands.map(({ run, allowed, cooldown, ...data }) => data);
 			const rest = new REST({ version: '9' }).setToken(token);
 			const start = Date.now();
 			const msg = await message.channel.send('Refreshing slash commands...');
