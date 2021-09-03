@@ -7,14 +7,44 @@ import { Command } from '../../typings/command';
 
 const outcomes: { display: string; chance: number; run: (client: Client, userId: string) => Promise<unknown> }[] = [
 	{
-		display: 'nothing',
-		chance: 0.99,
-		run: () => null,
+		display: 'a dragon',
+		chance: 1 / 117,
+		run: (client, userId) => client.economy.addItem(userId, 'dragon', 1),
 	},
 	{
-		display: 'a dragon',
-		chance: 0.01,
-		run: (client, userId) => client.economy.addItem(userId, 'dragon', 1),
+		display: 'a lion',
+		chance: 4 / 117,
+		run: (client, userId) => client.economy.addItem(userId, 'lion', 1),
+	},
+	{
+		display: 'a monkey',
+		chance: 8 / 117,
+		run: (client, userId) => client.economy.addItem(userId, 'monkey', 1),
+	},
+	{
+		display: 'a boar',
+		chance: 8 / 117,
+		run: (client, userId) => client.economy.addItem(userId, 'boar', 1),
+	},
+	{
+		display: 'a deer',
+		chance: 16 / 117,
+		run: (client, userId) => client.economy.addItem(userId, 'deer', 1),
+	},
+	{
+		display: 'a rabbit',
+		chance: 16 / 117,
+		run: (client, userId) => client.economy.addItem(userId, 'rabbit', 1),
+	},
+	{
+		display: 'a squirrel',
+		chance: 32 / 117,
+		run: (client, userId) => client.economy.addItem(userId, 'squirrel', 1),
+	},
+	{
+		display: 'a duck',
+		chance: 32 / 117,
+		run: (client, userId) => client.economy.addItem(userId, 'duck', 1),
 	},
 ];
 export const command: Command = {
@@ -29,12 +59,7 @@ export const command: Command = {
 			});
 		}
 
-		const forest = `
-🌲🌳🌴🎋🎄
-🌳🌲🟦🎋🌴
-🌴🎋🌲🌳🌳
-🌲🎋🌳🌲🌳
-`;
+		const forest = '🌲🎄🌳🌴🌲\n🌲🌳🌴🎋🎄\n🌳🌲🟦🎋🌴\n🌴🎋🌲🌳🌳\n🌲🎋🌳🌲🌳';
 
 		const embed = (str) => {
 			return new MessageEmbed().setColor('GREEN').setDescription(str);
@@ -43,12 +68,12 @@ export const command: Command = {
 		const m = (await interaction.reply({
 			embeds: [embed(forest)],
 			components: [
-				new MessageActionRow().addComponents([new MessageButton().setCustomId('shoot').setLabel('Shoot').setStyle('SUCCESS')]),
+				new MessageActionRow().addComponents([new MessageButton().setCustomId(`shoot-${interaction.id}`).setLabel('Shoot').setStyle('SUCCESS')]),
 			],
 			fetchReply: true,
 		})) as Message;
 
-		const collector = m.createMessageComponentCollector({ time: 1000 * 15 });
+		const collector = m.createMessageComponentCollector({ time: 1000 * 15, filter: (i) => i.user.id === interaction.user.id });
 
 		let animalShown = false;
 		let ended = false;
@@ -89,9 +114,13 @@ export const command: Command = {
 
 		const appearAnimal = async () => {
 			if (ended) return;
+			let rand = 0;
+			do {
+				rand = random(0, forest.length);
+			} while(forest.charAt(rand) === '\n');
 		  if (m.editable)	{
 				await m.edit({
-					embeds: [m.embeds[0].setDescription(setCharAt(forest, random(5, 15), '🐒'))],
+					embeds: [m.embeds[0].setDescription(setCharAt(forest, rand, '🐒'))],
 				});
 			}
 			animalShown = true;

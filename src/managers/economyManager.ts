@@ -8,6 +8,7 @@ export class EconomyManager {
 	private _items = new Collection<string, Item>();
 	constructor() {
 		const items: Item[] = [
+			// !---------- ABILITIES -----------
 			{
 				name: 'Fishing Rod',
 				description: 'You can use this old fishing rod to go fishing.',
@@ -15,6 +16,7 @@ export class EconomyManager {
 				price: 10_000,
 				sellable: true,
 				usable: false,
+				buyable: true,
 				abilities: ['fish'],
 			},
 			{
@@ -24,6 +26,7 @@ export class EconomyManager {
 				price: 15_000,
 				sellable: true,
 				usable: false,
+				buyable: true,
 				abilities: ['hunt'],
 			},
 			{
@@ -33,8 +36,10 @@ export class EconomyManager {
 				price: 20_000,
 				sellable: true,
 				usable: false,
+				buyable: true,
 				abilities: ['dig'],
 			},
+			// !---------- FISHING ITEMS -----------
 			{
 				name: 'Common Fish',
 				description: 'A fish found from fishing. Collect it, or sell it for some money.',
@@ -42,6 +47,7 @@ export class EconomyManager {
 				price: 2_000, // sells for 1.5k
 				sellable: true,
 				usable: false,
+				buyable: false,
 				abilities: [],
 			},
 			{
@@ -51,6 +57,7 @@ export class EconomyManager {
 				price: 8_000, // sells for 6k
 				sellable: true,
 				usable: false,
+				buyable: false,
 				abilities: [],
 			},
 			{
@@ -60,17 +67,91 @@ export class EconomyManager {
 				price: 400, // sells for 300
 				sellable: true,
 				usable: false,
+				buyable: false,
+				abilities: [],
+			},
+			// !---------- HUNTING ITEMS -----------
+			{
+				name: 'Duck',
+				description: 'A duck you shot in the forest. Its only purpose is to be collected or sold.',
+				id: 'duck',
+				price: 667, // sells for 500
+				sellable: true,
+				usable: false,
+				buyable: false,
+				abilities: [],
+			},
+			{
+				name: 'Squirrel',
+				description: 'A squirrel you shot in the forest. Its only purpose is to be collected or sold.',
+				id: 'squirrel',
+				price: 1_333, // sells for 1k
+				sellable: true,
+				usable: false,
+				buyable: false,
+				abilities: [],
+			},
+			{
+				name: 'Rabbit',
+				description: 'A rabbit you shot in the forest. Its only purpose is to be collected or sold.',
+				id: 'rabbit',
+				price: 4_000, // sells for 3k
+				sellable: true,
+				usable: false,
+				buyable: false,
+				abilities: [],
+			},
+			{
+				name: 'Deer',
+				description: 'A deer you shot in the forest. Its only purpose is to be collected or sold.',
+				id: 'deer',
+				price: 6_667, // sells for 5k
+				sellable: true,
+				usable: false,
+				buyable: false,
+				abilities: [],
+			},
+			{
+				name: 'Boar',
+				description: 'A boar you shot in the forest. Its only purpose is to be collected or sold.',
+				id: 'boar',
+				price: 13_333, // sells for 10k
+				sellable: true,
+				usable: false,
+				buyable: false,
+				abilities: [],
+			},
+			{
+				name: 'Monkey',
+				description: 'A monkey you shot in the forest. Its only purpose is to be collected or sold.',
+				id: 'monkey',
+				price: 20_000, // sells for 15k
+				sellable: true,
+				usable: false,
+				buyable: false,
+				abilities: [],
+			},
+			{
+				name: 'Lion',
+				description: 'A lion you shot in the forest. Its only purpose is to be collected or sold.',
+				id: 'lion',
+				price: 26_667, // sells for 20k
+				sellable: true,
+				usable: false,
+				buyable: false,
 				abilities: [],
 			},
 			{
 				name: 'Dragon',
 				description: 'A rare dragon. Its only purpose is to be collected or sold.',
 				id: 'dragon',
-				price: 40_000, // sells for 30k
+				price: 133_333, // sells for 100k
 				sellable: true,
 				usable: false,
+				buyable: false,
 				abilities: [],
 			},
+			// !---------- USABLE ITEMS -----------
 			{
 				name: 'Gift Box',
 				description: 'A small gift box that contains a random amount of coins. Gift it to someone as a surprise.',
@@ -78,6 +159,7 @@ export class EconomyManager {
 				price: 2_500,
 				sellable: false,
 				usable: true,
+				buyable: true,
 				abilities: [],
 				use: async (userId, amount) => {
 					const coins = amount * (1_000 + Math.floor(Math.random() * 3000));

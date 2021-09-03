@@ -34,7 +34,8 @@ export const command: Command = {
 				.setColor('RANDOM')
 				.addFields(
 					{ name: 'Item ID', value: item.id },
-					{ name: 'Price', value: `<:AstralCoin:877583618770370582>${item.price}` },
+					{ name: 'Price', value: item.buyable ? `<:AstralCoin:877583618770370582>${item.price}` : 'Unable to be bought.' },
+					{ name: 'Sale', value: item.sellable ? `<:AstralCoin:877583618770370582>${Math.floor(item.price * 0.75)}` : 'Unable to be sold.' },
 					{ name: 'Sellable', value: item.sellable ? 'Yes' : 'No' },
 					{ name: 'Usable', value: item.usable ? 'Yes' : 'No' },
 				)
@@ -44,7 +45,7 @@ export const command: Command = {
 		}
 		else {
 			const items = client.economy.allItems();
-			const fields = items.map((item) => {
+			const fields = items.filter((i) => i.buyable).map((item) => {
 				return {
 					name: `${item.name} (${item.id})`,
 					value: `<:AstralCoin:877583618770370582>${item.price} - ${item.description}`,

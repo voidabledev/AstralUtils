@@ -4,6 +4,7 @@ interface BaseItem {
 	id: string;
 	price: number;
 	sellable: boolean;
+	buyable: boolean;
 	abilities: string[];
 }
 export type Item = BaseItem & ({
