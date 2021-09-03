@@ -3,11 +3,10 @@ import { Command } from '../../typings/command';
 import { Client } from '../../structures/client';
 import { MessageEmbed } from 'discord.js';
 import { success, fail } from '../../structures/embeds';
-import { textChangeRangeIsUnchanged } from 'typescript';
 
 const outcomes: { display: string; chance: number; run: (client: Client, userId: string) => Promise<unknown> }[] = [
 	{
-		display: 'Nothing',
+		display: 'nothing',
 		chance: 0.4,
 		run: () => null,
 	},
@@ -17,12 +16,12 @@ const outcomes: { display: string; chance: number; run: (client: Client, userId:
 		run: (client, userId) => client.economy.addItem(userId, 'commonfish', 3),
 	},
 	{
-		display: '1 rare fish',
+		display: 'a rare fish',
 		chance: 0.1,
 		run: (client, userId) => client.economy.addItem(userId, 'rarefish', 1),
 	},
 	{
-		display: 'a fishing rod, what the hell!?',
+		display: 'a fishing rod, what the hell?',
 		chance: 0.1,
 		run: (client, userId) => client.economy.addItem(userId, 'fishrod', 1),
 	},
@@ -35,6 +34,7 @@ const outcomes: { display: string; chance: number; run: (client: Client, userId:
 export const command: Command = {
 	name: 'fish',
 	description: 'Use your fishing rod.',
+	cooldown: 30000,
 	async run(interaction, options, client) {
 		const profile = client.economy.getProfile(interaction.user.id);
 		if (!client.economy.hasAbility(Object.keys(profile.itemIds), 'fish')) {
@@ -42,8 +42,19 @@ export const command: Command = {
 				embeds: [fail('You can\'t fish without a fishing rod!')],
 			});
 		}
+		const roll = Math.random();
+		let count = 0;
+		let outcome: typeof outcomes[0];
+		for (const that of outcomes) {
+			count += that.chance;
+			if (roll < count) {
+				outcome = that;
+				break;
+			}
+		}
+		await outcome.run(client, interaction.user.id);
+		await interaction.reply({
+			embeds: [success(`You went fishing and brought back ${outcome.display}!`)],
+		});
 	},
 };
-// hover - fix <x>
-// how do i get the eslint auto correct thing again? sorry for asking so much
-// I get "no quick fixes availbile"

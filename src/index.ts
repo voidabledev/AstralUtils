@@ -1,4 +1,4 @@
-import { Client } from './modules/client';
+import { Client } from './structures/client';
 import { Intents } from 'discord.js';
 
 const client = new Client({

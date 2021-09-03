@@ -15,6 +15,7 @@ export class Client extends DJSClient {
 	commands = new Collection<string, Command>();
 	aliases = new Collection<string, string>();
 	globalCooldowns = new Collection<string, Date>();
+	userCooldowns = new Collection<string, Collection<string, Date>>();
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   snipes = {
   	deleted: new Collection<string, Message>(),

@@ -19,7 +19,7 @@ export const command: Command = {
 		const embed = new MessageEmbed()
 			.setAuthor(user.tag, user.displayAvatarURL({ dynamic: true }))
 			.setTitle(`${user.username}'s inventory`)
-			.setDescription(Object.keys(items).map((item) => `${items[item]} x ${client.economy.getItem(item).name}`).join('\n'))
+			.setDescription(Object.keys(items).filter((i) => items[i] !== 0).map((item) => `${items[item]} x ${client.economy.getItem(item).name}`).join('\n'))
 			.setColor('RANDOM')
 			.setFooter('what a noob')
 			.setTimestamp();

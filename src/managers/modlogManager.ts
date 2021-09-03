@@ -1,4 +1,4 @@
-import { Client } from '../modules/client';
+import { Client } from '../structures/client';
 import {
 	modlogModel,
 	Pattern as Modlog,
@@ -12,7 +12,7 @@ import {
 	Role,
 	GuildMember,
 } from 'discord.js';
-import { id } from '../modules/utils';
+import { id } from '../structures/utils';
 
 export class ModlogManager {
 	constructor(private _client: Client) {

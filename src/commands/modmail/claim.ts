@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { Command } from '../../typings/command';
-import { success, fail, confirm } from '../../modules/embeds';
+import { success, fail, confirm } from '../../structures/embeds';
 import { TextChannel } from 'discord.js';
 
 export const command: Command = {

@@ -6,7 +6,7 @@ import {
 	GuildChannel,
 	Collection,
 } from 'discord.js';
-import { success, fail, confirm } from '../../modules/embeds';
+import { success, fail, confirm } from '../../structures/embeds';
 import { ApplicationCommandOptionType as Options } from 'discord-api-types/v9';
 const ignored = new Set<string>([
 	'831996492347736075',

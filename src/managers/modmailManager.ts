@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { modmailModel, Modmail } from '../models/modmailModel';
 import { Collection, Snowflake } from 'discord.js';
-import { Client } from '../modules/client';
+import { Client } from '../structures/client';
 // TODO: finish modmail
 export class ModmailManager {
   private _cache = new Collection<string, Modmail>()

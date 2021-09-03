@@ -1,6 +1,6 @@
 import { Interaction } from 'discord.js';
 import { Event } from '../typings/event';
-import { success, fail } from '../modules/embeds';
+import { success, fail } from '../structures/embeds';
 
 export const event: Event = {
 	event: 'interactionCreate',

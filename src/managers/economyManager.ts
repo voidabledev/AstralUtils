@@ -63,6 +63,15 @@ export class EconomyManager {
 				abilities: [],
 			},
 			{
+				name: 'Dragon',
+				description: 'A rare dragon. Its only purpose is to be collected or sold.',
+				id: 'dragon',
+				price: 40_000, // sells for 30k
+				sellable: true,
+				usable: false,
+				abilities: [],
+			},
+			{
 				name: 'Gift Box',
 				description: 'A small gift box that contains a random amount of coins. Gift it to someone as a surprise.',
 				id: 'giftbox',

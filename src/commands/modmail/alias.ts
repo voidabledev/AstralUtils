@@ -4,9 +4,9 @@ import {
 	MessageEmbed,
 	Message,
 } from 'discord.js';
-import { success, fail, confirm } from '../../modules/embeds';
+import { success, fail, confirm } from '../../structures/embeds';
 import { ApplicationCommandOptionType as Options } from 'discord-api-types/v9';
-import { wait } from '../../modules/utils';
+import { wait } from '../../structures/utils';
 
 const aliases = [
 	{
