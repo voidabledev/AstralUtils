@@ -110,7 +110,6 @@ export const command: Command = {
 				return new MessageEmbed()
 					.setAuthor(
 						anon ? 'Support Team' : interaction.user.tag,
-            // ! fix this error Aure
 						anon ? interaction.guild?.iconURL({ dynamic: true }) : interaction.user.displayAvatarURL({ dynamic: true }),
 					)
 					.setDescription(value)
