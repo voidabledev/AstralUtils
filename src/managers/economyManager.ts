@@ -41,10 +41,40 @@ export class EconomyManager {
 			},
 			// !---------- FISHING ITEMS -----------
 			{
+				name: 'Garbage',
+				description: 'A piece of trash you found somewhere.',
+				id: 'garbage',
+				price: 400, // sells for 300
+				sellable: true,
+				usable: false,
+				buyable: false,
+				abilities: [],
+			},
+			{
+				name: 'Shoes',
+				description: 'A pair of old, stinky shoes that nobody wants.',
+				id: 'shoes',
+				price: 667, // sells for 500
+				sellable: true,
+				usable: false,
+				buyable: false,
+				abilities: [],
+			},
+			{
 				name: 'Common Fish',
 				description: 'A fish found from fishing. Collect it, or sell it for some money.',
 				id: 'commonfish',
 				price: 2_000, // sells for 1.5k
+				sellable: true,
+				usable: false,
+				buyable: false,
+				abilities: [],
+			},
+			{
+				name: 'Jelly Fish',
+				description: 'A jelly fish found from fishing. Collect it, or sell it for some money.',
+				id: 'jellyfish',
+				price: 4_000, // sells for 3k
 				sellable: true,
 				usable: false,
 				buyable: false,
@@ -61,10 +91,30 @@ export class EconomyManager {
 				abilities: [],
 			},
 			{
-				name: 'Garbage',
-				description: 'A piece of trash you found somewhere.',
-				id: 'garbage',
-				price: 400, // sells for 300
+				name: 'Epic Fish',
+				description: 'A very rare fish found from fishing. Collect it, or sell it for some money.',
+				id: 'epicfish',
+				price: 13_333, // sells for 10k
+				sellable: true,
+				usable: false,
+				buyable: false,
+				abilities: [],
+			},
+			{
+				name: 'Whale',
+				description: 'A whale found from fishing. Collect it, or sell it for some money.',
+				id: 'whale',
+				price: 26_666, // sells for 20k
+				sellable: true,
+				usable: false,
+				buyable: false,
+				abilities: [],
+			},
+			{
+				name: 'Legendary Fish',
+				description: 'The rarest of fishes. Collect it, or sell it for some money.',
+				id: 'legendaryfish',
+				price: 133_333, // sells for 100k
 				sellable: true,
 				usable: false,
 				buyable: false,
@@ -150,6 +200,70 @@ export class EconomyManager {
 				usable: false,
 				buyable: false,
 				abilities: [],
+			},
+			// !---------- DIG ITEMS ------------
+			{
+				name: 'Spider',
+				description: 'A spider you found while digging. Its only purpose is to be collected or sold.',
+				id: 'spider',
+				price: 4_000, // sells for 3k
+				sellable: true,
+				usable: false,
+				buyable: false,
+				abilities: [],
+			},
+			{
+				name: 'Junk',
+				description: 'Some junk you dug up from the ground. Its only purpose is to be collected or sold.',
+				id: 'junk',
+				price: 6_667, // sells for 5k
+				sellable: true,
+				usable: false,
+				buyable: false,
+				abilities: [],
+			},
+			{
+				name: 'Dirt',
+				description: 'Some dirt you found while digging. Its only purpose is to be collected or sold.',
+				id: 'dirt',
+				price: 13_333, // sells for 10k
+				sellable: true,
+				usable: false,
+				buyable: false,
+				abilities: [],
+			},
+			{
+				name: 'Seed',
+				description: 'A seed you dug out of the dirt. Maybe you\'ll be able to plant it one day... For now, its only purpose is to be collected or sold.',
+				id: 'seed',
+				price: 20_000, // sells for 15k
+				sellable: true,
+				usable: false,
+				buyable: false,
+				abilities: [],
+			},
+			{
+				name: 'Stickbug',
+				description: 'A stickbug you dug up from the ground. No, this one is dead. Its only purpose is to be collected or sold.',
+				id: 'stickbug',
+				price: 26_667, // sells for 20k
+				sellable: true,
+				usable: false,
+				buyable: false,
+				abilities: [],
+			},
+			{
+				name: 'Time Capsule',
+				description: 'A time capsule you dug up from the ground. You can either open it, or sell it for a lot of money.',
+				id: 'timecapsule',
+				price: 133_333, // sells for 100k
+				sellable: true,
+				usable: true,
+				buyable: false,
+				abilities: [],
+				use: async (userId) => {
+					return `You open the secret time capsule. Inside, you find a little paper with a handwritten note. It spells: ||${userId === '718813416407564340' ? 'You smell' : 'Inferium smells'}||`;
+				},
 			},
 			// !---------- USABLE ITEMS -----------
 			{

@@ -45,6 +45,7 @@ export const command: Command = {
 			await client.economy.removeItem(interaction.user.id, itemId, amount);
 			await interaction.reply({
 				embeds: [success(feedback)],
+				ephemeral: item.id === 'timecapsule',
 			});
 		}
 		catch (e) {

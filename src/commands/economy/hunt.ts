@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { MessageActionRow, Message, MessageButton, MessageEmbed } from 'discord.js';
 import { random, setCharAt, wait } from '../../structures/utils';
-import { fail } from '../../structures/embeds';
+import { fail, success } from '../../structures/embeds';
 import { Client } from '../../structures/client';
 import { Command } from '../../typings/command';
 
@@ -59,9 +59,16 @@ export const command: Command = {
 			});
 		}
 
+		if (Math.random() < 0.01) {
+			client.economy.removeItem(interaction.user.id, 'rifle', 1);
+			return interaction.reply({
+				embeds: [fail('Too bad, your rifle broke')],
+			});
+		}
+
 		const forest = '🌲🎄🌳🌴🌲\n🌲🌳🌴🎋🎄\n🌳🌲🟦🎋🌴\n🌴🎋🌲🌳🌳\n🌲🎋🌳🌲🌳';
 
-		const embed = (str) => {
+		const embed = (str: string) => {
 			return new MessageEmbed().setColor('GREEN').setDescription(str);
 		};
 
@@ -98,7 +105,7 @@ export const command: Command = {
 			}
 			await outcome.run(client, interaction.user.id);
 			await i.update({
-				embeds: [embed(`You went hunting in the forest and brought back ${outcome.display}!`)],
+				embeds: [success(`You went hunting in the forest and brought back ${outcome.display}!`)],
 				components: [],
 			});
 		});
@@ -116,7 +123,7 @@ export const command: Command = {
 			if (ended) return;
 			let rand = 0;
 			do {
-				rand = random(0, forest.length);
+				rand = random(0, forest.length - 1);
 			} while(forest.charAt(rand) === '\n');
 		  if (m.editable)	{
 				await m.edit({
@@ -124,7 +131,7 @@ export const command: Command = {
 				});
 			}
 			animalShown = true;
-			await wait(1000);
+			await wait(850);
 			if (ended) return;
 			if (m.editable) {
 				await m.edit({

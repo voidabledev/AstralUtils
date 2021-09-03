@@ -1,60 +1,155 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { Command } from '../../typings/command';
+import { MessageActionRow, Message, MessageButton, MessageEmbed } from 'discord.js';
+import { random, setCharAt, wait } from '../../structures/utils';
+import { fail, success } from '../../structures/embeds';
 import { Client } from '../../structures/client';
-import { MessageEmbed } from 'discord.js';
-import { success, fail } from '../../structures/embeds';
+import { Command } from '../../typings/command';
 
 const outcomes: { display: string; chance: number; run: (client: Client, userId: string) => Promise<unknown> }[] = [
 	{
-		display: 'nothing',
-		chance: 0.4,
-		run: () => null,
+		display: 'a legendary fish',
+		chance: 1 / 125,
+		run: (client, userId) => client.economy.addItem(userId, 'legendaryfish', 1),
 	},
 	{
-		display: '3 common fish',
-		chance: 0.2,
-		run: (client, userId) => client.economy.addItem(userId, 'commonfish', 3),
+		display: 'a whale',
+		chance: 4 / 125,
+		run: (client, userId) => client.economy.addItem(userId, 'whale', 1),
+	},
+	{
+		display: 'an epic fish',
+		chance: 8 / 125,
+		run: (client, userId) => client.economy.addItem(userId, 'epicfish', 1),
+	},
+	{
+		display: 'a fishing pole',
+		chance: 8 / 125,
+		run: (client, userId) => client.economy.addItem(userId, 'fishpole', 1),
 	},
 	{
 		display: 'a rare fish',
-		chance: 0.1,
+		chance: 8 / 125,
 		run: (client, userId) => client.economy.addItem(userId, 'rarefish', 1),
 	},
 	{
-		display: 'a fishing rod, what the hell?',
-		chance: 0.1,
-		run: (client, userId) => client.economy.addItem(userId, 'fishrod', 1),
+		display: 'a jelly fish',
+		chance: 16 / 125,
+		run: (client, userId) => client.economy.addItem(userId, 'jellyfish', 1),
 	},
 	{
-		display: 'some garbage',
-		chance: 0.2,
+		display: 'a common fish',
+		chance: 16 / 125,
+		run: (client, userId) => client.economy.addItem(userId, 'commonfish', 1),
+	},
+	{
+		display: 'a pair of old shoes',
+		chance: 32 / 125,
+		run: (client, userId) => client.economy.addItem(userId, 'shoes', 1),
+	},
+	{
+		display: 'a piece of garbage',
+		chance: 32 / 125,
 		run: (client, userId) => client.economy.addItem(userId, 'garbage', 1),
 	},
 ];
 export const command: Command = {
 	name: 'fish',
-	description: 'Use your fishing rod.',
-	cooldown: 30000,
+	description: 'Use your fishing rod to find fish in the sea.',
+	cooldown: 3000,
 	async run(interaction, options, client) {
 		const profile = client.economy.getProfile(interaction.user.id);
 		if (!client.economy.hasAbility(Object.keys(profile.itemIds), 'fish')) {
 			return interaction.reply({
-				embeds: [fail('You can\'t fish without a fishing rod!')],
+				embeds: [fail('You can\'t fish without a rod!')],
 			});
 		}
-		const roll = Math.random();
-		let count = 0;
-		let outcome: typeof outcomes[0];
-		for (const that of outcomes) {
-			count += that.chance;
-			if (roll < count) {
-				outcome = that;
-				break;
-			}
+
+		if (Math.random() < 0.01) {
+			client.economy.removeItem(interaction.user.id, 'fishrod', 1);
+			return interaction.reply({
+				embeds: [fail('Too bad, your fishing rod broke')],
+			});
 		}
-		await outcome.run(client, interaction.user.id);
-		await interaction.reply({
-			embeds: [success(`You went fishing and brought back ${outcome.display}!`)],
+
+		const sea = '🦞🌊🌊🌊🌊\n🌊🌊🌊🌊🏖\n🌊🌊🏝🌊🌊\n🌊🌊🌊🦞🌊\n🦞🌊🌊🌊🌊';
+
+		const embed = (str: string) => {
+			return new MessageEmbed().setColor('GREEN').setDescription(str);
+		};
+
+		const m = (await interaction.reply({
+			embeds: [embed(sea)],
+			components: [
+				new MessageActionRow().addComponents([new MessageButton().setCustomId(`fish-${interaction.id}`).setLabel('Cast Out').setStyle('SUCCESS')]),
+			],
+			fetchReply: true,
+		})) as Message;
+
+		const collector = m.createMessageComponentCollector({ time: 1000 * 15, filter: (i) => i.user.id === interaction.user.id });
+
+		let animalShown = false;
+		let ended = false;
+
+		collector.on('collect', async i => {
+			ended = true;
+			if (!animalShown) {
+				collector.stop();
+			  await	i.update({ embeds: [fail('You cast out the line, but you didn\'t catch anything.')], components: [] });
+				return;
+			}
+
+			const roll = Math.random();
+			let count = 0;
+			let outcome: typeof outcomes[0];
+			for (const that of outcomes) {
+				count += that.chance;
+				if (roll < count) {
+					outcome = that;
+					break;
+				}
+			}
+			await outcome.run(client, interaction.user.id);
+			await i.update({
+				embeds: [success(`You went fishing at the sea and brought back ${outcome.display}!`)],
+				components: [],
+			});
 		});
+
+		collector.on('end', async () => {
+			if (ended) return;
+			ended = true;
+			await interaction.editReply({
+				embeds: [fail('You didn\'t cast out in time.')],
+				components: [],
+			});
+		});
+
+		const appearAnimal = async () => {
+			if (ended) return;
+			let rand = 0;
+			do {
+				rand = random(0, sea.length - 1);
+			} while(sea.charAt(rand) === '\n');
+		  if (m.editable)	{
+				await m.edit({
+					embeds: [m.embeds[0].setDescription(setCharAt(sea, rand, '🐟'))],
+				});
+			}
+			animalShown = true;
+			await wait(700);
+			if (ended) return;
+			if (m.editable) {
+				await m.edit({
+					embeds: [embed(sea)],
+				});
+			}
+			animalShown = false;
+		};
+
+		while (!ended) {
+			if (ended) return;
+			await wait(3000 + Math.round(Math.random() * 1000));
+		  await	appearAnimal();
+		}
 	},
 };
