@@ -3,16 +3,23 @@ import { model, Schema } from 'mongoose';
 export interface EconomyProfile {
   userId: string;
   coins: number;
-  itemIds: string[];
+  itemIds: { [itemId: string]: number | undefined };
 }
 
 const schema = new Schema({
-	userId: String,
+	userId: {
+		type: String,
+		required: true,
+	},
 	coins: {
 		type: Number,
 		default: 0,
+		required: true,
 	},
-	itemIds: [String],
+	itemIds: {
+		type: Schema.Types.Mixed,
+		required: true,
+	},
 });
 
-export const economyModel = model<EconomyProfile>('economy', schema);
+export const economyModel = model<EconomyProfile>('new-economy', schema);

@@ -1,6 +1,7 @@
 import { promisify } from 'util';
 import glob from 'glob';
 
+export const random = (num: number): number => Math.round(Math.random() * num);
 export const search = promisify(glob);
 export const wait = promisify(setTimeout);
 export function id(base: number, length: number): string {
