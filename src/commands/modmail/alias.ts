@@ -89,7 +89,7 @@ export const command: Command = {
 		},
 	],
 	async run(interaction, options, client) {
-		const modmail = client.modmail.getByChannel(interaction.channel.id);
+		const modmail = client.modmail.getByChannel(interaction.channelId);
 		const i = options.getInteger('alias', true);
 		const sub = options.getSubcommand(true);
 		if (!modmail) {
@@ -106,12 +106,11 @@ export const command: Command = {
 			}
 			const anon = options.getBoolean('anon') ?? true;
 			const plain = options.getBoolean('plain') ?? false;
-
 			const uEmbeds = aliases[i].values.map((value) => {
 				return new MessageEmbed()
 					.setAuthor(
 						anon ? 'Support Team' : interaction.user.tag,
-						anon ? interaction.guild.iconURL({ dynamic: true }) : interaction.user.displayAvatarURL({ dynamic: true }),
+						anon ? interaction.guild?.iconURL({ dynamic: true }) : interaction.user.displayAvatarURL({ dynamic: true }),
 					)
 					.setDescription(value)
 					.setFooter('Response')
@@ -140,7 +139,6 @@ export const command: Command = {
 					embeds: [fail(`I was unable to send a message to ${user}!`)],
 				});
 			}
-
 			const m2 = await interaction.reply({
 				embeds: cEmbeds,
 				fetchReply: true,
@@ -149,7 +147,6 @@ export const command: Command = {
 				modmail.channelId, aliases[i].values.join('\n\n'), [m1.id, m2.id], interaction.user.id,
 			);
 		}
-
 		if (sub === 'view') {
 			const embed = new MessageEmbed()
 				.setTitle(`Alias: ${aliases[i].name}`)
@@ -162,7 +159,6 @@ export const command: Command = {
 				}))
 				.setFooter('Aliases can be used anonymously and with plain messages')
 				.setTimestamp();
-
 			await interaction.reply({ embeds: [embed] });
 		}
 	},

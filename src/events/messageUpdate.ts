@@ -8,8 +8,6 @@ export const event: Event = {
 		if (oldMessage.partial) await oldMessage.fetch();
 		if (newMessage.partial) await newMessage.fetch();
 		if (newMessage.author.bot) return;
-		client.snipes.edited.set(oldMessage.channel.id, [oldMessage, newMessage]);
-
 		if (newMessage.channel.type === 'DM') {
 			const modmail = client.modmail.getByUser(newMessage.author.id);
 			if (!modmail) return;

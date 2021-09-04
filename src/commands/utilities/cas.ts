@@ -30,14 +30,8 @@ export const command: Command = {
 		}
 		try {
 			await confirm(interaction, 'Are you sure you want to call all staff?');
-			await confirm(
-				interaction,
-				'This is only useful in case of an emergency, like a raid. Are you sure you want to proceed?',
-			);
-			await confirm(
-				interaction,
-				'Using this command with no reason will result in a harsh punishment. Do you really wish to ping all staff members?',
-			);
+			await confirm(interaction, 'This is only useful in case of an emergency, like a raid. Are you sure you want to proceed?');
+			await confirm(interaction, 'Using this command with no reason will result in a harsh punishment. Do you really wish to ping all staff members?');
 			await interaction.editReply({
 				embeds: [success('Pinging all staff now...')],
 				components: [],

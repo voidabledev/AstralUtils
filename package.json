@@ -4,7 +4,8 @@
 	"description": "Rewrite of Astral Utilities in TypeScript, with discord.js v13",
 	"main": "./src/index.ts",
 	"scripts": {
-		"start": "ts-node-dev --respawn --transpile-only --poll ./src/index.ts"
+		"startdev": "ts-node-dev --respawn --transpile-only --poll ./src/index.ts",
+    "start": "ts-node-dev --transpile-only --poll ./src/index.ts"
 	},
 	"author": "",
 	"license": "MIT",

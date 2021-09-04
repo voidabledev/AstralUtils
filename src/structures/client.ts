@@ -1,4 +1,4 @@
-import { Client as DJSClient, ClientOptions, Collection, Message } from 'discord.js';
+import { Client as DJSClient, ClientOptions, Collection } from 'discord.js';
 import { Command } from '../typings/command';
 import { Event } from '../typings/event';
 import { token, db } from '../config.json';
@@ -15,12 +15,15 @@ export class Client extends DJSClient {
 	commands = new Collection<string, Command>();
 	aliases = new Collection<string, string>();
 	globalCooldowns = new Collection<string, Date>();
+<<<<<<< HEAD:src/modules/client.ts
+=======
 	userCooldowns = new Collection<string, Collection<string, Date>>();
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   snipes = {
   	deleted: new Collection<string, Message>(),
   	edited: new Collection<string, [Message, Message]>(),
   }
+>>>>>>> cfbc07d6837c9200a82ed7343213fa9b5e3a35d4:src/structures/client.ts
 	economy: EconomyManager;
 	modlogs: ModlogManager;
 	giveaways: GiveawayManager;

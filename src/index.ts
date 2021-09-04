@@ -8,11 +8,16 @@ const client = new Client({
 		Intents.FLAGS.GUILD_BANS,
 		Intents.FLAGS.DIRECT_MESSAGES,
 		Intents.FLAGS.GUILD_MEMBERS,
+		Intents.FLAGS.GUILD_INVITES,
 	],
 	partials: [
 		'CHANNEL',
 		'MESSAGE',
 	],
+	allowedMentions: {
+		parse: ['users', 'roles'],
+		repliedUser: true,
+	},
 });
 
 client.start();
