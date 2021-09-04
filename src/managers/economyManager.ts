@@ -203,6 +203,16 @@ export class EconomyManager {
 			},
 			// !---------- DIG ITEMS ------------
 			{
+				name: 'Worm',
+				description: 'A worm you found while digging. Its only purpose is to be collected or sold.',
+				id: 'worm',
+				price: 1_333, // sells for 1k
+				sellable: true,
+				usable: false,
+				buyable: false,
+				abilities: [],
+			},
+			{
 				name: 'Spider',
 				description: 'A spider you found while digging. Its only purpose is to be collected or sold.',
 				id: 'spider',

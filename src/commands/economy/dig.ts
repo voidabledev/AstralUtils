@@ -37,9 +37,9 @@ const outcomes: { display: string; chance: number; run: (client: Client, userId:
 		run: (client, userId) => client.economy.addItem(userId, 'junk', 1),
 	},
 	{
-		display: 'a common fish',
+		display: 'two worms, eww',
 		chance: 16 / 125,
-		run: (client, userId) => client.economy.addItem(userId, 'commonfish', 1),
+		run: (client, userId) => client.economy.addItem(userId, 'worm', 2),
 	},
 	{
 		display: 'a spider, ew',
