@@ -140,7 +140,7 @@ export const command: Command = {
 		};
 
 		while (!ended) {
-			if (ended) return;
+			if (ended) break;
 			await wait(3000 + Math.round(Math.random() * 1000));
 		  await	appearAnimal();
 		}
