@@ -42,8 +42,6 @@ export const event: Event = {
 				await message.channel.send(`Failed to remove slash commands: \`${e}\``);
 			}
 		}
-		// ! remove this line later
-		if (message.guild?.id !== '849344562891063356') return;
 		if (message.member && client.afk.get(message.author.id)) {
 			await client.afk.unset(message.member);
 			const embed = new MessageEmbed()
