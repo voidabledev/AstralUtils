@@ -7,9 +7,24 @@ export const event: Event = {
 	async run(client, interaction: Interaction) {
 		if (!interaction.isButton()) return;
 		if (interaction.customId.startsWith('control-giveaway-')) {
-			await client.giveaways.displayControl(interaction);
+			try {
+				await client.giveaways.displayControl(interaction);
+			}
+			catch (e) {
+				await interaction[interaction.deferred || interaction.replied ? 'followUp' : 'reply']({
+					embeds: [fail(`Failed with error:\n${e.message}`)],
+					ephemeral: true,
+				});
+			}
 		}
 		if (interaction.customId.startsWith('enter-giveaway-')) {
+			const [blacklist] = await client.modlogs.fetch({ userID: interaction.user.id, caseType: 'Blacklist', isActive: true });
+			if (blacklist) {
+				return interaction.reply({
+					embeds: [fail('You\'re blacklisted.')],
+					ephemeral: true,
+				});
+			}
 			const msg = await client.giveaways.enter(
 				interaction.customId.replace('enter-giveaway-', ''),
 				interaction.user.id,

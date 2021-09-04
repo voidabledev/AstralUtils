@@ -73,12 +73,8 @@ export const command: Command = {
 
 		const sea = '🦞🌊🌊🌊🌊\n🌊🌊🌊🌊🏖\n🌊🌊🏝🌊🌊\n🌊🌊🌊🦞🌊\n🦞🌊🌊🌊🌊';
 
-		const embed = (str: string) => {
-			return new MessageEmbed().setColor('GREEN').setDescription(str);
-		};
-
 		const m = (await interaction.reply({
-			embeds: [embed(sea)],
+			content: sea,
 			components: [
 				new MessageActionRow().addComponents([new MessageButton().setCustomId(`fish-${interaction.id}`).setLabel('Cast Out').setStyle('SUCCESS')]),
 			],
@@ -94,7 +90,7 @@ export const command: Command = {
 			ended = true;
 			if (!animalShown) {
 				collector.stop();
-			  await	i.update({ embeds: [fail('You cast out the line, but you didn\'t catch anything.')], components: [] });
+			  await	i.update({ content: null, embeds: [fail('You cast out the line, but you didn\'t catch anything.')], components: [] });
 				return;
 			}
 
@@ -110,6 +106,7 @@ export const command: Command = {
 			}
 			await outcome.run(client, interaction.user.id);
 			await i.update({
+				content: null,
 				embeds: [success(`You went fishing at the sea and brought back ${outcome.display}!`)],
 				components: [],
 			});
@@ -119,6 +116,7 @@ export const command: Command = {
 			if (ended) return;
 			ended = true;
 			await interaction.editReply({
+				content: null,
 				embeds: [fail('You didn\'t cast out in time.')],
 				components: [],
 			});
@@ -132,7 +130,7 @@ export const command: Command = {
 			} while(sea.charAt(rand) === '\n');
 		  if (m.editable)	{
 				await m.edit({
-					embeds: [m.embeds[0].setDescription(setCharAt(sea, rand, '🐟'))],
+					content: setCharAt(sea, rand, '🐟'),
 				});
 			}
 			animalShown = true;
@@ -140,7 +138,7 @@ export const command: Command = {
 			if (ended) return;
 			if (m.editable) {
 				await m.edit({
-					embeds: [embed(sea)],
+					content: sea,
 				});
 			}
 			animalShown = false;

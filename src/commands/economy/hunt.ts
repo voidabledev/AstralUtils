@@ -68,12 +68,8 @@ export const command: Command = {
 
 		const forest = '🌲🎄🌳🌴🌲\n🌲🌳🌴🎋🎄\n🌳🌲🟦🎋🌴\n🌴🎋🌲🌳🌳\n🌲🎋🌳🌲🌳';
 
-		const embed = (str: string) => {
-			return new MessageEmbed().setColor('GREEN').setDescription(str);
-		};
-
 		const m = (await interaction.reply({
-			embeds: [embed(forest)],
+			content: forest,
 			components: [
 				new MessageActionRow().addComponents([new MessageButton().setCustomId(`shoot-${interaction.id}`).setLabel('Shoot').setStyle('SUCCESS')]),
 			],
@@ -89,7 +85,7 @@ export const command: Command = {
 			ended = true;
 			if (!animalShown) {
 				collector.stop();
-			  await	i.update({ embeds: [fail('You missed.')], components: [] });
+			  await	i.update({ content: null, embeds: [fail('You missed.')], components: [] });
 				return;
 			}
 
@@ -105,6 +101,7 @@ export const command: Command = {
 			}
 			await outcome.run(client, interaction.user.id);
 			await i.update({
+				content: null,
 				embeds: [success(`You went hunting in the forest and brought back ${outcome.display}!`)],
 				components: [],
 			});
@@ -114,6 +111,7 @@ export const command: Command = {
 			if (ended) return;
 			ended = true;
 			await interaction.editReply({
+				content: null,
 				embeds: [fail('You didn\'t shoot in time.')],
 				components: [],
 			});
@@ -127,7 +125,7 @@ export const command: Command = {
 			} while(forest.charAt(rand) === '\n');
 		  if (m.editable)	{
 				await m.edit({
-					embeds: [m.embeds[0].setDescription(setCharAt(forest, rand, '🐒'))],
+					content: setCharAt(forest, rand, '🐒'),
 				});
 			}
 			animalShown = true;
@@ -135,7 +133,7 @@ export const command: Command = {
 			if (ended) return;
 			if (m.editable) {
 				await m.edit({
-					embeds: [embed(forest)],
+					content: forest,
 				});
 			}
 			animalShown = false;

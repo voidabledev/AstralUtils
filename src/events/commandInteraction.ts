@@ -28,6 +28,13 @@ export const event: Event = {
 				});
 			}
 		}
+		const [blacklist] = await client.modlogs.fetch({ userID: interaction.user.id, caseType: 'Blacklist', isActive: true });
+		if (blacklist) {
+			return interaction.reply({
+				embeds: [fail('You are blacklisted.')],
+				ephemeral: true,
+			});
+		}
 		try {
 			await command.run(interaction, interaction.options, client);
 		}
@@ -37,11 +44,13 @@ export const event: Event = {
 					interaction.replied || interaction.deferred ? 'followUp' : 'reply'
 				]({
 					ephemeral: true,
-					content: `Failed with error:\n${err}`,
+					embeds: [fail(`Failed with error:\n${err}`)],
 				});
 			}
 			catch (_) {
-				await interaction.channel.send(`Failed with error:\n${err}`);
+				await interaction.channel.send({
+					embeds: [fail(`Failed with error:\n${err}`)],
+				});
 			}
 		}
 	},

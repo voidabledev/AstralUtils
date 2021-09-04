@@ -74,10 +74,12 @@ export async function confirm(
 	return new Promise<void>((resolve, reject) => {
 		confirmCollector?.on('collect', async (i) => {
 			await i.deferUpdate();
+			confirmCollector?.stop();
 			resolve();
 		});
 		cancelCollector?.on('collect', async (i) => {
 			await i.deferUpdate();
+			cancelCollector?.stop();
 			reject();
 		});
 		cancelCollector?.on('end', () => {

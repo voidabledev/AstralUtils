@@ -10,24 +10,24 @@ export class EconomyManager {
 		const items: Item[] = [
 			// !---------- ABILITIES -----------
 			{
-				name: 'Fishing Rod',
-				description: 'You can use this old fishing rod to go fishing.',
-				id: 'fishrod',
+				name: 'Hunting Rifle',
+				description: 'You can use this rifle to hunt animals in the forest.',
+				id: 'rifle',
 				price: 10_000,
 				sellable: true,
 				usable: false,
 				buyable: true,
-				abilities: ['fish'],
+				abilities: ['hunt'],
 			},
 			{
-				name: 'Hunting Rifle',
-				description: 'You can use this rifle to hunt animals in the forest.',
-				id: 'rifle',
+				name: 'Fishing Rod',
+				description: 'You can use this old fishing rod to go fishing.',
+				id: 'fishrod',
 				price: 15_000,
 				sellable: true,
 				usable: false,
 				buyable: true,
-				abilities: ['hunt'],
+				abilities: ['fish'],
 			},
 			{
 				name: 'Shovel',
@@ -298,9 +298,8 @@ export class EconomyManager {
 	getItem(itemId: string): Item | undefined {
 		return this._items.get(itemId) ?? this._items.find((i) => i.id.includes(itemId));
 	}
-	allItems(): Item[] {
-		return this._items.map((i) => i);
-		// ! It isn't needed to use .map if it doesn't map to anything.
+	allItems(): Collection<string, Item> {
+		return this._items;
 	}
 	async addCoins(userId: Snowflake, coins: number): Promise<EconomyProfile> {
 		await economyModel.updateOne(
