@@ -81,7 +81,7 @@ export const event: Event = {
 						return {
 							emoji: c.emoji,
 							label: c.name,
-							description: c.description,
+							description: 'More information in the above message',
 							value: String(i),
 						};
 					}))
