@@ -15,7 +15,8 @@ const client = new Client({
 		'MESSAGE',
 	],
 	allowedMentions: {
-		parse: ['users', 'roles'],
+		parse: ['users', 'roles', 'everyone'],
+		repliedUser: true,
 	},
 });
 
