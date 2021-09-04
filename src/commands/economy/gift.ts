@@ -43,13 +43,13 @@ export const command: Command = {
 				embeds: [fail('You can\'t give items to yourself!')],
 			});
 		}
-		if ((me.itemIds[itemId] ?? 0) < amount) {
+		if ((me.itemIds[item.id] ?? 0) < amount) {
 			return interaction.reply({
 				embeds: [fail(`You don't have enough ${item.name}${item.name.endsWith('s') || item.name.endsWith('x') || item.name.endsWith('sh') ? 'es' : 's' } to gift that many!`)],
 			});
 		}
-		await client.economy.removeItem(me.userId, itemId, amount);
-		await client.economy.addItem(you.userId, itemId, amount);
+		await client.economy.removeItem(me.userId, item.id, amount);
+		await client.economy.addItem(you.userId, item.id, amount);
 		await interaction.reply({
 			embeds: [success(`You gifted ${amount} ${item.name}${amount > 1 ? item.name.endsWith('s') || item.name.endsWith('x') || item.name.endsWith('sh') ? 'es' : 's' : ''} to <@${user}>`)],
 		});

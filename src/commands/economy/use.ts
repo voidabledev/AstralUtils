@@ -35,14 +35,14 @@ export const command: Command = {
 				embeds: [fail('You can\'t use that item!')],
 			});
 		}
-		if ((profile.itemIds[itemId] ?? 0) < amount) {
+		if ((profile.itemIds[item.id] ?? 0) < amount) {
 			return interaction.reply({
 				embeds: [fail(`You don't have enough ${item.name}${item.name.endsWith('s') || item.name.endsWith('x') || item.name.endsWith('sh') ? 'es' : 's' } to use that many!`)],
 			});
 		}
 		try {
 			const feedback = await item.use(interaction.user.id, amount);
-			await client.economy.removeItem(interaction.user.id, itemId, amount);
+			await client.economy.removeItem(interaction.user.id, item.id, amount);
 			await interaction.reply({
 				embeds: [success(feedback)],
 				ephemeral: item.id === 'timecapsule',
