@@ -1,30 +1,46 @@
 import { Event } from '../typings/event';
-import { Message, MessageEmbed, MessageActionRow, MessageSelectMenu, SelectMenuInteraction, TextBasedChannels } from 'discord.js';
+import { Message, MessageEmbed, MessageActionRow, MessageSelectMenu, SelectMenuInteraction, TextBasedChannels, EmojiResolvable } from 'discord.js';
 
-export const categories = [
-	{
-		name: 'Testing',
-		description: 'A modmail sent to the testing server, for testing purposes only.',
-		guildId: '849344562891063356',
-		categoryId: '881930804056457216',
-		ping: '<@538635176847343636>',
-		emoji: '<:AstralCoin:877583618770370582>',
-	},
+export const categories: { name: string; description: string; guildId: string; categoryId: string; ping: string; emoji: EmojiResolvable }[] = [
 	{
 		name: 'General questions',
 		description: 'For any general questions you may have towards our staff team',
 		guildId: '831995980097388604',
-		categoryId: '839231003864072192',
+		categoryId: '844293566972166144',
 		ping: '@here',
 		emoji: '❓',
 	},
 	{
 		name: 'Partnership',
-		description: 'Choose this option if you want to partner our server with yours.',
+		description: 'Choose this option if you have a server and want to partner with us.',
 		guildId: '831995980097388604',
-		categoryId: '839231003864072192',
+		categoryId: '883694529432129597',
 		ping: '<@&831996436794310657>',
 		emoji: '🤝',
+	},
+	{
+		name: 'Appeal',
+		description: 'Choose this option if you feel like a punishment that was given to you was unfair or biased. A head moderator or above will handle your request, so please be patient.',
+		guildId: '831995980097388604',
+		categoryId: '883701093027155979',
+		ping: '@here',
+		emoji: '<:modAbuse:851921064170094592>',
+	},
+	{
+		name: 'Administrators',
+		description: 'Anything that you don\'t want our moderation team to handle, for example reporting a staff member. Please be patient as an admin may not be available to assist you instantly.',
+		guildId: '831995980097388604',
+		categoryId: '844065597562421249',
+		ping: '@here',
+		emoji: '<a:error:849037573912657932>',
+	},
+	{
+		name: 'Developers',
+		description: 'For any questions you have towards our bot developers, for example bug reports.',
+		guildId: '831995980097388604',
+		categoryId: '846735360050069506',
+		ping: '<@&841804547000893490>',
+		emoji: '<:AstralCoin:877583618770370582>',
 	},
 ];
 

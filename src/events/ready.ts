@@ -1,4 +1,5 @@
 import { Event } from '../typings/event';
+import { activity } from '../structures/utils';
 
 export const event: Event = {
 	event: 'ready',
@@ -6,5 +7,6 @@ export const event: Event = {
 	async run(client) {
 		console.log(`Ready! Logged in as ${client.user?.tag}.`);
 		await client.economy.cache();
+		setInterval(() => activity(client), 1000 * 60 * 5);
 	},
 };
