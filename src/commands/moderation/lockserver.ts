@@ -18,6 +18,8 @@ const ignored = new Set<string>([
 	'844065597562421249',
 	'846735360050069506',
 	'831996506282131546',
+	'870079202882379817',
+	'876401218174459944',
 ]);
 const locked = new Collection<string, GuildChannel>();
 
