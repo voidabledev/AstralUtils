@@ -28,7 +28,7 @@ export const command: Command = {
 			const embed = new MessageEmbed()
 				.setAuthor(interaction.user.tag, interaction.user.displayAvatarURL({ dynamic: true }))
 				.setTitle(`${item.name} ${
-					profile.itemIds[itemId] ? `(${profile.itemIds[itemId]} owned)` : ''
+					profile.itemIds[item.id] ? `(${profile.itemIds[item.id]} owned)` : ''
 				}`)
 				.setDescription(item.description)
 				.setColor('RANDOM')
