@@ -51,6 +51,12 @@ export const command: Command = {
 					? 'Astral Galaxy Management Team'
 					: `Sent by: ${interaction.user.tag}`,
 			);
-		await interaction.reply({ embeds: [embed] });
+		if (anon) {
+			await interaction.channel.send({ embeds: [embed] });
+			await interaction.reply({ embeds: [success('The message has been sent.')], ephemeral: true });
+		}
+		else {
+			await interaction.reply({ embeds: [embed] });
+		}
 	},
 };

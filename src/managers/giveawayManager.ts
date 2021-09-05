@@ -38,10 +38,7 @@ export class GiveawayManager {
 		text: string,
 		interaction: CommandInteraction,
 	): Promise<Giveaway> {
-		await interaction.reply({
-			content: text,
-		});
-		const message = await interaction.fetchReply();
+		const message = await interaction.channel.send(text);
 		const embed = new MessageEmbed()
 			.setAuthor(`${data.prize}`)
 			.setDescription(
@@ -72,7 +69,7 @@ export class GiveawayManager {
 				.setLabel('Control')
 				.setCustomId(`control-giveaway-${message.id}`),
 		);
-		await interaction.editReply({
+		await message.edit({
 			content: text,
 			embeds: [embed],
 			components: [row],

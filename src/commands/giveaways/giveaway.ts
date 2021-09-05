@@ -138,6 +138,7 @@ export const command: Command = {
 			if (winnerCount < 1 || winnerCount > 5) {
 				return interaction.reply({
 					embeds: [fail('Giveaways have to have between 1 and 5 winners!')],
+					ephemeral: true,
 				});
 			}
 			await client.giveaways.create(
@@ -155,6 +156,10 @@ export const command: Command = {
 				`${ping}:tada: **GIVEAWAY** :tada:`,
 				interaction,
 			);
+			await interaction.reply({
+				embeds: [success('The giveaway has been created. Click the control button to manage it.')],
+				ephemeral: true,
+			});
 		}
 		if (subcommand === 'edit') {
 			const messageId = options.getString('message-id', true);
@@ -168,6 +173,7 @@ export const command: Command = {
 			if (winnerCount && (winnerCount < 1 || winnerCount > 5)) {
 				return interaction.reply({
 					embeds: [fail('Giveaways have to have between 1 and 5 winners!')],
+					ephemeral: true,
 				});
 			}
 			await client.giveaways
