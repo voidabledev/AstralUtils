@@ -20,6 +20,8 @@ export const event: Event = {
 			await msg.edit({ embeds: [embed] });
 			modmail.messages[i].content = newMessage.content;
 			await client.modmail.edit(modmail.channelId, modmail);
+			return;
 		}
+		client.snipes.edited.set(newMessage.channelId, [oldMessage, newMessage]);
 	},
 };

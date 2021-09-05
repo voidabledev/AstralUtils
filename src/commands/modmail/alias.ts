@@ -6,12 +6,15 @@ import {
 } from 'discord.js';
 import { success, fail, confirm } from '../../structures/embeds';
 import { ApplicationCommandOptionType as Options } from 'discord-api-types/v9';
-import { wait } from '../../structures/utils';
 
 const aliases = [
 	{
 		name: 'Assist',
 		values: ['How can we assist you today?'],
+	},
+	{
+		name: 'Anything else',
+		values: ['Are there any more questions, comments or concerns you have for today?'],
 	},
 	{
 		name: 'Trolling',

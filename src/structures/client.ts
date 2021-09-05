@@ -18,7 +18,7 @@ export class Client extends DJSClient {
 	userCooldowns = new Collection<string, Collection<string, Date>>();
 	snipes = {
 		deleted: new Collection<string, Message>(),
-		edited: new Collection<string, Message>(),
+		edited: new Collection<string, [Message, Message]>(),
 	}
 	economy: EconomyManager;
 	modlogs: ModlogManager;
