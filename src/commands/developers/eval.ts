@@ -68,7 +68,7 @@ export const command: Command = {
 				embed.addField('Output', 'See the attachment to view the output.');
 				files.push({
 					attachment: Buffer.from(<string>result),
-					name: 'output.' + encoding.includes('json') ? 'json' : 'txt',
+					name: `output.${encoding.includes('json') ? 'json' : 'txt'}`,
 				});
 			}
 		}
@@ -80,8 +80,11 @@ export const command: Command = {
 		}
 		await interaction.followUp({
 			embeds: [embed],
-			ephemeral,
-			files,
 		});
+		if (files.length) {
+			await interaction.followUp({
+				files,
+			});
+		}
 	},
 };
