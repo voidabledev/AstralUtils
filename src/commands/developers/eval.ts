@@ -61,7 +61,7 @@ export const command: Command = {
 				.setFooter('Status: Success')
 				.setColor('GREEN');
 
-			if (result.length < 1500) {
+			if (result.length < 1000) {
 				embed.addField('Output', encoding + result + '\n```');
 			}
 			else {
