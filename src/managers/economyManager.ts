@@ -354,9 +354,12 @@ export class EconomyManager {
 		profile.itemIds[itemId] ??= 0;
 		if (amount > profile.itemIds[itemId]) amount = profile.itemIds[itemId];
 		profile.itemIds[itemId] -= amount;
+		if (profile.itemIds[itemId] === 0) delete profile.itemIds[itemId];
 		await economyModel.updateOne(
 			{ userId },
-			{ userId, $inc: { [`itemIds.${itemId}`]: -amount } },
+			profile.itemIds[itemId] > 0 ?
+				{ userId, $inc: { [`itemIds.${itemId}`]: -amount } } :
+				{ userId, $unset: { [`itemIds.${itemId}`]: 0 } },
 			{ upsert: true },
 		);
 		this._cache.set(profile.userId, profile);
