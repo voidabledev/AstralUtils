@@ -48,7 +48,7 @@ export class GiveawayManager {
 				{
 					name: 'Giveaway Info',
 					value: `**Hosted by:** <@${data.host}>\n${
-						data.sponsor ? `**Sponsored by:** <@${data.sponsor}\n` : ''
+						data.sponsor ? `**Sponsored by:** <@${data.sponsor}>\n` : ''
 					}**Winner Count:** ${data.winnerCount}`,
 					inline: true,
 				},
