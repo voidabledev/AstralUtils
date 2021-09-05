@@ -22,9 +22,9 @@ const outcomes: { display: string; chance: number; run: (client: Client, userId:
 		run: (client, userId) => client.economy.addItem(userId, 'epicfish', 1),
 	},
 	{
-		display: 'a fishing pole',
+		display: 'a fishing rod',
 		chance: 8 / 125,
-		run: (client, userId) => client.economy.addItem(userId, 'fishpole', 1),
+		run: (client, userId) => client.economy.addItem(userId, 'fishrod', 1),
 	},
 	{
 		display: 'a rare fish',
