@@ -40,7 +40,7 @@ export const command: Command = {
 				embeds: [fail(`You don't have enough ${item.name}${item.name.endsWith('s') || item.name.endsWith('x') || item.name.endsWith('sh') ? 'es' : 's' } to sell that many!`)],
 			});
 		}
-		const sellAmount = Math.floor(item.price * amount * 0.75);
+		const sellAmount = Math.round(item.price * amount * 0.75);
 		await client.economy.addCoins(interaction.user.id, sellAmount);
 		await client.economy.removeItem(interaction.user.id, item.id, amount);
 		await interaction.reply({

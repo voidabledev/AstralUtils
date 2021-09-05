@@ -35,7 +35,7 @@ export const command: Command = {
 				.addFields(
 					{ name: 'Item ID', value: item.id },
 					{ name: 'Price', value: item.buyable ? `<:AstralCoin:877583618770370582>${item.price}` : 'Unable to be bought.' },
-					{ name: 'Sale', value: item.sellable ? `<:AstralCoin:877583618770370582>${Math.floor(item.price * 0.75)}` : 'Unable to be sold.' },
+					{ name: 'Sale', value: item.sellable ? `<:AstralCoin:877583618770370582>${Math.round(item.price * 0.75)}` : 'Unable to be sold.' },
 					{ name: 'Sellable', value: item.sellable ? 'Yes' : 'No' },
 					{ name: 'Usable', value: item.usable ? 'Yes' : 'No' },
 				)
