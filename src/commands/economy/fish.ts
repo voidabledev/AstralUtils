@@ -3,7 +3,7 @@ import { MessageActionRow, Message, MessageButton } from 'discord.js';
 import { random, setCharAt, wait } from '../../structures/utils';
 import { fail, success } from '../../structures/embeds';
 import { Command } from '../../typings/command';
-import { NormalOutCome } from '../../typings/OutComes';
+import { NormalOutCome } from '../../typings/outcomes';
 
 const outcomes: NormalOutCome[] = [
 	{

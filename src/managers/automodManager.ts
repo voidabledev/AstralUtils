@@ -5,7 +5,6 @@ import { Message, MessageEmbed, Collection } from 'discord.js';
 import { wait } from '../structures/utils';
 
 export class AutomodManager {
-
 	private _spam = new Collection<string, Message[]>();
 
 	constructor(private _client: Client) {
@@ -13,8 +12,6 @@ export class AutomodManager {
 	}
 	/** This is called on every message to check if any automod action is taken. */
 	async run(message: Message): Promise<void> {
-		// dont run this in main server yet
-		if (message.guild?.id !== '849344562891063356') return;
 		const spam = this._spam.get(message.author.id) ?? [];
 		spam.push(message);
 		this._spam.set(message.author.id, spam.filter((m) => m.createdTimestamp + 5000 > Date.now()));
@@ -56,7 +53,9 @@ export class AutomodManager {
 					}) &&
 					(await data.allowed(message))
 				) {
-					data.execute(message).catch((e) => console.warn(`An error was encountered during execution of automod: ${e.message}`));
+					data.execute(message).catch((e) =>
+						console.warn(`An error was encountered during execution of automod: ${e.message}`),
+					);
 				}
 			}
 			catch {

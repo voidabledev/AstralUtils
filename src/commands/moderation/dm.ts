@@ -51,7 +51,7 @@ export const command: Command = {
 				}`,
 			);
 		try {
-			await user.send({ embeds: [embed] });
+			await user?.send({ embeds: [embed] });
 			await interaction.reply({
 				embeds: [success(`I've sent the message to ${user}!`)],
 			});

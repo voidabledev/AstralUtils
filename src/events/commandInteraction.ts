@@ -24,11 +24,17 @@ export const event: Event = {
 			}
 			else {
 				return interaction.reply({
-					embeds: [fail(`You're on cooldown! You can use the ${command.name} command again <t:${Math.floor((user.getTime() + command.cooldown) / 1000)}:R>`)],
+					embeds: [fail(`You're on cooldown! You can use the ${command.name} command again <t:${Math.floor(
+						(user.getTime() + command.cooldown) / 1000)}:R>`),
+					],
 				});
 			}
 		}
-		const [blacklist] = await client.modlogs.fetch({ userID: interaction.user.id, caseType: 'Blacklist', isActive: true });
+		const [ blacklist ] = await client.modlogs.fetch({
+			userID: interaction.user.id,
+			caseType: 'Blacklist',
+			isActive: true,
+		});
 		if (blacklist) {
 			return interaction.reply({
 				embeds: [fail('You are blacklisted.')],
@@ -39,6 +45,7 @@ export const event: Event = {
 			await command.run(interaction, interaction.options, client);
 		}
 		catch (err) {
+			console.log(err);
 			try {
 				await interaction[
 					interaction.replied || interaction.deferred ? 'followUp' : 'reply'
@@ -47,7 +54,8 @@ export const event: Event = {
 					embeds: [fail(`Failed with error:\n${err}`)],
 				});
 			}
-			catch (_) {
+			catch (err) {
+				console.log(err);
 				await interaction.channel.send({
 					embeds: [fail(`Failed with error:\n${err}`)],
 				});

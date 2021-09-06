@@ -2,7 +2,7 @@
 import { MessageActionRow, Message, MessageButton, MessageEmbed, ButtonInteraction } from 'discord.js';
 import { fail, success } from '../../structures/embeds';
 import { Command } from '../../typings/command';
-import { WorkOutCome } from '../../typings/OutComes';
+import { WorkOutCome } from '../../typings/outcomes';
 
 const outcomes: WorkOutCome[] = [
 	{

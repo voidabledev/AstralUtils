@@ -83,12 +83,12 @@ export const command: Command = {
 							(new Date().getTime() + time * timeUnit) / 1000,
 						)}:f> (<t:${Math.floor(
 							(new Date().getTime() + time * timeUnit) / 1000,
-						)}:R>)` : 'Permanent', // idiot we dont want a default expiration time for bans
+						)}:R>)` : 'Permanent',
 					)
 					.addField('Reason', reason)
 					.setColor('RED');
 				await user
-					.send({
+					?.send({
 						embeds: [userEmbed],
 					})
 					.catch(() => null);

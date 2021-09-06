@@ -54,7 +54,8 @@ export class GiveawayManager {
 				},
 				{
 					name: 'Requirement Info',
-					value: `${data.requirement ?? 'None'}`,
+					value: `${data.requirement ?? 'None.'}`,
+					inline: true,
 				},
 			)
 			.setFooter(`Message ID: ${message.id}`)
@@ -115,6 +116,7 @@ export class GiveawayManager {
 				{
 					name: 'Requirement Info',
 					value: `${giveaway.requirement ?? 'None'}`,
+					inline: true,
 				},
 			)
 			.setFooter(`Message ID: ${message.id}`)
@@ -188,6 +190,7 @@ export class GiveawayManager {
 				{
 					name: 'Requirement Info',
 					value: `${giveaway.requirement ?? 'None'}`,
+					inline: true,
 				},
 			)
 			.setFooter(`Message ID: ${message.id} | Winners: ${giveaway.winnerCount}`)
@@ -408,6 +411,7 @@ export class GiveawayManager {
 						{
 							name: 'Requirement Info',
 							value: `${giveaway.requirement ?? 'None'}`,
+							inline: true,
 						},
 					)
 					.setFooter(

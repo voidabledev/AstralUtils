@@ -131,7 +131,7 @@ export const command: Command = {
 			const user = await client.users.fetch(modmail.userId);
 			let m1: Message;
 			try {
-				m1 = await user.send(!plain ? {
+				m1 = await user?.send(!plain ? {
 					embeds: uEmbeds,
 				} : {
 					content: anon ? `*Support Team:*\n${aliases[i].values.join('\n\n')}` : `*${interaction.user.tag}:*\n${aliases[i].values.join('\n\n')}`,

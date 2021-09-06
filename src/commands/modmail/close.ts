@@ -1,12 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { Command } from '../../typings/command';
-import {
-	MessageEmbed,
-	Permissions,
-	Guild,
-	GuildMemberRoleManager,
-} from 'discord.js';
-import { success, fail, confirm } from '../../structures/embeds';
+import { MessageEmbed } from 'discord.js';
+import { success, fail } from '../../structures/embeds';
 import { ApplicationCommandOptionType as Options } from 'discord-api-types/v9';
 
 export const command: Command = {
@@ -32,7 +27,6 @@ export const command: Command = {
 	],
 	async run(interaction, options, client) {
 		const time = Math.max(options.getInteger('timeout') ?? 0, 0) * (options.getInteger('timeoutUnit') ?? 1000);
-
 		const modmail = client.modmail.getByChannel(interaction.channel.id);
 		if (!modmail) {
 			return interaction.reply({
@@ -41,14 +35,16 @@ export const command: Command = {
 			});
 		}
 		const user = await client.users.fetch(modmail.userId);
-
 		await interaction.reply({
 			embeds: [success(time === 0 ? 'Closing thread now...' : `This thread will close <t:${Math.floor((Date.now() + time) / 1000)}:R>.`)],
 		});
-
 		setTimeout(async () => {
-			await user.send({
-				embeds: [new MessageEmbed().setDescription('This thread has been closed. Replying to this message will create a new thread.').setFooter(`Closed by ${interaction.user.tag}`).setTimestamp()],
+			await user?.send({
+				embeds: [new MessageEmbed()
+					.setDescription('This thread has been closed. Replying to this message will create a new thread.')
+					.setFooter(`Closed by ${interaction.user.tag}`)
+					.setTimestamp(),
+				],
 			});
 			await client.modmail.close(interaction.channel.id);
 			await interaction.channel.delete();

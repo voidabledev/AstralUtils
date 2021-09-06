@@ -50,7 +50,7 @@ export const command: Command = {
 		const user = await client.users.fetch(modmail.userId);
 		let m1;
 		try {
-			m1 = await user.send(!plain ? {
+			m1 = await user?.send(!plain ? {
 				embeds: [
 					new MessageEmbed()
 						.setAuthor(
