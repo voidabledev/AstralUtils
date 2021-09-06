@@ -1,11 +1,11 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { MessageActionRow, Message, MessageButton, MessageEmbed } from 'discord.js';
+import { MessageActionRow, Message, MessageButton } from 'discord.js';
 import { random, setCharAt, wait } from '../../structures/utils';
 import { fail, success } from '../../structures/embeds';
-import { Client } from '../../structures/client';
 import { Command } from '../../typings/command';
+import { NormalOutCome } from '../../typings/OutComes';
 
-const outcomes: { display: string; chance: number; run: (client: Client, userId: string) => Promise<unknown> }[] = [
+const outcomes: NormalOutCome[] = [
 	{
 		display: 'a dragon',
 		chance: 1 / 117,

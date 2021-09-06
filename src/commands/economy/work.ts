@@ -1,11 +1,10 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { MessageActionRow, Message, MessageButton, MessageEmbed, EmojiResolvable, ButtonInteraction, MessageButtonStyle } from 'discord.js';
-import { random, setCharAt, wait } from '../../structures/utils';
+import { MessageActionRow, Message, MessageButton, MessageEmbed, ButtonInteraction } from 'discord.js';
 import { fail, success } from '../../structures/embeds';
-import { Client } from '../../structures/client';
 import { Command } from '../../typings/command';
+import { WorkOutCome } from '../../typings/OutComes';
 
-const outcomes: { display: string; emoji: EmojiResolvable; style: MessageButtonStyle; run: (client: Client, userId: string) => unknown }[] = [
+const outcomes: WorkOutCome[] = [
 	{
 		display: 'You did a TERRIBLE job and didn\'t get any money.',
 		style: 'DANGER',
