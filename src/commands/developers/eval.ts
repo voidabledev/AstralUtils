@@ -56,6 +56,7 @@ export const command: Command = {
 				result = JSON.stringify(result, null, 2);
 				encoding = '```json\n';
 			}
+			result = String(result);
 
 			embed
 				.setFooter('Status: Success')
