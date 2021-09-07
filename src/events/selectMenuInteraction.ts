@@ -13,7 +13,7 @@ export const event: Event = {
 			const guild = client.guilds.cache.get(category.guildId);
 			if (!guild) {
 				return interaction.update({
-					embeds: [fail('I was unable to find the server thism modmail was supposed to belong to. If you think this is a bug, please message a developer.')],
+					embeds: [fail('I was unable to find the server this modmail was supposed to belong to. If you think this is a bug, please message a developer.')],
 					components: [],
 				});
 			}

@@ -15,7 +15,7 @@ export const categories: { name: string; description: string; guildId: string; c
 		description: 'Choose this option if you have a server and want to partner with us.',
 		guildId: '831995980097388604',
 		categoryId: '883694529432129597',
-		ping: '<@&831996436794310657>',
+		ping: '@here',
 		emoji: '🤝',
 	},
 	{
@@ -39,7 +39,7 @@ export const categories: { name: string; description: string; guildId: string; c
 		description: 'For any questions you have towards our bot developers, for example bug reports.',
 		guildId: '831995980097388604',
 		categoryId: '846735360050069506',
-		ping: '<@&841804547000893490>',
+		ping: '@here',
 		emoji: '<:AstralCoin:877583618770370582>',
 	},
 ];

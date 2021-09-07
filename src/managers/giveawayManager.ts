@@ -42,23 +42,15 @@ export class GiveawayManager {
 		const embed = new MessageEmbed()
 			.setAuthor(`${data.prize}`)
 			.setDescription(
-				`This giveaway ends <t:${Math.floor(data.end / 1000)}:R>.`,
+				`**Ends:** <t:${Math.floor(data.end / 1000)}:R>.\n**Host:** <@${data.host}>\n${
+					data.sponsor ? `**Sponsor:** <@${data.sponsor}>\n` : ''
+				}**Requirement:** ${
+					data.requirement ?? 'None'
+				}\n**Claim Time:** ${data.claimTime ?? 'Automatic'}\n${
+					data.notes ? `**Notes:** ${data.notes}` : ''
+				}`,
 			)
-			.addFields(
-				{
-					name: 'Giveaway Info',
-					value: `**Hosted by:** <@${data.host}>\n${
-						data.sponsor ? `**Sponsored by:** <@${data.sponsor}>\n` : ''
-					}**Winner Count:** ${data.winnerCount}`,
-					inline: true,
-				},
-				{
-					name: 'Requirement Info',
-					value: `${data.requirement ?? 'None.'}`,
-					inline: true,
-				},
-			)
-			.setFooter(`Message ID: ${message.id}`)
+			.setFooter(`0 Entries | ${data.winnerCount} Winner${data.winnerCount > 1 ? 's' : ''}`)
 			.setColor('RANDOM');
 		const row = new MessageActionRow().addComponents(
 			new MessageButton()
@@ -93,33 +85,23 @@ export class GiveawayManager {
 		const giveaway = await giveawayModel.findOne({ messageId });
 		if (!giveaway) throw new Error('GiveawayError: Giveaway not found');
 		const message = await (
-			this._client.guilds.cache
-				.get(giveaway.guildId)
-				?.channels.cache.get(giveaway.channelId) as
+			this._client.channels.cache.get(giveaway.channelId) as
 				| TextBasedChannels
 				| undefined
 		)?.messages.fetch(messageId);
 		if (!message) throw new Error('GiveawayError: Unknown message');
 		const embed = new MessageEmbed()
-			.setAuthor(`${data.prize}`)
+			.setAuthor(`${giveaway.prize}`)
 			.setDescription(
-				`This giveaway ends <t:${Math.floor(giveaway.end / 1000)}:R>.`,
+				`**Ends:** <t:${Math.floor(giveaway.end / 1000)}:R>.\n**Host:** <@${giveaway.host}>\n${
+					giveaway.sponsor ? `**Sponsor:** <@${giveaway.sponsor}>\n` : ''
+				}**Requirement:** ${
+					giveaway.requirement ?? 'None'
+				}\n**Claim Time:** ${giveaway.claimTime ?? 'Automatic'}\n${
+					giveaway.notes ? `**Notes:** ${giveaway.notes}` : ''
+				}`,
 			)
-			.addFields(
-				{
-					name: 'Giveaway Info',
-					value: `**Hosted by:** <@${giveaway.host}>\n${
-						giveaway.sponsor ? `**Sponsored by:** <@${giveaway.sponsor}\n` : ''
-					}**Winner Count:** ${giveaway.winnerCount}`,
-					inline: true,
-				},
-				{
-					name: 'Requirement Info',
-					value: `${giveaway.requirement ?? 'None'}`,
-					inline: true,
-				},
-			)
-			.setFooter(`Message ID: ${message.id}`)
+			.setFooter(`${giveaway.entries.length} Entries | ${giveaway.winnerCount} Winner${giveaway.winnerCount > 1 ? 's' : ''}`)
 			.setColor('RANDOM');
 		await message.edit({
 			content: text ?? message.content,
@@ -135,6 +117,7 @@ export class GiveawayManager {
 		if (giveaway.entries.includes(userId)) {
 			return 'You have already entered this giveaway!';
 		}
+		giveaway.entries.push(userId);
 		await giveawayModel.updateOne(
 			{
 				messageId,
@@ -145,6 +128,10 @@ export class GiveawayManager {
 				},
 			},
 		);
+		const message = await (<TextBasedChannels>this._client.channels.cache.get(giveaway.channelId)).messages.fetch(messageId);
+		await message.edit({
+			embeds: [message.embeds[0].setFooter(`${giveaway.entries.length} Entries | ${giveaway.winnerCount} Winners`)],
+		});
 		return 'Entered!';
 	}
 	async end(messageId: string): Promise<Giveaway> {
@@ -175,26 +162,20 @@ export class GiveawayManager {
 			{ messageId },
 			{ ended: true, end: Date.now(), winners },
 		);
+		giveaway.end = Date.now();
 		const embed = new MessageEmbed()
 			.setAuthor(`${giveaway.prize}`)
-			.setDescription('This giveaway has **ended**.')
-			.addFields(
-				{
-					name: 'Giveaway Info',
-					value: `**Hosted by:** <@${giveaway.host}>\n${
-						giveaway.sponsor ? `**Sponsored by:** <@${giveaway.sponsor}>\n` : ''
-					}**Ended:** <t:${Math.floor(
-						Date.now() / 1000,
-					)}:R>\n **Winners:** ${winners.map((w) => `<@${w}>`).join(', ')}`,
-				},
-				{
-					name: 'Requirement Info',
-					value: `${giveaway.requirement ?? 'None'}`,
-					inline: true,
-				},
+			.setDescription(
+				`**Ended:** <t:${Math.floor(giveaway.end / 1000)}:R>.\n**Host:** <@${giveaway.host}>\n${
+					giveaway.sponsor ? `**Sponsor:** <@${giveaway.sponsor}>\n` : ''
+				}**Requirement:** ${
+					giveaway.requirement ?? 'None'
+				}\n**Claim Time:** ${giveaway.claimTime ?? 'Automatic'}\n${
+					giveaway.notes ? `**Notes:** ${giveaway.notes}\n` : ''
+				}\n**Winners:** <@${winners.join('>, <@')}>`,
 			)
-			.setFooter(`Message ID: ${message.id} | Winners: ${giveaway.winnerCount}`)
-			.setColor('RED');
+			.setFooter(`${giveaway.entries.length} Entries | ${giveaway.winnerCount} Winner${giveaway.winnerCount > 1 ? 's' : ''}`)
+			.setColor('RANDOM');
 		const initialRow = message.components[0];
 		initialRow?.components[0].setDisabled(true);
 		await message.edit({

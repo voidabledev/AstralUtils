@@ -53,6 +53,16 @@ export const command: Command = {
 					type: Options.String,
 				},
 				{
+					name: 'claim-time',
+					description: 'How much time users have to claim - you have to check this manually!',
+					type: Options.String,
+				},
+				{
+					name: 'notes',
+					description: 'Any additional information you may want to provide.',
+					type: Options.String,
+				},
+				{
 					name: 'ping',
 					description: 'What role to ping for the giveaway',
 					type: Options.String,
@@ -110,6 +120,16 @@ export const command: Command = {
 					description: 'The requirement for this giveaway, if any',
 					type: Options.String,
 				},
+				{
+					name: 'claim-time',
+					description: 'How much time users have to claim - you have to check this manually!',
+					type: Options.String,
+				},
+				{
+					name: 'notes',
+					description: 'Any additional information you may want to provide.',
+					type: Options.String,
+				},
 			],
 		},
 	],
@@ -134,6 +154,8 @@ export const command: Command = {
 			const winnerCount = options.getInteger('winners', true);
 			const sponsor = options.getUser('sponsor') ?? undefined;
 			const requirement = options.getString('requirement') ?? undefined;
+			const claimTime = options.getString('claim-time') ?? undefined;
+			const notes = options.getString('notes') ?? undefined;
 			const ping = options.getString('ping') ?? '';
 			if (winnerCount < 1 || winnerCount > 5) {
 				return interaction.reply({
@@ -152,6 +174,8 @@ export const command: Command = {
 					host: interaction.user.id,
 					sponsor: sponsor?.id,
 					requirement,
+					claimTime,
+					notes,
 				},
 				`${ping}:tada: **GIVEAWAY** :tada:`,
 				interaction,
@@ -169,6 +193,8 @@ export const command: Command = {
 			const winnerCount = options.getInteger('winners') ?? undefined;
 			const sponsor = options.getUser('sponsor')?.id ?? undefined;
 			const requirement = options.getString('requirement') ?? undefined;
+			const claimTime = options.getString('claim-time') ?? undefined;
+			const notes = options.getString('notes') ?? undefined;
 			const end = duration ? Date.now() + duration * durationUnit : undefined;
 			if (winnerCount && (winnerCount < 1 || winnerCount > 5)) {
 				return interaction.reply({
@@ -183,6 +209,8 @@ export const command: Command = {
 					winnerCount,
 					sponsor,
 					requirement,
+					claimTime,
+					notes,
 				})
 				.then(() =>
 					interaction.reply({ embeds: [success('Giveaway edited!')] }),

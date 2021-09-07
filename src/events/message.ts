@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { Message, MessageEmbed } from 'discord.js';
 import { Event } from '../typings/event';
-import { devs, token } from '../config.json';
+import { devs, token, testing } from '../config.json';
 import { REST } from '@discordjs/rest';
 import { Routes } from 'discord-api-types/v9';
 export const event: Event = {
@@ -9,10 +9,11 @@ export const event: Event = {
 	async run(client, message: Message) {
 		if (message.author.bot) return;
 		await client.automod.run(message);
-		if (message.content === '=deploy' && devs.includes(message.author.id)) {
+		const isProd = process.argv0.includes('heroku');
+		if (message.content === (isProd ? '=' : '+') + 'deploy' && devs.includes(message.author.id)) {
 			if (!client.user || !message.guild) return;
 			const commands = client.commands.map(({ run, allowed, cooldown, ...data }) => data);
-			const rest = new REST({ version: '9' }).setToken(token);
+			const rest = new REST({ version: '9' }).setToken(isProd ? token : testing);
 			const start = Date.now();
 			const msg = await message.channel.send('Refreshing slash commands...');
 			try {
@@ -28,9 +29,9 @@ export const event: Event = {
 				await msg.edit(`Failed to refresh commands:\n${e}`);
 			}
 		}
-		if (message.content === '=deploy rm' && devs.includes(message.author.id)) {
+		if (message.content === (isProd ? '=' : '+') + 'deploy rm' && devs.includes(message.author.id)) {
 			if (!client.user || !message.guild) return;
-			const rest = new REST({ version: '9' }).setToken(token);
+			const rest = new REST({ version: '9' }).setToken(isProd ? token : testing);
 			try {
 				await rest.put(
 					Routes.applicationGuildCommands(client.user?.id, message.guild.id),

@@ -13,6 +13,8 @@ export interface GiveawayData {
   host: string;
   sponsor?: string;
   requirement?: string;
+	notes?: string;
+	claimTime?: string;
   winners?: string[];
 }
 
@@ -29,6 +31,8 @@ export interface CreateData {
   ended?: boolean;
   entries?: string[];
   requirement?: string;
+	notes?: string;
+	claimTime?: string;
   winners?: string[];
 }
 
@@ -45,6 +49,8 @@ export interface UpdateData {
   ended?: boolean;
   entries?: string[];
   requirement?: string;
+	notes?: string;
+	claimTime?: string;
   winners?: string[];
 }
 
@@ -91,6 +97,8 @@ const schema = new Schema({
 	},
 	sponsor: String,
 	requirement: String,
+	notes: String,
+	claimTime: String,
 	winners: [String],
 });
 

@@ -1,7 +1,7 @@
 import { Client as DJSClient, ClientOptions, Collection, Message } from 'discord.js';
 import { Command } from '../typings/command';
 import { Event } from '../typings/event';
-import { token, db } from '../config.json';
+import { token, testing, db } from '../config.json';
 import { search } from './utils';
 import { EconomyManager } from '../managers/economyManager';
 import { ModlogManager } from '../managers/modlogManager';
@@ -45,7 +45,7 @@ export class Client extends DJSClient {
 			useNewUrlParser: true,
 			useUnifiedTopology: true,
 		});
-		this.login(token);
+		this.login(process.argv0.includes('heroku') ? token : testing);
 		const commandNames: string[] = await search(
 			`${__dirname}/../commands/**/**/*{.js,.ts}`,
 		);

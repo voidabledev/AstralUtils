@@ -19,6 +19,7 @@ const data = {
 		['Alternative Accounts', 'No malicious usage of alternative accounts, especially if used to evade punishments or get more entries on giveaways. If caught, you will be punished.'],
 		['No Impersonation', 'Impersonation of people/bots with profile pictures/names isn\'t allowed.'],
 		['Interfering Moderators', 'No interfering with moderators\' duties. This includes not arguing with them while they actively moderate, not trolling with fake evidence and not misinforming other users with false information.'],
+		['Toxicity', 'Keep swearing at a minimum. Directly swearing at someone is not allowed. Any forms of slurs and general toxicity is not allowed.'],
 		['No Earrape', 'Do not cause annoying, loud, or high pitched noises. This includes using music bots to do so, or by screaming/yelling into your microphone.'],
 		['Voice Changers', 'Do not use voice changers, soundboards, or other related programs to alter your voice, unless others are fine with it.'],
 		['Background Noise', 'No loud or obnoxious background noise. Please mute your microphone, or use push to talk if needed.'],
