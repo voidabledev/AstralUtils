@@ -45,7 +45,7 @@ export const command: Command = {
 					.setFooter(`Closed by ${interaction.user.tag}`)
 					.setTimestamp(),
 				],
-			});
+			}).catch(() => null);
 			await client.modmail.close(interaction.channel.id);
 			await interaction.channel.delete();
 		}, time);

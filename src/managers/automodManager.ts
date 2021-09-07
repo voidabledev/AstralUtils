@@ -33,13 +33,13 @@ export class AutomodManager {
 							if (message.content.toLowerCase().trim() === t.name) throw null;
 							return false;
 						case 'attachment':
-							return message.attachments.some(
-								(a) => a.name?.toLowerCase()?.endsWith(t.name) ?? false,
+							return !message.attachments.every(
+								(a) => data.triggers.some((t2) => a.name?.toLowerCase()?.endsWith(t.name) ?? false),
 							);
 						case 'except attachment':
 							if (
-								message.attachments.some(
-									(a) => a.name?.toLowerCase()?.endsWith(t.name) ?? false,
+								!message.attachments.every(
+									(a) => data.triggers.some((t2) => a.name?.toLowerCase()?.endsWith(t2.name) ?? false),
 								)
 							) {
 								throw null;

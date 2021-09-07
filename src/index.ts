@@ -20,4 +20,8 @@ const client = new Client({
 	},
 });
 
+process.on('unhandledRejection', async (reason: Error, promise: Promise<unknown>) => {
+	console.error('Unhandled promise rejection at: ', promise, 'Reason: ', reason);
+});
+
 client.start();
