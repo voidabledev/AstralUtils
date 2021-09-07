@@ -34,7 +34,7 @@ export class AutomodManager {
 							return false;
 						case 'attachment':
 							return !message.attachments.every(
-								(a) => data.triggers.some((t2) => a.name?.toLowerCase()?.endsWith(t.name) ?? false),
+								(a) => data.triggers.some((t2) => a.name?.toLowerCase()?.endsWith(t2.name) ?? false),
 							);
 						case 'except attachment':
 							if (
