@@ -26,7 +26,7 @@ export const command: Command = {
 		},
 	],
 	async run(interaction, options, client) {
-		const time = Math.max(options.getInteger('timeout') ?? 0, 0) * (options.getInteger('timeoutUnit') ?? 1000);
+		const time = Math.max(options.getInteger('timeout') ?? 0, 0) * (options.getInteger('timeout-unit') ?? 1000);
 		const modmail = client.modmail.getByChannel(interaction.channel.id);
 		if (!modmail) {
 			return interaction.reply({
