@@ -21,7 +21,7 @@ export const command: Command = {
 				{ name: 'Second(s)', value: 1000 },
 				{ name: 'Minute(s)', value: 1000 * 60 },
 				{ name: 'Hour(s)', value: 1000 * 60 * 60 },
-				{ name: 'Day(s)', value: 1000 * 60 * 24 },
+				{ name: 'Day(s)', value: 1000 * 60 * 60 * 24 },
 			],
 		},
 	],
