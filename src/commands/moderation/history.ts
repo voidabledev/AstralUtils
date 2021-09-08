@@ -5,7 +5,7 @@ import { fail, pageMenu, parsePages } from '../../structures/embeds';
 import { MessageEmbed, Permissions } from 'discord.js';
 
 export const command: Command = {
-	name: 'search',
+	name: 'history',
 	description: 'Search all punishments a user has.',
 	category: 'Staff',
 	options: [
