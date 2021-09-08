@@ -8,6 +8,7 @@ import { MessageEmbed, Permissions } from 'discord.js';
 export const command: Command = {
 	name: 'searchstaff',
 	description: 'Search all punishments a staff member has.',
+	category: 'Staff',
 	options: [
 		{
 			name: 'user',

@@ -12,6 +12,7 @@ import { ApplicationCommandOptionType as Options } from 'discord-api-types/v9';
 export const command: Command = {
 	name: 'ban',
 	description: 'Bans a user.',
+	category: 'Staff',
 	options: [
 		{
 			type: Options.User,

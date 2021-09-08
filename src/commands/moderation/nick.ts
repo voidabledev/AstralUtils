@@ -14,6 +14,7 @@ import { ApplicationCommandOptionType as Options } from 'discord-api-types/v9';
 export const command: Command = {
 	name: 'nick',
 	description: 'Changes a user\'s nickname.',
+	category: 'Staff',
 	options: [
 		{
 			type: Options.User,

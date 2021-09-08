@@ -6,6 +6,7 @@ import { ApplicationCommandOptionType as Options } from 'discord-api-types/v9';
 export const command: Command = {
 	name: 'call-all-staff',
 	description: 'Pings all staff members. Useful only in case of emergency.',
+	category: 'Utilities',
 	options: [
 		{
 			name: 'text',

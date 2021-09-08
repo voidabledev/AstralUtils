@@ -5,6 +5,7 @@ import { MessageEmbed } from 'discord.js';
 export const command: Command = {
 	name: 'membercount',
 	description: 'View the server\'s member count.',
+	category: 'Utilities',
 	async run(interaction, options, client) {
 		if (!interaction.guild) return;
 		await interaction.guild.members.fetch();

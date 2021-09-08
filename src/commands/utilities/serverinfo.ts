@@ -5,6 +5,7 @@ import { MessageEmbed } from 'discord.js';
 export const command: Command = {
 	name: 'serverinfo',
 	description: 'View information about this server.',
+	category: 'Utilities',
 	async run(interaction, options, client) {
 		if (!interaction.guild) return;
 		await interaction.guild.members.fetch();

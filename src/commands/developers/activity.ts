@@ -8,6 +8,7 @@ import * as Client from '../../structures/client';
 export const command: Command = {
 	name: 'activity',
 	description: 'Sets the bot\'s status.',
+	category: 'Developers',
 	options: [
 		{
 			type: Options.String,

@@ -7,6 +7,7 @@ import { success, fail } from '../../structures/embeds';
 export const command: Command = {
 	name: 'sell',
 	description: 'Sells an item for 75% of its original price.',
+	category: 'Economy',
 	options: [
 		{
 			type: Options.String,

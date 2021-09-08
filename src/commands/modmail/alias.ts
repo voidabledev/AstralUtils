@@ -6,7 +6,6 @@ import {
 } from 'discord.js';
 import { success, fail, confirm } from '../../structures/embeds';
 import { ApplicationCommandOptionType as Options } from 'discord-api-types/v9';
-
 const aliases = [
 	{
 		name: 'Assist',
@@ -41,6 +40,7 @@ const aliases = [
 export const command: Command = {
 	name: 'alias',
 	description: 'Use and view shortcuts for interacting in a modmail thread.',
+	category: 'Modmail',
 	options: [
 		{
 			type: Options.Subcommand,

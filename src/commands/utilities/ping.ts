@@ -4,6 +4,7 @@ import { Command } from '../../typings/command';
 export const command: Command = {
 	name: 'ping',
 	description: 'Gets the bot\'s ping.',
+	category: 'Utilities',
 	async run(interaction, options, client) {
 		await interaction.reply({
 			content: `🏓 Pong! ${client.ws.ping}ms.`,

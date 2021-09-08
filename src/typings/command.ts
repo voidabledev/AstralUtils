@@ -10,6 +10,8 @@ export interface Command {
 	name: string;
 	/** A description for the command, displayed in the command menu. */
 	description: string;
+  /** The command's category. */
+  category: string;
 	/** A cooldown per user, in milliseconds. */
 	cooldown?: number;
 	/** Options the user can or must specify. */

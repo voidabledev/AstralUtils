@@ -6,6 +6,7 @@ import { TextChannel } from 'discord.js';
 export const command: Command = {
 	name: 'claim',
 	description: 'Claim a modmail thread.',
+	category: 'Modmail',
 	async run(interaction, options, client) {
 		const modmail = client.modmail.getByChannel(interaction.channel.id);
 		if (!modmail) {

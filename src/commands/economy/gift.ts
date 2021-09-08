@@ -7,6 +7,7 @@ import { success, fail } from '../../structures/embeds';
 export const command: Command = {
 	name: 'gift',
 	description: 'Gives an item you have in your inventory to someone else.',
+	category: 'Economy',
 	options: [
 		{
 			type: Options.User,

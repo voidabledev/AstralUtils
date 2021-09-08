@@ -14,6 +14,7 @@ import { ApplicationCommandOptionType as Options } from 'discord-api-types/v9';
 export const command: Command = {
 	name: 'purge',
 	description: 'Bulk deletes messages in the current channel.',
+	category: 'Staff',
 	options: [
 		{
 			type: Options.Integer,

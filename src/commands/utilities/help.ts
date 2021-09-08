@@ -6,6 +6,7 @@ import { MessageEmbed } from 'discord.js';
 export const command: Command = {
 	name: 'help',
 	description: 'View a list of commands.',
+	category: 'Utilities',
 	async run(interaction, options, client) {
 		const embed = new MessageEmbed()
 			.setAuthor(interaction.user.tag, interaction.user.displayAvatarURL({ dynamic: true }))
@@ -14,12 +15,23 @@ export const command: Command = {
 			.setTimestamp()
 			.setColor('RANDOM')
 			.addFields(
-				readdirSync(`${__dirname}/..`).map((c) => {
-					return {
-						name: `${c.charAt(0).toUpperCase()}${c.slice(1)}`,
-						value: '`' + readdirSync(`${__dirname}/../${c}`).map((f) => f.split('.')[0]).join(', ') + '`',
-					};
-				}),
+				readdirSync(`${__dirname}/..`).map(
+					(value: string) => {
+						return {
+							name: `${value[0].toUpperCase() + value.slice(1).toLowerCase()} [${
+								client.commands.filter(
+									(cmd: Command) =>
+										command.category.toLowerCase() == value.toLowerCase(),
+								).size
+							}]`,
+							value: client.commands
+								.filter(
+									(cmd: Command) => cmd.category.toLowerCase() == value.toLowerCase(),
+								)
+								.map((cmd: Command) => `\`${cmd.name}\``)
+								.join(', '),
+						};
+					}),
 			);
 		interaction.reply({
 			embeds: [embed],

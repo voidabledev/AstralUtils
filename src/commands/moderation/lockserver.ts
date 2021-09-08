@@ -26,6 +26,7 @@ const locked = new Collection<string, GuildChannel>();
 export const command: Command = {
 	name: 'lockserver',
 	description: 'Lock the server down.',
+	category: 'Staff',
 	options: [
 		{
 			type: Options.String,

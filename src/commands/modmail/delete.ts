@@ -11,6 +11,7 @@ import { ApplicationCommandOptionType as Options } from 'discord-api-types/v9';
 export const command: Command = {
 	name: 'delete',
 	description: 'Deletes a previously sent message in a modmail thread.',
+	category: 'Modmail',
 	options: [
 		{
 			type: Options.String,

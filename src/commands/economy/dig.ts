@@ -55,6 +55,7 @@ const outcomes: NormalOutCome[] = [
 export const command: Command = {
 	name: 'dig',
 	description: 'Use your shovel to dig for items inside the ground.',
+	category: 'Economy',
 	cooldown: 30000,
 	async run(interaction, options, client) {
 		const profile = client.economy.getProfile(interaction.user.id);
