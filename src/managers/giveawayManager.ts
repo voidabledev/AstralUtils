@@ -363,6 +363,10 @@ export class GiveawayManager {
 				const rerolls = row.components
 					.filter((c) => c instanceof MessageButton && c.style === 'PRIMARY')
 					.map((c) => c.customId?.replace('reroll-select-', ''));
+				if (!rerolls.length) {
+					collector?.stop();
+					return;
+				}
 				const winners =
 					giveaway.winners?.filter((e) => !rerolls.includes(e)) ?? [];
 				const mentions: string[] = [];
@@ -377,28 +381,17 @@ export class GiveawayManager {
 				}
 				const gEmbed = new MessageEmbed()
 					.setAuthor(`${giveaway.prize}`)
-					.setDescription('This giveaway has **ended**.')
-					.addFields(
-						{
-							name: 'Giveaway Info',
-							value: `**Hosted by:** <@${giveaway.host}>\n${
-								giveaway.sponsor
-									? `**Sponsored by:** <@${giveaway.sponsor}>\n`
-									: ''
-							}**Ended:** <t:${Math.floor(
-								Date.now() / 1000,
-							)}:R>\n **Winners:** ${winners.map((w) => `<@${w}>`).join(', ')}`,
-						},
-						{
-							name: 'Requirement Info',
-							value: `${giveaway.requirement ?? 'None'}`,
-							inline: true,
-						},
+					.setDescription(
+						`**Ended:** <t:${Math.floor(giveaway.end / 1000)}:R>.\n**Host:** <@${giveaway.host}>\n${
+							giveaway.sponsor ? `**Sponsor:** <@${giveaway.sponsor}>\n` : ''
+						}**Requirement:** ${
+							giveaway.requirement ?? 'None'
+						}\n**Claim Time:** ${giveaway.claimTime ?? 'Automatic'}\n${
+							giveaway.notes ? `**Notes:** ${giveaway.notes}\n` : ''
+						}\n**Winners:** <@${winners.join('>, <@')}>`,
 					)
-					.setFooter(
-						`Message ID: ${message.id} | Winners: ${giveaway.winnerCount}`,
-					)
-					.setColor('RED');
+					.setFooter(`${giveaway.entries.length} Entries | ${giveaway.winnerCount} Winner${giveaway.winnerCount > 1 ? 's' : ''}`)
+					.setColor('RANDOM');
 				await message.edit({ embeds: [gEmbed] });
 				const gRow = new MessageActionRow().addComponents(
 					new MessageButton()
@@ -411,15 +404,13 @@ export class GiveawayManager {
 						.setLabel(`${giveaway.entries.length + winners.length} entries`),
 				);
 				await channel.send({
-					content: `Congratulations ${mentions.join(', ')}, you have won **${
-						giveaway.prize
-					}**!`,
+					content: `The new winners are ${mentions.join(', ')}, congratulations!`,
 					components: [gRow],
 				});
 				await giveawayModel.updateOne({ messageId }, { winners });
 				collectors.forEach((c) => c?.stop());
 				cancel?.stop();
-				setTimeout(() => collector?.stop(), 2000);
+				setTimeout(() => collector?.stop(), 1000);
 				resolve();
 			});
 			collector?.on('end', () => reject());

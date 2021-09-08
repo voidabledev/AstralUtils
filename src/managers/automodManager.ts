@@ -111,6 +111,7 @@ export class AutomodManager {
 						'831996540436086884',
 						'831996541501308939',
 						'837431285051031572',
+						'831996545569652766',
 					].includes(message.channelId)
 				);
 			},
