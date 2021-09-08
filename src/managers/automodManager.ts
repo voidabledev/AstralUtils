@@ -21,9 +21,9 @@ export class AutomodManager {
 					data.triggers.some((t) => {
 						switch (t.type) {
 						case 'includes':
-							return message.content.toLowerCase().trim().includes(t.name);
+							return message.content.toLowerCase().replaceAll(/\s/g, '').includes(t.name);
 						case 'except includes':
-							if (message.content.toLowerCase().trim().includes(t.name)) {
+							if (message.content.toLowerCase().replaceAll(/\s/g, '').includes(t.name)) {
 								throw null;
 							}
 							return false;
