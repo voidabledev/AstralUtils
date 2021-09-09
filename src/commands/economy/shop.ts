@@ -7,7 +7,6 @@ import { success, fail, parsePages, pageMenu } from '../../structures/embeds';
 export const command: Command = {
 	name: 'shop',
 	description: 'Show all items available in the shop, or details on a specific item.',
-	category: 'Economy',
 	options: [
 		{
 			type: Options.String,

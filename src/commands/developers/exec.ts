@@ -9,7 +9,6 @@ import { exec } from 'child_process';
 export const command: Command = {
 	name: 'exec',
 	description: 'Executes shell code [Developers only]',
-	category: 'Developers',
 	options: [
 		{
 			type: Options.String,

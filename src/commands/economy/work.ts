@@ -40,7 +40,6 @@ const outcomes: WorkOutCome[] = [
 export const command: Command = {
 	name: 'work',
 	description: 'Work to get some money.',
-	category: 'Economy',
 	cooldown: 60_000 * 30,
 	async run(interaction, options, client) {
 		const order = outcomes.sort(() => 0.5 - Math.random());

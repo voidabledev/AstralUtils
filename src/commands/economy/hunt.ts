@@ -50,7 +50,6 @@ const outcomes: NormalOutCome[] = [
 export const command: Command = {
 	name: 'hunt',
 	description: 'Hunt animals in the forest.',
-	category: 'Economy',
 	cooldown: 30000,
 	async run(interaction, options, client) {
 		const profile = client.economy.getProfile(interaction.user.id);

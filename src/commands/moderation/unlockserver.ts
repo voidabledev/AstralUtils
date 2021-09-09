@@ -29,7 +29,6 @@ const locked = new Collection<string, GuildChannel>();
 export const command: Command = {
 	name: 'unlockserver',
 	description: 'End a server lockdown.',
-	category: 'Staff',
 	options: [
 		{
 			type: Options.String,

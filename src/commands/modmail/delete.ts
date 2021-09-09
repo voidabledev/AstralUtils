@@ -1,17 +1,11 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-// TODO: fix this [throws api error: unknown channel]
 import { Command } from '../../typings/command';
-import {
-	MessageEmbed,
-	TextBasedChannels,
-} from 'discord.js';
 import { success, fail, confirm } from '../../structures/embeds';
 import { ApplicationCommandOptionType as Options } from 'discord-api-types/v9';
 
 export const command: Command = {
 	name: 'delete',
 	description: 'Deletes a previously sent message in a modmail thread.',
-	category: 'Modmail',
 	options: [
 		{
 			type: Options.String,

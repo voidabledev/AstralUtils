@@ -6,7 +6,6 @@ import { MessageEmbed } from 'discord.js';
 export const command: Command = {
 	name: 'balance',
 	description: 'Shows your balance, or the balance of another user.',
-	category: 'Economy',
 	options: [
 		{
 			type: Options.User,

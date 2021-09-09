@@ -12,7 +12,6 @@ import { ApplicationCommandOptionType as Options } from 'discord-api-types/v9';
 export const command: Command = {
 	name: 'reply',
 	description: 'Replies to a modmail thread.',
-	category: 'Modmail',
 	options: [
 		{
 			type: Options.String,

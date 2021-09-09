@@ -6,7 +6,6 @@ import { ApplicationCommandOptionType as Options } from 'discord-api-types/v9';
 export const command: Command = {
 	name: 'userinfo',
 	description: 'Get information on a user.',
-	category: 'Utilities',
 	options: [
 		{
 			type: Options.User,

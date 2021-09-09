@@ -7,7 +7,6 @@ import { GuildMember } from 'discord.js';
 export const command: Command = {
 	name: 'afk',
 	description: 'Marks you as AFK.',
-	category: 'Utilities',
 	options: [
 		{
 			type: Options.String,

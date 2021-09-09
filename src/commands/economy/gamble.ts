@@ -7,7 +7,6 @@ import { success, fail } from '../../structures/embeds';
 export const command: Command = {
 	name: 'gamble',
 	description: 'Play a gambling game.',
-	category: 'Economy',
 	options: [
 		{
 			type: Options.Integer,

@@ -7,7 +7,6 @@ import { success, fail, confirm } from '../../structures/embeds';
 export const command: Command = {
 	name: 'unban',
 	description: 'Unans a user.',
-	category: 'Staff',
 	options: [
 		{
 			type: Options.User,

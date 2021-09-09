@@ -8,7 +8,6 @@ import { ApplicationCommandOptionType as Options } from 'discord-api-types/v9';
 export const command: Command = {
 	name: 'unlock',
 	description: 'Unlock a channel.',
-	category: 'Staff',
 	options: [
 		{
 			type: Options.Channel,

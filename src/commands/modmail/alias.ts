@@ -40,7 +40,6 @@ const aliases = [
 export const command: Command = {
 	name: 'alias',
 	description: 'Use and view shortcuts for interacting in a modmail thread.',
-	category: 'Modmail',
 	options: [
 		{
 			type: Options.Subcommand,

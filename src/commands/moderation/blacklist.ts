@@ -12,7 +12,6 @@ import { ApplicationCommandOptionType as Options } from 'discord-api-types/v9';
 export const command: Command = {
 	name: 'blacklist',
 	description: 'Blocks a user from using any commands, participating in giveaways, and using modmail.',
-	category: 'Staff',
 	options: [
 		{
 			type: Options.User,

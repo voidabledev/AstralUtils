@@ -13,7 +13,6 @@ import { ApplicationCommandOptionType as Options } from 'discord-api-types/v9';
 export const command: Command = {
 	name: 'logs',
 	description: 'Search or view modmail logs.',
-	category: 'Modmail',
 	options: [
 		{
 			type: Options.Subcommand,

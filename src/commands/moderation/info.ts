@@ -44,7 +44,6 @@ const data = {
 export const command: Command = {
 	name: 'info',
 	description: 'Displays server information.',
-	category: 'Staff',
 	options: [
 		{
 			type: Options.Subcommand,

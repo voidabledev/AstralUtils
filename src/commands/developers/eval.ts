@@ -9,7 +9,6 @@ import { transpileModule, ScriptTarget } from 'typescript';
 export const command: Command = {
 	name: 'eval',
 	description: 'Evaluates TS code [Developers only]',
-	category: 'Developers',
 	options: [
 		{
 			type: Options.String,

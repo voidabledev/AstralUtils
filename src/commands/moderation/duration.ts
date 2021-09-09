@@ -7,7 +7,6 @@ import { ApplicationCommandOptionType as Options } from 'discord-api-types/v9';
 export const command: Command = {
 	name: 'duration',
 	description: 'Change a punishment\'s duration.',
-	category: 'Staff',
 	options: [
 		{
 			type: Options.String,

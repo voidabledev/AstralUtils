@@ -7,7 +7,6 @@ import { MessageEmbed, Permissions } from 'discord.js';
 export const command: Command = {
 	name: 'case',
 	description: 'View information on a moderation case.',
-	category: 'Staff',
 	options: [
 		{
 			name: 'punish-id',

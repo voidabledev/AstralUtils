@@ -6,7 +6,6 @@ import { MessageEmbed } from 'discord.js';
 export const command: Command = {
 	name: 'inventory',
 	description: 'Shows your inventory, or the inventory of another user.',
-	category: 'Economy',
 	options: [
 		{
 			type: Options.User,

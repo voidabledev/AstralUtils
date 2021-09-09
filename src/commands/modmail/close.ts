@@ -7,7 +7,6 @@ import { ApplicationCommandOptionType as Options } from 'discord-api-types/v9';
 export const command: Command = {
 	name: 'close',
 	description: 'Closes a modmail thread.',
-	category: 'Modmail',
 	options: [
 		{
 			type: Options.Integer,

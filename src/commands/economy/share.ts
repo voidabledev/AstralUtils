@@ -7,7 +7,6 @@ import { success, fail } from '../../structures/embeds';
 export const command: Command = {
 	name: 'share',
 	description: 'Give coins from your wallet to someone else.',
-	category: 'Economy',
 	options: [
 		{
 			type: Options.User,

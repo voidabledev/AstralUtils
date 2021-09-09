@@ -7,7 +7,6 @@ import { success, fail } from '../../structures/embeds';
 export const command: Command = {
 	name: 'giveaway',
 	description: 'Creates a giveaway.',
-	category: 'Giveaways',
 	options: [
 		{
 			name: 'create',
