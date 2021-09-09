@@ -114,25 +114,39 @@ export class GiveawayManager {
 			messageId,
 		});
 		if (!giveaway) throw new Error('GiveawayError: Unknown giveaway');
+		let entered = true;
 		if (giveaway.entries.includes(userId)) {
-			return 'You have already entered this giveaway!';
-		}
-		giveaway.entries.push(userId);
-		await giveawayModel.updateOne(
-			{
-				messageId,
-			},
-			{
-				$push: {
-					entries: userId,
+			giveaway.entries = giveaway.entries.filter((u) => u !== userId);
+			await giveawayModel.updateOne(
+				{
+					messageId,
 				},
-			},
-		);
+				{
+					$pull: {
+						entries: userId,
+					},
+				},
+			);
+			entered = false;
+		}
+		else {
+			giveaway.entries.push(userId);
+			await giveawayModel.updateOne(
+				{
+					messageId,
+				},
+				{
+					$push: {
+						entries: userId,
+					},
+				},
+			);
+		}
 		const message = await (<TextBasedChannels>this._client.channels.cache.get(giveaway.channelId)).messages.fetch(messageId);
 		await message.edit({
 			embeds: [message.embeds[0].setFooter(`${giveaway.entries.length} Entries | ${giveaway.winnerCount} Winners`)],
 		});
-		return 'Entered!';
+		return entered ? 'You have successfully entered this giveaway.' : 'Your entry for this giveaway has been removed.';
 	}
 	async end(messageId: string): Promise<Giveaway> {
 		const giveaway = await giveawayModel.findOne({ messageId });

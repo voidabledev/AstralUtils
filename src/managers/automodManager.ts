@@ -214,14 +214,10 @@ export class AutomodManager {
 		},
 		{
 			triggers: [
-				'bitch',
-				'b!tch',
-				'b1tch',
 				'dick',
 				'd1ck',
 				'd!ck',
 				'cum',
-				'pussy',
 				'penis',
 				'p3nis',
 				'pen1s',

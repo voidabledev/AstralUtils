@@ -29,13 +29,10 @@ export const event: Event = {
 				interaction.customId.replace('enter-giveaway-', ''),
 				interaction.user.id,
 			);
-			if (msg === 'Entered!') {
-				return await interaction.reply({
-					embeds: [success(msg)],
-					ephemeral: true,
-				});
-			}
-			return await interaction.reply({ embeds: [fail(msg)], ephemeral: true });
+			return interaction.reply({
+				embeds: [success(msg)],
+				ephemeral: true,
+			});
 		}
 		if (interaction.customId.startsWith('reroll-giveaway-')) {
 			client.giveaways

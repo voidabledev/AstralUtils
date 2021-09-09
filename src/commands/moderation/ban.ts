@@ -55,7 +55,7 @@ export const command: Command = {
 		const reason = options.getString('reason', true);
 		const time = options.getInteger('time');
 		const timeUnit = options.getInteger('time-unit') ?? 60000;
-		const member = await interaction.guild?.members.fetch(user.id);
+		const member = await interaction.guild?.members.fetch(user.id).catch((): undefined => undefined);
 		if (member?.bannable === false) {
 			return interaction.reply({
 				embeds: [fail('I can\'t ban this user!')],

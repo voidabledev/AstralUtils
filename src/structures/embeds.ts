@@ -29,6 +29,7 @@ export async function confirm(
 	interaction: CommandInteraction,
 	prompt: string,
 	ephemeral?: boolean,
+	user?: string,
 ): Promise<void> {
 	const replyFn =
 		interaction.deferred || interaction.replied ? 'editReply' : 'reply';
@@ -57,9 +58,9 @@ export async function confirm(
 	const message = ephemeral ? null : (await interaction.fetchReply()) as Message;
 
 	const confirmFilter = (i: ButtonInteraction) =>
-		i.user.id === interaction.user.id && i.customId === `confirm-${id}`;
+		i.user.id === (user ?? interaction.user.id) && i.customId === `confirm-${id}`;
 	const cancelFilter = (i: ButtonInteraction) =>
-		i.user.id === interaction.user.id && i.customId === `cancel-${id}`;
+		i.user.id === (user ?? interaction.user.id) && i.customId === `cancel-${id}`;
 
 	// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 	const confirmCollector = (message ?? interaction.channel!).createMessageComponentCollector({
