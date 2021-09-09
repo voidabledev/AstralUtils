@@ -14,7 +14,7 @@ export class AutomodManager {
 	async run(message: Message): Promise<void> {
 		const spam = this._spam.get(message.author.id) ?? [];
 		spam.push(message);
-		this._spam.set(message.author.id, spam.filter((m) => m.createdTimestamp + 2000 > Date.now()));
+		this._spam.set(message.author.id, spam.filter((m) => m.createdTimestamp + 4000 > Date.now()));
 		for (const data of this._data) {
 			try {
 				if (
@@ -68,7 +68,7 @@ export class AutomodManager {
 		{
 			triggers: [
 				{
-					name: '3',
+					name: '5',
 					type: 'spam',
 				},
 			],

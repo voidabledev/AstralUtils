@@ -20,7 +20,6 @@ export class Client extends DJSClient {
 		deleted: new Collection<string, Message>(),
 		edited: new Collection<string, [Message, Message]>(),
 	}
-  categories = new Set<string>();
 	economy: EconomyManager;
 	modlogs: ModlogManager;
 	giveaways: GiveawayManager;
