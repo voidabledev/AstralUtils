@@ -112,18 +112,12 @@ export class ModlogManager {
 	async delete(punishID: string): Promise<Modlog | undefined> {
 		return (await modlogModel.findOneAndDelete({ punishID })) ?? undefined;
 	}
-	async update(
-		punishID: string,
-		data: UpdateOptions,
-	): Promise<Modlog | undefined> {
+	async update(punishID: string, data: UpdateOptions): Promise<Modlog | undefined> {
 		return (
 			(await modlogModel.findOneAndUpdate({ punishID }, data)) ?? undefined
 		);
 	}
-	async updateOne(
-		inputData: UpdateOptions,
-		updateData: UpdateOptions,
-	): Promise<Modlog | undefined> {
+	async updateOne(inputData: UpdateOptions, updateData: UpdateOptions): Promise<Modlog | undefined> {
 		return (
 			(await modlogModel.findOneAndUpdate(inputData, updateData)) ?? undefined
 		);
@@ -150,8 +144,10 @@ export class ModlogManager {
 			: embed.addField('Moderator', `<@${data.staffID}> (${data.staffID})`);
 		embed
 			.addField('Reason', data.reason)
-			.setTimestamp(data.timestamp)
-			.setColor('RANDOM');
+			.setTimestamp(data.timestamp);
+		if (data.caseType === 'Warn') embed.setColor('YELLOW');
+		if (data.caseType === 'Mute') embed.setColor('ORANGE');
+		if (data.caseType === 'Ban') embed.setColor('RED');
 		const webhooks = await channel.fetchWebhooks();
 		const webhook = webhooks.size
 			? webhooks.first()
