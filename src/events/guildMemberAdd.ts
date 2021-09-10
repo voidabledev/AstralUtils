@@ -5,6 +5,7 @@ export const event: Event = {
 	event: 'guildMemberAdd',
 	once: true,
 	async run(client, member: GuildMember) {
+		if (member.partial) await member.fetch();
 		const userEmbed = new MessageEmbed()
 			.setAuthor('Welcome to Astral Galaxy!', member.guild.iconURL({ dynamic: true }))
 			.setDescription('▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬\n> Welcome to our server. We are a chill and strictly SFW community server. We offer frequent giveaways and events which may include nitro as prizes. Make sure to read the <#831996507116011621> and grab some <#831996509993697310> to get started! Reply to this message if you have any questions, a staff member will be here to assist you.\n▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬\n**Ban Appeal Form:**\n> https://forms.gle/rWqNKMV4GnA6LC5d9\n**Permanent Invite Link:**\n> https://discord.gg/8HnfNaXP9m\n▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬')

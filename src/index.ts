@@ -13,6 +13,7 @@ const client = new Client({
 	partials: [
 		'CHANNEL',
 		'MESSAGE',
+		'USER',
 	],
 	allowedMentions: {
 		parse: ['users', 'roles', 'everyone'],

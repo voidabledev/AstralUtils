@@ -8,8 +8,8 @@ export const command: Command = {
 	description: 'Checks your active warnings.',
 	async run(interaction, options, client) {
 		const user = interaction.guild.members.fetch(interaction.user.id);
-		const punishes = client.modlogs.fetch({ userID: interaction.user.id, isActive: true });
-		if (!(await punishes).length) {
+		const punishes = await client.modlogs.fetch({ userID: interaction.user.id, isActive: true });
+		if (!punishes.length) {
 			return interaction.reply({
 				embeds: [fail('You don\'t have any punishments.')],
 				ephemeral: true,
@@ -22,15 +22,14 @@ export const command: Command = {
 				}),
 				interaction.user.tag,
 				'Punishments')
-			.setDescription(`\`${(await punishes).length}\` punishments found for ${interaction.member}.`)
+			.setDescription(`\`${punishes.length}\` punishments found for ${interaction.member}.`)
 			.setFooter(`User ID: ${interaction.user.id}`)
 			.setColor('RANDOM');
-		(await punishes).forEach((punishment) => {
-			embed.addField(`Punishment ID: ${punishment.punishID}`,
+		punishes.forEach((punishment) => {
+			embed.addField(`<t:${Math.floor(punishment.timestamp / 1000)}:R>`,
 				`- **Reason:** ${punishment
-					.reason}\n- **Staff:** <@${punishment
-					.staffID}>\n- **Expires:** <t:${Math.floor(punishment
-					.timestamp / 1000)}:R>`);
+					.reason}\n- **Expires:** <t:${Math.floor(punishment
+					.expires / 1000)}:R>}`);
 		});
 		interaction.reply({
 			embeds: [embed],
