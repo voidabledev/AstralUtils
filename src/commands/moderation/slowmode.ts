@@ -11,8 +11,7 @@ export const command: Command = {
 		{
 			type: Options.String,
 			name: 'seconds',
-			description: 'The seconds of the slowmode.',
-			required: true,
+			description: 'The amount of seconds to set the slowmode to. Outputs the current slowmode if omitted.',
 		},
 	],
 	async allowed(interaction, client) {
@@ -25,7 +24,7 @@ export const command: Command = {
 		);
 	},
 	async run(interaction, options, client) {
-		const seconds = options.getString('seconds', true);
+		const seconds = options.getString('seconds');
 		if (!seconds) {
 			return interaction.reply({
 				content: `The channel slowmode is \`${(interaction.channel as TextChannel).rateLimitPerUser}\`.`,
@@ -47,16 +46,23 @@ export const command: Command = {
 			pos = 'Head Moderator';
 		}
 		if (pos.length && slowmode > max) {
-			await confirm(interaction, `As a ${pos}, you're restricted to \`${max}\`, are you sure you want to set the slowmode to ${slowmode}?`);
+			try {
+				await confirm(interaction, `As a ${pos}, you're restricted to \`${max}\` seconds. Are you sure you want to set the slowmode to \`${slowmode}\` seconds?`);
+			}
+			catch (e) {
+				return interaction.editReply({ embeds: [fail('Cancelled.')], components: [] });
+			}
 		}
 		(interaction.channel as TextChannel)?.setRateLimitPerUser(slowmode);
 		if (slowmode === 0) {
-			return interaction.reply({
-				content: 'Slowmode has been turned off. Go crazy!',
+			return interaction[~max ? 'editReply' : 'reply']({
+				embeds: [success('Slowmode has been turned off. Go crazy!')],
+				components: [],
 			});
 		}
-		interaction.editReply({
-			content: `Slowmode has been changed to \`${slowmode}\`.`,
+		interaction[~max ? 'editReply' : 'reply']({
+			embeds: [success(`Slowmode has been changed to \`${slowmode}\`.`)],
+			components: [],
 		});
 	},
 };
