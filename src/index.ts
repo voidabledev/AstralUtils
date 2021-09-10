@@ -14,6 +14,7 @@ const client = new Client({
 		'CHANNEL',
 		'MESSAGE',
 		'USER',
+		'GUILD_MEMBER',
 	],
 	allowedMentions: {
 		parse: ['users', 'roles', 'everyone'],
