@@ -3,7 +3,6 @@ import { GuildMember, MessageEmbed } from 'discord.js';
 
 export const event: Event = {
 	event: 'guildMemberAdd',
-	once: true,
 	async run(client, member: GuildMember) {
 		if (member.partial) await member.fetch();
 		const userEmbed = new MessageEmbed()
