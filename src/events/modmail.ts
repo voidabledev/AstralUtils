@@ -58,10 +58,17 @@ export const event: Event = {
 		}
 		if (modmail) {
 			const channel = <TextBasedChannels>(await client.channels.fetch(modmail.channelId));
+			const embed = new MessageEmbed()
+				.setAuthor(message.author.tag, message.author.displayAvatarURL({ dynamic: true }))
+				.setDescription(message.content)
+				.setColor('ORANGE')
+				.setFooter('Message')
+				.setTimestamp();
+			if (message.attachments.first()) embed.setImage(message.attachments.first().proxyURL);
 			const m1 = await channel.send({
-				embeds: [new MessageEmbed().setAuthor(message.author.tag, message.author.displayAvatarURL({ dynamic: true })).setDescription(message.content).setColor('ORANGE').setFooter('Message').setTimestamp()],
+				embeds: [],
 			});
-			await client.modmail.addMessage(channel.id, message.content, [message.id, m1.id], message.author.id);
+			await client.modmail.addMessage(channel.id, message.content + (message.attachments.first() ? `\n\n${message.attachments.first().proxyURL}` : ''), [message.id, m1.id], message.author.id);
 			await message.react('<a:yes:836302807485251674>');
 		}
 		else {

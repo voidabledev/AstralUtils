@@ -37,7 +37,7 @@ export const command: Command = {
 		);
 	},
 	async run(interaction, options, client) {
-		const message = options.getString('message', true);
+		const message = options.getString('message', true).replaceAll('\\n', '\n');
 		const anon = options.getBoolean('anonymous') ?? false;
 		const author = anon && client.user ? client.user : interaction.user;
 		const embed = new MessageEmbed()

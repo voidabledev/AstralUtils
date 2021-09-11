@@ -47,14 +47,21 @@ export const event: Event = {
 				content: category.ping,
 				embeds: [embed],
 			});
+			const embed2 = new MessageEmbed()
+				.setAuthor(interaction.user.tag, interaction.user.displayAvatarURL({ dynamic: true }))
+				.setDescription(message.content)
+				.setColor('ORANGE')
+				.setFooter('Thread Creation')
+				.setTimestamp();
+			if (message.attachments.first()) embed2.setImage(message.attachments.first().proxyURL);
 			const m1 = await channel.send({
-				embeds: [new MessageEmbed().setAuthor(interaction.user.tag, interaction.user.displayAvatarURL({ dynamic: true })).setDescription(message.content).setColor('ORANGE').setFooter('Thread Creation').setTimestamp()],
+				embeds: [embed2],
 			});
 			await client.modmail.create({
 				userId: interaction.user.id,
 				channelId: channel.id,
 				messages: [{
-					content: message.content,
+					content: message.content + (message.attachments.first() ? `\n\n${message.attachments.first().proxyURL}` : ''),
 					messageIds: [message.id, m1.id],
 					author: interaction.user.id,
 				}],

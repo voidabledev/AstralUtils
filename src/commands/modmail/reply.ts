@@ -31,7 +31,7 @@ export const command: Command = {
 		},
 	],
 	async run(interaction, options, client) {
-		const content = options.getString('content', true);
+		const content = options.getString('content', true).replaceAll('\\n', '\n');
 		const anon = options.getBoolean('anon') ?? true;
 		const plain = options.getBoolean('plain') ?? false;
 
