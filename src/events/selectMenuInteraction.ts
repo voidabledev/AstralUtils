@@ -1,4 +1,4 @@
-import { Interaction, MessageEmbed, MessageSelectMenu } from 'discord.js';
+import { Interaction, MessageEmbed } from 'discord.js';
 import { Event } from '../typings/event';
 import { success, fail } from '../structures/embeds';
 import { categories } from './modmail';
