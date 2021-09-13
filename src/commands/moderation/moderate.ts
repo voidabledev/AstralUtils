@@ -5,7 +5,7 @@ import {
 	GuildMember,
 	GuildMemberRoleManager,
 } from 'discord.js';
-import { success, fail, confirm } from '../../structures/embeds';
+import { success, fail } from '../../structures/embeds';
 import { id } from '../../structures/utils';
 import { ApplicationCommandOptionType as Options } from 'discord-api-types/v9';
 

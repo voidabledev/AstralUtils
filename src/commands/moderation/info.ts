@@ -2,7 +2,6 @@
 import { Command } from '../../typings/command';
 import { MessageEmbed, Permissions } from 'discord.js';
 import { ApplicationCommandOptionType as Options } from 'discord-api-types/v9';
-
 const data = {
 	rules: [
 		['Respect', 'Treat everyone in the server with respect, both the staff and the members. Treat everybody how you would want to be treated.'],

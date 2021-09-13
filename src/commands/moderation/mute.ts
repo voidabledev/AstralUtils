@@ -83,6 +83,7 @@ export const command: Command = {
 			`Are you sure you want to mute ${member}? ${
 				createRole ? 'A "Muted" role will be created' : ''
 			}`,
+			true,
 		)
 			.then(async () => {
 				if (createRole) {
@@ -148,10 +149,11 @@ export const command: Command = {
 					isActive: true,
 				});
 				await interaction.editReply({
-					embeds: [
-						success(`${member} has been **muted** | \`${log.punishID}\``),
-					],
+					content: `Successfully muted ${member}.`,
 					components: [],
+				});
+				interaction.channel.send({
+					embeds: [success(`${member} has been muted with case id \`${log.punishID}\`.`)],
 				});
 			})
 			.catch(() => {

@@ -3,7 +3,6 @@ import { Command } from '../../typings/command';
 import { MessageEmbed, Permissions } from 'discord.js';
 import { success, fail } from '../../structures/embeds';
 import { ApplicationCommandOptionType as Options } from 'discord-api-types/v9';
-// eslint-disable-next-line @typescript-eslint/no-empty-function
 
 export const command: Command = {
 	name: 'unlock',
@@ -31,10 +30,8 @@ export const command: Command = {
 	},
 	async run(interaction, options, client) {
 		if (!interaction.inGuild()) return;
-
 		const channel = options.getChannel('channel') ?? interaction.channel;
 		const reason = options.getString('reason') ?? 'No reason specified';
-
 		if (
 			!interaction.guild ||
 			!channel ||
@@ -54,7 +51,6 @@ export const command: Command = {
 			});
 		}
 		if (!channel.isText()) return;
-
 		if (
 			channel
 				.permissionsFor(interaction.guild.roles.everyone)
@@ -65,18 +61,15 @@ export const command: Command = {
 				ephemeral: true,
 			});
 		}
-
 		channel.permissionOverwrites.create(interaction.guild.roles.everyone, {
 			SEND_MESSAGES: true,
 			USE_PUBLIC_THREADS: null,
 			USE_PRIVATE_THREADS: null,
 		});
-
 		await interaction.reply({
 			embeds: [success(`${channel} has been unlocked for \`${reason}\``)],
 			ephemeral: true,
 		});
-
 		const embed = new MessageEmbed()
 			.setTitle('Lockdown')
 			.setDescription(`This channel has been unlocked for:\n\`${reason}\``)

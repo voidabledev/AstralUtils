@@ -6,18 +6,18 @@ import { success, fail, confirm } from '../../structures/embeds';
 
 export const command: Command = {
 	name: 'unban',
-	description: 'Unans a user.',
+	description: 'Unbans a user.',
 	options: [
 		{
 			type: Options.User,
 			name: 'user',
-			description: 'The user to ban.',
+			description: 'The user to unban.',
 			required: true,
 		},
 		{
 			type: Options.String,
 			name: 'reason',
-			description: 'The reason for this unban',
+			description: 'The reason for this unban.',
 			required: true,
 		},
 	],
@@ -43,7 +43,7 @@ export const command: Command = {
 				ephemeral: true,
 			});
 		}
-		await confirm(interaction, `Are you sure you want to unban ${user.tag}?`)
+		await confirm(interaction, `Are you sure you want to unban ${user}?`, true)
 			.then(async () => {
 				await interaction.guild?.members.unban(user, reason);
 				const log = await client.modlogs.set({
@@ -54,10 +54,11 @@ export const command: Command = {
 					caseType: 'Unban',
 				});
 				await interaction.editReply({
-					embeds: [
-						success(`${user.tag} has been **unbanned** | \`${log.punishID}\``),
-					],
+					content: `Successfully unbanned ${user}.`,
 					components: [],
+				});
+				await interaction.channel.send({
+					embeds: [success(`${user} has been unbanned with case id \`${log.punishID}\`.`)],
 				});
 			})
 			.catch(() => {

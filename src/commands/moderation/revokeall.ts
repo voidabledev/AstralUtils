@@ -5,19 +5,19 @@ import { success, fail, confirm } from '../../structures/embeds';
 import { ApplicationCommandOptionType as Options } from 'discord-api-types/v9';
 
 export const command: Command = {
-	name: 'rmpunish',
-	description: 'Removes a punishment.',
+	name: 'revokeall',
+	description: 'Removes all punishments a user has.',
 	options: [
 		{
-			type: Options.String,
-			name: 'punish-id',
-			description: 'The punishment\'s ID',
+			type: Options.User,
+			name: 'user',
+			description: 'The user to revoke punishments for.',
 			required: true,
 		},
 		{
 			type: Options.String,
 			name: 'reason',
-			description: 'The reason for removing this punishment.',
+			description: 'The reason for removing punishments.',
 			required: true,
 		},
 	],
@@ -31,37 +31,36 @@ export const command: Command = {
 		);
 	},
 	async run(interaction, options, client) {
-		const punishID = options.getString('punish-id', true);
+		const user = options.getUser('user', true);
 		const reason = options.getString('reason', true);
-		const log = await client.modlogs.get(punishID);
-		if (!log) {
+		const logs = await client.modlogs.getUser(user.id);
+		if (!logs.length) {
 			return interaction.reply({
-				embeds: [fail('I couldn\'t find a punishment with this ID!')],
+				embeds: [fail('I found no punishments to remove!')],
 			});
 		}
 		await confirm(
 			interaction,
-			`Are you sure you want to remove this punishment?\n\n**Type:** ${log.caseType}\n**Moderator:** <@${log.staffID}> (${log.staffID})\n**User:** <@${log.userID}> (${log.userID})\n**Reason:** ${log.reason}`,
+			`Are you sure you want to revoke all \`${logs.length}\` punishments for ${user}?`,
+			true,
 		)
 			.then(async () => {
-				await client.modlogs.delete(punishID);
+				await client.modlogs.deleteMany(logs.map((l) => l.punishID));
 				await interaction.editReply({
-					embeds: [
-						success(`Removed punishment \`${punishID}\` for \`${reason}\`.`),
-					],
-					components: [],
+					content: `Successfully revoked all punishments from ${user}.`,
+				});
+				interaction.channel.send({
+					embeds: [success(`Removed \`${logs.length}\` punishments for \`${reason}\`.`)],
 				});
 				if (!client.user) return;
 				const logChannel: TextChannel = client.channels.cache.get(
 					'851883465364078632',
 				) as TextChannel;
 				const logEmbed = new MessageEmbed()
-					.setTitle('Punishment Removed')
-					.addField('Removed For', reason)
-					.addField('Type', log.caseType)
-					.addField('Moderator', `<@${log.staffID}> (${log.staffID})`)
-					.addField('User', `<@${log.userID}> (${log.userID})`)
-					.addField('Reason', log.reason)
+					.setTitle('Punishments Removed')
+					.addField('Removed for', reason)
+					.addField('Removed amount', `${logs.length}`)
+					.addField('User', `<@${user.id}> (${user.id})`)
 					.setColor('RANDOM')
 					.setFooter(
 						`Deleted by: ${interaction.user.tag} (${interaction.user.id})`,

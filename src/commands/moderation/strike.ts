@@ -5,7 +5,6 @@ import { confirm, success, fail } from '../../structures/embeds';
 import { strikeModel } from '../../models/strikeModel';
 import {
 	MessageEmbed,
-	Permissions,
 	GuildMemberRoleManager,
 	TextChannel,
 	GuildMember,
@@ -98,6 +97,7 @@ export const command: Command = {
 				await confirm(
 					interaction,
 					`Are you sure you want to strike ${user} for **\`${reason}\`**?`,
+					true,
 				);
 			}
 			catch (e) {
@@ -139,12 +139,11 @@ export const command: Command = {
 			const channel = client.channels.cache.get('831996554763829338');
 			(channel as TextChannel)?.send({ embeds: [logEmbed] });
 			await interaction.editReply({
-				embeds: [
-					success(
-						`${user} has been **striked** | \`${strikeID}\`. ${messaged}`,
-					),
-				],
+				content: `Successfully striked ${user}.`,
 				components: [],
+			});
+			await interaction.channel.send({
+				embeds: [success(`${user} has been striked with strike id \`${strikeID}\`. ${messaged}`)],
 			});
 		}
 		if (subcommand === 'remove') {

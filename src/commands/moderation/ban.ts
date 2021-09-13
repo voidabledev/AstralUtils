@@ -69,7 +69,7 @@ export const command: Command = {
 				embeds: [fail('You can\'t ban a user above you!')],
 			});
 		}
-		await confirm(interaction, `Are you sure you want to ban ${user}?`)
+		await confirm(interaction, `Are you sure you want to ban ${user}?`, true)
 			.then(async () => {
 				const userEmbed = new MessageEmbed()
 					.setAuthor(
@@ -92,9 +92,7 @@ export const command: Command = {
 						embeds: [userEmbed],
 					})
 					.catch(() => null);
-				await interaction.guild?.members.ban(user, {
-					reason,
-				});
+				await interaction.guild?.members.ban(user, { reason });
 				const log = await client.modlogs.set({
 					guildID: (interaction.guild as Guild).id,
 					userID: user.id,
@@ -105,10 +103,11 @@ export const command: Command = {
 					isActive: true,
 				});
 				await interaction.editReply({
-					embeds: [
-						success(`${user} has been **banned** | \`${log.punishID}\``),
-					],
+					content: `Successfully banned ${user}.`,
 					components: [],
+				});
+				await interaction.channel.send({
+					embeds: [success(`${user} has been banned with case id \`${log.punishID}\`.`)],
 				});
 			})
 			.catch(() => {

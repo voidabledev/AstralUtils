@@ -1,13 +1,13 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { Command } from '../../typings/command';
 import {
-	MessageEmbed,
 	Permissions,
 	GuildChannel,
 	Collection,
 } from 'discord.js';
 import { success, fail, confirm } from '../../structures/embeds';
 import { ApplicationCommandOptionType as Options } from 'discord-api-types/v9';
+const locked = new Collection<string, GuildChannel>();
 const ignored = new Set<string>([
 	'831996492347736075',
 	'831996493161824267',
@@ -24,7 +24,6 @@ const ignored = new Set<string>([
 	'846735360050069506',
 	'831996506282131546',
 ]);
-const locked = new Collection<string, GuildChannel>();
 
 export const command: Command = {
 	name: 'unlockserver',
@@ -51,7 +50,6 @@ export const command: Command = {
 		const reason = options.getString('reason', true);
 		if (!interaction.inGuild() || interaction.guild === null) return;
 		const { guild } = interaction;
-
 		await confirm(
 			interaction,
 			'Are you sure you want to unlock the server now?',
@@ -62,7 +60,6 @@ export const command: Command = {
 					embeds: [success('Unlocking the server now... Please wait...')],
 					components: [],
 				});
-
 				guild.channels.cache.forEach((channel) => {
 					if (
 						channel.isThread() ||
@@ -85,7 +82,6 @@ export const command: Command = {
 						`<a:error:849037573912657932> The server has been unlocked for \`${reason}\`. You may talk now.`,
 					);
 				});
-
 				interaction.editReply({
 					embeds: [success(`Unlocked ${locked.size} channels.`)],
 				});

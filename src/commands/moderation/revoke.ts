@@ -5,19 +5,19 @@ import { success, fail, confirm } from '../../structures/embeds';
 import { ApplicationCommandOptionType as Options } from 'discord-api-types/v9';
 
 export const command: Command = {
-	name: 'wipe',
-	description: 'Removes all punishments a user has.',
+	name: 'revoke',
+	description: 'Removes a punishment.',
 	options: [
 		{
-			type: Options.User,
-			name: 'user',
-			description: 'The user to wipe punishments for.',
+			type: Options.String,
+			name: 'punish-id',
+			description: 'The punishment\'s ID',
 			required: true,
 		},
 		{
 			type: Options.String,
 			name: 'reason',
-			description: 'The reason for removing punishments.',
+			description: 'The reason for removing this punishment.',
 			required: true,
 		},
 	],
@@ -31,25 +31,23 @@ export const command: Command = {
 		);
 	},
 	async run(interaction, options, client) {
-		const user = options.getUser('user', true);
+		const punishID = options.getString('punish-id', true);
 		const reason = options.getString('reason', true);
-		const logs = await client.modlogs.getUser(user.id);
-		if (!logs.length) {
+		const log = await client.modlogs.get(punishID);
+		if (!log) {
 			return interaction.reply({
-				embeds: [fail('I found no punishments to remove!')],
+				embeds: [fail('I couldn\'t find a punishment with this ID!')],
 			});
 		}
 		await confirm(
 			interaction,
-			`Are you sure you want to delete all \`${logs.length}\` punishments for ${user}?`,
+			`Are you sure you want to remove this punishment?\n\n**Type:** ${log.caseType}\n**Moderator:** <@${log.staffID}> (${log.staffID})\n**User:** <@${log.userID}> (${log.userID})\n**Reason:** ${log.reason}`,
 		)
 			.then(async () => {
-				await client.modlogs.deleteMany(logs.map((l) => l.punishID));
+				await client.modlogs.delete(punishID);
 				await interaction.editReply({
 					embeds: [
-						success(
-							`Removed \`${logs.length}\` punishments for \`${reason}\`.`,
-						),
+						success(`Removed punishment \`${punishID}\` for \`${reason}\`.`),
 					],
 					components: [],
 				});
@@ -58,10 +56,12 @@ export const command: Command = {
 					'851883465364078632',
 				) as TextChannel;
 				const logEmbed = new MessageEmbed()
-					.setTitle('Punishments Removed')
-					.addField('Removed for', reason)
-					.addField('Removed amount', `${logs.length}`)
-					.addField('User', `<@${user.id}> (${user.id})`)
+					.setTitle('Punishment Removed')
+					.addField('Removed For', reason)
+					.addField('Type', log.caseType)
+					.addField('Moderator', `<@${log.staffID}> (${log.staffID})`)
+					.addField('User', `<@${log.userID}> (${log.userID})`)
+					.addField('Reason', log.reason)
 					.setColor('RANDOM')
 					.setFooter(
 						`Deleted by: ${interaction.user.tag} (${interaction.user.id})`,

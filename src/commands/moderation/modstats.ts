@@ -1,12 +1,11 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { Command } from '../../typings/command';
 import { ApplicationCommandOptionType as Options } from 'discord-api-types/v9';
-import { fail, pageMenu, parsePages } from '../../structures/embeds';
 import { Pattern as Modlog } from '../../models/modlogModel';
 import { MessageEmbed, Permissions } from 'discord.js';
 
 export const command: Command = {
-	name: 'searchstaff',
+	name: 'modstats',
 	description: 'Search all punishments a staff member has.',
 	options: [
 		{

@@ -32,7 +32,6 @@ export const command: Command = {
 				embeds: [fail('I couldn\'t find a punishment with this ID!')],
 			});
 		}
-
 		const embed = new MessageEmbed()
 			.setAuthor(
 				interaction.user.tag,

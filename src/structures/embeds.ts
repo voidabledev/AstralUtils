@@ -48,20 +48,16 @@ export async function confirm(
 			.setStyle('DANGER')
 			.setCustomId(`cancel-${id}`),
 	);
-
 	await interaction[replyFn]({
 		embeds: [promptEmbed],
 		components: [row],
 		ephemeral,
 	});
-
 	const message = ephemeral ? null : (await interaction.fetchReply()) as Message;
-
 	const confirmFilter = (i: ButtonInteraction) =>
 		i.user.id === (user ?? interaction.user.id) && i.customId === `confirm-${id}`;
 	const cancelFilter = (i: ButtonInteraction) =>
 		i.user.id === (user ?? interaction.user.id) && i.customId === `cancel-${id}`;
-
 	// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 	const confirmCollector = (message ?? interaction.channel!).createMessageComponentCollector({
 		filter: confirmFilter,

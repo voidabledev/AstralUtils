@@ -1,15 +1,8 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { Command } from '../../typings/command';
-import {
-	MessageEmbed,
-	Permissions,
-	Guild,
-	GuildMember,
-	GuildMemberRoleManager,
-} from 'discord.js';
-import { success, fail, confirm } from '../../structures/embeds';
+import { MessageEmbed, Permissions } from 'discord.js';
+import { success } from '../../structures/embeds';
 import { ApplicationCommandOptionType as Options } from 'discord-api-types/v9';
-// eslint-disable-next-line @typescript-eslint/no-empty-function
 
 export const command: Command = {
 	name: 'say',

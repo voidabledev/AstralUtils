@@ -4,7 +4,6 @@ import {
 	MessageEmbed,
 	Permissions,
 	Guild,
-	GuildMemberRoleManager,
 } from 'discord.js';
 import { success, fail, confirm } from '../../structures/embeds';
 import { ApplicationCommandOptionType as Options } from 'discord-api-types/v9';
@@ -45,7 +44,7 @@ export const command: Command = {
 				embeds: [fail(`${user} isn't blacklisted!`)],
 			});
 		}
-		await confirm(interaction, `Are you sure you want to unblacklist ${user}?`)
+		await confirm(interaction, `Are you sure you want to unblacklist ${user}?`, true)
 			.then(async () => {
 				const userEmbed = new MessageEmbed()
 					.setAuthor(
@@ -69,10 +68,11 @@ export const command: Command = {
 				});
 				await client.modlogs.update(blacklist.punishID, { isActive: false, expires: new Date().getTime() });
 				await interaction.editReply({
-					embeds: [
-						success(`${user} has been **unblacklisted** | \`${log.punishID}\``),
-					],
+					content: `Successfully unblacklisted ${user}.`,
 					components: [],
+				});
+				await interaction.channel.send({
+					embeds: [success(`${user} has been unblacklisted with case id \`${log.punishID}\`.`)],
 				});
 			})
 			.catch(() => {

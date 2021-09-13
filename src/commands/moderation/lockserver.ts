@@ -1,8 +1,9 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { Command } from '../../typings/command';
-import { MessageEmbed, Permissions, GuildChannel, Collection } from 'discord.js';
+import { Permissions, GuildChannel, Collection } from 'discord.js';
 import { success, fail, confirm } from '../../structures/embeds';
 import { ApplicationCommandOptionType as Options } from 'discord-api-types/v9';
+const locked = new Collection<string, GuildChannel>();
 const ignored = new Set<string>([
 	'831996492347736075',
 	'831996493161824267',
@@ -21,7 +22,6 @@ const ignored = new Set<string>([
 	'870079202882379817',
 	'876401218174459944',
 ]);
-const locked = new Collection<string, GuildChannel>();
 
 export const command: Command = {
 	name: 'lockserver',
@@ -48,14 +48,11 @@ export const command: Command = {
 		const reason = options.getString('reason', true);
 		if (!interaction.inGuild() || interaction.guild === null) return;
 		const { guild } = interaction;
-
 		await confirm(interaction, 'Are you sure you want to lock the server down?', true).then(() => {
-
 			interaction.editReply({
 				embeds: [success('Locking down the server now... Please wait...')],
 				components: [],
 			});
-
 			guild.channels.cache.forEach((channel) => {
 				if (
 					channel.isThread() ||
@@ -78,9 +75,7 @@ export const command: Command = {
 						: `<a:error:849037573912657932> The server is locked down for \`${reason}\`. Please refer to <#831996525864419348> for more information.`,
 				);
 			});
-
 			interaction.editReply({ embeds: [success(`Locked down ${locked.size} channels.`)] });
-
 		})
 			.catch((e) => {
 				console.log(e);

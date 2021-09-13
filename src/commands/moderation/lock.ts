@@ -17,6 +17,7 @@ export const command: Command = {
 			type: Options.String,
 			name: 'reason',
 			description: 'Why this channel has been locked.',
+			required: true,
 		},
 	],
 	async allowed(interaction, client) {
@@ -30,10 +31,8 @@ export const command: Command = {
 	},
 	async run(interaction, options, client) {
 		if (!interaction.inGuild()) return;
-
 		const channel = options.getChannel('channel') ?? interaction.channel;
-		const reason = options.getString('reason') ?? 'No reason specified';
-
+		const reason = options.getString('reason', true) ?? 'No reason specified';
 		if (
 			!interaction.guild ||
 			!channel ||
@@ -53,7 +52,6 @@ export const command: Command = {
 			});
 		}
 		if (!channel.isText()) return;
-
 		if (
 			!channel
 				.permissionsFor(interaction.guild.roles.everyone)
@@ -64,18 +62,15 @@ export const command: Command = {
 				ephemeral: true,
 			});
 		}
-
 		channel.permissionOverwrites.create(interaction.guild.roles.everyone, {
 			SEND_MESSAGES: false,
 			USE_PUBLIC_THREADS: false,
 			USE_PRIVATE_THREADS: false,
 		});
-
 		await interaction.reply({
 			embeds: [success(`${channel} has been locked down for \`${reason}\``)],
 			ephemeral: true,
 		});
-
 		const embed = new MessageEmbed()
 			.setTitle('Lockdown')
 			.setDescription(`This channel has been locked down for:\n\`${reason}\``)

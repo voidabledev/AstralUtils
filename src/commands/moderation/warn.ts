@@ -43,7 +43,7 @@ export const command: Command = {
 				embeds: [fail('You can\'t warn a moderator/admin!')],
 			});
 		}
-		await confirm(interaction, `Are you sure you want to warn ${member}?`)
+		await confirm(interaction, `Are you sure you want to warn ${member}?`, true)
 			.then(async () => {
 				const userEmbed = new MessageEmbed()
 					.setAuthor(
@@ -68,10 +68,11 @@ export const command: Command = {
 					isActive: true,
 				});
 				await interaction.editReply({
-					embeds: [
-						success(`${member} has been **warned** | \`${log.punishID}\``),
-					],
+					content: `Successfully warned ${member}.`,
 					components: [],
+				});
+				await interaction.channel.send({
+					embeds: [success(`${member} has been warned with casd id \`${log.punishID}\`.`)],
 				});
 			})
 			.catch(() => {
