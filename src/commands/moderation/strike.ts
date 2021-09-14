@@ -139,7 +139,7 @@ export const command: Command = {
 			(channel as TextChannel)?.send({ embeds: [logEmbed] });
 			await interaction.editReply({
 				embeds: [success(`${user} has been striked with strike id \`${strikeID}\`. ${messaged}`)],
-				compontents: [],
+				components: [],
 			});
 		}
 		if (subcommand === 'remove') {

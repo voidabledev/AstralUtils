@@ -54,7 +54,7 @@ export const command: Command = {
 					caseType: 'Unban',
 				});
 				await interaction.editReply({
-					embeds: [success(`${user} has been unbanned with case id \`${log.punishID}\`.`)],
+					embeds: [success(`${user} has been unbanned | \`${log.punishID}\`.`)],
 					components: [],
 				});
 			})

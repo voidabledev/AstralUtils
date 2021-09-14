@@ -25,7 +25,7 @@ export const command: Command = {
 		);
 	},
 	async run(interaction, options, client) {
-		const punishID = options.getInteger('punish-id', true).toString();
+		const punishID = options.getString('punish-id', true).toString();
 		const log = await client.modlogs.get(punishID);
 		if (!log) {
 			return interaction.reply({

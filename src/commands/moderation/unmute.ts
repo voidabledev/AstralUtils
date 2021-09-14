@@ -75,11 +75,8 @@ export const command: Command = {
 					caseType: 'Unmute',
 				});
 				await interaction.editReply({
-					content: `Successfully unmuted ${member}.`,
-					components: [],
-				});
-				await interaction.channel.send({
 					embeds: [success(`${member} has been unmuted | \`${log.punishID}\`.`)],
+					components: [],
 				});
 				await client.modlogs.updateOne(
 					{ caseType: 'Mute', userID: member.id, isActive: true },

@@ -67,7 +67,7 @@ export const command: Command = {
 					expires: new Date().getTime() + 1000 * 60 * 60 * 24 * 30,
 					isActive: true,
 				});
-				await interaction.channel.send({
+				await interaction.editReply({
 					embeds: [success(`${member} has been warned | \`${log.punishID}\`.`)],
 					components: [],
 				});
