@@ -9,15 +9,15 @@ export const command: Command = {
 	description: 'Lock a channel.',
 	options: [
 		{
-			type: Options.Channel,
-			name: 'channel',
-			description: 'The channel to lock.',
-		},
-		{
 			type: Options.String,
 			name: 'reason',
 			description: 'Why this channel has been locked.',
 			required: true,
+		},
+		{
+			type: Options.Channel,
+			name: 'channel',
+			description: 'The channel to lock. If omitted, the current channel is selected.',
 		},
 	],
 	async allowed(interaction, client) {
