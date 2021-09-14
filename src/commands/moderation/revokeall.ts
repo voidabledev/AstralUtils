@@ -42,15 +42,12 @@ export const command: Command = {
 		await confirm(
 			interaction,
 			`Are you sure you want to revoke all \`${logs.length}\` punishments for ${user}?`,
-			true,
 		)
 			.then(async () => {
 				await client.modlogs.deleteMany(logs.map((l) => l.punishID));
-				await interaction.editReply({
-					content: `Successfully revoked all punishments from ${user}.`,
-				});
-				interaction.channel.send({
+				interaction.editReply({
 					embeds: [success(`Removed \`${logs.length}\` punishments for \`${reason}\`.`)],
+					components: [],
 				});
 				if (!client.user) return;
 				const logChannel: TextChannel = client.channels.cache.get(

@@ -103,11 +103,8 @@ export const command: Command = {
 					isActive: true,
 				});
 				await interaction.editReply({
-					content: `Successfully banned ${user}.`,
+					embeds: [success(`${user} has been banned | \`${log.punishID}\`.`)],
 					components: [],
-				});
-				await interaction.channel.send({
-					embeds: [success(`${user} has been banned with case id \`${log.punishID}\`.`)],
 				});
 			})
 			.catch(() => {

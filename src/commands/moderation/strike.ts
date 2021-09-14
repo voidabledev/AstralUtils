@@ -97,7 +97,6 @@ export const command: Command = {
 				await confirm(
 					interaction,
 					`Are you sure you want to strike ${user} for **\`${reason}\`**?`,
-					true,
 				);
 			}
 			catch (e) {
@@ -139,11 +138,8 @@ export const command: Command = {
 			const channel = client.channels.cache.get('831996554763829338');
 			(channel as TextChannel)?.send({ embeds: [logEmbed] });
 			await interaction.editReply({
-				content: `Successfully striked ${user}.`,
-				components: [],
-			});
-			await interaction.channel.send({
 				embeds: [success(`${user} has been striked with strike id \`${strikeID}\`. ${messaged}`)],
+				compontents: [],
 			});
 		}
 		if (subcommand === 'remove') {

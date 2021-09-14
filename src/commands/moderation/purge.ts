@@ -130,7 +130,7 @@ export const command: Command = {
 		}
 		await interaction.channel.bulkDelete(messages);
 		return interaction.reply({
-			embeds: [success(`Deleted ${messages.size} messages.`)],
+			embeds: [success(`Deleted ${messages.size} messages from the last ${amount}.`)],
 			ephemeral: true,
 		});
 	},

@@ -11,7 +11,7 @@ export const command: Command = {
 		{
 			name: 'punish-id',
 			description: 'The 10-digit punishment ID.',
-			type: Options.Integer,
+			type: Options.String,
 			required: true,
 		},
 	],

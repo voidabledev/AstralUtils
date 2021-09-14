@@ -7,7 +7,6 @@ export const command: Command = {
 	name: 'warns',
 	description: 'Checks your active warnings.',
 	async run(interaction, options, client) {
-		const user = interaction.guild.members.fetch(interaction.user.id);
 		const punishes = await client.modlogs.fetch({ userID: interaction.user.id, isActive: true });
 		if (!punishes.length) {
 			return interaction.reply({
@@ -22,7 +21,7 @@ export const command: Command = {
 				}),
 				interaction.user.tag,
 				'Punishments')
-			.setDescription(`\`${punishes.length}\` punishments found for ${interaction.member}.`)
+			.setDescription(`Found \`${punishes.length}\` punishments.`)
 			.setFooter(`User ID: ${interaction.user.id}`)
 			.setColor('RANDOM');
 		punishes.forEach((punishment) => {

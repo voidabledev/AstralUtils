@@ -77,7 +77,7 @@ export const command: Command = {
 						USE_PRIVATE_THREADS: null,
 					});
 					locked.set(channel.id, channel);
-					if (channel.id === interaction.channelId || !channel.isText()) return;
+					if (!channel.isText()) return;
 					channel.send(
 						`<a:error:849037573912657932> The server has been unlocked for \`${reason}\`. You may talk now.`,
 					);

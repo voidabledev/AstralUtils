@@ -50,7 +50,7 @@ export const command: Command = {
 				embeds: [fail(`${user} is already blacklisted for \`${blacklist.reason}\`!`)],
 			});
 		}
-		await confirm(interaction, `Are you sure you want to blacklist ${user}?`, true)
+		await confirm(interaction, `Are you sure you want to blacklist ${user}?`)
 			.then(async () => {
 				const userEmbed = new MessageEmbed()
 					.setAuthor(
@@ -74,11 +74,7 @@ export const command: Command = {
 					isActive: true,
 				});
 				await interaction.editReply({
-					content: `Successfully blacklisted ${user}.`,
-					components: [],
-				});
-				await interaction.channel.send({
-					embeds: [success(`${user} has been blacklisted with case id \`${log.punishID}\`.`)],
+					embeds: [success(`${user} has been blacklisted | \`${log.punishID}\`.`)],
 				});
 			})
 			.catch(() => {

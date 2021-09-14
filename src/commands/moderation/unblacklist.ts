@@ -44,7 +44,7 @@ export const command: Command = {
 				embeds: [fail(`${user} isn't blacklisted!`)],
 			});
 		}
-		await confirm(interaction, `Are you sure you want to unblacklist ${user}?`, true)
+		await confirm(interaction, `Are you sure you want to unblacklist ${user}?`)
 			.then(async () => {
 				const userEmbed = new MessageEmbed()
 					.setAuthor(
@@ -68,11 +68,8 @@ export const command: Command = {
 				});
 				await client.modlogs.update(blacklist.punishID, { isActive: false, expires: new Date().getTime() });
 				await interaction.editReply({
-					content: `Successfully unblacklisted ${user}.`,
+					embeds: [success(`${user} has been unblacklisted | \`${log.punishID}\`.`)],
 					components: [],
-				});
-				await interaction.channel.send({
-					embeds: [success(`${user} has been unblacklisted with case id \`${log.punishID}\`.`)],
 				});
 			})
 			.catch(() => {

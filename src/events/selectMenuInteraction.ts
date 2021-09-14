@@ -9,6 +9,11 @@ export const event: Event = {
 		if (!interaction.isSelectMenu()) return;
 
 		if (interaction.customId.startsWith('select-modmail-topic-')) {
+			if (client.modmail.getByUser(interaction.user.id)) {
+				return interaction.reply({
+					embeds: [fail('You already have an open modmail thread!')],
+				});
+			}
 			const category = categories.find((c, i) => i === +interaction.values[0]);
 			const guild = client.guilds.cache.get(category.guildId);
 			if (!guild) {

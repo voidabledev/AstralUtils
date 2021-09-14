@@ -53,7 +53,7 @@ export async function confirm(
 		components: [row],
 		ephemeral,
 	});
-	const message = ephemeral ? null : (await interaction.fetchReply()) as Message;
+	const message = ephemeral ? null : (await interaction.fetchReply() as Message);
 	const confirmFilter = (i: ButtonInteraction) =>
 		i.user.id === (user ?? interaction.user.id) && i.customId === `confirm-${id}`;
 	const cancelFilter = (i: ButtonInteraction) =>
@@ -69,17 +69,17 @@ export async function confirm(
 		time: 15000,
 	});
 	return new Promise<void>((resolve, reject) => {
-		confirmCollector?.on('collect', async (i) => {
+		confirmCollector.on('collect', async (i) => {
 			await i.deferUpdate();
-			confirmCollector?.stop();
+			confirmCollector.stop();
 			resolve();
 		});
-		cancelCollector?.on('collect', async (i) => {
+		cancelCollector.on('collect', async (i) => {
 			await i.deferUpdate();
-			cancelCollector?.stop();
+			cancelCollector.stop();
 			reject();
 		});
-		cancelCollector?.on('end', () => {
+		cancelCollector.on('end', () => {
 			reject();
 		});
 	});

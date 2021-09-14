@@ -217,13 +217,10 @@ export class AutomodManager {
 				'dick',
 				'd1ck',
 				'd!ck',
-				'cum',
 				'penis',
 				'p3nis',
 				'pen1s',
 				'p3n1s',
-				'c0ck',
-				'cock',
 			].map((str) => {
 				return {
 					name: str,

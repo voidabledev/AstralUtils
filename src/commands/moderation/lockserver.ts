@@ -68,7 +68,7 @@ export const command: Command = {
 					USE_PRIVATE_THREADS: false,
 				});
 				locked.set(channel.id, channel);
-				if (channel.id === interaction.channelId || !channel.isText()) return;
+				if (!channel.isText()) return;
 				channel.send(
 					channel.id === '831996525864419348'
 						? `<a:error:849037573912657932> The server has been locked down for \`${reason}\`. Do NOT	DM Moderators about being muted, because you are NOT! More information will be posted in this channel.`

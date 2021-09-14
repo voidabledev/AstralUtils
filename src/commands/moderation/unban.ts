@@ -43,7 +43,7 @@ export const command: Command = {
 				ephemeral: true,
 			});
 		}
-		await confirm(interaction, `Are you sure you want to unban ${user}?`, true)
+		await confirm(interaction, `Are you sure you want to unban ${user}?`)
 			.then(async () => {
 				await interaction.guild?.members.unban(user, reason);
 				const log = await client.modlogs.set({
@@ -54,11 +54,8 @@ export const command: Command = {
 					caseType: 'Unban',
 				});
 				await interaction.editReply({
-					content: `Successfully unbanned ${user}.`,
-					components: [],
-				});
-				await interaction.channel.send({
 					embeds: [success(`${user} has been unbanned with case id \`${log.punishID}\`.`)],
+					components: [],
 				});
 			})
 			.catch(() => {
