@@ -64,14 +64,14 @@ export const command: Command = {
 		const reason = options.getString('reason');
 		const active = options.getBoolean('active');
 		const logs = (await client.modlogs.getUser(user.id)).filter((l) => {
-			return [
+			return ![
 				type ? l.caseType === type : undefined,
 				staff ? l.staffID === staff.id : undefined,
 				reason
 					? l.reason.toLowerCase().includes(reason.toLowerCase())
 					: undefined,
 				active ? l.isActive === active : undefined,
-			].every((option) => option !== false);
+			].includes(false);
 		});
 		if (!logs.length) {
 			return interaction.reply({

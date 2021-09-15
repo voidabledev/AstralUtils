@@ -69,7 +69,7 @@ export const command: Command = {
 				embeds: [fail('You can\'t ban a user above you!')],
 			});
 		}
-		await confirm(interaction, `Are you sure you want to ban ${user}?`, true)
+		await confirm(interaction, `Are you sure you want to ban ${user}?`)
 			.then(async () => {
 				const userEmbed = new MessageEmbed()
 					.setAuthor(

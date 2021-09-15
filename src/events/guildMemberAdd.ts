@@ -14,7 +14,7 @@ export const event: Event = {
 
 		const channelEmbed = new MessageEmbed()
 			.setAuthor(member.user.tag, member.user.displayAvatarURL({ dynamic: true }))
-			.setDescription(`Welcome **${member.user.username}** to **${member.guild.name}**! Make sure to read the <#831996507116011621> and grab some <#831996509993697310>. We hope you enjoy your stay here.`)
+			.setDescription(`Welcome **${member.user.username}** to **${member.guild.name}**!\nMake sure to read the <#831996507116011621> and grab some <#831996509993697310>.`)
 			.setFooter(`Member #${member.guild.memberCount}`, member.guild.iconURL({ dynamic: true }))
 			.setColor('BLURPLE');
 		const channel = member.guild.channels.cache.find((c) => c.name.endsWith('general'));
