@@ -145,9 +145,24 @@ export class ModlogManager {
 		embed
 			.addField('Reason', data.reason)
 			.setTimestamp(data.timestamp);
-		if (data.caseType === 'Warn') embed.setColor('YELLOW');
-		if (data.caseType === 'Mute') embed.setColor('ORANGE');
-		if (data.caseType === 'Ban') embed.setColor('RED');
+		if (data.caseType === 'Warn') {
+			embed.setColor('YELLOW');
+		}
+		else {
+			embed.setColor('RANDOM');
+		}
+		if (data.caseType === 'Mute') {
+			embed.setColor('ORANGE');
+		}
+		else {
+			embed.setColor('RANDOM');
+		}
+		if (data.caseType === 'Ban') {
+			embed.setColor('RED');
+		}
+		else {
+			embed.setColor('RANDOM');
+		}
 		const webhooks = await channel.fetchWebhooks();
 		const webhook = webhooks.size
 			? webhooks.first()
