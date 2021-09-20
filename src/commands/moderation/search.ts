@@ -16,7 +16,24 @@ export const command: Command = {
 		},
 		{
 			name: 'type',
-			description: 'Filter punishments by type.',
+			description: 'Only display punishments of a specified type.',
+			type: Options.String,
+			choices: [
+				{ name: 'Warn', value: 'Warn' },
+				{ name: 'Mute', value: 'Mute' },
+				{ name: 'Unmute', value: 'Unmute' },
+				{ name: 'Ban', value: 'Ban' },
+				{ name: 'Unban', value: 'Unban' },
+				{ name: 'Moderated Nickname', value: 'Moderated Nickname' },
+				{ name: 'Changed Nickname', value: 'Changed Nickname' },
+				{ name: 'Warn', value: 'Warn' },
+				{ name: 'Blacklist', value: 'Blacklist' },
+				{ name: 'Unblacklist', value: 'Unblacklist' },
+			],
+		},
+		{
+			name: 'not-type',
+			description: 'Exclude punishments of a specified type.',
 			type: Options.String,
 			choices: [
 				{ name: 'Warn', value: 'Warn' },
@@ -34,6 +51,11 @@ export const command: Command = {
 		{
 			name: 'staff',
 			description: 'Only show punishments by a specific moderator.',
+			type: Options.User,
+		},
+		{
+			name: 'not-staff',
+			description: 'Exclude punishments by a specific moderator.',
 			type: Options.User,
 		},
 		{
@@ -59,14 +81,18 @@ export const command: Command = {
 	},
 	async run(interaction, options, client) {
 		const user = options.getUser('user', true);
+		const notType = options.getString('not-type');
 		const type = options.getString('type');
+		const notStaff = options.getUser('not-staff');
 		const staff = options.getUser('staff');
 		const reason = options.getString('reason');
 		const active = options.getBoolean('active');
 		const logs = (await client.modlogs.getUser(user.id)).filter((l) => {
 			return ![
 				type ? l.caseType === type : undefined,
+				notType ? l.caseType !== notType : undefined,
 				staff ? l.staffID === staff.id : undefined,
+				notStaff ? l.staffID !== notStaff.id : undefined,
 				reason
 					? l.reason.toLowerCase().includes(reason.toLowerCase())
 					: undefined,

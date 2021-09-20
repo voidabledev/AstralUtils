@@ -11,6 +11,7 @@ import {
 	TextChannel,
 	Role,
 	GuildMember,
+	ColorResolvable,
 } from 'discord.js';
 import { id } from '../structures/utils';
 
@@ -145,24 +146,18 @@ export class ModlogManager {
 		embed
 			.addField('Reason', data.reason)
 			.setTimestamp(data.timestamp);
-		if (data.caseType === 'Warn') {
-			embed.setColor('YELLOW');
-		}
-		else {
-			embed.setColor('RANDOM');
-		}
-		if (data.caseType === 'Mute') {
-			embed.setColor('ORANGE');
-		}
-		else {
-			embed.setColor('RANDOM');
-		}
-		if (data.caseType === 'Ban') {
-			embed.setColor('RED');
-		}
-		else {
-			embed.setColor('RANDOM');
-		}
+		const colors: { [i: string]: ColorResolvable } = {
+			warn: 'YELLOW',
+			mute: 'ORANGE',
+			ban: 'RED',
+			blacklist: 'GREY',
+			unblacklist: 'GREY',
+			unmute: 'GREEN',
+			unban: 'DARK_GREEN',
+			'moderated nickname': 'BLURPLE',
+			'changed nickname': 'GREYPLE',
+		};
+		embed.setColor(colors[data.caseType.toLowerCase()] ?? 'RANDOM');
 		const webhooks = await channel.fetchWebhooks();
 		const webhook = webhooks.size
 			? webhooks.first()

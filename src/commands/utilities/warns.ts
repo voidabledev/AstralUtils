@@ -5,7 +5,7 @@ import { fail } from '../../structures/embeds';
 
 export const command: Command = {
 	name: 'warns',
-	description: 'Checks your active warnings.',
+	description: 'Checks your active punishments.',
 	async run(interaction, options, client) {
 		const punishes = await client.modlogs.fetch({ userID: interaction.user.id, isActive: true });
 		if (!punishes.length) {
@@ -16,19 +16,19 @@ export const command: Command = {
 		}
 		const embed = new MessageEmbed()
 			.setAuthor(
+				`${interaction.user.tag}'s punishments'`,
 				interaction.user.displayAvatarURL({
 					dynamic: true, size: 512,
 				}),
-				interaction.user.tag,
-				'Punishments')
+			)
 			.setDescription(`Found \`${punishes.length}\` punishments.`)
 			.setFooter(`User ID: ${interaction.user.id}`)
 			.setColor('RANDOM');
 		punishes.forEach((punishment) => {
 			embed.addField(`<t:${Math.floor(punishment.timestamp / 1000)}:R>`,
 				`- **Reason:** ${punishment
-					.reason}\n- **Expires:** <t:${Math.floor(punishment
-					.expires / 1000)}:R>}`);
+					.reason}\n- **Expires:** ${punishment.expires ? `<t:${Math.floor(punishment
+					.expires / 1000)}:R>` : 'Not applicable'}`);
 		});
 		interaction.reply({
 			embeds: [embed],

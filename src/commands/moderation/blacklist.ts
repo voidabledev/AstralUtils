@@ -75,6 +75,7 @@ export const command: Command = {
 				});
 				await interaction.editReply({
 					embeds: [success(`${user} has been blacklisted | \`${log.punishID}\`.`)],
+					components: [],
 				});
 			})
 			.catch(() => {
