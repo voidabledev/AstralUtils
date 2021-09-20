@@ -56,16 +56,6 @@ export const command: Command = {
 		}
 		await confirm(interaction, `Are you sure you want to unmute ${member}?`)
 			.then(async () => {
-				const userEmbed = new MessageEmbed()
-					.setAuthor(interaction.user.tag, member.user.displayAvatarURL({ dynamic: true, size: 512 }))
-					.setTitle(`You were unmuted in **${interaction.guild?.name}**`)
-					.addField('Reason', reason)
-					.setColor('GREEN');
-				await member.user
-					.send({
-						embeds: [userEmbed],
-					})
-					.catch(() => null);
 				await member.roles.remove(role);
 				const log = await client.modlogs.set({
 					guildID: (interaction.guild as Guild).id,
@@ -74,6 +64,22 @@ export const command: Command = {
 					reason,
 					caseType: 'Unmute',
 				});
+				const userEmbed = new MessageEmbed()
+					.setAuthor(
+						'Astral Moderation',
+						member.user.displayAvatarURL({ dynamic: true, size: 512 }),
+					)
+					.setTitle(`You were unmuted in ${interaction.guild?.name}!`)
+					.addField('Reason', reason)
+					.addField('Duration', 'Permanent')
+					.addField('Date', `<t:${Math.floor(log.timestamp / 1000)}:f>`)
+					.setFooter(`Punishment ID: ${log.punishID}`)
+					.setColor('GREEN');
+				await member.user
+					.send({
+						embeds: [userEmbed],
+					})
+					.catch(() => null);
 				await interaction.editReply({
 					embeds: [success(`${member} has been unmuted | \`${log.punishID}\`.`)],
 					components: [],

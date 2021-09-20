@@ -114,24 +114,6 @@ export const command: Command = {
 						}
 					});
 				}
-				const userEmbed = new MessageEmbed()
-					.setAuthor(
-						member.user.tag,
-						member.user.displayAvatarURL({ dynamic: true, size: 512 }),
-					)
-					.setTitle(`You were muted in **${interaction.guild?.name}**`)
-					.addField(
-						'Expires',
-						time
-							? `<t:${Math.floor(
-								(new Date().getTime() + time * timeUnit) / 1000,
-							)}:f> (<t:${Math.floor(
-								(new Date().getTime() + time * timeUnit) / 1000,
-							)}:R>)`
-							: 'Permanent',
-					)
-					.addField('Reason', reason)
-					.setColor('ORANGE');
 				await member.user
 					.send({
 						embeds: [userEmbed],
@@ -147,6 +129,22 @@ export const command: Command = {
 					expires: time ? new Date().getTime() + time * timeUnit : undefined,
 					isActive: true,
 				});
+				const userEmbed = new MessageEmbed()
+					.setAuthor(
+						'Astral Moderation',
+						member.user.displayAvatarURL({ dynamic: true, size: 512 }),
+					)
+					.setTitle(`You were muted in ${interaction.guild?.name}!`)
+					.addField('Reason', reason)
+					.addField('Duration', 'Permanent')
+					.addField('Date', `<t:${Math.floor(log.timestamp / 1000)}:f>`)
+					.setFooter(`Punishment ID: ${log.punishID}`)
+					.setColor('ORANGE');
+				await member.user
+					.send({
+						embeds: [userEmbed],
+					})
+					.catch(() => null);
 				interaction.editReply({
 					embeds: [success(`${member} has been muted | \`${log.punishID}\`.`)],
 					components: [],

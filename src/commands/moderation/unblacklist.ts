@@ -46,19 +46,6 @@ export const command: Command = {
 		}
 		await confirm(interaction, `Are you sure you want to unblacklist ${user}?`)
 			.then(async () => {
-				const userEmbed = new MessageEmbed()
-					.setAuthor(
-						user.tag,
-						user.displayAvatarURL({ dynamic: true, size: 512 }),
-					)
-					.setTitle(`You were unblacklisted in ${interaction.guild?.name}`)
-					.addField('Reason', reason)
-					.setColor('RED');
-				await user
-					.send({
-						embeds: [userEmbed],
-					})
-					.catch(() => null);
 				const log = await client.modlogs.set({
 					guildID: (interaction.guild as Guild).id,
 					userID: user.id,
@@ -66,6 +53,22 @@ export const command: Command = {
 					reason,
 					caseType: 'Unblacklist',
 				});
+				const userEmbed = new MessageEmbed()
+					.setAuthor(
+						'Astral Moderation',
+						member.user.displayAvatarURL({ dynamic: true, size: 512 }),
+					)
+					.setTitle(`You were unblacklisted in ${interaction.guild?.name}!`)
+					.addField('Reason', reason)
+					.addField('Duration', 'Permanent')
+					.addField('Date', `<t:${Math.floor(log.timestamp / 1000)}:f>`)
+					.setFooter(`Punishment ID: ${log.punishID}`)
+					.setColor('YELLOW');
+				await member.user
+					.send({
+						embeds: [userEmbed],
+					})
+					.catch(() => null);
 				await client.modlogs.update(blacklist.punishID, { isActive: false, expires: new Date().getTime() });
 				await interaction.editReply({
 					embeds: [success(`${user} has been unblacklisted | \`${log.punishID}\`.`)],

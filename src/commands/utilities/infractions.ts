@@ -4,7 +4,7 @@ import { MessageEmbed } from 'discord.js';
 import { fail } from '../../structures/embeds';
 
 export const command: Command = {
-	name: 'warns',
+	name: 'infractions',
 	description: 'Checks your active punishments.',
 	async run(interaction, options, client) {
 		const punishes = await client.modlogs.fetch({ userID: interaction.user.id, isActive: true });
@@ -16,19 +16,17 @@ export const command: Command = {
 		}
 		const embed = new MessageEmbed()
 			.setAuthor(
-				`${interaction.user.tag}'s punishments'`,
+				`Infractions for ${interaction.user.tag} - ${punishes.length}`,
 				interaction.user.displayAvatarURL({
 					dynamic: true, size: 512,
 				}),
 			)
-			.setDescription(`Found \`${punishes.length}\` punishments.`)
 			.setFooter(`User ID: ${interaction.user.id}`)
 			.setColor('RANDOM');
 		punishes.forEach((punishment) => {
-			embed.addField(`<t:${Math.floor(punishment.timestamp / 1000)}:R>`,
-				`- **Reason:** ${punishment
-					.reason}\n- **Expires:** ${punishment.expires ? `<t:${Math.floor(punishment
-					.expires / 1000)}:R>` : 'Not applicable'}`);
+			embed.addField(`${punishment.caseType}`, `
+      Reason: \`${punishment.reason}\`\nDate: <t:${Math.floor(punishment.timestamp / 1000)}:f>\nPunishment ID: \`${punishment.punishID}\`
+      `);
 		});
 		interaction.reply({
 			embeds: [embed],

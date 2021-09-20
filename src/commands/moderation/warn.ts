@@ -45,19 +45,6 @@ export const command: Command = {
 		}
 		await confirm(interaction, `Are you sure you want to warn ${member}?`)
 			.then(async () => {
-				const userEmbed = new MessageEmbed()
-					.setAuthor(
-						member.user.tag,
-						member.user.displayAvatarURL({ dynamic: true, size: 512 }),
-					)
-					.setTitle(`You were warned in ${interaction.guild?.name}`)
-					.addField('Reason', reason)
-					.setColor('YELLOW');
-				await member.user
-					.send({
-						embeds: [userEmbed],
-					})
-					.catch(() => null);
 				const log = await client.modlogs.set({
 					guildID: (interaction.guild as Guild).id,
 					userID: member.id,
@@ -67,6 +54,22 @@ export const command: Command = {
 					expires: new Date().getTime() + 1000 * 60 * 60 * 24 * 30,
 					isActive: true,
 				});
+				const userEmbed = new MessageEmbed()
+					.setAuthor(
+						'Astral Moderation',
+						member.user.displayAvatarURL({ dynamic: true, size: 512 }),
+					)
+					.setTitle(`You were warned in ${interaction.guild?.name}!`)
+					.addField('Reason', reason)
+					.addField('Duration', 'Permanent')
+					.addField('Date', `<t:${Math.floor(log.timestamp / 1000)}:f>`)
+					.setFooter(`Punishment ID: ${log.punishID}`)
+					.setColor('YELLOW');
+				await member.user
+					.send({
+						embeds: [userEmbed],
+					})
+					.catch(() => null);
 				await interaction.editReply({
 					embeds: [success(`${member} has been warned | \`${log.punishID}\`.`)],
 					components: [],
