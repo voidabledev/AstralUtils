@@ -42,7 +42,7 @@ export const command: Command = {
 			await user?.send({
 				embeds: [new MessageEmbed()
 					.setDescription('This thread has been closed. Replying to this message will create a new thread.')
-					.setFooter(`Closed by ${interaction.user.tag}`)
+					.setFooter('Thread Closed')
 					.setTimestamp(),
 				],
 			}).catch(() => null);

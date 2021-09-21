@@ -52,19 +52,6 @@ export const command: Command = {
 		}
 		await confirm(interaction, `Are you sure you want to blacklist ${user}?`)
 			.then(async () => {
-				const userEmbed = new MessageEmbed()
-					.setAuthor(
-						user.tag,
-						user.displayAvatarURL({ dynamic: true, size: 512 }),
-					)
-					.setTitle(`You were blacklisted in ${interaction.guild?.name}`)
-					.addField('Reason', reason)
-					.setColor('RED');
-				await user
-					.send({
-						embeds: [userEmbed],
-					})
-					.catch(() => null);
 				const log = await client.modlogs.set({
 					guildID: (interaction.guild as Guild).id,
 					userID: user.id,
@@ -73,6 +60,21 @@ export const command: Command = {
 					caseType: 'Blacklist',
 					isActive: true,
 				});
+				const userEmbed = new MessageEmbed()
+					.setAuthor(
+						'Astral Moderation',
+						member.user.displayAvatarURL({ dynamic: true, size: 512 }),
+					)
+					.setTitle(`You were blacklisted in ${interaction.guild?.name}!`)
+					.addField('Reason', reason)
+					.addField('Date', `<t:${Math.floor(log.timestamp / 1000)}:f>`, true)
+					.setFooter(`Punishment ID: ${log.punishID}`)
+					.setColor('ORANGE');
+				await member.user
+					.send({
+						embeds: [userEmbed],
+					})
+					.catch(() => null);
 				await interaction.editReply({
 					embeds: [success(`${user} has been blacklisted | \`${log.punishID}\`.`)],
 					components: [],

@@ -61,8 +61,8 @@ export const command: Command = {
 					)
 					.setTitle(`You were warned in ${interaction.guild?.name}!`)
 					.addField('Reason', reason)
-					.addField('Duration', 'Permanent')
-					.addField('Date', `<t:${Math.floor(log.timestamp / 1000)}:f>`)
+					.addField('Duration', '30 days', true)
+					.addField('Date', `<t:${Math.floor(log.timestamp / 1000)}:f>`, true)
 					.setFooter(`Punishment ID: ${log.punishID}`)
 					.setColor('YELLOW');
 				await member.user

@@ -137,15 +137,28 @@ export class ModlogManager {
 				: this._client.channels.cache.get('831996577690288188')
 		) as TextChannel;
 		const embed = new MessageEmbed()
-			.setTitle(`Case ID #${data.punishID}`)
-			.addField('Type', data.caseType)
-			.addField('User', `<@${data.userID}> (${data.userID})`);
+			.setTitle(`Punishment ID: ${log.punishID} - ${log.caseType}`)
+			.addField('User', `<@${log.userID}> (${log.userID})`)
+			.addField('Reason', log.reason)
+			.addField(
+				'Date',
+				`<t:${Math.floor(log.timestamp / 1000)}:R> (<t:${Math.floor(
+					log.timestamp / 1000,
+				)}:f>)`,
+			)
+			.addField('Expires',
+				log.expires
+					? `<t:${Math.floor(log.expires / 1000)}:R> (<t:${Math.floor(
+						log.expires / 1000,
+					)}:f>)`
+					: 'Not Applicable',
+			)
+			.addField('Reason', data.reason)
+			.setTimestamp(data.timestamp)
+			.setColor('RANDOM');
 		automod
 			? null
 			: embed.addField('Moderator', `<@${data.staffID}> (${data.staffID})`);
-		embed
-			.addField('Reason', data.reason)
-			.setTimestamp(data.timestamp);
 		const colors: { [i: string]: ColorResolvable } = {
 			warn: 'YELLOW',
 			mute: 'ORANGE',

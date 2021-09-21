@@ -71,8 +71,7 @@ export const command: Command = {
 					)
 					.setTitle(`You were unmuted in ${interaction.guild?.name}!`)
 					.addField('Reason', reason)
-					.addField('Duration', 'Permanent')
-					.addField('Date', `<t:${Math.floor(log.timestamp / 1000)}:f>`)
+					.addField('Date', `<t:${Math.floor(log.timestamp / 1000)}:f>`, true)
 					.setFooter(`Punishment ID: ${log.punishID}`)
 					.setColor('GREEN');
 				await member.user

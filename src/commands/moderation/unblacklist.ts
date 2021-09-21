@@ -60,10 +60,9 @@ export const command: Command = {
 					)
 					.setTitle(`You were unblacklisted in ${interaction.guild?.name}!`)
 					.addField('Reason', reason)
-					.addField('Duration', 'Permanent')
-					.addField('Date', `<t:${Math.floor(log.timestamp / 1000)}:f>`)
+					.addField('Date', `<t:${Math.floor(log.timestamp / 1000)}:f>`, true)
 					.setFooter(`Punishment ID: ${log.punishID}`)
-					.setColor('YELLOW');
+					.setColor('GREY');
 				await member.user
 					.send({
 						embeds: [userEmbed],

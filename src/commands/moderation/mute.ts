@@ -114,11 +114,6 @@ export const command: Command = {
 						}
 					});
 				}
-				await member.user
-					.send({
-						embeds: [userEmbed],
-					})
-					.catch(() => null);
 				await member.roles.add(role as Role);
 				const log = await client.modlogs.set({
 					guildID: (interaction.guild as Guild).id,
@@ -136,8 +131,12 @@ export const command: Command = {
 					)
 					.setTitle(`You were muted in ${interaction.guild?.name}!`)
 					.addField('Reason', reason)
-					.addField('Duration', 'Permanent')
-					.addField('Date', `<t:${Math.floor(log.timestamp / 1000)}:f>`)
+					.addField('Duration', time ? `<t:${Math.floor(
+						(new Date().getTime() + time * timeUnit) / 1000,
+					)}:f> (<t:${Math.floor(
+						(new Date().getTime() + time * timeUnit) / 1000,
+					)}:R>)` : 'Permanent', true)
+					.addField('Date', `<t:${Math.floor(log.timestamp / 1000)}:f>`, true)
 					.setFooter(`Punishment ID: ${log.punishID}`)
 					.setColor('ORANGE');
 				await member.user

@@ -37,8 +37,7 @@ export const command: Command = {
 				interaction.user.tag,
 				interaction.user.avatarURL({ dynamic: true }) ?? undefined,
 			)
-			.setTitle('Case Information')
-			.addField('Type', log.caseType)
+			.setTitle(`Punishment ID: ${log.punishID} - ${log.caseType}`)
 			.addField('Moderator', `<@${log.staffID}> (${log.staffID})`)
 			.addField('User', `<@${log.userID}> (${log.userID})`)
 			.addField('Reason', log.reason)
@@ -56,7 +55,6 @@ export const command: Command = {
 					)}:f>)`
 					: 'Not Applicable',
 			)
-			.setFooter(`Punishment ID: ${punishID}`)
 			.setColor('RANDOM');
 		interaction.reply({
 			embeds: [embed],

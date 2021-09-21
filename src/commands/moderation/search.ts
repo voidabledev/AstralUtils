@@ -106,14 +106,14 @@ export const command: Command = {
 		}
 		const fields = logs.map((l) => {
 			return {
-				name: `Punishment ID: ${l.punishID} (${l.caseType})`,
-				value: `- **Reason:** ${l.reason}\n- **Punished by:** <@${
+				name: `${l.caseType}`,
+				value: `Reason: \`${l.reason}\`\nPunishment ID: \`${l.punishID}\`\nModerator: <@${
 					l.staffID
-				}> (${l.staffID})\n- **Created:** <t:${Math.floor(
+				}> (${l.staffID})\nDate: <t:${Math.floor(
 					l.timestamp / 1000,
 				)}:R> (<t:${Math.floor(l.timestamp / 1000)}:f>)\n${
 					l.expires
-						? (l.isActive !== false ? '- **Expires:**' : '- **Expired:**') +
+						? (l.isActive !== false ? 'Expires: ' : 'Expired: ') +
 						`<t:${Math.floor(l.expires / 1000)}:R> (<t:${Math.floor(
 							l.expires / 1000,
 						)}:f>)`
@@ -124,8 +124,7 @@ export const command: Command = {
 		const embeds = parsePages(
 			fields,
 			new MessageEmbed()
-				.setTitle(`Punishment search for ${user.tag}`)
-				.setDescription(`Found ${fields.length} results for ${user}.`)
+				.setTitle(`Infractions for ${user.tag} (${user.id})`)
 				.setColor('GREEN'),
 		);
 		await pageMenu(interaction, embeds);
