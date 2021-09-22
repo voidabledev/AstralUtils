@@ -63,14 +63,13 @@ export const command: Command = {
 				const userEmbed = new MessageEmbed()
 					.setAuthor(
 						'Astral Moderation',
-						member.user.displayAvatarURL({ dynamic: true, size: 512 }),
+						client.user.displayAvatarURL({ dynamic: true, size: 512 }),
 					)
 					.setTitle(`You were blacklisted in ${interaction.guild?.name}!`)
 					.addField('Reason', reason)
-					.addField('Date', `<t:${Math.floor(log.timestamp / 1000)}:f>`, true)
 					.setFooter(`Punishment ID: ${log.punishID}`)
 					.setColor('ORANGE');
-				await member.user
+				await user
 					.send({
 						embeds: [userEmbed],
 					})

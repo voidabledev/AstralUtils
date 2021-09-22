@@ -109,7 +109,7 @@ export const command: Command = {
 				name: `${l.caseType}`,
 				value: `Reason: \`${l.reason}\`\nPunishment ID: \`${l.punishID}\`\nModerator: <@${
 					l.staffID
-				}> (${l.staffID})\nDate: <t:${Math.floor(
+				}> (${l.staffID})\nCreated: <t:${Math.floor(
 					l.timestamp / 1000,
 				)}:R> (<t:${Math.floor(l.timestamp / 1000)}:f>)\n${
 					l.expires

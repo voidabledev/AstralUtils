@@ -37,7 +37,7 @@ export const command: Command = {
 	},
 	async run(interaction, options, client) {
 		const user = options.getUser('user', true);
-		const message = options.getString('message', true);
+		const message = options.getString('message', true).replaceAll('\\n', '\n');
 		const anon = options.getBoolean('anonymous') ?? false;
 		const embed = new MessageEmbed()
 			.setTitle('Direct Message')

@@ -10,7 +10,7 @@ export const command: Command = {
 		const punishes = await client.modlogs.fetch({ userID: interaction.user.id, isActive: true });
 		if (!punishes.length) {
 			return interaction.reply({
-				embeds: [fail('You don\'t have any punishments.')],
+				embeds: [fail('You don\'t have any infractions.')],
 				ephemeral: true,
 			});
 		}

@@ -71,7 +71,6 @@ export const command: Command = {
 		}
 		await confirm(interaction, `Are you sure you want to ban ${user}?`)
 			.then(async () => {
-				await interaction.guild?.members.ban(user, { reason });
 				const log = await client.modlogs.set({
 					guildID: (interaction.guild as Guild).id,
 					userID: user.id,
@@ -84,7 +83,7 @@ export const command: Command = {
 				const userEmbed = new MessageEmbed()
 					.setAuthor(
 						'Astral Moderation',
-						member.user.displayAvatarURL({ dynamic: true, size: 512 }),
+						client.user.displayAvatarURL({ dynamic: true, size: 512 }),
 					)
 					.setTitle(`You were banned in ${interaction.guild?.name}!`)
 					.addField('Reason', reason)
@@ -93,14 +92,14 @@ export const command: Command = {
 					)}:f> (<t:${Math.floor(
 						(new Date().getTime() + time * timeUnit) / 1000,
 					)}:R>)` : 'Permanent', true)
-					.addField('Date', `<t:${Math.floor(log.timestamp / 1000)}:f>`, true)
 					.setFooter(`Punishment ID: ${log.punishID}`)
 					.setColor('RED');
-				await member.user
+				await user
 					.send({
 						embeds: [userEmbed],
 					})
 					.catch(() => null);
+				await interaction.guild?.members.ban(user, { reason });
 				await interaction.editReply({
 					embeds: [success(`${user} has been banned | \`${log.punishID}\`.`)],
 					components: [],

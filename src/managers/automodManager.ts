@@ -295,20 +295,7 @@ export class AutomodManager {
 		if (!this._client.user) throw new Error('Client user not found.');
 		if (!message.guild) throw new Error('Cannot use automod outside of guilds');
 		reason = `[Automod] ${reason}`;
-		const embed = new MessageEmbed()
-			.setAuthor(
-				message.author.tag,
-				message.author.displayAvatarURL({ dynamic: true, size: 512 }),
-			)
-			.setTitle(`You were warned in ${message.guild.name}!`)
-			.addField('Reason', reason)
-			.setColor('YELLOW');
-		await message.author
-			.send({
-				embeds: [embed],
-			})
-			.catch(() => null);
-		await this._client.modlogs.set({
+		const log = await this._client.modlogs.set({
 			guildID: message.guild.id,
 			userID: message.author.id,
 			staffID: this._client.user.id,
@@ -317,6 +304,21 @@ export class AutomodManager {
 			expires: new Date().getTime() + 1000 * 60 * 60 * 24 * 30,
 			isActive: true,
 		});
+		const embed = new MessageEmbed()
+			.setAuthor(
+				'Astral Automod',
+				this._client.user.displayAvatarURL({ dynamic: true, size: 512 }),
+			)
+			.setTitle(`You were warned in ${message.guild?.name}!`)
+			.addField('Reason', reason)
+			.addField('Duration', '30 days', true)
+			.setFooter(`Punishment ID: ${log.punishID}`)
+			.setColor('YELLOW');
+		await message.author
+			.send({
+				embeds: [embed],
+			})
+			.catch(() => null);
 	}
 	private async _mute(
 		message: Message,
@@ -331,25 +333,7 @@ export class AutomodManager {
 		const role = message.guild.roles.cache.find((r) => r.name === 'Muted');
 		if (!role) throw new Error('No "Muted" role found.');
 		reason = `[Automod] ${reason}`;
-		const embed = new MessageEmbed()
-			.setAuthor(
-				message.author.tag,
-				message.author.displayAvatarURL({ dynamic: true, size: 512 }),
-			)
-			.setTitle(`You were muted in ${message.guild.name}!`)
-			.addField(
-				'Expires',
-				`<t:${Math.floor((new Date().getTime() + time) / 1000)}:f> (<t:${Math.floor((new Date().getTime() + time) / 1000)}:R>)`,
-			)
-			.addField('Reason', reason)
-			.setColor('ORANGE');
-		await message.author
-			.send({
-				embeds: [embed],
-			})
-			.catch(() => null);
-		await message.member.roles.add(role);
-		await this._client.modlogs.set({
+		const log = await this._client.modlogs.set({
 			guildID: message.guild.id,
 			userID: message.author.id,
 			staffID: this._client.user.id,
@@ -358,6 +342,26 @@ export class AutomodManager {
 			expires: new Date().getTime() + time,
 			isActive: true,
 		});
+		const embed = new MessageEmbed()
+			.setAuthor(
+				'Astral Automod',
+				this._client.user.displayAvatarURL({ dynamic: true, size: 512 }),
+			)
+			.setTitle(`You were muted in ${message.guild?.name}!`)
+			.addField('Reason', reason)
+			.addField('Duration', time ? `<t:${Math.floor(
+				(new Date().getTime() + time) / 1000,
+			)}:f> (<t:${Math.floor(
+				(new Date().getTime() + time) / 1000,
+			)}:R>)` : 'Permanent', true)
+			.setFooter(`Punishment ID: ${log.punishID}`)
+			.setColor('ORANGE');
+		await message.author
+			.send({
+				embeds: [embed],
+			})
+			.catch(() => null);
+		await message.member.roles.add(role);
 	}
 	private async _ban(message: Message, reason: string) {
 		if (message.member?.permissions.has('MANAGE_MESSAGES')) return; // Do not punish staff members
@@ -366,14 +370,27 @@ export class AutomodManager {
 			throw new Error('Cannot use automod outside of guilds');
 		}
 		reason = `[Automod] ${reason}`;
+		const log = await this._client.modlogs.set({
+			guildID: message.guild.id,
+			userID: message.author.id,
+			staffID: this._client.user.id,
+			reason,
+			caseType: 'Ban',
+			isActive: true,
+		});
 		const embed = new MessageEmbed()
 			.setAuthor(
 				message.author.tag,
 				message.author.displayAvatarURL({ dynamic: true, size: 512 }),
 			)
-			.setTitle(`You were banned from ${message.guild.name}!`)
-			.addField('Expires', 'Permanent')
+			.setAuthor(
+				'Astral Moderation',
+				this._client.user.displayAvatarURL({ dynamic: true, size: 512 }),
+			)
+			.setTitle(`You were banned in ${message.guild?.name}!`)
 			.addField('Reason', reason)
+			.addField('Duration', 'Permanent')
+			.setFooter(`Punishment ID: ${log.punishID}`)
 			.setColor('RED');
 		await message.author
 			.send({
@@ -382,14 +399,6 @@ export class AutomodManager {
 			.catch(() => null);
 		await message.guild?.members.ban(message.author, {
 			reason,
-		});
-		await this._client.modlogs.set({
-			guildID: message.guild.id,
-			userID: message.author.id,
-			staffID: this._client.user.id,
-			reason,
-			caseType: 'Ban',
-			isActive: true,
 		});
 	}
 }

@@ -57,12 +57,11 @@ export const command: Command = {
 				const userEmbed = new MessageEmbed()
 					.setAuthor(
 						'Astral Moderation',
-						member.user.displayAvatarURL({ dynamic: true, size: 512 }),
+						client.user.displayAvatarURL({ dynamic: true, size: 512 }),
 					)
 					.setTitle(`You were warned in ${interaction.guild?.name}!`)
 					.addField('Reason', reason)
 					.addField('Duration', '30 days', true)
-					.addField('Date', `<t:${Math.floor(log.timestamp / 1000)}:f>`, true)
 					.setFooter(`Punishment ID: ${log.punishID}`)
 					.setColor('YELLOW');
 				await member.user

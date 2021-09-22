@@ -42,7 +42,7 @@ export const command: Command = {
 			.addField('User', `<@${log.userID}> (${log.userID})`)
 			.addField('Reason', log.reason)
 			.addField(
-				'Duration',
+				'Created',
 				`<t:${Math.floor(log.timestamp / 1000)}:R> (<t:${Math.floor(
 					log.timestamp / 1000,
 				)}:f>)`,
