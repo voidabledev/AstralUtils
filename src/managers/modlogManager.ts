@@ -140,12 +140,6 @@ export class ModlogManager {
 			.setTitle(`Punishment ID: ${log.punishID} - ${log.caseType}`)
 			.addField('User', `<@${log.userID}> (${log.userID})`)
 			.addField('Reason', log.reason)
-			.addField(
-				'Date',
-				`<t:${Math.floor(log.timestamp / 1000)}:R> (<t:${Math.floor(
-					log.timestamp / 1000,
-				)}:f>)`,
-			)
 			.addField('Expires',
 				log.expires
 					? `<t:${Math.floor(log.expires / 1000)}:R> (<t:${Math.floor(
