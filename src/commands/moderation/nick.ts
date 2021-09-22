@@ -55,6 +55,11 @@ export const command: Command = {
 				embeds: [fail('You can\'t change the nickname of somebody above you!')],
 			});
 		}
+		if (oldNick === newNick) {
+			return interaction.reply({
+				embeds: [fail('That\'s the nickname this person currently has!')],
+			});
+		}
 		member
 			.setNickname(newNick)
 			.then(async () => {
