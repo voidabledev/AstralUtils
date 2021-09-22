@@ -147,7 +147,6 @@ export class ModlogManager {
 					)}:f>)`
 					: 'Not Applicable',
 			)
-			.addField('Reason', data.reason)
 			.setTimestamp(data.timestamp)
 			.setColor('RANDOM');
 		automod
