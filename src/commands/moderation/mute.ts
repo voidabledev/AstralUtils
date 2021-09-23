@@ -114,7 +114,7 @@ export const command: Command = {
 						}
 					});
 				}
-				await member.roles.add(role as Role);
+				await member.roles.add(role as Role, reason);
 				const log = await client.modlogs.set({
 					guildID: (interaction.guild as Guild).id,
 					userID: member.id,

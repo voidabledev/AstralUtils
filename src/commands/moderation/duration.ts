@@ -52,13 +52,10 @@ export const command: Command = {
 			});
 		}
 		await interaction.reply({
-			embeds: [
-				success(
-					`The punishment with ID \`${punishID}\` now expires <t:${Math.floor(
-						expires / 1000,
-					)}:R>.`,
-				),
-			],
+			embeds: [success(
+				`The punishment with ID \`${punishID}\` now expires <t:${Math.floor(
+					expires / 1000,
+				)}:R>.`)],
 		});
 	},
 };

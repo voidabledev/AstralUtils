@@ -62,7 +62,7 @@ export const command: Command = {
 				ephemeral: true,
 			});
 		}
-		channel.permissionOverwrites.create(interaction.guild.roles.everyone, {
+		channel.permissionOverwrites.edit(interaction.guild.roles.everyone, {
 			SEND_MESSAGES: false,
 			USE_PUBLIC_THREADS: false,
 			USE_PRIVATE_THREADS: false,

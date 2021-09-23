@@ -32,6 +32,7 @@ export const command: Command = {
 	async run(interaction, options, client) {
 		const member = options.getMember('user') as GuildMember | undefined;
 		const newNick = `Moderated Nickname ${id(36, 6)}`;
+		const reason = 'Rule 10';
 		if (typeof member === 'undefined') {
 			return interaction.reply({
 				embeds: [
@@ -55,13 +56,13 @@ export const command: Command = {
 			});
 		}
 		member
-			.setNickname(newNick)
+			.setNickname(newNick, reason)
 			.then(async () => {
 				const log = await client.modlogs.set({
 					userID: member.id,
 					guildID: member.guild.id,
 					staffID: interaction.user.id,
-					reason: 'Rule 10',
+					reason,
 					caseType: 'Moderated Nickname',
 				});
 				await interaction.reply({

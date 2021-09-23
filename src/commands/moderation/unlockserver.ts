@@ -54,11 +54,12 @@ export const command: Command = {
 		const reason = options.getString('reason', true);
 		if (!interaction.inGuild() || interaction.guild === null) return;
 		const { guild } = interaction;
-		await confirm(
-			interaction,
-			'Are you sure you want to unlock the server now?',
-			true,
-		)
+    		if (reason.length >= 5) {
+			return interaction.reply({
+				embeds:  [fail('You\'d have to provied a more detailed reason.')],
+			});
+		}
+		await confirm(interaction, 'Are you sure you want to unlock the server now?', true)
 			.then(() => {
 				interaction.editReply({
 					embeds: [success('Unlocking the server now... Please wait...')],
@@ -70,15 +71,15 @@ export const command: Command = {
 						ignored.has(channel.parent?.id ?? '') ||
 						ignored.has(channel.id) ||
 						channel.permissionOverwrites.cache.has('SEND_MESSAGES')
-					) {
-						return;
-					}
-					channel.permissionOverwrites.create(guild.roles.everyone, {
+					) return;
+					channel.permissionOverwrites.edit(guild.roles.everyone, {
 						SEND_MESSAGES: true,
 						CONNECT: null,
 						SPEAK: null,
 						USE_PUBLIC_THREADS: null,
 						USE_PRIVATE_THREADS: null,
+					}, {
+						reason,
 					});
 					locked.set(channel.id, channel);
 					if (!channel.isText()) return;
