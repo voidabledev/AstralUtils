@@ -38,6 +38,7 @@ export const command: Command = {
 		const member = options.getMember('user') as GuildMember | undefined;
 		const newNick = options.getString('new-nick', true);
 		const oldNick = member?.displayName;
+		const reason = `${oldNick} -> ${newNick}`;
 		if (typeof member === 'undefined') {
 			return interaction.reply({
 				embeds: [
@@ -61,21 +62,17 @@ export const command: Command = {
 			});
 		}
 		member
-			.setNickname(newNick)
+			.setNickname(newNick, reason)
 			.then(async () => {
 				const log = await client.modlogs.set({
 					userID: member.id,
 					guildID: member.guild.id,
 					staffID: interaction.user.id,
-					reason: `${oldNick} -> ${newNick}`,
+					reason,
 					caseType: 'Changed Nickname',
 				});
 				await interaction.reply({
-					embeds: [
-						success(
-							`Changed ${member}'s nickname to \`${newNick}\` | \`${log.punishID}\``,
-						),
-					],
+					embeds: [success(`Changed ${member}'s nickname to \`${newNick}\` | \`${log.punishID}\``)],
 				});
 			})
 			.catch((e) =>
