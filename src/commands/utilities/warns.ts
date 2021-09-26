@@ -4,7 +4,7 @@ import { MessageEmbed } from 'discord.js';
 import { fail } from '../../structures/embeds';
 
 export const command: Command = {
-	name: 'infractions',
+	name: 'warns',
 	description: 'Checks your active punishments.',
 	async run(interaction, options, client) {
 		const punishes = await client.modlogs.fetch({ userID: interaction.user.id, isActive: true });
