@@ -24,9 +24,10 @@ export const command: Command = {
 		);
 	},
 	async run(interaction, options, client) {
+		await interaction.deferReply();
 		const seconds = options.getString('seconds');
 		if (!seconds) {
-			return interaction.reply({
+			return interaction.editReply({
 				content: `The channel slowmode is \`${(interaction.channel as TextChannel).rateLimitPerUser}\`.`,
 			});
 		}
@@ -55,12 +56,12 @@ export const command: Command = {
 		}
 		(interaction.channel as TextChannel)?.setRateLimitPerUser(slowmode);
 		if (slowmode === 0) {
-			return interaction[~max ? 'editReply' : 'reply']({
+			return interaction.editReply({
 				embeds: [success('Slowmode has been turned off. Go crazy!')],
 				components: [],
 			});
 		}
-		interaction[~max ? 'editReply' : 'reply']({
+		interaction.editReply({
 			embeds: [success(`Slowmode has been changed to \`${slowmode}\`.`)],
 			components: [],
 		});
