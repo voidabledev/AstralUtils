@@ -75,17 +75,22 @@ export const command: Command = {
 		}
 		catch (e) {
 			embed
-				.addField('Error', '```js\n' + e + '\n```')
 				.setFooter('Status: Failed')
 				.setColor('RED');
+			if (String(e).length < 1000) {
+				embed.addField('Error', '```js\n' + e + '\n```');
+			}
+			else {
+				embed.addField('Error', 'See the attachment to view the error.');
+				files.push({
+					attachment: Buffer.from(String(e)),
+					name: 'error.txt',
+				});
+			}
 		}
 		await interaction.followUp({
 			embeds: [embed],
+			files,
 		});
-		if (files.length) {
-			await interaction.followUp({
-				files,
-			});
-		}
 	},
 };

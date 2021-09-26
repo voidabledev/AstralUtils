@@ -237,10 +237,10 @@ export class GiveawayManager {
 		}
 		if (
 			!(interaction.member?.roles as GuildMemberRoleManager).cache.find((r) =>
-				r.name.endsWith('• Giveaways'),
+				r.name.endsWith('Giveaways'),
 			) &&
 			!(interaction.member?.roles as GuildMemberRoleManager).cache.find((r) =>
-				r.name.endsWith('• Nitro Giveaways'),
+				r.name.endsWith('Nitro Giveaways'),
 			) &&
 			!(interaction.member?.permissions as Readonly<Permissions>).has(
 				'MANAGE_MESSAGES',
