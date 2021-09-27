@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { Command } from '../../typings/command';
 import { devs } from '../../config.json';
-import { MessageEmbed } from 'discord.js';
+import { MessageEmbed, FileOptions } from 'discord.js';
 import { ApplicationCommandOptionType as Options } from 'discord-api-types/v9';
 import { exec } from 'child_process';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -28,6 +28,7 @@ export const command: Command = {
 	async run(interaction, options, client) {
 		const ephemeral = options.getBoolean('ephemeral') ?? true;
 		const code = options.getString('code', true);
+		const files: FileOptions[] = [];
 		await interaction.deferReply({ ephemeral });
 		const embed = new MessageEmbed()
 			.setTitle('Shell Execution')
@@ -39,26 +40,22 @@ export const command: Command = {
 				embed
 					.addField(
 						'Output',
-						'```\n' +
-							stdout.slice(0, 1000) +
-							(stdout.length > 1000 ? '...' : '') +
-							'\n```',
+						stdout.length < 1000 ? '```\n' + stdout + '\n```' : 'View to attachment to see the output.',
 					)
 					.setColor('GREEN');
+				if (stdout.length >= 1000) files.push({ name: 'output.txt', attachment: Buffer.from(stdout) });
 			}
 			if (stderr.length) {
 				embed
 					.addField(
 						'Error',
-						'```\n' +
-							stderr.slice(0, 1000) +
-							(stderr.length > 1000 ? '...' : '') +
-							'\n```',
+						stderr.length < 1000 ? '```\n' + stderr + '\n```' : 'View to attachment to see the error.',
 					)
 					.setFooter('Status: Failed')
 					.setColor('RED');
+				if (stderr.length >= 1000) files.push({ name: 'output.txt', attachment: Buffer.from(stderr) });
 			}
-			interaction.followUp({ embeds: [embed] });
+			interaction.followUp({ embeds: [embed], files });
 		});
 	},
 };

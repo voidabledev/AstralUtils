@@ -9,7 +9,7 @@ export const event: Event = {
 	async run(client, message: Message) {
 		if (message.author.bot) return;
 		await client.automod.run(message);
-		const isProd = process.argv0.includes('heroku');
+		const isProd = process.argv0.startsWith('/usr/bin');
 		if (message.content === (isProd ? '=' : '+') + 'deploy' && devs.includes(message.author.id)) {
 			if (!client.user || !message.guild) return;
 			const commands = client.commands.map(({ run, allowed, cooldown, ...data }) => data);
