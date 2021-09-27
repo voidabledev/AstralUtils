@@ -33,7 +33,7 @@ const aliases = [
 	},
 	{
 		name: 'Our Ad',
-		values: ['```\n▬▬▬▬▬▬▬ **__Astral Galaxy__** ▬▬▬▬▬▬▬\n> A simple & chill community server.\n> We welcome everyone from everywhere\n▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬\n\n**__Here you can find:__**\n> `🎉` • Frequent giveaways, including **Nitro**!\n> `💫` • Weekly **fun events**, with various prizes\n> `⭐` • **Rewards** for supporting the server\n> `🔮` • **Amazing** and **supportive** staff team\n> `🌈` • **A growing** and **active** community\n\n▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬\n> 🔗 **__Invite Link:__** https://discord.gg/8HnfNaXP9m\n> 🔗 **__Line:__** https://imgur.com/rkr2smr\n> 🔗 **__Banner:__** https://cdn.discordapp.com/attachments/821100521392701460/875414426306625596/standard_11.gif\n▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬\n```', 'Please send our ad and post a screenshot.'],
+		values: ['```\n:cyclone: **__Astral Lounge__**  :cyclone:\n▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬\nHey there! Do you want to **WIN NITRO**, **GROW YOUR SERVER**, or just have some **FUN**?\nThis will be the place for you!\n\n**__Here you can find:__**\n> :tada:︱Frequent giveaways, including **NITRO**\n> :chart_with_upwards_trend:︱ **FREE ADVERTISING** for everyone\n> :robot:︱**FUN BOTS** such as Dank Memer, OwO Bot, and more\n> :dizzy:︱**FUN EVENTS**, with various prizes\n> :star:︱**REWARDS** for boosting the server\n> :rainbow:︱**GROWING AND ACTIVE** community\n\n▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬\n> :link: **__Invite Link:__** https://discord.gg/8HnfNaXP9m\n> :link: **__Line:__** https://imgur.com/rkr2smr\n> :link: **__Banner:__** https://media.discordapp.net/attachments/836666843208351827/890767934039933009/AstralLounge.gif\n▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬\n```', 'Please send our ad and post a screenshot.'],
 	},
 ];
 
