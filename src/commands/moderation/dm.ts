@@ -44,7 +44,7 @@ export const command: Command = {
 			.setDescription(`From **${interaction.guild?.name}**\n${message}`)
 			.setFooter(
 				`You were messaged by ${
-					anon ? 'the Astral Galaxy Management Team' : interaction.user.tag
+					anon ? 'the Astral Lounge Management Team' : interaction.user.tag
 				}`,
 			);
 		try {
@@ -60,3 +60,4 @@ export const command: Command = {
 		}
 	},
 };
+
