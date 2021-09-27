@@ -5,8 +5,7 @@
 	"main": "./src/index.ts",
 	"scripts": {
 		"startdev": "ts-node-dev --respawn --transpile-only --poll ./src/index.ts",
-		"start": "ts-node-dev --transpile-only --poll ./src/index.ts",
-		"vps": "pm2 start \"npm run start\""
+		"start": "ts-node-dev --transpile-only --poll ./src/index.ts"
 	},
 	"author": "",
 	"license": "MIT",
