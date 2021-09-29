@@ -14,6 +14,7 @@ export const command: Command = {
 				new MessageButton({
 					style: 'LINK',
 					url: 'https://top.gg/servers/831995980097388604/vote',
+					label: 'Vote here',
 				}),
 			],
 		});
