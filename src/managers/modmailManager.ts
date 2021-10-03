@@ -60,4 +60,28 @@ export class ModmailManager {
   	this._cache.set(channelId, edited);
   	return edited;
   }
+  async addNotify(channelId: string, userId: string): Promise<void> {
+  	const modmail = await modmailModel.findOneAndUpdate({ channelId }, { $push: { notify: userId } });
+  	modmail.notify ??= [];
+  	modmail.notify.push(userId);
+  	this._cache.set(channelId, modmail);
+  }
+  async clearNotify(channelId: string): Promise<void> {
+  	await modmailModel.updateOne({ channelId }, { $unset: { notify: 0 } });
+  	const modmail = this._cache.get(channelId);
+  	modmail.notify = [];
+  	this._cache.set(channelId, modmail);
+  }
+  async subscribe(channelId: string, userId: string): Promise<void> {
+  	const modmail = await modmailModel.findOneAndUpdate({ channelId }, { $push: { subscribers: userId } });
+  	modmail.subscribers ??= [];
+  	modmail.subscribers.push(userId);
+  	this._cache.set(channelId, modmail);
+  }
+  async unsubscribe(channelId: string, userId: string): Promise<void> {
+  	const modmail = await modmailModel.findOneAndUpdate({ channelId }, { $pull: { subscribers: userId } });
+  	modmail.subscribers ??= [];
+  	modmail.subscribers = modmail.subscribers.filter((s) => s !== userId);
+  	this._cache.set(channelId, modmail);
+  }
 }

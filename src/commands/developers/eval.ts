@@ -91,6 +91,7 @@ export const command: Command = {
 		await interaction.followUp({
 			embeds: [embed],
 			files,
+			ephemeral,
 		});
 	},
 };
