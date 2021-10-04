@@ -68,10 +68,14 @@ export const event: Event = {
 				.setFooter('Message')
 				.setTimestamp();
 			if (message.attachments.first()) embed.setImage(message.attachments.first().proxyURL);
+			const notifs = [...(modmail.notify ?? []), ...(modmail.subscribers ?? [])];
+			const content = notifs.length ? `<@${notifs.join('> <@')}>` : null;
 			const m1 = await channel.send({
+				content,
 				embeds: [embed],
 			});
 			await client.modmail.addMessage(channel.id, message.content + (message.attachments.first() ? `\n\n${message.attachments.first().proxyURL}` : ''), [message.id, m1.id], message.author.id);
+			await client.modmail.clearNotify(modmail.channelId);
 			await message.react('<a:yes:836302807485251674>');
 		}
 		else {

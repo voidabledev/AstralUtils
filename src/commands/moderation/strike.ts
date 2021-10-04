@@ -49,11 +49,7 @@ export const command: Command = {
 		},
 	],
 	async allowed(interaction, client) {
-		return (
-			(interaction.member?.roles as GuildMemberRoleManager).cache.find((r) =>
-				r.name.endsWith('Manager'),
-			) !== undefined
-		);
+		return (interaction.member?.roles as GuildMemberRoleManager).highest.position >= (interaction.guild.roles?.cache.get('836583124283686943')?.position ?? Infinity);
 	},
 	async run(interaction, options, client) {
 		const subcommand = options.getSubcommand(true);

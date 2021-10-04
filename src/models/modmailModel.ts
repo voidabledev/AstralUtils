@@ -10,6 +10,8 @@ export interface Modmail {
 	}[];
   channelId: string;
   staffId?: string;
+	notify?: string[];
+	subscribers?: string[];
 	closed: boolean;
 }
 
@@ -34,6 +36,8 @@ const schema = new Schema({
 		type: Boolean,
 		required: true,
 	},
+	notify: [String],
+	subscribers: [String],
 });
 
 export const modmailModel = model<Modmail>('modmails', schema);
