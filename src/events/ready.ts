@@ -8,6 +8,7 @@ export const event: Event = {
 		console.log(`Ready! Logged in as ${client.user?.tag}.`);
 		await client.economy.cache();
 		client.user.setStatus("online");
+		activity(client);
 		setInterval(() => activity(client), 1000 * 60 * 5);
 	},
 };
