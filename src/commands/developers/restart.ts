@@ -13,6 +13,7 @@ export const command: Command = {
 	},
 	async run(interaction, options, client) {
 		await interaction.reply({ embeds: [success('Restarting now... This process may take up to two minutes.')] });
+		client.user.setStatus("idle");
 		exec('git pull && pm2 restart all');
 	},
 };
