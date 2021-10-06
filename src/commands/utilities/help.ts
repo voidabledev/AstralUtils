@@ -10,7 +10,7 @@ export const command: Command = {
 		const fields: Array<EmbedFieldData> = readdirSync(`${__dirname}/..`).map((c) => {
 			return {
 				name: `${c.charAt(0).toUpperCase()}${c.slice(1)}`,
-				value: '`' + readdirSync(`${__dirname}/../${c}`).map((f) => f.split('.')[0]).join(', ') + '`',
+				value: readdirSync(`${__dirname}/../${c}`).map((f) => '`' + f.split('.')[0] + '`').join(', '),
 			};
 		});
 		const embed = new MessageEmbed()
