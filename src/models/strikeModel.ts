@@ -1,4 +1,5 @@
 import { model, Document, Schema } from 'mongoose';
+
 export interface Strike extends Document {
 	userID: string;
 	managerID: string;
