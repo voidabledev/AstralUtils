@@ -38,7 +38,7 @@ export const command: Command = {
 			const matches = members.filter((m) => m.displayName.startsWith('Moderated Nickname')).map((m) => m.toString());
 			const embed = new MessageEmbed({
 				title: 'Moderated Nicknames',
-				description: `${matches.length} moderated nicknames found:\n\n${matches.join('\n')}`,
+				description: `${matches.length} moderated nicknames found:\n\n${matches.slice(0, 170).join('\n')}`,
 				color: 'BLURPLE',
 			});
 			await interaction.reply({ embeds: [embed] });
@@ -49,7 +49,7 @@ export const command: Command = {
 			const matches = members.filter((m) => regex.test(m.displayName)).map((m) => m.toString());
 			const embed = new MessageEmbed({
 				title: 'Unpingable Nicknames',
-				description: `${matches.length} potentially unpingable nicknames found:\n\n${matches.join('\n')}`,
+				description: `${matches.length} potentially unpingable nicknames found:\n\n${matches.slice(0, 170).join('\n')}`,
 				color: 'BLURPLE',
 			});
 			await interaction.reply({ embeds: [embed] });
