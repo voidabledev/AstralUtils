@@ -29,6 +29,7 @@ export const command: Command = {
 		const embed = new MessageEmbed()
 			.setAuthor(user.tag, user.displayAvatarURL({ dynamic: true, size: 512 }))
 			.setThumbnail(user.displayAvatarURL({ dynamic: true, size: 512 }))
+			.setDescription(`User information for ${user}`)
 			.addFields(
 				{ name: 'User ID', value: `${user.id}`, inline: true },
 				{
