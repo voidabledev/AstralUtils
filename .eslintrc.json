@@ -114,6 +114,8 @@
 		"space-infix-ops": "error",
 		"space-unary-ops": "error",
 		"spaced-comment": "error",
-		"yoda": "error"
+		"yoda": "error",
+		"no-control-regex": "off",
+		"no-empty-character-class": "off"
     }
 }
