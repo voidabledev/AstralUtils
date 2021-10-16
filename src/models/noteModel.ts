@@ -1,27 +1,32 @@
 import { model, Document, Schema } from 'mongoose';
 
 export interface Pattern extends Document {
-  userID: string;
-  noteID: string;
-  staffID: string;
+  userId: string;
+  noteId: string;
+  staffId: string;
   note: string;
+	timestamp: number;
 }
 
 const schema = new Schema({
-	userID: {
+	userId: {
 		type: String,
 		required: true,
 	},
-	noteID: {
+	noteId: {
 		type: String,
 		required: true,
 	},
-	staffID: {
+	staffId: {
 		type: String,
 		required: true,
 	},
 	note: {
 		type: String,
+		required: true,
+	},
+	timestamp: {
+		type: Number,
 		required: true,
 	},
 });

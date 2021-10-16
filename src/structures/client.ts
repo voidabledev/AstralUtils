@@ -10,6 +10,7 @@ import { ModmailManager } from '../managers/modmailManager';
 import { AfkManager } from '../managers/afkManager';
 import { AutomodManager } from '../managers/automodManager';
 import { connect, connection } from 'mongoose';
+import { NoteManager } from '../managers/noteManager';
 
 export class Client extends DJSClient {
 	commands = new Collection<string, Command>();
@@ -26,6 +27,7 @@ export class Client extends DJSClient {
 	afk: AfkManager;
 	automod: AutomodManager;
 	modmail: ModmailManager;
+	notes: NoteManager;
 	constructor(options: ClientOptions) {
 		super(options);
 		this.economy = new EconomyManager();
@@ -34,6 +36,7 @@ export class Client extends DJSClient {
 		this.afk = new AfkManager();
 		this.automod = new AutomodManager(this);
 		this.modmail = new ModmailManager(this);
+		this.notes = new NoteManager();
 	}
 	async start(): Promise<void> {
 		connection.on('connected', () => console.log('Connected to mongoose!'));

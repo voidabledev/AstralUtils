@@ -37,7 +37,7 @@ export const command: Command = {
 			choices: [
 				{ name: 'Minute(s)', value: 1000 * 60 },
 				{ name: 'Hour(s)', value: 1000 * 60 * 60 },
-				{ name: 'Day(s)', value: 1000 * 60 * 24 },
+				{ name: 'Day(s)', value: 1000 * 60 * 60 * 24 },
 			],
 		},
 	],
