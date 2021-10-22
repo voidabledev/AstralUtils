@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { Command } from '../../typings/command';
-import { MessageEmbed, Permissions, TextChannel } from 'discord.js';
-import { success, fail, confirm } from '../../structures/embeds';
+import { Collection, GuildMember, MessageEmbed, Permissions, EmbedFieldData } from 'discord.js';
+import { success, fail, confirm, parsePages, pageMenu } from '../../structures/embeds';
 import { ApplicationCommandOptionType as Options } from 'discord-api-types/v9';
 
 export const command: Command = {
@@ -33,26 +33,40 @@ export const command: Command = {
 		if (!interaction.guild) return;
 		await interaction.guild.members.fetch();
 		const { cache: members } = interaction.guild.members;
+		const title = {
+			modnicks: 'Moderated Nicknames',
+			unpingable: 'Potentially Unpingable Nicknames',
+		}[sub];
+		let matches: Collection<string, GuildMember>;
+		let fields: EmbedFieldData[];
 
 		if (sub === 'modnicks') {
-			const matches = members.filter((m) => m.displayName.startsWith('Moderated Nickname')).map((m) => m.toString());
-			const embed = new MessageEmbed({
-				title: 'Moderated Nicknames',
-				description: `${matches.length} moderated nicknames found:\n\n${matches.slice(0, 170).join('\n')}`,
-				color: 'BLURPLE',
+			matches = members.filter((m) => m.displayName.startsWith('Moderated Nickname'));
+			fields = matches.map((m) => {
+				return {
+					name: `${m.user.tag}`,
+					value: m.user.id,
+				};
 			});
-			await interaction.reply({ embeds: [embed] });
 		}
 
 		if (sub === 'unpingable') {
-			const regex = /[^\x00-\x7F]+/i;
-			const matches = members.filter((m) => regex.test(m.displayName)).map((m) => m.toString());
-			const embed = new MessageEmbed({
-				title: 'Unpingable Nicknames',
-				description: `${matches.length} potentially unpingable nicknames found:\n\n${matches.slice(0, 170).join('\n')}`,
-				color: 'BLURPLE',
+			matches = members.filter((m) => /[^\x00-\x7F]+/i.test(m.displayName));
+			fields = matches.map((m) => {
+				return {
+					name: `${m.displayName} (${m.user.tag})`,
+					value: m.user.id,
+				};
 			});
-			await interaction.reply({ embeds: [embed] });
 		}
+		if (!fields.length) {
+			return interaction.reply({ embeds: [fail(`No ${title.toLowerCase()} found.`)] });
+		}
+		const embeds = parsePages(fields, new MessageEmbed({
+			title,
+			description: `${fields.length} ${title.toLowerCase()} found.`,
+			color: 'BLURPLE',
+		}));
+		await pageMenu(interaction, embeds);
 	},
 };

@@ -1,4 +1,4 @@
-import { Client as DJSClient, ClientOptions, Collection, Message } from 'discord.js';
+import { Client as DJSClient, ClientOptions, Collection, Message, MessageReaction, User } from 'discord.js';
 import { Command } from '../typings/command';
 import { Event } from '../typings/event';
 import { token, testing, db } from '../config.json';
@@ -20,6 +20,10 @@ export class Client extends DJSClient {
 	snipes = {
 		deleted: new Collection<string, Message>(),
 		edited: new Collection<string, [Message, Message]>(),
+		reacted: new Collection<string, {
+			reaction: MessageReaction;
+			user: User;
+		}>(),
 	}
 	economy: EconomyManager;
 	modlogs: ModlogManager;

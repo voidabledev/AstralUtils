@@ -18,6 +18,11 @@ export const command: Command = {
 			name: 'edited',
 			description: 'Displays the last edited message in the channel.',
 		},
+		{
+			type: Options.Subcommand,
+			name: 'reacted',
+			description: 'Displays the last added or removed reaction in the channel.',
+		},
 	],
 	async allowed(interaction, client) {
     		return (
@@ -62,12 +67,36 @@ export const command: Command = {
 			const [oldMsg, newMsg] = msgs;
 			const embed = new MessageEmbed()
 				.setAuthor(newMsg.author.tag, newMsg.author.displayAvatarURL({ dynamic: true }))
+				.setDescription(`[Jump to message](${newMsg.url})`)
 				.addFields(
 					{ name: 'Old message content', value: oldMsg.content || '`No content found.`' },
 					{ name: 'New message content', value: newMsg.content || '`No content found.`' },
 				)
 				.setFooter(`User ID: ${newMsg.author.id} | Message ID: ${newMsg.id}`)
 				.setTimestamp(newMsg.editedTimestamp)
+				.setColor('RANDOM');
+			await interaction.reply({
+				embeds: [embed],
+			});
+		}
+
+		if (subcommand === 'reacted') {
+			const snipe = client.snipes.reacted.get(interaction.channel.id);
+			if (!snipe) {
+				return interaction.reply({
+					embeds: [fail('I couldn\'t find any reactions.')],
+				});
+			}
+			const { reaction, user } = snipe;
+			const embed = new MessageEmbed()
+				.setAuthor(user.tag, user.displayAvatarURL({ dynamic: true }))
+				.setDescription(`Reaction removed - [Jump to message](${reaction.message.url})`)
+				.addFields(
+					{ name: `Message by ${reaction.message.author.tag}`, value: reaction.message.content || '`No content found.`' },
+					{ name: 'Reaction', value: `${reaction.emoji}` },
+				)
+				.setFooter(`User ID: ${user.id} | Message ID: ${reaction.message.id}`)
+				.setTimestamp(reaction.message.createdTimestamp)
 				.setColor('RANDOM');
 			await interaction.reply({
 				embeds: [embed],

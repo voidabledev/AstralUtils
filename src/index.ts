@@ -9,12 +9,15 @@ const client = new Client({
 		Intents.FLAGS.DIRECT_MESSAGES,
 		Intents.FLAGS.GUILD_MEMBERS,
 		Intents.FLAGS.GUILD_INVITES,
+		Intents.FLAGS.GUILD_EMOJIS_AND_STICKERS,
+		Intents.FLAGS.GUILD_MESSAGE_REACTIONS,
 	],
 	partials: [
 		'CHANNEL',
 		'MESSAGE',
 		'USER',
 		'GUILD_MEMBER',
+		'REACTION',
 	],
 	allowedMentions: {
 		parse: ['users', 'roles', 'everyone'],
