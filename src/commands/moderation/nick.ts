@@ -39,8 +39,9 @@ export const command: Command = {
 		const newNick = options.getString('new-nick', true);
 		const oldNick = member?.displayName;
 		const reason = `${oldNick} -> ${newNick}`;
+		await interaction.deferReply();
 		if (typeof member === 'undefined') {
-			return interaction.reply({
+			return interaction.followUp({
 				embeds: [
 					fail(
 						'The user you specified isn\'t in this server, I can\'t change their nickname.',
@@ -52,12 +53,12 @@ export const command: Command = {
 			member.roles.highest.position >=
 			(interaction.member?.roles as GuildMemberRoleManager).highest.position
 		) {
-			return interaction.reply({
+			return interaction.followUp({
 				embeds: [fail('You can\'t change the nickname of somebody above you!')],
 			});
 		}
 		if (oldNick === newNick) {
-			return interaction.reply({
+			return interaction.followUp({
 				embeds: [fail('That\'s the nickname this person currently has!')],
 			});
 		}
@@ -71,12 +72,12 @@ export const command: Command = {
 					reason,
 					caseType: 'Changed Nickname',
 				});
-				await interaction.reply({
+				await interaction.followUp({
 					embeds: [success(`Changed ${member}'s nickname to \`${newNick}\` | \`${log.punishID}\``)],
 				});
 			})
 			.catch((e) =>
-				interaction.reply({
+				interaction.followUp({
 					embeds: [
 						fail(`I was unable to change ${member}'s nickname: ${e.message}`),
 					],

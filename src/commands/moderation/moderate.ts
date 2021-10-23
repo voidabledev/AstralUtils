@@ -32,9 +32,10 @@ export const command: Command = {
 	async run(interaction, options, client) {
 		const member = options.getMember('user') as GuildMember | undefined;
 		const newNick = `Moderated Nickname ${id(36, 6)}`;
-		const reason = 'Rule 10';
+		const reason = `${member?.displayName} -> ${newNick}`;
+		await interaction.deferReply();
 		if (typeof member === 'undefined') {
-			return interaction.reply({
+			return interaction.followUp({
 				embeds: [
 					fail(
 						'The user you specified isn\'t in this server, I can\'t change their nickname.',
@@ -46,12 +47,12 @@ export const command: Command = {
 			member.roles.highest.position >=
 			(interaction.member?.roles as GuildMemberRoleManager).highest.position
 		) {
-			return interaction.reply({
+			return interaction.followUp({
 				embeds: [fail('You can\'t change the nickname of somebody above you!')],
 			});
 		}
 		if (member.displayName.startsWith('Moderated Nickname')) {
-			return interaction.reply({
+			return interaction.followUp({
 				embeds: [fail('That user\'s nickname is already moderated!')],
 			});
 		}
@@ -65,14 +66,14 @@ export const command: Command = {
 					reason,
 					caseType: 'Moderated Nickname',
 				});
-				await interaction.reply({
+				await interaction.followUp({
 					embeds: [
 						success(`Moderated ${member}'s nickname | \`${log.punishID}\``),
 					],
 				});
 			})
 			.catch((e) =>
-				interaction.reply({
+				interaction.followUp({
 					embeds: [
 						fail(`I was unable to change ${member}'s nickname: ${e.message}`),
 					],
