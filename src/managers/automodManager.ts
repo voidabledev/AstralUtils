@@ -193,7 +193,7 @@ export class AutomodManager {
 			},
 		},
 		{
-			triggers: ['nigg', 'n1gg', 'n!gg', 'nigeria', 'niger'].map((str) => {
+			triggers: ['nigg', 'n1gg', 'n!gg', 'nigeria', 'niger', 'niga'].map((str) => {
 				return {
 					name: str,
 					type: 'includes',
