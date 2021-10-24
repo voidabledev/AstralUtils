@@ -159,7 +159,7 @@ export const command: Command = {
 			}
 			const custom = client.customRoles.getByRole(role.id);
 			const oldMember: GuildMember | null = await interaction.guild.members.fetch(custom?.userId).catch(() => null);
-			if (oldMember) oldMember.roles.remove(role);
+			oldMember?.roles?.remove(role);
 			member.roles.add(role);
 			await client.customRoles.transfer(role.id, member.user.id);
 			await interaction.followUp({
