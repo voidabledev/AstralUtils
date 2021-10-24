@@ -146,7 +146,7 @@ export const command: Command = {
 
 		if (sub === 'create') {
 			const name = options.getString('name', true);
-			const color = (options.getString('color') ?? '#000000') as ColorResolvable;
+			const color = (options.getString('color').toUpperCase() ?? '#000000') as ColorResolvable;
 			const mentionable = options.getBoolean('mentionable') ?? false;
 			const hoist = options.getBoolean('hoist') ?? false;
 			const position = (options.getRole('position')?.position ?? 0) + 1;
@@ -182,7 +182,7 @@ export const command: Command = {
 		if (sub === 'edit') {
 			const role = options.getRole('role', true) as Role;
 			const name = options.getString('name') ?? undefined;
-			const color = (options.getString('color') ?? undefined) as ColorResolvable;
+			const color = (options.getString('color')?.toUpperCase() ?? undefined) as ColorResolvable;
 			const mentionable = options.getBoolean('mentionable') ?? undefined;
 			const hoist = options.getBoolean('hoist') ?? undefined;
 			const pos = (options.getRole('position')?.position ?? 0) + 1;
