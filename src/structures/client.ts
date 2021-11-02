@@ -55,7 +55,7 @@ export class Client extends DJSClient {
 			useNewUrlParser: true,
 			useUnifiedTopology: true,
 		});
-		this.login(process.argv0.startsWith('/usr/bin') ? token : testing);
+		this.login(process.argv0.startsWith('/usr/bin') && process.argv0.includes('heroku') ? token : testing);
 		const commandNames: string[] = await search(
 			`${__dirname}/../commands/**/**/*{.js,.ts}`,
 		);
