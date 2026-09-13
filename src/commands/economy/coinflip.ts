@@ -25,13 +25,6 @@ export const command: Command = {
 		const times = options.getInteger('times') ?? 1;
 		const bet = options.getString('bet')?.toLowerCase();
 
-		if (bet !== 'heads' && bet !== 'tails') {
-			await interaction.reply({
-				embeds:
-        [fail('Invalid bet option. Please choose either "heads" or "tails".')],
-			});
-			return;
-		}
 		if (times < 1 || times > 10) {
 			await interaction.reply({
 				embeds:
@@ -55,14 +48,14 @@ export const command: Command = {
 					embeds:
         [success(`You won the bet! The result was ${result}.`)],
 				});
-				client.economy.addCoins(interaction.user.id, 100);
+				await client.economy.addCoins(interaction.user.id, 100);
 			}
 			else {
-				await interaction.reply({
+				await interaction.followUp({
 					embeds:
         [fail(`You lost the bet. The result was ${result}.`)],
 				});
-				client.economy.removeCoins(interaction.user.id, 100);
+				await client.economy.removeCoins(interaction.user.id, 100);
 			}
 		}
 
