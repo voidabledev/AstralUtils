@@ -2,7 +2,7 @@ import { Command } from '../../typings/command';
 import { ApplicationCommandOptionType as Options } from 'discord-api-types/v9';
 import { MessageEmbed } from 'discord.js';
 import { random } from '../../structures/utils';
-import { fail } from '../../structures/embeds';
+import { fail, success } from '../../structures/embeds';
 
 export const command: Command = {
 	name: 'coinflip',
@@ -12,17 +12,18 @@ export const command: Command = {
 			type: Options.Integer,
 			name: 'times',
 			description: 'How many times to flip (1-10). Defaults to 1.',
+			required: true,
 		},
 		{
 			type: Options.String,
 			name: 'bet',
 			description: 'Optionally place a bet on the outcome (heads or tails).',
+			required: false,
 		},
 	],
 	async run(interaction, options, client) {
 		const times = options.getInteger('times') ?? 1;
 		const bet = options.getString('bet')?.toLowerCase();
-		const result = random(0, 1) === 0 ? 'Heads' : 'Tails';
 
 		if (bet !== 'heads' && bet !== 'tails') {
 			await interaction.reply({
@@ -44,23 +45,25 @@ export const command: Command = {
 		const flips: string[] = [];
 
 		for (let i = 1; i <= times; i++) {
+			const result = random(0, 1) === 0 ? 'Heads' : 'Tails';
 			if (result === 'Heads') headsCount++;
 			else tailsCount++;
 			flips.push(`${i}. ${result}`);
-		}
-		if (bet === result.toLowerCase()) {
-			await interaction.reply({
-				embeds:
-        [fail(`You won the bet! The result was ${result}.`)],
-			});
-			client.economy.addCoins(interaction.user.id, 100);
-		}
-		else {
-			await interaction.reply({
-				embeds:
+
+			if (bet === result.toLowerCase()) {
+				await interaction.reply({
+					embeds:
+        [success(`You won the bet! The result was ${result}.`)],
+				});
+				client.economy.addCoins(interaction.user.id, 100);
+			}
+			else {
+				await interaction.reply({
+					embeds:
         [fail(`You lost the bet. The result was ${result}.`)],
-			});
-			client.economy.removeCoins(interaction.user.id, 100);
+				});
+				client.economy.removeCoins(interaction.user.id, 100);
+			}
 		}
 
 		const embed = new MessageEmbed()
@@ -69,6 +72,8 @@ export const command: Command = {
 			.setFooter(`Heads: ${headsCount} | Tails: ${tailsCount}`)
 			.setColor('BLURPLE');
 
-		await interaction.reply({ embeds: [embed] });
+		await interaction.followUp({
+			embeds: [embed],
+		});
 	},
 };
