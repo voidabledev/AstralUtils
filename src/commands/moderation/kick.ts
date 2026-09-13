@@ -39,14 +39,14 @@ export const command: Command = {
 		const user = options.getUser('user', true);
 		const reason = options.getString('reason', true);
 		const member = await interaction.guild?.members.fetch(user.id).catch((): undefined => undefined);
-		if (member?.kickable === false) {
-			return interaction.reply({
-				embeds: [fail('I can\'t kick this user!')],
-			});
-		}
 		if (typeof member === 'undefined') {
 			return interaction.reply({
 				embeds: [fail('That user isn\'t in this server, I can\'t kick them.')],
+			});
+		}
+		if (member.kickable === false) {
+			return interaction.reply({
+				embeds: [fail('I can\'t kick this user!')],
 			});
 		}
 		if (
